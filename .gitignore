@@ -1,0 +1,21 @@
+# composer
+/vendor
+composer.phar
+composer.lock
+
+# project
+/web/uploads/
+/web/images/store/
+/web/images/cache/
+
+# Mac DS_Store Files
+.DS_Store
+
+# sublime project files
+*.sublime-*
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+

@@ -12,6 +12,6 @@ return [
 
     'adminEmail' => 'vsguts@gmail.com',
     'brandName' => 'CRM',
-    'applicationName' => 'CRM',
+    'applicationName' => 'My CRM',
 
 ];

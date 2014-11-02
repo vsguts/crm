@@ -32,19 +32,50 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-left'],
+                'items' => [
+                    ['label' => Yii::t('app', 'Partners'), 'url' => ['/partner/index']],
+                    ['label' => Yii::t('app', 'Tags'), 'url' => ['/tag/index']],
+                    ['label' => Yii::t('app', 'Donates'), 'url' => ['/donate/index']],
+                    ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
+                    ['label' => Yii::t('app', 'Visits'), 'url' => ['/visit/index']],
+                ],
+            ]);
+
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
+                        ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
+                    ['label' => Yii::t('app', 'Settings'), 'items' => [
+                        ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
+                        ['label' => Yii::t('app', 'Templates'), 'url' => ['/template/index']],
+                        '<li class="divider"></li>',
+                        ['label' => Yii::t('app', 'Countries'), 'url' => ['/country/index']],
+                        ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
+                        '<li class="divider"></li>',
+                        ['label' => 'Lookup', 'url' => ['/lookup/index']],
+                    ]],
+                    ['label' => Yii::t('app', 'Help'), 'items' => [
+                        ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+                        ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+                    ]],
                 ],
             ]);
+
+            echo <<<EOF
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                </form>
+EOF;
+
             NavBar::end();
         ?>
 

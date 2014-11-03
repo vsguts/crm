@@ -10,7 +10,9 @@ use Yii;
  * @property integer $id
  * @property integer $partner_id
  * @property integer $user_id
- * @property string $timestamp
+ * @property integer $timestamp
+ * @property integer $created_at
+ * @property integer $updated_at
  * @property integer $done
  * @property string $notes
  *
@@ -33,8 +35,7 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partner_id', 'user_id', 'done'], 'integer'],
-            [['timestamp'], 'safe'],
+            [['partner_id', 'user_id', 'timestamp', 'done'], 'integer'],
             [['notes'], 'string']
         ];
     }
@@ -49,6 +50,8 @@ class Task extends \yii\db\ActiveRecord
             'partner_id' => Yii::t('app', 'Partner ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'timestamp' => Yii::t('app', 'Timestamp'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
             'done' => Yii::t('app', 'Done'),
             'notes' => Yii::t('app', 'Notes'),
         ];

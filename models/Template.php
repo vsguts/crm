@@ -12,6 +12,8 @@ use Yii;
  * @property integer $user_id
  * @property string $name
  * @property string $template
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property Partner $partner
  * @property User $user
@@ -49,6 +51,8 @@ class Template extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'name' => Yii::t('app', 'Name'),
             'template' => Yii::t('app', 'Template'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 

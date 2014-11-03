@@ -14,9 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'partner_id')->textInput() ?>
 
-    <?= $form->field($model, 'timestamp')->textInput() ?>
-
     <?= $form->field($model, 'sum')->textInput(['maxlength' => 19]) ?>
+
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $type
  * @property integer $status
- * @property string $timestamp
  * @property string $name
  * @property string $firstname
  * @property string $lastname
@@ -24,6 +23,8 @@ use Yii;
  * @property integer $volunteer
  * @property integer $candidate
  * @property string $notes
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property Donate[] $donates
  * @property Country $country
@@ -51,7 +52,6 @@ class Partner extends \yii\db\ActiveRecord
     {
         return [
             [['type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate'], 'integer'],
-            [['timestamp'], 'safe'],
             [['notes'], 'string'],
             [['name', 'firstname', 'lastname', 'email', 'state', 'address'], 'string', 'max' => 255]
         ];
@@ -66,7 +66,6 @@ class Partner extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'type' => Yii::t('app', 'Type'),
             'status' => Yii::t('app', 'Status'),
-            'timestamp' => Yii::t('app', 'Timestamp'),
             'name' => Yii::t('app', 'Name'),
             'firstname' => Yii::t('app', 'Firstname'),
             'lastname' => Yii::t('app', 'Lastname'),
@@ -80,6 +79,8 @@ class Partner extends \yii\db\ActiveRecord
             'volunteer' => Yii::t('app', 'Volunteer'),
             'candidate' => Yii::t('app', 'Candidate'),
             'notes' => Yii::t('app', 'Notes'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 

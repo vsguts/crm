@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'username',
+            'auth_key',
+            'password_hash',
+            'password_reset_token',
+            'email:email',
             'role',
             'status',
-            'timestamp',
-            'email:email',
-            'password',
             'firstname',
             'lastname',
             'country_id',
@@ -41,6 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'state',
             'city',
             'address',
+            'created_at',
+            'updated_at',
         ],
     ]) ?>
 

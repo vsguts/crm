@@ -18,6 +18,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'timestamp')->textInput() ?>
 
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
+
     <?= $form->field($model, 'done')->textInput() ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>

@@ -38,6 +38,9 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+        ],
     ],
     'params' => $params,
 ];

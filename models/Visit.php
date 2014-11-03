@@ -10,7 +10,8 @@ use Yii;
  * @property integer $id
  * @property integer $partner_id
  * @property integer $user_id
- * @property string $timestamp
+ * @property integer $created_at
+ * @property integer $updated_at
  * @property string $notes
  *
  * @property Partner $partner
@@ -33,7 +34,6 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             [['partner_id', 'user_id'], 'integer'],
-            [['timestamp'], 'safe'],
             [['notes'], 'string']
         ];
     }
@@ -47,7 +47,8 @@ class Visit extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'partner_id' => Yii::t('app', 'Partner ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'timestamp' => Yii::t('app', 'Timestamp'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),
         ];
     }

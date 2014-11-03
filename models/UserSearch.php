@@ -18,8 +18,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'role', 'status', 'country_id', 'state_id', 'city'], 'integer'],
-            [['timestamp', 'email', 'password', 'firstname', 'lastname', 'state', 'address'], 'safe'],
+            [['id', 'role', 'status', 'country_id', 'state_id', 'city', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'firstname', 'lastname', 'state', 'address'], 'safe'],
         ];
     }
 
@@ -55,14 +55,18 @@ class UserSearch extends User
             'id' => $this->id,
             'role' => $this->role,
             'status' => $this->status,
-            'timestamp' => $this->timestamp,
             'country_id' => $this->country_id,
             'state_id' => $this->state_id,
             'city' => $this->city,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'password', $this->password])
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'firstname', $this->firstname])
             ->andFilterWhere(['like', 'lastname', $this->lastname])
             ->andFilterWhere(['like', 'state', $this->state])

@@ -31,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'type',
             'status',
-            'timestamp',
             'name',
             'firstname',
             'lastname',
@@ -45,6 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'volunteer',
             'candidate',
             'notes:ntext',
+            'created_at',
+            'updated_at',
         ],
     ]) ?>
 

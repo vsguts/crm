@@ -21,11 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status') ?>
 
-    <?= $form->field($model, 'timestamp') ?>
-
     <?= $form->field($model, 'name') ?>
 
-    <?php // echo $form->field($model, 'firstname') ?>
+    <?= $form->field($model, 'firstname') ?>
 
     <?php // echo $form->field($model, 'lastname') ?>
 
@@ -48,6 +46,10 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'candidate') ?>
 
     <?php // echo $form->field($model, 'notes') ?>
+
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

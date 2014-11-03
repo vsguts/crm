@@ -19,11 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'partner_id') ?>
 
-    <?= $form->field($model, 'timestamp') ?>
-
     <?= $form->field($model, 'sum') ?>
 
-    <?= $form->field($model, 'notes') ?>
+    <?= $form->field($model, 'created_at') ?>
+
+    <?= $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'notes') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

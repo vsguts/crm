@@ -17,15 +17,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'role') ?>
+    <?= $form->field($model, 'username') ?>
 
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'auth_key') ?>
 
-    <?= $form->field($model, 'timestamp') ?>
+    <?= $form->field($model, 'password_hash') ?>
 
-    <?= $form->field($model, 'email') ?>
+    <?= $form->field($model, 'password_reset_token') ?>
 
-    <?php // echo $form->field($model, 'password') ?>
+    <?php // echo $form->field($model, 'email') ?>
+
+    <?php // echo $form->field($model, 'role') ?>
+
+    <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'firstname') ?>
 
@@ -40,6 +44,10 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'city') ?>
 
     <?php // echo $form->field($model, 'address') ?>
+
+    <?php // echo $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

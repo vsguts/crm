@@ -9,8 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property integer $partner_id
- * @property string $timestamp
  * @property string $sum
+ * @property integer $created_at
+ * @property integer $updated_at
  * @property string $notes
  *
  * @property Partner $partner
@@ -32,7 +33,6 @@ class Donate extends \yii\db\ActiveRecord
     {
         return [
             [['partner_id'], 'integer'],
-            [['timestamp'], 'safe'],
             [['sum'], 'number'],
             [['notes'], 'string']
         ];
@@ -46,8 +46,9 @@ class Donate extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'partner_id' => Yii::t('app', 'Partner ID'),
-            'timestamp' => Yii::t('app', 'Timestamp'),
             'sum' => Yii::t('app', 'Sum'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),
         ];
     }

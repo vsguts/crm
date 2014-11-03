@@ -18,8 +18,8 @@ class PartnerSearch extends Partner
     public function rules()
     {
         return [
-            [['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate'], 'integer'],
-            [['timestamp', 'name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes'], 'safe'],
+            [['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes'], 'safe'],
         ];
     }
 
@@ -55,13 +55,14 @@ class PartnerSearch extends Partner
             'id' => $this->id,
             'type' => $this->type,
             'status' => $this->status,
-            'timestamp' => $this->timestamp,
             'country_id' => $this->country_id,
             'state_id' => $this->state_id,
             'city' => $this->city,
             'church_id' => $this->church_id,
             'volunteer' => $this->volunteer,
             'candidate' => $this->candidate,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

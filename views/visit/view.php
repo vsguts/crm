@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'partner_id',
             'user_id',
-            'timestamp',
+            'created_at',
+            'updated_at',
             'notes:ntext',
         ],
     ]) ?>

@@ -23,7 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'timestamp') ?>
 
-    <?= $form->field($model, 'done') ?>
+    <?= $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'updated_at') ?>
+
+    <?php // echo $form->field($model, 'done') ?>
 
     <?php // echo $form->field($model, 'notes') ?>
 

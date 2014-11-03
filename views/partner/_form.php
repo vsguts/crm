@@ -16,8 +16,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'timestamp')->textInput() ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'firstname')->textInput(['maxlength' => 255]) ?>
@@ -43,6 +41,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'candidate')->textInput() ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

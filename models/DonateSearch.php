@@ -18,9 +18,9 @@ class DonateSearch extends Donate
     public function rules()
     {
         return [
-            [['id', 'partner_id'], 'integer'],
-            [['timestamp', 'notes'], 'safe'],
+            [['id', 'partner_id', 'created_at', 'updated_at'], 'integer'],
             [['sum'], 'number'],
+            [['notes'], 'safe'],
         ];
     }
 
@@ -55,8 +55,9 @@ class DonateSearch extends Donate
         $query->andFilterWhere([
             'id' => $this->id,
             'partner_id' => $this->partner_id,
-            'timestamp' => $this->timestamp,
             'sum' => $this->sum,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);

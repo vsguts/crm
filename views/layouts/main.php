@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\widgets\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -44,28 +45,33 @@ AppAsset::register($this);
                 ],
             ]);
 
+            $menu_items = [];
+            if (Yii::$app->user->isGuest) {
+                $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+                $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
+            } else {
+                $menu_items[] = [
+                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ];
+            }
+            $menu_items[] = ['label' => Yii::t('app', 'Settings'), 'items' => [
+                ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
+                ['label' => Yii::t('app', 'Templates'), 'url' => ['/template/index']],
+                '<li class="divider"></li>',
+                ['label' => Yii::t('app', 'Countries'), 'url' => ['/country/index']],
+                ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
+                '<li class="divider"></li>',
+                ['label' => 'Lookup', 'url' => ['/lookup/index']],
+            ]];
+            $menu_items[] = ['label' => Yii::t('app', 'Help'), 'items' => [
+                ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+            ]];
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    Yii::$app->user->isGuest ?
-                        ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                    ['label' => Yii::t('app', 'Settings'), 'items' => [
-                        ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
-                        ['label' => Yii::t('app', 'Templates'), 'url' => ['/template/index']],
-                        '<li class="divider"></li>',
-                        ['label' => Yii::t('app', 'Countries'), 'url' => ['/country/index']],
-                        ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
-                        '<li class="divider"></li>',
-                        ['label' => 'Lookup', 'url' => ['/lookup/index']],
-                    ]],
-                    ['label' => Yii::t('app', 'Help'), 'items' => [
-                        ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
-                        ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-                    ]],
-                ],
+                'items' => $menu_items,
             ]);
 
             echo <<<EOF
@@ -83,6 +89,7 @@ EOF;
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
     </div>

@@ -18,7 +18,7 @@ class TemplateSearch extends Template
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id'], 'integer'],
+            [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'template'], 'safe'],
         ];
     }
@@ -55,6 +55,8 @@ class TemplateSearch extends Template
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

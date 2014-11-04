@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+// use yii\widgets\ActiveForm;
+// use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PartnerSearch */
@@ -13,6 +15,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        // 'layout' => 'vertical',
+        // 'type' => ActiveForm::TYPE_HORIZONTAL,
     ]); ?>
 
     <?= $form->field($model, 'id') ?>

@@ -50,10 +50,18 @@ AppAsset::register($this);
                 $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
                 $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
             } else {
+                $user = Yii::$app->user->identity;
+                $name = trim($user->firstname . ' ' . $user->lastname);
+                if (empty($name)) {
+                    $name = $user->username;
+                }
                 $menu_items[] = [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'label' => $name,
+                    'items' => [
+                        ['label' => Yii::t('app', 'Profile'), 'url' => ['/user/update', 'id' => $user->id]],
+                        '<li class="divider"></li>',
+                        ['label' => Yii::t('app', 'Logout'), 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                    ]
                 ];
             }
             $menu_items[] = ['label' => Yii::t('app', 'Settings'), 'items' => [

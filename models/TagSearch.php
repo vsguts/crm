@@ -18,7 +18,7 @@ class TagSearch extends Tag
     public function rules()
     {
         return [
-            [['id', 'type'], 'integer'],
+            [['id', 'user_id'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -53,7 +53,7 @@ class TagSearch extends Tag
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'type' => $this->type,
+            'user_id' => $this->user_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

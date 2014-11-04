@@ -33,9 +33,6 @@ class m141031_200922_first extends Migration
         $this->insert('lookup', ['model_name'=>'Partner', 'field'=>'status', 'code'=>4, 'position'=>4, 'name'=>'Prays']);
         $this->insert('lookup', ['model_name'=>'Partner', 'field'=>'status', 'code'=>5, 'position'=>5, 'name'=>'Financial partner']);
         
-        $this->insert('lookup', ['model_name'=>'Tag', 'field'=>'type', 'code'=>1, 'position'=>1, 'name'=>'Global']);
-        $this->insert('lookup', ['model_name'=>'Tag', 'field'=>'type', 'code'=>1, 'position'=>1, 'name'=>'Personal']);
-
         $this->createTable('country', [
             'id' => Schema::TYPE_PK,
             'name' => Schema::TYPE_STRING . ' NOT NULL',
@@ -97,9 +94,10 @@ class m141031_200922_first extends Migration
 
         $this->createTable('tag', [
             'id' => Schema::TYPE_PK,
-            'type' => Schema::TYPE_INTEGER . ' DEFAULT 1',
+            'user_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING,
         ]);
+        $this->addForeignKey('tag_user', 'tag', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('partner_tag', [
             'partner_id' => Schema::TYPE_INTEGER,

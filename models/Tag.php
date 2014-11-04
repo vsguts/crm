@@ -8,11 +8,12 @@ use Yii;
  * This is the model class for table "tag".
  *
  * @property integer $id
- * @property integer $type
+ * @property integer $user_id
  * @property string $name
  *
  * @property PartnerTag[] $partnerTags
  * @property Partner[] $partners
+ * @property User $user
  */
 class Tag extends \yii\db\ActiveRecord
 {
@@ -24,22 +25,13 @@ class Tag extends \yii\db\ActiveRecord
         return 'tag';
     }
 
-    public function behaviors()
-    {
-        return [
-            'lookup' => [
-                'class' => 'app\behaviors\LookupBehavior',
-            ],
-        ];
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['type'], 'integer'],
+            [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -51,7 +43,7 @@ class Tag extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
+            'user_id' => Yii::t('app', 'User ID'),
             'name' => Yii::t('app', 'Name'),
         ];
     }
@@ -72,13 +64,11 @@ class Tag extends \yii\db\ActiveRecord
         return $this->hasMany(Partner::className(), ['id' => 'partner_id'])->viaTable('partner_tag', ['tag_id' => 'id']);
     }
 
-
     /**
-     * Lookup
+     * @return \yii\db\ActiveQuery
      */
-    public function getTypeName()
+    public function getUser()
     {
-        return $this->getLookupItem('type', $this->type);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-
 }

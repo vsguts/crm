@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type')) ?>
+    <?= $form->field($model, 'user_id')->textInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 

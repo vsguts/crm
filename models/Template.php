@@ -28,6 +28,15 @@ class Template extends \yii\db\ActiveRecord
         return 'template';
     }
 
+    public function behaviors()
+    {
+        return [
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */

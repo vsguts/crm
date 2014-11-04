@@ -25,6 +25,15 @@ class State extends \yii\db\ActiveRecord
     {
         return 'state';
     }
+    
+    public function behaviors()
+    {
+        return [
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc

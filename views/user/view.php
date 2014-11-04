@@ -30,12 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
             'email:email',
-            'role',
-            'status',
+            [
+                'value' => $model->getLookupItem('role', $model->role),
+                'label' => $model->getAttributeLabel('role'),
+            ],
+            [
+                'value' => $model->getLookupItem('status', $model->status),
+                'label' => $model->getAttributeLabel('status'),
+            ],
             'firstname',
             'lastname',
             'country_id',

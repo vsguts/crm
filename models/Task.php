@@ -29,6 +29,15 @@ class Task extends \yii\db\ActiveRecord
         return 'task';
     }
 
+    public function behaviors()
+    {
+        return [
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */

@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'type',
-            'status',
+            ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
+            ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
             'name',
             'firstname',
             // 'lastname',

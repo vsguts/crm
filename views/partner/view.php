@@ -29,8 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'type',
-            'status',
+            [
+                'value' => $model->getLookupItem('type', $model->type),
+                'label' => $model->getAttributeLabel('type'),
+            ],
+            [
+                'value' => $model->getLookupItem('status', $model->status),
+                'label' => $model->getAttributeLabel('status'),
+            ],
             'name',
             'firstname',
             'lastname',

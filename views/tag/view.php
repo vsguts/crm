@@ -29,7 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'type',
+            [
+                'value' => $model->getLookupItem('type', $model->type),
+                'label' => $model->getAttributeLabel('type'),
+            ],
             'name',
         ],
     ]) ?>

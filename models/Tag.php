@@ -24,6 +24,15 @@ class Tag extends \yii\db\ActiveRecord
         return 'tag';
     }
 
+    public function behaviors()
+    {
+        return [
+            'lookup' => [
+                'class' => 'app\behaviors\LookupBehavior',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -62,4 +71,14 @@ class Tag extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Partner::className(), ['id' => 'partner_id'])->viaTable('partner_tag', ['tag_id' => 'id']);
     }
+
+
+    /**
+     * Lookup
+     */
+    public function getTypeName()
+    {
+        return $this->getLookupItem('type', $this->type);
+    }
+
 }

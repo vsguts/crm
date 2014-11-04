@@ -14,6 +14,8 @@ class UserSignupForm extends Model
     public $email;
     public $password;
 
+    const PASS_MIN_LEN = 4;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +33,7 @@ class UserSignupForm extends Model
             ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('app', 'This email address has already been taken.')],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => static::PASS_MIN_LEN],
         ];
     }
 

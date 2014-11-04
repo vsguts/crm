@@ -6,7 +6,6 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 
-
 /**
  * This is the model class for table "user".
  *
@@ -49,6 +48,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function behaviors()
     {
         return [
+            'lookup' => [
+                'class' => 'app\behaviors\LookupBehavior',
+            ],
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
             TimestampBehavior::className(),
         ];
     }
@@ -131,6 +136,19 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Lookup
+     */
+    public function getStatusName()
+    {
+        return $this->getLookupItem('status', $this->status);
+    }
+
+    public function getRoleName()
+    {
+        return $this->getLookupItem('role', $this->role);
     }
 
     

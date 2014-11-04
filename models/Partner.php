@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "partner".
@@ -43,6 +44,19 @@ class Partner extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'partner';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'lookup' => [
+                'class' => 'app\behaviors\LookupBehavior',
+            ],
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -147,4 +161,18 @@ class Partner extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Visit::className(), ['partner_id' => 'id']);
     }
+
+    /**
+     * Lookup
+     */
+    public function getStatusName()
+    {
+        return $this->getLookupItem('status', $this->status);
+    }
+
+    public function getTypeName()
+    {
+        return $this->getLookupItem('type', $this->type);
+    }
+
 }

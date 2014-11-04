@@ -27,6 +27,15 @@ class Visit extends \yii\db\ActiveRecord
         return 'visit';
     }
 
+    public function behaviors()
+    {
+        return [
+            'list' => [
+                'class' => 'app\behaviors\ListBehavior',
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */

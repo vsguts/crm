@@ -7,18 +7,22 @@ class m141102_205141_RootUserAdded extends Migration
 {
     public function up()
     {
-        // $this->insert('user', [
-        //     'id' => 1,
-        //     'email' => 'root@example.com',
-        //     'auth_key' => '',
-        //     'password_hash' => '',
-        //     'firstname' => 'Root',
-        //     'lastname' => 'Admin',
-        // ]);
+        $this->delete('user', 'id = 1');
+        $this->insert('user', [
+            'id' => 1,
+            'username' => 'root',
+            'email' => 'root@example.com',
+            'auth_key' => 'JxTq8CyzZwAa85PYUVy1GuI0X3WmUWUW',
+            'password_hash' => '$2y$13$CPWVAx9rW6IYpVD7dU.mNe/mUWty8WN6Dheo0IrRkVAvubamuPqxK',
+            'firstname' => 'Root',
+            'lastname' => 'Admin',
+            'role' => 2,
+            'status' => 1,
+        ]);
     }
 
     public function down()
     {
-        // $this->delete('user', 'id = 1');
+        $this->delete('user', 'id = 1');
     }
 }

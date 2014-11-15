@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Donate */
 
-$this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Donate',
-]);
+$this->title = Yii::t('app', 'Create donate');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Donates'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

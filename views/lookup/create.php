@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lookup */
 
-$this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Lookup',
-]);
+$this->title = Yii::t('app', 'Create lookup');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Lookups'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

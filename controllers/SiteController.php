@@ -7,11 +7,11 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
-use app\models\ContactForm;
-use app\models\UserLoginForm;
-use app\models\UserSignupForm;
-use app\models\UserPasswordResetRequestForm;
-use app\models\UserResetPasswordForm;
+use app\models\form\ContactForm;
+use app\models\form\UserLoginForm;
+use app\models\form\UserSignupForm;
+use app\models\form\UserPasswordResetRequestForm;
+use app\models\form\UserResetPasswordForm;
 
 class SiteController extends Controller
 {

@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Donate;
-use app\models\DonateSearch;
+use app\models\search\DonateSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

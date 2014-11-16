@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use app\widgets\Tags;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Partner */
@@ -10,7 +11,11 @@ use yii\widgets\ActiveForm;
 
 <div class="partner-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php
+    $form = ActiveForm::begin([
+        'layout' => 'horizontal',
+    ]);
+?>
 
     <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type')) ?>
 
@@ -23,6 +28,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+
+    <?= $form->field($model, 'publicTags')->widget(Tags::classname(), []); ?>
+    
+    <?= $form->field($model, 'personalTags')->widget(Tags::classname(), []); ?>
 
     <?= $form->field($model, 'country_id')->textInput() ?>
 

@@ -1,7 +1,9 @@
 <?php
-namespace app\models;
+
+namespace app\models\form;
 
 use yii\base\Model;
+use app\models\User;
 
 /**
  * Password reset request form

@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\State;
+use app\models\Task;
 
 /**
- * StateSearch represents the model behind the search form about `app\models\State`.
+ * TaskSearch represents the model behind the search form about `app\models\Task`.
  */
-class StateSearch extends State
+class TaskSearch extends Task
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class StateSearch extends State
     public function rules()
     {
         return [
-            [['id', 'country_id'], 'integer'],
-            [['name', 'code'], 'safe'],
+            [['id', 'partner_id', 'user_id', 'timestamp', 'created_at', 'updated_at', 'done'], 'integer'],
+            [['notes'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class StateSearch extends State
      */
     public function search($params)
     {
-        $query = State::find();
+        $query = Task::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,11 +53,15 @@ class StateSearch extends State
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'country_id' => $this->country_id,
+            'partner_id' => $this->partner_id,
+            'user_id' => $this->user_id,
+            'timestamp' => $this->timestamp,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'done' => $this->done,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'code', $this->code]);
+        $query->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;
     }

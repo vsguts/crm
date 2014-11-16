@@ -66,7 +66,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['email'], 'email'],
-            [['role', 'status', 'country_id', 'state_id', 'city'], 'integer'],
+            [['role', 'status', 'country_id', 'state_id'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'firstname', 'lastname', 'state', 'address'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]
         ];

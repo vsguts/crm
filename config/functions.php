@@ -1,5 +1,18 @@
 <?php
 
+function __()
+{
+    $args = array_merge(
+        ['app'],
+        func_get_args()
+    );
+    return call_user_func_array(['Yii', 't'], $args);
+}
+
+/**
+ * Debuging
+ */
+
 function p()
 {
     static $count = 0;

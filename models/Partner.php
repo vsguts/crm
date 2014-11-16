@@ -49,12 +49,9 @@ class Partner extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'lookup' => [
-                'class' => 'app\behaviors\LookupBehavior',
-            ],
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
+            'app\behaviors\LookupBehavior',
+            'app\behaviors\ListBehavior',
+            'app\behaviors\TagsBehavior',
             TimestampBehavior::className(),
         ];
     }
@@ -65,7 +62,7 @@ class Partner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate'], 'integer'],
+            [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'string'],
             [['name', 'firstname', 'lastname', 'email', 'state', 'address'], 'string', 'max' => 255]
         ];
@@ -95,6 +92,8 @@ class Partner extends \yii\db\ActiveRecord
             'notes' => Yii::t('app', 'Notes'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'publicTags' => Yii::t('app', 'Public tags'),
+            'personalTags' => Yii::t('app', 'Personal tags'),
         ];
     }
 
@@ -136,6 +135,22 @@ class Partner extends \yii\db\ActiveRecord
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('partner_tag', ['partner_id' => 'id']);
+    }
+
+    public function getPublicTags()
+    {
+        return $this
+            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->publicTags()
+            ->viaTable('partner_tag', ['partner_id' => 'id']);
+    }
+
+    public function getPersonalTags()
+    {
+        return $this
+            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->personalTags()
+            ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
     /**

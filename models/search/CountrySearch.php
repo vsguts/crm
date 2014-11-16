@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Visit;
+use app\models\Country;
 
 /**
- * VisitSearch represents the model behind the search form about `app\models\Visit`.
+ * CountrySearch represents the model behind the search form about `app\models\Country`.
  */
-class VisitSearch extends Visit
+class CountrySearch extends Country
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class VisitSearch extends Visit
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['notes'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'code'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class VisitSearch extends Visit
      */
     public function search($params)
     {
-        $query = Visit::find();
+        $query = Country::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,13 +53,10 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'partner_id' => $this->partner_id,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'code', $this->code]);
 
         return $dataProvider;
     }

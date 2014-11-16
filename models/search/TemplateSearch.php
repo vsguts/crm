@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Task;
+use app\models\Template;
 
 /**
- * TaskSearch represents the model behind the search form about `app\models\Task`.
+ * TemplateSearch represents the model behind the search form about `app\models\Template`.
  */
-class TaskSearch extends Task
+class TemplateSearch extends Template
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id', 'timestamp', 'created_at', 'updated_at', 'done'], 'integer'],
-            [['notes'], 'safe'],
+            [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'template'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TaskSearch extends Task
      */
     public function search($params)
     {
-        $query = Task::find();
+        $query = Template::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,13 +55,12 @@ class TaskSearch extends Task
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
-            'timestamp' => $this->timestamp,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'done' => $this->done,
         ]);
 
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'template', $this->template]);
 
         return $dataProvider;
     }

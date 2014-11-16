@@ -77,4 +77,7 @@ return [
     'Sum' => 'Сумма',
     'Please fill out the following fields to login' => 'Пожалуйста, заполните следующие поля для авторизации',
     'If you forgot your password you can <a href="{href}">reset it</a>.' => 'Если вы не помните свой пароль, то вы можете <a href="{href}">восстановить его</a>.',
+    'Public tags' => 'Общие тэги',
+    'Personal tags' => 'Персональные тэги',
+    'Select a tags ...' => 'Выберите тэги ...',
 ];

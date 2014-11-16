@@ -3,9 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\VisitSearch */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="visit-search">

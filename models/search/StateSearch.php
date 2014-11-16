@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Tag;
+use app\models\State;
 
 /**
- * TagSearch represents the model behind the search form about `app\models\Tag`.
+ * StateSearch represents the model behind the search form about `app\models\State`.
  */
-class TagSearch extends Tag
+class StateSearch extends State
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TagSearch extends Tag
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'country_id'], 'integer'],
+            [['name', 'code'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find();
+        $query = State::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,10 +53,11 @@ class TagSearch extends Tag
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'country_id' => $this->country_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'code', $this->code]);
 
         return $dataProvider;
     }

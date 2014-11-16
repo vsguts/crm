@@ -1,9 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\form;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
 
 /**
  * LoginForm is the model behind the login form.

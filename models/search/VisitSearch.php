@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Template;
+use app\models\Visit;
 
 /**
- * TemplateSearch represents the model behind the search form about `app\models\Template`.
+ * VisitSearch represents the model behind the search form about `app\models\Visit`.
  */
-class TemplateSearch extends Template
+class VisitSearch extends Visit
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class TemplateSearch extends Template
     {
         return [
             [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'template'], 'safe'],
+            [['notes'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TemplateSearch extends Template
      */
     public function search($params)
     {
-        $query = Template::find();
+        $query = Visit::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -59,8 +59,7 @@ class TemplateSearch extends Template
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'template', $this->template]);
+        $query->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;
     }

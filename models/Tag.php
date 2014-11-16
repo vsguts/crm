@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\query\TagQuery;
 
 /**
  * This is the model class for table "tag".
@@ -71,4 +72,28 @@ class Tag extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * @inheritdoc
+     * @return TagQuery
+     */
+    public static function find()
+    {
+        return new TagQuery(get_called_class());
+    }
+
+    public function setToPersonal()
+    {
+        $this->user_id = Yii::$app->user->getId() ?: 0;
+    }
+
+    // Garbage collector
+    public function gc()
+    {
+        $partners = $this->partners;
+        if (empty($partners)) {
+            $this->delete();
+        }
+    }
+
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Lookup;
+use app\models\Tag;
 
 /**
- * LookupSearch represents the model behind the search form about `app\models\Lookup`.
+ * TagSearch represents the model behind the search form about `app\models\Tag`.
  */
-class LookupSearch extends Lookup
+class TagSearch extends Tag
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class LookupSearch extends Lookup
     public function rules()
     {
         return [
-            [['id', 'code', 'position'], 'integer'],
-            [['model_name', 'field', 'name'], 'safe'],
+            [['id', 'user_id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class LookupSearch extends Lookup
      */
     public function search($params)
     {
-        $query = Lookup::find();
+        $query = Tag::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,13 +53,10 @@ class LookupSearch extends Lookup
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'code' => $this->code,
-            'position' => $this->position,
+            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'model_name', $this->model_name])
-            ->andFilterWhere(['like', 'field', $this->field])
-            ->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

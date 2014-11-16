@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Country;
+use app\models\Donate;
 
 /**
- * CountrySearch represents the model behind the search form about `app\models\Country`.
+ * DonateSearch represents the model behind the search form about `app\models\Donate`.
  */
-class CountrySearch extends Country
+class DonateSearch extends Donate
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class CountrySearch extends Country
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'code'], 'safe'],
+            [['id', 'partner_id', 'created_at', 'updated_at'], 'integer'],
+            [['sum'], 'number'],
+            [['notes'], 'safe'],
         ];
     }
 
@@ -41,7 +42,7 @@ class CountrySearch extends Country
      */
     public function search($params)
     {
-        $query = Country::find();
+        $query = Donate::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,10 +54,13 @@ class CountrySearch extends Country
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'partner_id' => $this->partner_id,
+            'sum' => $this->sum,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'code', $this->code]);
+        $query->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;
     }

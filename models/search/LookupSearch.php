@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Donate;
+use app\models\Lookup;
 
 /**
- * DonateSearch represents the model behind the search form about `app\models\Donate`.
+ * LookupSearch represents the model behind the search form about `app\models\Lookup`.
  */
-class DonateSearch extends Donate
+class LookupSearch extends Lookup
 {
     /**
      * @inheritdoc
@@ -18,9 +18,8 @@ class DonateSearch extends Donate
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'created_at', 'updated_at'], 'integer'],
-            [['sum'], 'number'],
-            [['notes'], 'safe'],
+            [['id', 'code', 'position'], 'integer'],
+            [['model_name', 'field', 'name'], 'safe'],
         ];
     }
 
@@ -42,7 +41,7 @@ class DonateSearch extends Donate
      */
     public function search($params)
     {
-        $query = Donate::find();
+        $query = Lookup::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -54,13 +53,13 @@ class DonateSearch extends Donate
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'partner_id' => $this->partner_id,
-            'sum' => $this->sum,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'code' => $this->code,
+            'position' => $this->position,
         ]);
 
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
+        $query->andFilterWhere(['like', 'model_name', $this->model_name])
+            ->andFilterWhere(['like', 'field', $this->field])
+            ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

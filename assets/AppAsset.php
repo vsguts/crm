@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     
     public $css = [
+        'css/common.css',
         'css/site.css',
     ];
     
@@ -29,5 +30,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'app\assets\BowerAsset',
     ];
 }

@@ -73,6 +73,11 @@ class Tag extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getPartnersCount()
+    {
+        return Partner::find()->joinWith('tags')->where(['tag_id' => $this->id])->count();
+    }
+
     /**
      * @inheritdoc
      * @return TagQuery

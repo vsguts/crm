@@ -1,0 +1,7 @@
+.h {
+    display: none;
+}
+
+a, .pointer {
+    cursor: pointer;
+}

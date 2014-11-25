@@ -12,14 +12,34 @@ use app\models\Partner;
  */
 class PartnerSearch extends Partner
 {
+    
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'tag_id'
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes'], 'safe'],
+            [
+                [
+                    'id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at',
+                    'tag_id'
+                ],
+                'integer'
+            ], [
+                [
+                    'name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes',
+                    'tag_id'
+                ],
+                'safe'
+            ],
         ];
     }
 
@@ -41,18 +61,25 @@ class PartnerSearch extends Partner
      */
     public function search($params)
     {
-        $query = Partner::find();
+        $query = Partner::find()
+            ->joinWith('partnerTags')
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+        $params['PartnerSearch'] = array_merge(
+            $params,
+            isset($params['PartnerSearch']) ? $params['PartnerSearch'] : []
+        );
+        
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'partner.id' => $this->id,
             'type' => $this->type,
             'status' => $this->status,
             'country_id' => $this->country_id,
@@ -63,9 +90,11 @@ class PartnerSearch extends Partner
             'candidate' => $this->candidate,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'partner_tag.tag_id' => $this->tag_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query
+            ->andFilterWhere(['like', 'partner.name', $this->name])
             ->andFilterWhere(['like', 'firstname', $this->firstname])
             ->andFilterWhere(['like', 'lastname', $this->lastname])
             ->andFilterWhere(['like', 'email', $this->email])

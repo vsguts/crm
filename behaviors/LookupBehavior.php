@@ -48,7 +48,7 @@ class LookupBehavior extends Behavior
         if (!isset(static::$models[$field])) {
             static::$models[$field] = Lookup::find()
                 ->where([
-                    'model_name' => $this->owner->formName(),
+                    'model_name' => $this->modelName($this->owner),
                     'field' => $field,
                 ])
                 ->orderBy('position')
@@ -56,6 +56,18 @@ class LookupBehavior extends Behavior
         }
 
         return static::$models[$field];
+    }
+
+    protected function modelName($model)
+    {
+        $reflector = new \ReflectionClass($model);
+        $name = $reflector->getShortName();
+
+        if ($pos = strrpos($name, 'Search')) {
+            $name = substr($name, 0, $pos);
+        }
+
+        return $name;
     }
     
 }

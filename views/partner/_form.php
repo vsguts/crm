@@ -33,7 +33,7 @@ use app\widgets\Tags;
     
     <?= $form->field($model, 'personalTags')->widget(Tags::classname(), []); ?>
 
-    <?= $form->field($model, 'country_id')->textInput() ?>
+    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name')) ?>
 
     <?= $form->field($model, 'state_id')->textInput() ?>
 

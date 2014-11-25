@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Partner;
-use app\models\search\PartnerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Partner;
+use app\models\search\PartnerSearch;
+use app\models\Tag;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -38,6 +39,10 @@ class PartnerController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'tags' => [
+                __('Public tags') => Tag::find()->publicTags()->all(),
+                __('Personal tags') => Tag::find()->personalTags()->all(),
+            ],
         ]);
     }
 

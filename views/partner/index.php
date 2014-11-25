@@ -9,7 +9,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="partner-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    
+    <?php echo $this->render('_search', ['model' => $searchModel, 'tags' => $tags]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -17,9 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],

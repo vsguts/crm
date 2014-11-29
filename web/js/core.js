@@ -1,6 +1,6 @@
 (function($){
     
-    $(function(){
+    $(function() {
         $('.m-toggle-save').each(function(){
             var elm = $(this),
                 id = elm.attr('id'),
@@ -48,6 +48,8 @@
             show($('.m-dtoggle-' + name + '-' + value));
         }
     });
+
+    // Private functions
 
     function hide(elm) {
         elm.each(function(){

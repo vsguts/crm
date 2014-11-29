@@ -73,7 +73,9 @@ use app\widgets\Tags;
 
             <?= $form->field($model, 'address') ?>
 
-            <?= $form->field($model, 'church_id') ?>
+            <div class="m-dtoggle-type-3">
+                <?= $form->field($model, 'church_id') ?>
+            </div>
 
             <?= $form->field($model, 'volunteer') ?>
 

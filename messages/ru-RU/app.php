@@ -6,6 +6,7 @@ return [
     'Search' => 'Поиск',
     'Create {modelClass}' => 'Создать {modelClass}',
     'Partners' => 'Партнеры',
+    'Partner: {parner}' => 'Партнер: {partner}',
     'Create partner' => 'Создать партнера',
     'Type' => 'Тип',
     'Delete' => 'Удалить',
@@ -79,5 +80,9 @@ return [
     'If you forgot your password you can <a href="{href}">reset it</a>.' => 'Если вы не помните свой пароль, то вы можете <a href="{href}">восстановить его</a>.',
     'Public tags' => 'Общие тэги',
     'Personal tags' => 'Персональные тэги',
-    'Select a tags ...' => 'Выберите тэги ...',
+    'Select a tags...' => 'Выберите тэги...',
+    'Thank you for contacting us. We will respond to you as soon as possible.' => 'Спасибо что связались с нами. Мы ответим вам как можно скорее.',
+    'There was an error sending email.' => 'Невозможно отправить email',
+    'Your changes has been saved successfully.' => 'Ваши изменения были успешно сохранены.',
+
 ];

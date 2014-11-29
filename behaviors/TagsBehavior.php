@@ -22,15 +22,20 @@ class TagsBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_AFTER_FIND => 'getTags',
-            ActiveRecord::EVENT_AFTER_INSERT => 'updateTags',
-            ActiveRecord::EVENT_AFTER_UPDATE => 'updateTags',
-            ActiveRecord::EVENT_BEFORE_DELETE => 'removeTagsPre',
-            ActiveRecord::EVENT_AFTER_DELETE => 'removeTagsPost',
+            ActiveRecord::EVENT_AFTER_FIND    => 'eventGetTags',
+            ActiveRecord::EVENT_AFTER_INSERT  => 'eventUpdateTags',
+            ActiveRecord::EVENT_AFTER_UPDATE  => 'eventUpdateTags',
+            ActiveRecord::EVENT_BEFORE_DELETE => 'eventRemoveTagsPre',
+            ActiveRecord::EVENT_AFTER_DELETE  => 'eventRemoveTagsPost',
         ];
     }
 
-    public function getTags($event)
+    public function getPublicTagsParsed()
+    {
+        return 'gvs123';
+    }
+
+    public function eventGetTags($event)
     {
         $partner = $this->owner;
 
@@ -46,7 +51,7 @@ class TagsBehavior extends Behavior
         }
     }
 
-    public function updateTags($event)
+    public function eventUpdateTags($event)
     {
         $partner = $this->owner;
 
@@ -54,7 +59,7 @@ class TagsBehavior extends Behavior
             foreach ($this->tagTypes as $type) {
                 $key = $type . 'Str';
                 if (isset($data[$key])) {
-                    $tags = $this->parseStr($data[$key]);
+                    $tags = $this->parseTagsStr($data[$key]);
                     
                     $partner_tags = $partner->$type;
                     
@@ -90,23 +95,26 @@ class TagsBehavior extends Behavior
         }
     }
 
-    public function removeTagsPre($event)
+    public function eventRemoveTagsPre($event)
     {
         $this->tagsToGc = $this->owner->tags;
     }
 
-    public function removeTagsPost($event)
+    public function eventRemoveTagsPost($event)
     {
         foreach ($this->tagsToGc as $mtag) {
             $mtag->gc();
         }
     }
 
-    protected function parseStr($str)
+    public function parseTagsStr($str)
     {
-        $tags = explode(static::DELIMITER, $str);
-        foreach ($tags as &$tag) {
-            $tag = trim($tag);
+        $tags = [];
+        foreach ((array) $str as $s) {
+            $_tags = explode(static::DELIMITER, $s);
+            foreach ($_tags as &$tag) {
+                $tags[] = trim($tag);
+            }
         }
         return array_filter(array_unique($tags));
     }

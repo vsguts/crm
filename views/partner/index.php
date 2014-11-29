@@ -20,15 +20,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
         'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],
-
+            ['class' => 'yii\grid\CheckboxColumn'],
+            
             'id',
+
+            ['class' => 'app\widgets\grid\LinkedTextColumn', 'attribute' => 'name'],
+            // 'name',
+            // 'firstname',
+            // 'lastname',
             ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
             ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
-            'name',
-            'firstname',
-            // 'lastname',
-            // 'email:email',
+            'email:email',
             // 'country_id',
             // 'state_id',
             // 'state',
@@ -41,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{delete}'], // FIXME
         ],
     ]); ?>
 

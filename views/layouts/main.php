@@ -38,7 +38,6 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => [
                     ['label' => Yii::t('app', 'Partners'), 'url' => ['/partner/index']],
-                    ['label' => Yii::t('app', 'Tags'), 'url' => ['/tag/index']],
                     ['label' => Yii::t('app', 'Donates'), 'url' => ['/donate/index']],
                     ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
                     ['label' => Yii::t('app', 'Visits'), 'url' => ['/visit/index']],
@@ -72,6 +71,8 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
                 '<li class="divider"></li>',
                 ['label' => 'Lookup', 'url' => ['/lookup/index']],
+                '<li class="divider"></li>',
+                ['label' => Yii::t('app', 'Tags'), 'url' => ['/tag/index']],
             ]];
             $menu_items[] = ['label' => Yii::t('app', 'Help'), 'items' => [
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],

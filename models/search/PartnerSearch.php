@@ -17,7 +17,9 @@ class PartnerSearch extends Partner
     {
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
-            'tag_id'
+            'tag_id',
+            'publicTagsStr',
+            'personalTagsStr',
         ]);
     }
 
@@ -36,7 +38,7 @@ class PartnerSearch extends Partner
             ], [
                 [
                     'name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes',
-                    'tag_id'
+                    'tag_id', 'publicTagsStr', 'personalTagsStr'
                 ],
                 'safe'
             ],
@@ -62,22 +64,18 @@ class PartnerSearch extends Partner
     public function search($params)
     {
         $query = Partner::find()
-            ->joinWith('partnerTags')
+            // ->joinWith('partnerTags')
+            ->joinWith('tags')
         ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
-        $params['PartnerSearch'] = array_merge(
-            $params,
-            isset($params['PartnerSearch']) ? $params['PartnerSearch'] : []
-        );
         
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-
+        
         $query->andFilterWhere([
             'partner.id' => $this->id,
             'type' => $this->type,
@@ -101,6 +99,15 @@ class PartnerSearch extends Partner
             ->andFilterWhere(['like', 'state', $this->state])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'notes', $this->notes]);
+
+        $tags = $this->parseTagsStr([$this->publicTagsStr, $this->personalTagsStr]);
+        if (true) { // AND
+            foreach ($tags as $tag) {
+                $query->andFilterWhere(['tag.name' => $tag]);
+            }
+        } else { // OR
+            $query->andFilterWhere(['in', 'tag.name', $tags]);
+        }
 
         return $dataProvider;
     }

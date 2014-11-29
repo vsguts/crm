@@ -15,9 +15,14 @@ class LookupBehavior extends Behavior
         return isset($items[$code]) ? $items[$code] : false;
     }
 
-    public function getLookupItems($field)
+    public function getLookupItems($field, $with_empty_first = false)
     {
         $items = [];
+        
+        if ($with_empty_first) {
+            $items[''] = ' -- ';
+        }
+
         foreach ($this->getModelsByField($field) as $model) {
             $items[$model->code] = \Yii::t('app', $model->name);
         }

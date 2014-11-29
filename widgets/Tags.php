@@ -7,11 +7,21 @@ use kartik\widgets\Select2;
 
 class Tags extends Select2
 {
+    public $placeholder;
+    public $placeholder_from_label = false;
+
     public function init()
     {
+        if ($this->placeholder_from_label) {
+            $placeholder = $this->model->getAttributeLabel($this->attribute);
+        } else {
+            $placeholder = $this->placeholder ?: __('Select a tags...');
+        }
+
         $this->options = [
-            'placeholder' => __('Select a tags ...'),
+            'placeholder' => $placeholder,
         ];
+
         $attribute = $this->attribute;
         $this->attribute = $attribute . 'Str';
         

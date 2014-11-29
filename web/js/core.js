@@ -36,3 +36,8 @@
     });
 
 })(jQuery);
+
+function gvs()
+{
+    console.log(arguments);
+}

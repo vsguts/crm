@@ -12,6 +12,7 @@
         });
     });
 
+    // Events
     $(document).on('click', function(e) {
         var jelm = $(e.target);
 
@@ -34,5 +35,46 @@
             }
         }
     });
+
+    $(document).on('change', function(e) {
+        var jelm = $(e.target);
+
+        var elmClass = matchClass(jelm, /m-dtoggle-([-\w]+)?/gi);
+        if (elmClass) {
+            var name = elmClass.replace('m-dtoggle-', ''),
+                value = jelm.val();
+            
+            hide($('[class^="m-dtoggle-' + name + '-"'));
+            show($('.m-dtoggle-' + name + '-' + value));
+        }
+    });
+
+    function hide(elm) {
+        elm.each(function(){
+            var e = $(this);
+            e.hide();
+            e.find('input, textarea').attr('disabled', 'disabled');
+        });
+    };
+
+    function show(elm) {
+        elm.each(function(){
+            var e = $(this);
+            e.show();
+            e.find('input, textarea').removeAttr('disabled');
+        });
+    };
+
+    function matchClass(elem, str) {
+        var jelm = $(elem),
+            cls = jelm.attr('class');
+        if (typeof(cls) !== 'object' && cls) {
+            var result = cls.match(str);
+            if (result) {
+                return result[0];
+            }
+        }
+    };
+
 
 })(jQuery);

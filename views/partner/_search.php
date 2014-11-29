@@ -47,15 +47,19 @@ use app\widgets\Tags;
             
             <?= $form->field($model, 'personalTags')->widget(Tags::classname(), ['placeholder_from_label' => 1]); ?>
 
-            <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', true)) ?>
+            <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', true), ['class' => 'm-dtoggle-type']) ?>
 
             <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', true)) ?>
 
-            <?= $form->field($model, 'name') ?>
+            <div class="m-dtoggle-type-1 m-dtoggle-type-2">
+                <?= $form->field($model, 'name') ?>
+            </div>
+            
+            <div class="m-dtoggle-type-3">
+                <?= $form->field($model, 'firstname') ?>
 
-            <?= $form->field($model, 'firstname') ?>
-
-            <?= $form->field($model, 'lastname') ?>
+                <?= $form->field($model, 'lastname') ?>
+            </div>
 
             <?= $form->field($model, 'email') ?>
 

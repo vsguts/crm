@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
     ];
     
     public $js = [
+        'js/ajax.js',
         'js/core.js',
     ];
     

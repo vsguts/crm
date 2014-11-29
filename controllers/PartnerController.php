@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\Partner;
 use app\models\search\PartnerSearch;
 use app\models\Tag;
+use app\behaviors\AjaxFilter;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -24,6 +25,9 @@ class PartnerController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'ajax' => [
+                'class' => AjaxFilter::className(),
+            ],
         ];
     }
 
@@ -36,6 +40,7 @@ class PartnerController extends Controller
         $searchModel = new PartnerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        // $this->ajaxAssign('tags', Tag::find()->asArray()->publicTags()->all());
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

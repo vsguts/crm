@@ -64,7 +64,8 @@ class Partner extends \yii\db\ActiveRecord
         return [
             [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'string'],
-            [['name', 'firstname', 'lastname', 'email', 'state', 'address'], 'string', 'max' => 255]
+            [['name', 'firstname', 'lastname', 'email', 'state', 'address'], 'string', 'max' => 255],
+            [['email'], 'email']
         ];
     }
 

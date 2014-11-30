@@ -5,3 +5,7 @@
 a, .pointer {
     cursor: pointer;
 }
+
+.form-horizontal .checkboxfix {
+    margin-top: 10px;
+}

@@ -15,12 +15,19 @@ class LookupBehavior extends Behavior
         return isset($items[$code]) ? $items[$code] : false;
     }
 
-    public function getLookupItems($field, $with_empty_first = false)
+    public function getLookupItems($field, $options = [])
     {
         $items = [];
         
-        if ($with_empty_first) {
-            $items[''] = ' -- ';
+        if (!empty($options['empty'])) {
+            $label = ' -- ';
+            if ($options['empty'] == 'label') {
+                $model_label = $this->owner->getAttributeLabel($field);
+                if ($model_label) {
+                    $label = ' - ' . $model_label . ' - ';
+                }
+            }
+            $items[''] = $label;
         }
 
         foreach ($this->getModelsByField($field) as $model) {

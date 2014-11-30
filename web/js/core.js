@@ -2,13 +2,17 @@
     
     $(function() {
         $('.m-toggle-save').each(function(){
-            var elm = $(this),
-                id = elm.attr('id'),
+            var jelm = $(this),
+                id = jelm.attr('id'),
                 show = $.cookie('m-toggle-' + id),
                 obj_id = id.replace(/on_|off_|sw_/, ''),
                 obj = $('#' + obj_id);
             
             obj.toggle(!!show);
+        });
+
+        $('.m-dtoggle').each(function(){
+            dToggle($(this));
         });
     });
 
@@ -39,32 +43,35 @@
     $(document).on('change', function(e) {
         var jelm = $(e.target);
 
-        var elmClass = matchClass(jelm, /m-dtoggle-([-\w]+)?/gi);
-        if (elmClass) {
-            var name = elmClass.replace('m-dtoggle-', ''),
-                value = jelm.val();
-            
-            hide($('[class^="m-dtoggle-' + name + '-"'));
-            show($('.m-dtoggle-' + name + '-' + value));
+        if (jelm.hasClass('m-dtoggle')) {
+            dToggle(jelm);
         }
     });
 
     // Private functions
 
+    function dToggle(elm) {
+        var name = matchClass(elm, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
+            value = elm.val(),
+            depends_all = $('[class^="m-dtoggle-' + name + '-"'),
+            depends_selected = $('.m-dtoggle-' + name + '-' + value);
+        
+        if (!value && !depends_selected.length) {
+            show(depends_all);
+        } else {
+            hide(depends_all);
+            show(depends_selected);
+        }
+    };
+
     function hide(elm) {
-        elm.each(function(){
-            var e = $(this);
-            e.hide();
-            e.find('input, textarea').attr('disabled', 'disabled');
-        });
+        elm.hide();
+        elm.find('input, textarea').attr('disabled', 'disabled');
     };
 
     function show(elm) {
-        elm.each(function(){
-            var e = $(this);
-            e.show();
-            e.find('input, textarea').removeAttr('disabled');
-        });
+        elm.show();
+        elm.find('input, textarea').removeAttr('disabled');
     };
 
     function matchClass(elem, str) {

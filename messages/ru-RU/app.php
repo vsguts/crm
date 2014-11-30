@@ -84,5 +84,7 @@ return [
     'Thank you for contacting us. We will respond to you as soon as possible.' => 'Спасибо что связались с нами. Мы ответим вам как можно скорее.',
     'There was an error sending email.' => 'Невозможно отправить email',
     'Your changes has been saved successfully.' => 'Ваши изменения были успешно сохранены.',
+    'Publ. tags' => 'Общ. тэги',
+    'Pers. tags' => 'Перс. тэги',
 
 ];

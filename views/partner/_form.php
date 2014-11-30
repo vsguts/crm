@@ -17,7 +17,7 @@ use app\widgets\Tags;
     ]);
 ?>
 
-    <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), ['class' => 'm-dtoggle-type form-control']) ?>
+    <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), ['class' => 'm-dtoggle m-dtoggle-type form-control']) ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
 
@@ -25,7 +25,7 @@ use app\widgets\Tags;
         <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     </div>
 
-    <div class="m-dtoggle-type-3 h">
+    <div class="m-dtoggle-type-3">
         <?= $form->field($model, 'firstname')->textInput(['maxlength' => 255]) ?>
 
         <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
@@ -51,9 +51,9 @@ use app\widgets\Tags;
         <?= $form->field($model, 'church_id')->textInput() ?>
     </div>
 
-    <?= $form->field($model, 'volunteer')->textInput() ?>
+    <?= $form->field($model, 'volunteer')->checkbox(['class' => 'checkboxfix'], false) ?>
 
-    <?= $form->field($model, 'candidate')->textInput() ?>
+    <?= $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false) ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

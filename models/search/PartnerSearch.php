@@ -66,6 +66,7 @@ class PartnerSearch extends Partner
         $query = Partner::find()
             // ->joinWith('partnerTags')
             ->joinWith('tags')
+            ->groupBy('partner.id')
         ;
 
         $dataProvider = new ActiveDataProvider([
@@ -108,6 +109,7 @@ class PartnerSearch extends Partner
         } else { // OR
             $query->andFilterWhere(['in', 'tag.name', $tags]);
         }
+        // pd($query);
 
         return $dataProvider;
     }

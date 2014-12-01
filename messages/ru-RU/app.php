@@ -6,7 +6,7 @@ return [
     'Search' => 'Поиск',
     'Create {modelClass}' => 'Создать {modelClass}',
     'Partners' => 'Партнеры',
-    'Partner: {parner}' => 'Партнер: {partner}',
+    'Partner: {partner}' => 'Партнер: {partner}',
     'Create partner' => 'Создать партнера',
     'Type' => 'Тип',
     'Delete' => 'Удалить',
@@ -31,9 +31,11 @@ return [
     'Countries' => 'Страны',
     'Country' => 'Страна',
     'Create country' => 'Создать страну',
+    'Country: {country}' => 'Страна: {country}',
     'States' => 'Регионы',
     'State' => 'Регион',
     'Create state' => 'Создать регион',
+    'State: {state}' => 'Регион: {state}',
     'City' => 'Город',
     'Address' => 'Адрес',
     'Help' => 'Помощь',
@@ -86,5 +88,9 @@ return [
     'Your changes has been saved successfully.' => 'Ваши изменения были успешно сохранены.',
     'Publ. tags' => 'Общ. тэги',
     'Pers. tags' => 'Перс. тэги',
+    'Delete selected' => 'Удалить выбранные',
+    'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+    'Are you sure you want to delete selected items?' => 'Вы уверены, что хотите удалить выбранные элементы?',
+
 
 ];

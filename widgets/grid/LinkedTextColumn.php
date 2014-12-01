@@ -10,13 +10,21 @@ class LinkedTextColumn extends Column
 {
     public $attribute;
     
+    public $label;
+    
+    public $format = 'text';
+    
     public $link_to = 'update';
 
     protected function renderHeaderCellContent()
     {
-        $provider = $this->grid->dataProvider;
-        $model = new $provider->query->modelClass;
-        $label = $model->getAttributeLabel($this->attribute);
+        if ($this->label) {
+            $label = $this->label;
+        } else {
+            $provider = $this->grid->dataProvider;
+            $model = new $provider->query->modelClass;
+            $label = $model->getAttributeLabel($this->attribute);
+        }
 
         return $label;
     }
@@ -26,9 +34,6 @@ class LinkedTextColumn extends Column
         $value = $model->{$this->attribute};
         $url = Url::to(['update', 'id' => $key]);
         
-        return Html::a($value, $url, [
-            // 'title' => Yii::t('yii', 'Update'),
-            // 'data-pjax' => '0',
-        ]);
+        return Html::a($value, $url);
     }
 }

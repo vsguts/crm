@@ -54,7 +54,7 @@ class State extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'country_id' => Yii::t('app', 'Country ID'),
+            'country_id' => Yii::t('app', 'Country'),
             'name' => Yii::t('app', 'Name'),
             'code' => Yii::t('app', 'Code'),
         ];

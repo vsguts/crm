@@ -1,15 +1,19 @@
 (function($){
 
+    function response(options, data) {
+        if (data.html) {
+            for (var id in data.html) {
+                $('#' + id).replaceWith(data.html[id]);
+            }
+        }
+        // TODO: notifications
+    };
+
     var methods = {
         request: function(url, options) {
             options = options || {};
             options.success = function(data, textStatus, jqxhr) {
-                if (data.html) {
-                    for (var id in data.html) {
-                        $('#' + id).replaceWith(data.html[id]);
-                    }
-                    console.log(data.html);
-                }
+                response(options, data);
             }
             return $.ajax(url, options);
         },

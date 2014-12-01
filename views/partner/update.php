@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Partner */
 
-$this->title = Yii::t('app', 'Partner: {parner}', [
+$this->title = Yii::t('app', 'Partner: {partner}', [
     'partner' => $model->name,
 ]);
 

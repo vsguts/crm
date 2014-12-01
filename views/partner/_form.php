@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 use app\widgets\Tags;
 
 /* @var $this yii\web\View */
@@ -13,7 +13,7 @@ use app\widgets\Tags;
 
 <?php
     $form = ActiveForm::begin([
-        'layout' => 'horizontal',
+        // 'layout' => 'horizontal',
     ]);
 ?>
 
@@ -37,7 +37,7 @@ use app\widgets\Tags;
     
     <?= $form->field($model, 'personalTags')->widget(Tags::classname(), []); ?>
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name')) ?>
+    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name'), ['class' => 'form-control m-country']) ?>
 
     <?= $form->field($model, 'state_id')->textInput() ?>
 

@@ -2,13 +2,11 @@
     
     $(function() {
         $('.m-toggle-save').each(function(){
-            var jelm = $(this),
-                id = jelm.attr('id'),
-                show = $.cookie('m-toggle-' + id),
-                obj_id = id.replace(/on_|off_|sw_/, ''),
-                obj = $('#' + obj_id);
+            var elm = $(this),
+                target_class = elm.data('targetClass'),
+                status = $.cookie('m-toggle-' + target_class);
             
-            obj.toggle(!!show);
+            toggle(elm, !!status);
         });
 
         $('.m-dtoggle').each(function(){
@@ -21,22 +19,8 @@
         var jelm = $(e.target);
 
         if (jelm.hasClass('m-toggle') || jelm.parents('.m-toggle').length) {
-            var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle'),
-                id = elm.attr('id'),
-                obj_id = id.replace(/on_|off_|sw_/, ''),
-                obj = $('#' + obj_id),
-                toggle_class = elm.data('toggleClass'),
-                save = elm.hasClass('m-toggle-save');
-
-            if (id.indexOf('sw_') == 0) {
-                obj.toggle();
-                if (toggle_class) {
-                    elm.toggleClass(toggle_class);
-                }
-                if (save) {
-                    $.cookie('m-toggle-' + id, obj.is(':visible') ? '1' : '');
-                }
-            }
+            var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle');
+            toggle(elm);
         }
     });
 
@@ -49,6 +33,21 @@
     });
 
     // Private functions
+
+    function toggle(elm, force_status_init) {
+        var target_class = elm.data('targetClass'),
+            toggle_class = elm.data('toggleClass'),
+            target = $('.' + target_class);
+
+        target.toggle(force_status_init);
+        if (toggle_class) {
+            elm.toggleClass(toggle_class, force_status_init);
+        }
+        if (elm.hasClass('m-toggle-save') && typeof(force_status_init) == 'undefined') {
+            $.cookie('m-toggle-' + target_class, target.is(':visible') ? '1' : '');
+        }
+
+    };
 
     function dToggle(elm) {
         var name = matchClass(elm, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
@@ -84,6 +83,5 @@
             }
         }
     };
-
 
 })(jQuery);

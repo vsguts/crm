@@ -9,18 +9,38 @@ use yii\base\Behavior;
 class ListBehavior extends Behavior
 {
 
-    public function getList($model_name, $fields, $sort_direction = 'ASC')
+    public function getList($model_name, $fields, $options = [])
     {
+        $options = array_merge([
+            'sort_direction' => 'ASC',
+            'empty' => false,
+        ], $options);
+
         if (strpos($model_name, '\\') === false) {
             $model_name = 'app\\models\\' . $model_name;
         }
         
         $fields = (array)$fields;
 
-        $sorting = $this->_getSortingFields($fields, $sort_direction);
+        $sorting = $this->_getSortingFields($fields, $options['sort_direction']);
         $models = $model_name::find()->orderBy($sorting)->all();
 
-        return $this->_toHash($models, $fields);
+        $array = $this->_toHash($models, $fields);
+
+        if ($options['empty']) {
+            $label = ' -- ';
+            if ($options['empty'] == 'label') {
+                $field = reset($fields);
+                $model = new $model_name;
+                $label_name = $model->getAttributeLabel($field);
+                $label = ' - ' . $label_name . ' - ';
+            } elseif (is_string($options['empty'])) {
+                $label = ' - ' . $options['empty'] . ' - ';
+            }
+            $array = ['' => $label] + $array;
+        }
+
+        return $array;
     }
 
     protected function _getSortingFields($fields, $direction)

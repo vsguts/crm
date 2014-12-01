@@ -30,11 +30,6 @@ class TagsBehavior extends Behavior
         ];
     }
 
-    public function getPublicTagsParsed()
-    {
-        return 'gvs123';
-    }
-
     public function eventGetTags($event)
     {
         $partner = $this->owner;

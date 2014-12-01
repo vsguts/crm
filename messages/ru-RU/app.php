@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'Send' => 'Отправить',
+    'Save' => 'Сохранить',
     'Create' => 'Создать',
     'Update' => 'Обновить',
     'Search' => 'Поиск',
@@ -91,6 +93,16 @@ return [
     'Delete selected' => 'Удалить выбранные',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
     'Are you sure you want to delete selected items?' => 'Вы уверены, что хотите удалить выбранные элементы?',
-
+    'Please fill out the following fields to signup' => 'Пожалуйста, заполните следующие поля',
+    'Request password reset' => 'Восстановление пароля',
+    'Please fill out your email. A link to reset password will be sent there.' => 'Пожалуйста, введите ваш email. Туда будет отправлена ссылка на восстановление пароля.',
+    'Check your email for further instructions.' => 'Проверьте вашу электронную почту для получения дальнейших инструкций.',
+    'Reset password' => 'Восстановление пароля',
+    'Please choose your new password' => 'Пожалуйста, введите ваш новый пароль',
+    'New password was saved.' => 'Ваш новый пароль был сохранен.',
+    'Sorry, we are unable to reset password for email provided.' => 'К сожалению мы не можем восстановить пароль для предоставленного адреса электронной почты.',
+    'Incorrect username or password.' => 'Неправильное имя пользователя или пароль.',
+    'Follow the link below to reset your password' => 'Перейдите по следующей ссылке чтобы восстановить пароль',
+    'Hello {name}' => 'Здравствуйте, {name}',
 
 ];

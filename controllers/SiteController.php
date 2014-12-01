@@ -128,11 +128,11 @@ class SiteController extends Controller
         $model = new UserPasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->getSession()->setFlash('success', __('Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()->setFlash('error', __('Sorry, we are unable to reset password for email provided.'));
             }
         }
 
@@ -150,7 +150,7 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->getSession()->setFlash('success', 'New password was saved.');
+            Yii::$app->getSession()->setFlash('success', __('New password was saved.'));
 
             return $this->goHome();
         }

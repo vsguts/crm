@@ -2,6 +2,7 @@
 
 namespace app\models\form;
 
+use Yii;
 use yii\base\Model;
 use app\models\User;
 
@@ -26,6 +27,13 @@ class UserPasswordResetRequestForm extends Model
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with such email.'
             ],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'email' => Yii::t('app', 'Email'),
         ];
     }
 

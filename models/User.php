@@ -37,6 +37,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     const STATUS_ACTIVE = 1;
 
+    public $password;
+
     /**
      * @inheritdoc
      */

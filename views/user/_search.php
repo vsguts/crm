@@ -1,16 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\widgets\SearchForm;
 
 ?>
 
 <div class="user-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <?php $form = SearchForm::begin(); ?>
 
     <?= $form->field($model, 'id') ?>
 
@@ -18,13 +15,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email') ?>
 
-    <?= echo $form->field($model, 'role') ?>
+    <?= $form->field($model, 'role') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 
-    <?= echo $form->field($model, 'firstname') ?>
+    <?= $form->field($model, 'firstname') ?>
 
-    <?= echo $form->field($model, 'lastname') ?>
+    <?= $form->field($model, 'lastname') ?>
 
     <?php // echo $form->field($model, 'country_id') ?>
 
@@ -40,11 +37,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'updated_at') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
+    <?php SearchForm::end(); ?>
 
 </div>

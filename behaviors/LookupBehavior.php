@@ -37,22 +37,6 @@ class LookupBehavior extends Behavior
         return $items;
     }
 
-    // public function listItems($field, $data, $delimiter = null)
-    // {
-    //     $result = array();
-    //     foreach ($this->getLookupItems($field) as $code => $name) {
-    //         if (in_array($code, $data)) {
-    //             $result[$code] = $name;
-    //         }
-    //     }
-
-    //     if (!empty($delimiter)) {
-    //         $result = implode($delimiter, $result);
-    //     }
-
-    //     return $result;
-    // }
-
     protected static $models = [];
 
     protected function getModelsByField($field)

@@ -37,6 +37,15 @@ class UserSignupForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
+            'password' => Yii::t('app', 'Password'),
+        ];
+    }
+
     /**
      * Signs user up.
      *

@@ -38,8 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $model->getAttributeLabel('status'),
             ],
             'name',
-            'firstname',
-            'lastname',
             'email:email',
             'country_id',
             'state_id',

@@ -35,23 +35,15 @@ use app\widgets\Tags;
 
             <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => 'label']), ['class' => 'm-dtoggle m-dtoggle-type']) ?>
 
-            <div class="m-dtoggle-type-1 m-dtoggle-type-2">
-                <?= $form->field($model, 'name') ?>
-            </div>
-            
-            <div class="m-dtoggle-type-3">
-                <?= $form->field($model, 'firstname') ?>
-
-                <?= $form->field($model, 'lastname') ?>
-            </div>
+            <?= $form->field($model, 'name') ?>
 
             <div class="m-dtoggle-type-3">
                 <?= $form->field($model, 'church_id') ?>
+
+                <?= $form->field($model, 'volunteer')->checkbox(['uncheck' => ''], false) ?>
+
+                <?= $form->field($model, 'candidate')->checkbox(['uncheck' => ''], false) ?>
             </div>
-
-            <?= $form->field($model, 'volunteer')->checkbox(['uncheck' => ''], false) ?>
-
-            <?= $form->field($model, 'candidate')->checkbox(['uncheck' => ''], false) ?>
 
         </div>
         <div class="col-md-6">

@@ -21,15 +21,7 @@ use app\widgets\Tags;
 
     <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
 
-    <div class="m-dtoggle-type-1 m-dtoggle-type-2">
-        <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-    </div>
-
-    <div class="m-dtoggle-type-3">
-        <?= $form->field($model, 'firstname')->textInput(['maxlength' => 255]) ?>
-
-        <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
-    </div>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 
@@ -49,11 +41,11 @@ use app\widgets\Tags;
 
     <div class="m-dtoggle-type-3 h">
         <?= $form->field($model, 'church_id')->textInput() ?>
+
+        <?= $form->field($model, 'volunteer')->checkbox(['class' => 'checkboxfix'], false) ?>
+
+        <?= $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false) ?>
     </div>
-
-    <?= $form->field($model, 'volunteer')->checkbox(['class' => 'checkboxfix'], false) ?>
-
-    <?= $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false) ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

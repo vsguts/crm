@@ -12,8 +12,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $type
  * @property integer $status
  * @property string $name
- * @property string $firstname
- * @property string $lastname
  * @property string $email
  * @property integer $country_id
  * @property integer $state_id
@@ -62,9 +60,10 @@ class Partner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name'], 'required'],
             [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'string'],
-            [['name', 'firstname', 'lastname', 'email', 'state', 'address'], 'string', 'max' => 255],
+            [['name', 'email', 'state', 'address'], 'string', 'max' => 255],
             [['email'], 'email']
         ];
     }
@@ -79,8 +78,6 @@ class Partner extends \yii\db\ActiveRecord
             'type' => __('Type'),
             'status' => __('Status'),
             'name' => __('Name'),
-            'firstname' => __('Firstname'),
-            'lastname' => __('Lastname'),
             'email' => __('Email'),
             'country_id' => __('Country'),
             'state_id' => __('State'),

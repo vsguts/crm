@@ -15,5 +15,6 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'brandName' => 'CRM',
     'applicationName' => 'My CRM',
+    'companyName' => 'My Company',
 
 ];

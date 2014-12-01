@@ -37,7 +37,7 @@ class PartnerSearch extends Partner
                 'integer'
             ], [
                 [
-                    'name', 'firstname', 'lastname', 'email', 'state', 'address', 'notes',
+                    'name', 'email', 'state', 'address', 'notes',
                     'tag_id', 'publicTagsStr', 'personalTagsStr'
                 ],
                 'safe'
@@ -94,8 +94,6 @@ class PartnerSearch extends Partner
 
         $query
             ->andFilterWhere(['like', 'partner.name', $this->name])
-            ->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'state', $this->state])
             ->andFilterWhere(['like', 'address', $this->address])

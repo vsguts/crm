@@ -14,6 +14,7 @@ class ListBehavior extends Behavior
         $options = array_merge([
             'sort_direction' => 'ASC',
             'empty' => false,
+            'hash' => false,
         ], $options);
 
         if (strpos($model_name, '\\') === false) {
@@ -22,10 +23,10 @@ class ListBehavior extends Behavior
         
         $fields = (array)$fields;
 
-        $sorting = $this->_getSortingFields($fields, $options['sort_direction']);
+        $sorting = $this->_getSortingFields($fields, $options);
         $models = $model_name::find()->orderBy($sorting)->all();
 
-        $array = $this->_toHash($models, $fields);
+        $array = $this->_toHash($models, $fields, $options);
 
         if ($options['empty']) {
             $label = ' -- ';
@@ -43,16 +44,16 @@ class ListBehavior extends Behavior
         return $array;
     }
 
-    protected function _getSortingFields($fields, $direction)
+    protected function _getSortingFields($fields, $options)
     {
         $sort_fields = [];
         foreach ($fields as $field) {
-            $sort_fields[] = $field . ' ' . $direction;
+            $sort_fields[] = $field . ' ' . $options['sort_direction'];
         }
         return implode(', ', $sort_fields);
     }
 
-    protected function _toHash($models, $fields)
+    protected function _toHash($models, $fields, $options)
     {
         $items = [];
         
@@ -61,7 +62,13 @@ class ListBehavior extends Behavior
             foreach ($fields as $field) {
                 $values[] = $model->$field;
             }
-            $items[$model->id] = implode(' ', $values);
+            $value = implode(' ', $values);
+            
+            if ($options['hash']) {
+                $items[$model->{$options['hash']}][$model->id] = $value;
+            } else {
+                $items[$model->id] = $value;
+            }
         }
         
         return $items;

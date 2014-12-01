@@ -60,11 +60,10 @@ class Partner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
-            [['notes'], 'string'],
+            ['name', 'required'],
+            ['email', 'email'],
             [['name', 'email', 'state', 'address'], 'string', 'max' => 255],
-            [['email'], 'email']
+            [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
         ];
     }
 

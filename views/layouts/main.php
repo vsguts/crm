@@ -10,6 +10,7 @@ use app\widgets\Alert;
 /* @var $content string */
 
 AppAsset::register($this);
+$this->registerJs(AppAsset::customJs());
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

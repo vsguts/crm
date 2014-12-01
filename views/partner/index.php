@@ -44,9 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'id', 'label' => '#'],
 
             'name',
+            'email:email',
             ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
             ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
-            'email:email',
             // 'country_id',
             // 'state_id',
             // 'state',

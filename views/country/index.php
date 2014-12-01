@@ -7,6 +7,7 @@ use yii\grid\CheckboxColumn;
 use app\widgets\ActionsDropdown;
 use app\widgets\grid\ActionColumn;
 use app\widgets\grid\DataColumn;
+use app\widgets\grid\CounterColumn;
 
 $this->title = Yii::t('app', 'Countries');
 $this->params['breadcrumbs'][] = $this->title;
@@ -45,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'code',
+            ['class' => CounterColumn::className(), 'label' => __('States'), 'modelClass' => 'app\models\State', 'modelField' => 'country_id'],
 
             ['class' => ActionColumn::className(), 'size' => 'xs'],
         ],

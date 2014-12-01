@@ -8,6 +8,8 @@
 namespace app\assets;
 
 use yii\web\AssetBundle;
+use yii\helpers\Json;
+use app\models\State;
 
 /**
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -33,4 +35,13 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'app\assets\BowerAsset',
     ];
+
+    public static function customJs()
+    {
+        $state_model = new State;
+        
+        return "window.yii.crm = " . Json::encode([
+            'states' => $state_model->getList('state', 'name', ['hash' => 'country_id'])
+        ]);
+    }
 }

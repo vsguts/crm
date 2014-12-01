@@ -19,15 +19,9 @@ use app\widgets\Tags;
 
     <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), ['class' => 'm-dtoggle m-dtoggle-type form-control']) ?>
 
-    <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
-
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'publicTags')->widget(Tags::classname(), []); ?>
-    
-    <?= $form->field($model, 'personalTags')->widget(Tags::classname(), []); ?>
 
     <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name'), ['class' => 'form-control m-country']) ?>
 
@@ -46,6 +40,12 @@ use app\widgets\Tags;
 
         <?= $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false) ?>
     </div>
+
+    <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
+
+    <?= $form->field($model, 'publicTags')->widget(Tags::classname(), []); ?>
+    
+    <?= $form->field($model, 'personalTags')->widget(Tags::classname(), []); ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

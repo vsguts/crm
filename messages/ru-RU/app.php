@@ -27,6 +27,7 @@ return [
     'Settings' => 'Настройки',
     'Users' => 'Пользователи',
     'Create user' => 'Создать пользователя',
+    'User: {user}' => 'Пользователь: {user}',
     'Templates' => 'Шаблоны',
     'Template' => 'Шаблон',
     'Create template' => 'Создать шаблон',

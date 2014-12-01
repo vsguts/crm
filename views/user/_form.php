@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+    
+    <?= $form->field($model, 'password')->passwordInput() ?>
 
     <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role')) ?>
 

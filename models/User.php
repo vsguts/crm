@@ -50,6 +50,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function behaviors()
     {
         return [
+            'password' => [
+                'class' => 'app\behaviors\UserPasswordBehavior',
+            ],
             'lookup' => [
                 'class' => 'app\behaviors\LookupBehavior',
             ],
@@ -66,6 +69,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
+            ['password', 'required'],
+            ['password', 'string', 'min' => 6],
             [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['email'], 'email'],
             [['role', 'status', 'country_id', 'state_id'], 'integer'],
@@ -82,9 +87,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
+            'password' => Yii::t('app', 'Password'),
             'email' => Yii::t('app', 'Email'),
             'role' => Yii::t('app', 'Role'),
             'status' => Yii::t('app', 'Status'),

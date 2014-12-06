@@ -1,6 +1,8 @@
 (function($){
     
-    $(function() {
+    var form_elm_class = 'form-group';
+
+    $(document).on('ready', function() { // FIXME: need for m-country
         $('.m-toggle-save').each(function(){
             var elm = $(this),
                 target_class = elm.data('targetClass'),
@@ -11,6 +13,10 @@
 
         $('.m-dtoggle').each(function(){
             dToggle($(this));
+        });
+
+        $('.m-country').each(function(){
+            countrySelect($(this));
         });
     });
 
@@ -29,6 +35,10 @@
 
         if (jelm.hasClass('m-dtoggle')) {
             dToggle(jelm);
+        }
+
+        if (jelm.hasClass('m-country')) {
+            countrySelect(jelm);
         }
     });
 
@@ -83,5 +93,34 @@
             }
         }
     };
+
+    function countrySelect(elm)
+    {
+        var country_id = elm.val(),
+            prefix = elm.attr('id').replace('country_id', ''),
+            form = elm.parents('form'),
+            state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_elm_class),
+            state_text = form.find('#' + prefix + 'state').parents('.' + form_elm_class),
+            states = yii.crm.states[country_id];
+
+        if (states) {
+            show(state_dropdown);
+            hide(state_text);
+            
+            var select = state_dropdown.find('select');
+            select.find('option').remove();
+            select.append('<option value=""> -- </option>');
+            for (var state_id in states) {
+                select.append('<option value="' + state_id + '">' + states[state_id] + '</option>');
+            }
+            var select_value = select.data('cValue');
+            if (states[select_value]) {
+                select.val(select_value);
+            }
+        } else {
+            hide(state_dropdown);
+            show(state_text);
+        }
+    }
 
 })(jQuery);

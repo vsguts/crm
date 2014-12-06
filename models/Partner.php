@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use app\models\query\PartnerQuery;
 
 /**
  * This is the model class for table "partner".
@@ -36,6 +37,10 @@ use yii\behaviors\TimestampBehavior;
  */
 class Partner extends \yii\db\ActiveRecord
 {
+    const TYPE_ORG = 1;
+    const TYPE_CHURCH = 2;
+    const TYPE_PEOPLE = 3;
+
     /**
      * @inheritdoc
      */
@@ -83,7 +88,7 @@ class Partner extends \yii\db\ActiveRecord
             'state' => __('State'),
             'city' => __('City'),
             'address' => __('Address'),
-            'church_id' => __('Church ID'),
+            'church_id' => __('Church'),
             'volunteer' => __('Volunteer'),
             'candidate' => __('Candidate'),
             'notes' => __('Notes'),
@@ -172,6 +177,15 @@ class Partner extends \yii\db\ActiveRecord
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['partner_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return TagQuery
+     */
+    public static function find()
+    {
+        return new PartnerQuery(get_called_class());
     }
 
     /**

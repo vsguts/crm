@@ -23,9 +23,9 @@ use app\widgets\Tags;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name'), ['class' => 'form-control m-country']) ?>
+    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control m-country']) ?>
 
-    <?= $form->field($model, 'state_id')->textInput() ?>
+    <?= $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-c-value' => $model->state_id]) ?>
 
     <?= $form->field($model, 'state')->textInput(['maxlength' => 255]) ?>
 
@@ -34,7 +34,7 @@ use app\widgets\Tags;
     <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
 
     <div class="m-dtoggle-type-3 h">
-        <?= $form->field($model, 'church_id')->textInput() ?>
+        <?= $form->field($model, 'church_id')->dropDownList($model->getList('Partner', 'name', ['scope' => 'churches', 'empty' => true])) ?>
 
         <?= $form->field($model, 'volunteer')->checkbox(['class' => 'checkboxfix'], false) ?>
 

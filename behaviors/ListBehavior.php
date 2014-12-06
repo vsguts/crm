@@ -14,6 +14,7 @@ class ListBehavior extends Behavior
         $options = array_merge([
             'sort_direction' => 'ASC',
             'empty' => false,
+            'scope' => '',
             'hash' => false,
         ], $options);
 
@@ -21,16 +22,22 @@ class ListBehavior extends Behavior
             $model_name = 'app\\models\\' . $model_name;
         }
         
-        $fields = (array)$fields;
+        $query = $model_name::find();
 
+        if ($options['scope']) {
+            call_user_func([$query, $options['scope']]);
+        }
+
+        $fields = (array)$fields;
         $sorting = $this->_getSortingFields($fields, $options);
-        $models = $model_name::find()->orderBy($sorting)->all();
+        
+        $models = $query->orderBy($sorting)->all();
 
         $array = $this->_toHash($models, $fields, $options);
 
         if ($options['empty']) {
             $label = ' -- ';
-            if ($options['empty'] == 'label') {
+            if (strval($options['empty']) == 'label') {
                 $field = reset($fields);
                 $model = new $model_name;
                 $label_name = $model->getAttributeLabel($field);

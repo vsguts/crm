@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+// use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
 use app\widgets\Tags;
 
 /* @var $this yii\web\View */
@@ -14,6 +15,7 @@ use app\widgets\Tags;
 <?php
     $form = ActiveForm::begin([
         // 'layout' => 'horizontal',
+        'type' => ActiveForm::TYPE_HORIZONTAL,
     ]);
 ?>
 
@@ -53,6 +55,6 @@ use app\widgets\Tags;
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>

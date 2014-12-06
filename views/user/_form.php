@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -10,7 +10,9 @@ use yii\widgets\ActiveForm;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'type' => ActiveForm::TYPE_HORIZONTAL,
+    ]); ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
@@ -22,9 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
 
-    <?= $form->field($model, 'firstname')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'fullname')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control m-country']) ?>
 

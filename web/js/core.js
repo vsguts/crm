@@ -75,12 +75,12 @@
 
     function hide(elm) {
         elm.hide();
-        elm.find('input, textarea').attr('disabled', 'disabled');
+        elm.find('input, textarea, select').attr('disabled', 'disabled');
     };
 
     function show(elm) {
         elm.show();
-        elm.find('input, textarea').removeAttr('disabled');
+        elm.find('input, textarea, select').removeAttr('disabled');
     };
 
     function matchClass(elem, str) {

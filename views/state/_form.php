@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\State */
@@ -10,7 +10,9 @@ use yii\widgets\ActiveForm;
 
 <div class="state-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'type' => ActiveForm::TYPE_HORIZONTAL,
+    ]); ?>
 
     <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name')) ?>
 

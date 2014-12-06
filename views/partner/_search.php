@@ -54,9 +54,9 @@ use app\widgets\Tags;
 
             <?= $form->field($model, 'email') ?>
 
-            <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')])) ?>
+            <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')]), ['class' => 'form-control m-country']) ?>
 
-            <?= $form->field($model, 'state_id') ?>
+            <?= $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-c-value' => $model->state_id]) ?>
 
             <?= $form->field($model, 'state') ?>
 

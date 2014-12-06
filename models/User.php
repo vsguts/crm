@@ -17,8 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $email
  * @property integer $role
  * @property integer $status
- * @property string $firstname
- * @property string $lastname
+ * @property string $fullname
  * @property integer $country_id
  * @property integer $state_id
  * @property string $state
@@ -74,7 +73,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['email'], 'email'],
             [['role', 'status', 'country_id', 'state_id'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'firstname', 'lastname', 'state', 'address'], 'string', 'max' => 255],
+            [['username', 'password_hash', 'password_reset_token', 'email', 'fullname', 'state', 'address'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]
         ];
     }
@@ -91,8 +90,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'email' => Yii::t('app', 'Email'),
             'role' => Yii::t('app', 'Role'),
             'status' => Yii::t('app', 'Status'),
-            'firstname' => Yii::t('app', 'Firstname'),
-            'lastname' => Yii::t('app', 'Lastname'),
+            'fullname' => Yii::t('app', 'Full name'),
             'country_id' => Yii::t('app', 'Country'),
             'state_id' => Yii::t('app', 'State'),
             'state' => Yii::t('app', 'State'),

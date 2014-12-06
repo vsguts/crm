@@ -19,9 +19,7 @@ use app\widgets\SearchForm;
 
     <?php // echo $form->field($model, 'status') ?>
 
-    <?= $form->field($model, 'firstname') ?>
-
-    <?= $form->field($model, 'lastname') ?>
+    <?= $form->field($model, 'fullname') ?>
 
     <?php // echo $form->field($model, 'country_id') ?>
 

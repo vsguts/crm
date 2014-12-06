@@ -51,7 +51,7 @@ $this->registerJs(AppAsset::customJs());
                 $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
             } else {
                 $user = Yii::$app->user->identity;
-                $name = trim($user->firstname . ' ' . $user->lastname);
+                $name = trim($user->fullname);
                 if (empty($name)) {
                     $name = $user->username;
                 }

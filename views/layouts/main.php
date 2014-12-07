@@ -70,8 +70,6 @@ $this->registerJs(AppAsset::customJs());
                 '<li class="divider"></li>',
                 ['label' => Yii::t('app', 'Countries'), 'url' => ['/country/index']],
                 ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
-                '<li class="divider"></li>',
-                ['label' => 'Lookup', 'url' => ['/lookup/index']],
             ]];
             $menu_items[] = ['label' => Yii::t('app', 'Help'), 'items' => [
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],

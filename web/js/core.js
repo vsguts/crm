@@ -1,7 +1,8 @@
 (function($){
     
-    var form_elm_class = 'form-group';
+    var form_group_class = 'form-group';
 
+    // Document ready
     $(document).on('ready', function() { // FIXME: need for m-country
         $('.m-toggle-save').each(function(){
             var elm = $(this),
@@ -21,12 +22,29 @@
     });
 
     // Events
-    $(document).on('click', function(e) {
+    $(document).on('click.crm', yii.clickableSelector, function(e) {
         var jelm = $(e.target);
 
         if (jelm.hasClass('m-toggle') || jelm.parents('.m-toggle').length) {
             var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle');
             toggle(elm);
+        }
+
+        if (jelm.data('cProcessItems')) {
+            var url = jelm.data('url') || jelm.attr('href');
+            jelm.data('url', url);
+            var obj_name = jelm.data('cProcessItems'),
+                url_params = {},
+                keys = $('.grid-view').yiiGridView('getSelectedRows');
+            
+            if (!keys.length) {
+                alert(yii.crm.langs['No items selected']);
+                e.stopImmediatePropagation();
+                return false;
+            }
+            
+            url_params[obj_name] = keys;
+            jelm.attr('href', url + '&' + decodeURIComponent($.param(url_params)));
         }
     });
 
@@ -41,6 +59,7 @@
             countrySelect(jelm);
         }
     });
+
 
     // Private functions
 
@@ -99,8 +118,8 @@
         var country_id = elm.val(),
             prefix = elm.attr('id').replace('country_id', ''),
             form = elm.parents('form'),
-            state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_elm_class),
-            state_text = form.find('#' + prefix + 'state').parents('.' + form_elm_class),
+            state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_group_class),
+            state_text = form.find('#' + prefix + 'state').parents('.' + form_group_class),
             states = yii.crm.states[country_id];
 
         if (states) {

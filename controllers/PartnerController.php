@@ -108,9 +108,15 @@ class PartnerController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id = null, array $ids = null)
     {
-        $this->findModel($id)->delete();
+        if (!$id && $ids) { // multiple
+            if (Partner::deleteAll(['id' => $ids])) {
+                Yii::$app->session->setFlash('success', __('Items have been deleted successfully.'));
+            }
+        } elseif ($this->findModel($id)->delete()) { // single
+            Yii::$app->session->setFlash('success', __('Item has been deleted successfully.'));
+        }
 
         return $this->redirect(['index']);
     }

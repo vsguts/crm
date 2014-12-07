@@ -51,8 +51,17 @@ use app\widgets\Tags;
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="form-group panel-footer">
+        <?php if ($model->isNewRecord): ?>
+            <?= Html::submitButton(Yii::t('app', 'Create'), ['class' => 'btn btn-success']) ?>
+        <?php else : ?>
+            <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data-confirm' => __('Are you sure you want to delete this item?'),
+                'data-method' => 'post'
+            ]) ?>
+        <?php endif; ?>
     </div>
 
 <?php ActiveForm::end(); ?>

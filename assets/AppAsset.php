@@ -38,10 +38,18 @@ class AppAsset extends AssetBundle
 
     public static function customJs()
     {
-        $state_model = new State;
+        $translates = [];
         
+        $langs = [
+            'No items selected',
+        ];
+        foreach ($langs as $lang) {
+            $translates[$lang] = __($lang);
+        }
+
         return "window.yii.crm = " . Json::encode([
-            'states' => $state_model->getList('state', 'name', ['hash' => 'country_id'])
+            'states' => (new State)->getList('state', 'name', ['hash' => 'country_id']),
+            'langs' => $translates,
         ]);
     }
 }

@@ -72,8 +72,6 @@ $this->registerJs(AppAsset::customJs());
                 ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
                 '<li class="divider"></li>',
                 ['label' => 'Lookup', 'url' => ['/lookup/index']],
-                '<li class="divider"></li>',
-                ['label' => Yii::t('app', 'Tags'), 'url' => ['/tag/index']],
             ]];
             $menu_items[] = ['label' => Yii::t('app', 'Help'), 'items' => [
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
@@ -84,13 +82,11 @@ $this->registerJs(AppAsset::customJs());
                 'items' => $menu_items,
             ]);
 
-            echo <<<EOF
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                </form>
-EOF;
+            echo '<form class="navbar-form navbar-left" role="search">';
+            echo '    <div class="form-group">';
+            echo '        <input type="text" class="form-control" placeholder="' . __('Search') . '">';
+            echo '    </div>';
+            echo '</form>';
 
             NavBar::end();
         ?>

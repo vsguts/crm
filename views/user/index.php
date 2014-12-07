@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
 use app\widgets\ActionsDropdown;
@@ -20,8 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => 'TODO 1', 'url' => '/'],
-                ['label' => 'TODO 2', 'url' => '#'],
+                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post',
+                ]],
+                // ['label' => 'TODO 2', 'url' => '#'],
                 // '<li role="presentation" class="divider"></li>',
             ],
         ]) ?>

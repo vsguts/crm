@@ -4,6 +4,7 @@ use yii\helpers\Html;
 // use yii\bootstrap\ActiveForm;
 use kartik\widgets\ActiveForm;
 use app\widgets\Tags;
+use app\widgets\ButtonsContatiner;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Partner */
@@ -51,18 +52,7 @@ use app\widgets\Tags;
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
-    <div class="form-group panel-footer">
-        <?php if ($model->isNewRecord): ?>
-            <?= Html::submitButton(Yii::t('app', 'Create'), ['class' => 'btn btn-success']) ?>
-        <?php else : ?>
-            <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data-confirm' => __('Are you sure you want to delete this item?'),
-                'data-method' => 'post'
-            ]) ?>
-        <?php endif; ?>
-    </div>
+    <?= ButtonsContatiner::widget(['model' => $model]); ?>
 
 <?php ActiveForm::end(); ?>
 

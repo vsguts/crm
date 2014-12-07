@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
+use app\widgets\ButtonsContatiner;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
@@ -18,9 +19,7 @@ use kartik\widgets\ActiveForm;
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+    <?= ButtonsContatiner::widget(['model' => $model]); ?>
 
     <?php ActiveForm::end(); ?>
 

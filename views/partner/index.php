@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
-                ['label' => 'TODO 2', 'url' => '#'],
+                // ['label' => 'TODO 2', 'url' => '#'],
                 // '<li role="presentation" class="divider"></li>',
             ],
         ]) ?>

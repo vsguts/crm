@@ -21,9 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => __('Delete selected'), 'url' => Url::to(['delete', 'id' => 0]), 'linkOptions' => [
-                    'data-confirm' => __('Are you sure you want to delete selected items?'),
-                    'class' => 'm-delete-items',
+                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post',
                 ]],
             ],
         ]) ?>

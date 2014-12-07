@@ -49,15 +49,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function behaviors()
     {
         return [
-            'password' => [
-                'class' => 'app\behaviors\UserPasswordBehavior',
-            ],
-            'lookup' => [
-                'class' => 'app\behaviors\LookupBehavior',
-            ],
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
+            'app\behaviors\UserPasswordBehavior',
+            'app\behaviors\LookupBehavior',
+            'app\behaviors\ListBehavior',
             TimestampBehavior::className(),
         ];
     }

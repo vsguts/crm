@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\widgets\Text;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -36,6 +37,12 @@ use app\widgets\ButtonsContatiner;
     <?= $form->field($model, 'city')->textInput() ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
+
+    <?php if (!$model->isNewRecord): ?>
+        <?= $form->field($model, 'created_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
+
+        <?= $form->field($model, 'updated_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
+    <?php endif; ?>
 
     <?= ButtonsContatiner::widget(['model' => $model]); ?>
 

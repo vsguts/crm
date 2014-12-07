@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use app\models\form\ContactForm;
@@ -13,7 +12,7 @@ use app\models\form\UserSignupForm;
 use app\models\form\UserPasswordResetRequestForm;
 use app\models\form\UserResetPasswordForm;
 
-class SiteController extends Controller
+class SiteController extends AController
 {
     public function behaviors()
     {

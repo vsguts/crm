@@ -5,14 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Country;
 use app\models\search\CountrySearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * CountryController implements the CRUD actions for Country model.
  */
-class CountryController extends Controller
+class CountryController extends AController
 {
     public function behaviors()
     {

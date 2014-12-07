@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Partner;
@@ -14,7 +13,7 @@ use app\behaviors\AjaxFilter;
 /**
  * PartnerController implements the CRUD actions for Partner model.
  */
-class PartnerController extends Controller
+class PartnerController extends AController
 {
     public function behaviors()
     {

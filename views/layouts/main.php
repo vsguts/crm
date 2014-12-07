@@ -1,10 +1,13 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Language;
 use app\widgets\Alert;
+use app\widgets\LanguageSelector;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -35,6 +38,7 @@ $this->registerJs(AppAsset::customJs());
                 ],
             ]);
 
+            // Left nav
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => [
@@ -45,6 +49,7 @@ $this->registerJs(AppAsset::customJs());
                 ],
             ]);
 
+            // Right nav
             $menu_items = [];
             if (Yii::$app->user->isGuest) {
                 $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
@@ -75,11 +80,30 @@ $this->registerJs(AppAsset::customJs());
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
             ]];
+
+            // Languages
+            $languages = Language::find()->orderBy(['name' => SORT_ASC])->all();
+            $select_language = false;
+            $lang_items = [];
+            foreach ($languages as $language) {
+                if ($language->code == Yii::$app->language) {
+                    $select_language = $language;
+                    // break;
+                }
+                $lang_items[] = [
+                    'label' => $language->name,
+                    'url' => ['language/select', 'id' => $language->id, 'current_url' => Url::to()],
+                    'active' => $language == $select_language,
+                ];
+            }
+            $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items];
+            
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => $menu_items,
             ]);
 
+            // Search nav
             echo '<form class="navbar-form navbar-left" role="search">';
             echo '    <div class="form-group">';
             echo '        <input type="text" class="form-control" placeholder="' . __('Search') . '">';

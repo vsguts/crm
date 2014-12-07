@@ -5,14 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\State;
 use app\models\search\StateSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * StateController implements the CRUD actions for State model.
  */
-class StateController extends Controller
+class StateController extends AController
 {
     public function behaviors()
     {

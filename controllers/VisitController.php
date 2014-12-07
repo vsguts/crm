@@ -5,14 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Visit;
 use app\models\search\VisitSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * VisitController implements the CRUD actions for Visit model.
  */
-class VisitController extends Controller
+class VisitController extends AController
 {
     public function behaviors()
     {

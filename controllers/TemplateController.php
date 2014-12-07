@@ -5,14 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Template;
 use app\models\search\TemplateSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * TemplateController implements the CRUD actions for Template model.
  */
-class TemplateController extends Controller
+class TemplateController extends AController
 {
     public function behaviors()
     {

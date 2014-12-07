@@ -20,6 +20,7 @@ class PartnerSearch extends Partner
             'tag_id',
             'publicTagsStr',
             'personalTagsStr',
+            'q',
         ]);
     }
 
@@ -30,16 +31,11 @@ class PartnerSearch extends Partner
     {
         return [
             [
-                [
-                    'id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at',
-                    'tag_id'
-                ],
+                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at', 'tag_id'],
                 'integer'
-            ], [
-                [
-                    'name', 'email', 'state', 'address', 'notes',
-                    'tag_id', 'publicTagsStr', 'personalTagsStr'
-                ],
+            ],
+            [
+                ['name', 'email', 'state', 'address', 'notes', 'tag_id', 'publicTagsStr', 'personalTagsStr', 'q'],
                 'safe'
             ],
         ];
@@ -73,6 +69,14 @@ class PartnerSearch extends Partner
             'query' => $query,
         ]);
         
+        $_params = $params;
+        unset($_params['PartnerSearch']);
+        unset($_params['r']);
+        $params['PartnerSearch'] = array_merge(
+            $_params,
+            isset($params['PartnerSearch']) ? $params['PartnerSearch'] : []
+        );
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -107,7 +111,13 @@ class PartnerSearch extends Partner
         } else { // OR
             $query->andFilterWhere(['in', 'tag.name', $tags]);
         }
-        // pd($query);
+
+        if ($this->q) {
+            $query->orFilterWhere(['like', 'partner.name', $this->q]);
+            $query->orFilterWhere(['like', 'email', $this->q]);
+            $query->orFilterWhere(['like', 'notes', $this->q]);
+        }
+        // pd($query, $this);
 
         return $dataProvider;
     }

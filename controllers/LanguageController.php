@@ -11,6 +11,7 @@ class LanguageController extends AController
     {
         $language = Language::findOne($id);
         Yii::$app->session->set('language', $language->code);
+        
         if ($current_url) {
             $current_url = urldecode($current_url);
         } else {

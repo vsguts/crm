@@ -104,9 +104,10 @@ $this->registerJs(AppAsset::customJs());
             ]);
 
             // Search nav
-            echo '<form class="navbar-form navbar-left" role="search">';
+            echo '<form class="navbar-form navbar-left" role="search" method="get" action="' . Url::to(['/']) . '">';
+            echo '    <input type="hidden" name="r" value="partner/index" />';
             echo '    <div class="form-group">';
-            echo '        <input type="text" class="form-control" placeholder="' . __('Search') . '">';
+            echo '        <input type="text" name="q" class="form-control" placeholder="' . __('Search') . '" value="' . Yii::$app->request->get('q') . '">';
             echo '    </div>';
             echo '</form>';
 

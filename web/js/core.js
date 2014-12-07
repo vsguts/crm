@@ -22,13 +22,18 @@
     });
 
     // Events
-    $(document).on('click.crm', yii.clickableSelector, function(e) {
+    $(document).on('click', function(e) {
         var jelm = $(e.target);
 
         if (jelm.hasClass('m-toggle') || jelm.parents('.m-toggle').length) {
             var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle');
             toggle(elm);
         }
+    });
+    
+    // Rewrite yii events
+    $(document).on('click.crm', yii.clickableSelector, function(e) {
+        var jelm = $(e.target);
 
         if (jelm.data('cProcessItems')) {
             var url = jelm.data('url') || jelm.attr('href');

@@ -16,6 +16,7 @@ class ListBehavior extends Behavior
             'empty' => false,
             'scope' => '',
             'hash' => false,
+            'empty_field' => '',
         ], $options);
 
         if (strpos($model_name, '\\') === false) {
@@ -70,6 +71,9 @@ class ListBehavior extends Behavior
                 $values[] = $model->$field;
             }
             $value = implode(' ', $values);
+            if (!empty($options['empty_field']) && empty($value)) {
+                $value = $model->{$options['empty_field']};
+            }
             
             if ($options['hash']) {
                 $items[$model->{$options['hash']}][$model->id] = $value;

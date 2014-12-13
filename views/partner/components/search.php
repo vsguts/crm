@@ -11,10 +11,10 @@ use app\widgets\Tags;
     <?php $form = SearchForm::begin(); ?>
 
     <div class="panel panel-default">
-        <div class="panel-heading m-toggle m-toggle-save pointer" data-target-class="search_form_1">
+        <div class="panel-heading m-toggle m-toggle-save pointer" data-target-class="partner_tags_search_form">
             <?=__('Tags')?>
         </div>
-        <div class="panel-body h search_form_1">
+        <div class="panel-body h partner_tags_search_form">
             <ul class="nav nav-pills">
                 <?php foreach ($tags as $list_name => $tag_list) : ?>
                     <?php foreach ($tag_list as $tag) : ?>

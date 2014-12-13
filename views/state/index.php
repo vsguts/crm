@@ -3,10 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-use yii\grid\CheckboxColumn;
 use app\widgets\ActionsDropdown;
-use app\widgets\grid\ActionColumn;
-use app\widgets\grid\DataColumn;
 
 $this->title = Yii::t('app', 'States');
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,19 +33,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
-        'dataColumnClass' => DataColumn::className(),
+        'dataColumnClass' => 'app\widgets\grid\DataColumn',
         'tableOptions' => [
             'class' => 'table',
         ],
         'columns' => [
-            ['class' => CheckboxColumn::className()],
+            ['class' => 'yii\grid\CheckboxColumn'],
 
             'id',
             ['attribute' => 'country.name', 'label' => __('Country')],
             'name',
             'code',
 
-            ['class' => ActionColumn::className()],
+            ['class' => 'app\widgets\grid\ActionColumn'],
         ],
     ]); ?>
 

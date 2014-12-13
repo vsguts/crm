@@ -1,35 +1,36 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\helpers\Url;
+use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'Visits');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visit-index">
 
+    <div class="pull-right">
+        <div class="btn-group">
+            <?= Html::a(Yii::t('app', 'Create visit'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+        <?= ActionsDropdown::widget([
+            'layout' => 'info',
+            'items' => [
+                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post',
+                ]],
+                // ['label' => 'TODO 2', 'url' => '#'],
+                // '<li role="presentation" class="divider"></li>',
+            ],
+        ]) ?>
+    </div>
+
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    
+    <?= $this->render('components/search', ['model' => $searchModel]) ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create visit'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'partner_id',
-            'user_id',
-            'created_at',
-            'updated_at',
-            // 'notes:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+    <?= $this->render('components/grid', ['dataProvider' => $dataProvider]) ?>
 
 </div>

@@ -267,5 +267,17 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->password_reset_token = null;
     }
 
+    /**
+     * List
+     */
+    public function getName()
+    {
+        if ($this->fullname) {
+            return $this->fullname;
+        } else {
+            return $this->username;
+        }
+    }
+
     
 }

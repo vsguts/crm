@@ -9,6 +9,7 @@ use app\models\Partner;
 use app\models\search\PartnerSearch;
 use app\models\Tag;
 use app\behaviors\AjaxFilter;
+use app\models\search\VisitSearch;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -51,20 +52,8 @@ class PartnerController extends AController
     }
 
     /**
-     * Displays a single Partner model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Partner model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'update' page.
      * @return mixed
      */
     public function actionCreate()
@@ -83,7 +72,7 @@ class PartnerController extends AController
 
     /**
      * Updates an existing Partner model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
      */
@@ -97,6 +86,9 @@ class PartnerController extends AController
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'extra' => [
+                    'visitsDataProvider' => (new VisitSearch())->search(['partner_id' => $id]),
+                ],
             ]);
         }
     }

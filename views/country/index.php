@@ -3,11 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-use yii\grid\CheckboxColumn;
 use app\widgets\ActionsDropdown;
-use app\widgets\grid\ActionColumn;
-use app\widgets\grid\DataColumn;
-use app\widgets\grid\CounterColumn;
 
 $this->title = Yii::t('app', 'Countries');
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,19 +33,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
-        'dataColumnClass' => DataColumn::className(),
+        'dataColumnClass' => 'app\widgets\grid\DataColumn',
         'tableOptions' => [
             'class' => 'table',
         ],
         'columns' => [
-            ['class' => CheckboxColumn::className()],
+            ['class' => 'yii\grid\CheckboxColumn'],
 
             'id',
             'name',
             'code',
-            ['class' => CounterColumn::className(), 'label' => __('States'), 'modelClass' => 'app\models\State', 'modelField' => 'country_id'],
+            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('States'), 'modelClass' => 'app\models\State', 'modelField' => 'country_id'],
 
-            ['class' => ActionColumn::className(), 'size' => 'xs'],
+            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
         ],
     ]); ?>
 

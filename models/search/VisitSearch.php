@@ -32,6 +32,13 @@ class VisitSearch extends Visit
         return Model::scenarios();
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -46,6 +53,8 @@ class VisitSearch extends Visit
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $params = $this->processParams($params);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

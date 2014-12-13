@@ -50,6 +50,13 @@ class PartnerSearch extends Partner
         return Model::scenarios();
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -69,13 +76,7 @@ class PartnerSearch extends Partner
             'query' => $query,
         ]);
         
-        $_params = $params;
-        unset($_params['PartnerSearch']);
-        unset($_params['r']);
-        $params['PartnerSearch'] = array_merge(
-            $_params,
-            isset($params['PartnerSearch']) ? $params['PartnerSearch'] : []
-        );
+        $params = $this->processParams($params);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

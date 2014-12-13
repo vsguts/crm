@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 use app\models\query\PartnerQuery;
 
 /**
@@ -55,7 +54,7 @@ class Partner extends \yii\db\ActiveRecord
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
             'app\behaviors\TagsBehavior',
-            TimestampBehavior::className(),
+            'yii\behaviors\TimestampBehavior',
         ];
     }
 

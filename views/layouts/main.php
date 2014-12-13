@@ -43,9 +43,9 @@ $this->registerJs(AppAsset::customJs());
                 'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => [
                     ['label' => Yii::t('app', 'Partners'), 'url' => ['/partner/index']],
+                    ['label' => Yii::t('app', 'Visits'), 'url' => ['/visit/index']],
                     ['label' => Yii::t('app', 'Donates'), 'url' => ['/donate/index']],
                     ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
-                    ['label' => Yii::t('app', 'Visits'), 'url' => ['/visit/index']],
                 ],
             ]);
 

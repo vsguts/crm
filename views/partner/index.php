@@ -3,11 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-use yii\grid\CheckboxColumn;
 use app\widgets\ActionsDropdown;
-use app\widgets\grid\LinkedTextColumn;
-use app\widgets\grid\ActionColumn;
-use app\widgets\grid\DataColumn;
 
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
@@ -34,17 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php echo $this->render('_search', ['model' => $searchModel, 'tags' => $tags]); ?>
+    <?= $this->render('components/search', ['model' => $searchModel, 'tags' => $tags]) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
-        'dataColumnClass' => DataColumn::className(),
+        'dataColumnClass' => 'app\widgets\grid\DataColumn',
         'tableOptions' => [
             'class' => 'table',
         ],
         'columns' => [
-            ['class' => CheckboxColumn::className()],
+            ['class' => 'yii\grid\CheckboxColumn'],
             
             ['attribute' => 'id', 'label' => '#'],
 
@@ -64,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => ActionColumn::className()],
+            ['class' => 'app\widgets\grid\ActionColumn'],
         ],
     ]); ?>
 

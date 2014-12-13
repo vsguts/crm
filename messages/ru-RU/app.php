@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'General' => 'Основное',
     'Send' => 'Отправить',
     'Save' => 'Сохранить',
     'Create' => 'Создать',
@@ -8,6 +9,7 @@ return [
     'Search' => 'Поиск',
     'Reset' => 'Сбросить',
     'Create {modelClass}' => 'Создать {modelClass}',
+    'Partner' => 'Партнер',
     'Partners' => 'Партнеры',
     'Partner: {partner}' => 'Партнер: {partner}',
     'Create partner' => 'Создать партнера',
@@ -19,13 +21,16 @@ return [
     'Create donate' => 'Создать пожертвование',
     'Tasks' => 'Задачи',
     'Create task' => 'Создать задачу',
+    'Visit' => 'Посещение',
     'Visits' => 'Посещения',
+    'Visit: {visit}' => 'Посещение: {visit}',
     'Create visit' => 'Создать посещение',
     'Profile' => 'Профиль',
     'Login' => 'Вход',
     'Signup' => 'Регистрация',
     'Logout' => 'Выход',
     'Settings' => 'Настройки',
+    'User' => 'Пользователь',
     'Users' => 'Пользователи',
     'Create user' => 'Создать пользователя',
     'User: {user}' => 'Пользователь: {user}',

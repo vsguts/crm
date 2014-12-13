@@ -30,9 +30,8 @@ class Visit extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
+            'app\behaviors\ListBehavior',
+            'yii\behaviors\TimestampBehavior',
         ];
     }
 
@@ -54,8 +53,8 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner ID'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'partner_id' => Yii::t('app', 'Partner'),
+            'user_id' => Yii::t('app', 'User'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),

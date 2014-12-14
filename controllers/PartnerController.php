@@ -37,6 +37,7 @@ class PartnerController extends AController
      */
     public function actionIndex()
     {
+        // pd(Yii::$app->controller->id);
         $searchModel = new PartnerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -103,10 +104,17 @@ class PartnerController extends AController
     {
         if (!$id && $ids) { // multiple
             if (Partner::deleteAll(['id' => $ids])) {
-                Yii::$app->session->setFlash('success', __('Items have been deleted successfully.'));
+                $ok_message = __('Items have been deleted successfully.');
             }
         } elseif ($this->findModel($id)->delete()) { // single
-            Yii::$app->session->setFlash('success', __('Item has been deleted successfully.'));
+            $ok_message = __('Item has been deleted successfully.');
+        }
+
+        if ($ok_message) {
+            Yii::$app->session->setFlash('success', $ok_message);
+            if ($referrer = Yii::$app->request->referrer) {
+                return $this->redirect($referrer);
+            }
         }
 
         return $this->redirect(['index']);

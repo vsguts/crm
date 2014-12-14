@@ -38,14 +38,32 @@ $this->registerJs(AppAsset::customJs());
                 ],
             ]);
 
+            $controller_id = Yii::$app->controller->id;
+            
             // Left nav
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => [
-                    ['label' => Yii::t('app', 'Partners'), 'url' => ['/partner/index']],
-                    ['label' => Yii::t('app', 'Visits'), 'url' => ['/visit/index']],
-                    ['label' => Yii::t('app', 'Donates'), 'url' => ['/donate/index']],
-                    ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
+                    [
+                        'label' => Yii::t('app', 'Partners'),
+                        'url' => ['/partner/index'],
+                        'active' => $controller_id == 'partner',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Visits'),
+                        'url' => ['/visit/index'],
+                        'active' => $controller_id == 'visit',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Donates'),
+                        'url' => ['/donate/index'],
+                        'active' => $controller_id == 'donate',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Tasks'),
+                        'url' => ['/task/index'],
+                        'active' => $controller_id == 'task',
+                    ],
                 ],
             ]);
 

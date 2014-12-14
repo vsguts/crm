@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use app\widgets\SearchForm;
+use kartik\date\DatePicker;
+use app\widgets\DatePickerRange;
 
 ?>
 
@@ -9,13 +11,15 @@ use app\widgets\SearchForm;
 
     <?php $form = SearchForm::begin(); ?>
 
-    <?= $form->field($model, 'partner_id') ?>
+    <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
 
-    <?= $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 
-    <?= $form->field($model, 'updated_at') ?>
+    <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+
+    <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
 
     <?= $form->field($model, 'notes') ?>
 

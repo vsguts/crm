@@ -17,6 +17,7 @@ return [
     'Delete' => 'Удалить',
     'Tags' => 'Тэги',
     'Create tag' => 'Создать тэг',
+    'Date' => 'Дата',
     'Donates' => 'Пожертвования',
     'Create donate' => 'Создать пожертвование',
     'Tasks' => 'Задачи',
@@ -113,5 +114,9 @@ return [
     'Incorrect username or password.' => 'Неправильное имя пользователя или пароль.',
     'Follow the link below to reset your password' => 'Перейдите по следующей ссылке чтобы восстановить пароль',
     'Hello {name}' => 'Здравствуйте, {name}',
+    'Select date' => 'Выберите дату',
+    'between' => 'между',
+    'Start date' => 'Дата начала',
+    'End date' => 'Дата окончания',
 
 ];

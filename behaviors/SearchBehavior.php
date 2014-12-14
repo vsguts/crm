@@ -2,6 +2,7 @@
 
 namespace app\behaviors;
 
+use Yii;
 use yii\base\Behavior;
 
 class SearchBehavior extends Behavior
@@ -19,4 +20,20 @@ class SearchBehavior extends Behavior
         
         return $params;
     }
+
+    public function addTimestampRangeConditions($query, $field = 'timestamp', $to_suffix = '_to')
+    {
+        $model = $this->owner;
+        $formatter = Yii::$app->formatter;
+
+        if ($model->{$field}) {
+            $query->andWhere(['>=', $field, $formatter->asTimestamp($model->{$field})]);
+        }
+
+        $field_to = $field . $to_suffix;
+        if ($model->{$field_to}) {
+            $query->andWhere(['<=', $field, $formatter->asTimestamp($model->{$field_to})]);
+        }
+    }
+    
 }

@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $partner_id
  * @property integer $user_id
+ * @property integer $timestamp
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $notes
@@ -32,6 +33,7 @@ class Visit extends \yii\db\ActiveRecord
         return [
             'app\behaviors\ListBehavior',
             'yii\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampBehavior',
         ];
     }
 
@@ -41,8 +43,9 @@ class Visit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['timestamp', 'partner_id', 'user_id'], 'required'],
             [['partner_id', 'user_id'], 'integer'],
-            [['notes'], 'string']
+            [['notes'], 'string'],
         ];
     }
 
@@ -55,6 +58,7 @@ class Visit extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'partner_id' => Yii::t('app', 'Partner'),
             'user_id' => Yii::t('app', 'User'),
+            'timestamp' => Yii::t('app', 'Date'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),

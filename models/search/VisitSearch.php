@@ -12,14 +12,24 @@ use app\models\Visit;
  */
 class VisitSearch extends Visit
 {
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'timestamp_to',
+            'created_at_to',
+            'updated_at_to',
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['notes'], 'safe'],
+            [['id', 'partner_id', 'user_id'], 'integer'],
+            [['timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
         ];
     }
 
@@ -64,11 +74,13 @@ class VisitSearch extends Visit
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);
+        
+        $this->addTimestampRangeConditions($query);
+        $this->addTimestampRangeConditions($query, 'created_at');
+        $this->addTimestampRangeConditions($query, 'updated_at');
 
         return $dataProvider;
     }

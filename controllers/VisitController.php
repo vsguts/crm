@@ -45,7 +45,7 @@ class VisitController extends AController
      * If creation is successful, the browser will be redirected to the 'update' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($partner_id = null)
     {
         $model = new Visit();
 
@@ -53,6 +53,11 @@ class VisitController extends AController
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $model->timestamp = Yii::$app->formatter->asDate(time());
+            $model->user_id = Yii::$app->user->id;
+            if ($partner_id) {
+                $model->partner_id = $partner_id;
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -85,9 +90,23 @@ class VisitController extends AController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id = null, array $ids = null)
     {
-        $this->findModel($id)->delete();
+        $ok_message = false;
+        if (!$id && $ids) { // multiple
+            if (Visit::deleteAll(['id' => $ids])) {
+                $ok_message = __('Items have been deleted successfully.');
+            }
+        } elseif ($this->findModel($id)->delete()) { // single
+            $ok_message = __('Item has been deleted successfully.');
+        }
+
+        if ($ok_message) {
+            Yii::$app->session->setFlash('success', $ok_message);
+            if ($referrer = Yii::$app->request->referrer) {
+                return $this->redirect($referrer);
+            }
+        }
 
         return $this->redirect(['index']);
     }

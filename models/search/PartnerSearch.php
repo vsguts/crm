@@ -17,10 +17,12 @@ class PartnerSearch extends Partner
     {
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
+            'q',
             'tag_id',
             'publicTagsStr',
             'personalTagsStr',
-            'q',
+            'created_at_to',
+            'updated_at_to',
         ]);
     }
 
@@ -31,11 +33,11 @@ class PartnerSearch extends Partner
     {
         return [
             [
-                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'created_at', 'updated_at', 'tag_id'],
+                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'tag_id'],
                 'integer'
             ],
             [
-                ['name', 'email', 'state', 'address', 'notes', 'tag_id', 'publicTagsStr', 'personalTagsStr', 'q'],
+                ['name', 'email', 'state', 'address', 'notes', 'tag_id', 'publicTagsStr', 'personalTagsStr', 'q', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'],
                 'safe'
             ],
         ];
@@ -92,8 +94,6 @@ class PartnerSearch extends Partner
             'church_id' => $this->church_id,
             'volunteer' => $this->volunteer,
             'candidate' => $this->candidate,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'partner_tag.tag_id' => $this->tag_id,
         ]);
 
@@ -118,7 +118,9 @@ class PartnerSearch extends Partner
             $query->orFilterWhere(['like', 'email', $this->q]);
             $query->orFilterWhere(['like', 'notes', $this->q]);
         }
-        // pd($query, $this);
+        
+        $this->addTimestampRangeConditions($query, 'created_at');
+        $this->addTimestampRangeConditions($query, 'updated_at');
 
         return $dataProvider;
     }

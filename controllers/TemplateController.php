@@ -97,9 +97,22 @@ class TemplateController extends AController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id = null, array $ids = null)
     {
-        $this->findModel($id)->delete();
+        if (!$id && $ids) { // multiple
+            if (Template::deleteAll(['id' => $ids])) {
+                $ok_message = __('Items have been deleted successfully.');
+            }
+        } elseif ($this->findModel($id)->delete()) { // single
+            $ok_message = __('Item has been deleted successfully.');
+        }
+
+        if ($ok_message) {
+            Yii::$app->session->setFlash('success', $ok_message);
+            if ($referrer = Yii::$app->request->referrer) {
+                return $this->redirect($referrer);
+            }
+        }
 
         return $this->redirect(['index']);
     }

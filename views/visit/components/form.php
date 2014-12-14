@@ -20,6 +20,11 @@ use app\widgets\Text;
 
     <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username'])) ?>
 
+    <?= $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
+        'options' => ['placeholder' => __('Select date')],
+        'pluginOptions' => ['autoclose' => true],
+    ]) ?>
+
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
     <?php if (!$model->isNewRecord): ?>

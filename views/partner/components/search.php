@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use app\widgets\SearchForm;
 use app\widgets\Tags;
+use app\widgets\DatePickerRange;
 
 ?>
 
@@ -44,6 +45,10 @@ use app\widgets\Tags;
 
                 <?= $form->field($model, 'candidate')->checkbox(['uncheck' => ''], false) ?>
             </div>
+
+            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+
+            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
 
         </div>
         <div class="col-md-6">

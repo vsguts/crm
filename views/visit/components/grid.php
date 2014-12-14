@@ -12,9 +12,8 @@ if (empty($hidePartner)) {
 }
 
 $columns[] = ['attribute' => 'user.name', 'label' => __('User')];
-$columns[] = 'created_at';
-$columns[] = 'updated_at';
-$columns[] = ['class' => 'app\widgets\grid\ActionColumn'];
+$columns[] = 'timestamp';
+$columns[] = ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'];
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,

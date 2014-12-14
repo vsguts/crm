@@ -36,7 +36,7 @@ use app\widgets\ButtonsContatiner;
             'label' => __('Visits'),
             'content' => $this->render('/visit/components/grid', [
                 'dataProvider' => $extra['visitsDataProvider'],
-                'hidePartner' => true,
+                'partnerId' => $model->id,
             ]),
         ];
         $tab_items[] = [

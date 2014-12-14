@@ -39,6 +39,8 @@ $this->registerJs(AppAsset::customJs());
             ]);
 
             $controller_id = Yii::$app->controller->id;
+            $action_id = Yii::$app->controller->action->id;
+            $action_params = Yii::$app->controller->actionParams;
             
             // Left nav
             echo Nav::widget([
@@ -68,6 +70,7 @@ $this->registerJs(AppAsset::customJs());
             ]);
 
             // Right nav
+            $is_profile = false;
             $menu_items = [];
             if (Yii::$app->user->isGuest) {
                 $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
@@ -78,26 +81,65 @@ $this->registerJs(AppAsset::customJs());
                 if (empty($name)) {
                     $name = $user->username;
                 }
+                $is_profile = $controller_id == 'user' && $action_id == 'update' && $user->id == $action_params['id'];
                 $menu_items[] = [
                     'label' => $name,
+                    'active' => $is_profile,
                     'items' => [
-                        ['label' => Yii::t('app', 'Profile'), 'url' => ['/user/update', 'id' => $user->id]],
+                        [
+                            'label' => Yii::t('app', 'Profile'),
+                            'url' => ['/user/update', 'id' => $user->id],
+                            'active' => $is_profile,
+                        ],
                         '<li class="divider"></li>',
-                        ['label' => Yii::t('app', 'Logout'), 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                        [
+                            'label' => Yii::t('app', 'Logout'),
+                            'url' => ['/site/logout'],
+                            'linkOptions' => ['data-method' => 'post']
+                        ],
                     ]
                 ];
             }
-            $menu_items[] = ['label' => Yii::t('app', 'Settings'), 'items' => [
-                ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']],
-                ['label' => Yii::t('app', 'Templates'), 'url' => ['/template/index']],
-                '<li class="divider"></li>',
-                ['label' => Yii::t('app', 'Countries'), 'url' => ['/country/index']],
-                ['label' => Yii::t('app', 'States'), 'url' => ['/state/index']],
-            ]];
-            $menu_items[] = ['label' => Yii::t('app', 'Help'), 'items' => [
-                ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
-                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-            ]];
+            $menu_items[] = [
+                'label' => Yii::t('app', 'Settings'),
+                'active' => in_array($controller_id, ['user', 'template', 'country', 'state']) && !$is_profile,
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Users'),
+                        'url' => ['/user/index'],
+                        'active' => $controller_id == 'user' && !$is_profile,
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Templates'),
+                        'url' => ['/template/index'],
+                        'active' => $controller_id == 'template',
+                    ],
+                    '<li class="divider"></li>',
+                    [
+                        'label' => Yii::t('app', 'Countries'),
+                        'url' => ['/country/index'],
+                        'active' => $controller_id == 'country',
+                    ],
+                    [
+                        'label' => Yii::t('app', 'States'),
+                        'url' => ['/state/index'],
+                        'active' => $controller_id == 'state',
+                    ],
+                ]
+            ];
+            $menu_items[] = [
+                'label' => Yii::t('app', 'Help'),
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Contact'),
+                        'url' => ['/site/contact']
+                    ],
+                    [
+                        'label' => Yii::t('app', 'About'),
+                        'url' => ['/site/about']
+                    ],
+                ]
+            ];
 
             // Languages
             $languages = Language::find()->orderBy(['name' => SORT_ASC])->all();

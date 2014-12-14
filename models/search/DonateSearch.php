@@ -12,15 +12,25 @@ use app\models\Donate;
  */
 class DonateSearch extends Donate
 {
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'timestamp_to',
+            'created_at_to',
+            'updated_at_to',
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'partner_id'], 'integer'],
             [['sum'], 'number'],
-            [['notes'], 'safe'],
+            [['timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
         ];
     }
 
@@ -31,6 +41,13 @@ class DonateSearch extends Donate
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
     }
 
     /**
@@ -48,6 +65,8 @@ class DonateSearch extends Donate
             'query' => $query,
         ]);
 
+        $params = $this->processParams($params);
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -56,11 +75,13 @@ class DonateSearch extends Donate
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'sum' => $this->sum,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);
+
+        $this->addTimestampRangeConditions($query);
+        $this->addTimestampRangeConditions($query, 'created_at');
+        $this->addTimestampRangeConditions($query, 'updated_at');
 
         return $dataProvider;
     }

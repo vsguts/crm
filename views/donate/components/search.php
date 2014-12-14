@@ -12,7 +12,7 @@ use app\widgets\DatePickerRange;
 
     <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
+    <?= $form->field($model, 'sum') ?>
 
     <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 

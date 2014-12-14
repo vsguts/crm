@@ -10,6 +10,7 @@ use app\models\search\PartnerSearch;
 use app\models\Tag;
 use app\behaviors\AjaxFilter;
 use app\models\search\VisitSearch;
+use app\models\search\DonateSearch;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -89,6 +90,7 @@ class PartnerController extends AController
                 'model' => $model,
                 'extra' => [
                     'visitsDataProvider' => (new VisitSearch())->search(['partner_id' => $id]),
+                    'donatesDataProvider' => (new DonateSearch())->search(['partner_id' => $id]),
                 ],
             ]);
         }

@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $partner_id
  * @property string $sum
+ * @property integer $timestamp
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $notes
@@ -26,12 +27,22 @@ class Donate extends \yii\db\ActiveRecord
         return 'donate';
     }
 
+    public function behaviors()
+    {
+        return [
+            'app\behaviors\ListBehavior',
+            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampBehavior',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
+            [['partner_id', 'sum', 'timestamp'], 'required'],
             [['partner_id'], 'integer'],
             [['sum'], 'number'],
             [['notes'], 'string']
@@ -45,8 +56,9 @@ class Donate extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner ID'),
+            'partner_id' => Yii::t('app', 'Partner'),
             'sum' => Yii::t('app', 'Sum'),
+            'timestamp' => Yii::t('app', 'Date'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),

@@ -41,7 +41,10 @@ use app\widgets\ButtonsContatiner;
         ];
         $tab_items[] = [
             'label' => __('Donates'),
-            'content' => '',
+            'content' => $this->render('/donate/components/grid', [
+                'dataProvider' => $extra['donatesDataProvider'],
+                'partnerId' => $model->id,
+            ]),
         ];
         $tab_items[] = [
             'label' => __('Tasks'),

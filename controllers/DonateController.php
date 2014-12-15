@@ -91,6 +91,8 @@ class DonateController extends AController
      */
     public function actionDelete($id = null, array $ids = null)
     {
+        $ok_message = false;
+        
         if (!$id && $ids) { // multiple
             if (Donate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
@@ -101,9 +103,9 @@ class DonateController extends AController
 
         if ($ok_message) {
             Yii::$app->session->setFlash('success', $ok_message);
-            if ($referrer = Yii::$app->request->referrer) {
-                return $this->redirect($referrer);
-            }
+            // if ($referrer = Yii::$app->request->referrer) {
+            //     return $this->redirect($referrer);
+            // }
         }
 
         return $this->redirect(['index']);

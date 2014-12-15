@@ -21,7 +21,7 @@ class SearchBehavior extends Behavior
         return $params;
     }
 
-    public function addTimestampRangeConditions($query, $field = 'timestamp', $to_suffix = '_to')
+    public function addRangeCondition($query, $field = 'timestamp', $to_suffix = '_to')
     {
         $model = $this->owner;
         $formatter = Yii::$app->formatter;

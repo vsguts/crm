@@ -116,6 +116,8 @@ return [
     'Hello {name}' => 'Здравствуйте, {name}',
     'Select date' => 'Выберите дату',
     'between' => 'между',
+    'From' => 'От',
+    'To' => 'До',
     'Start date' => 'Дата начала',
     'End date' => 'Дата окончания',
 

@@ -99,6 +99,8 @@ class TemplateController extends AController
      */
     public function actionDelete($id = null, array $ids = null)
     {
+        $ok_message = false;
+        
         if (!$id && $ids) { // multiple
             if (Template::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
@@ -109,9 +111,9 @@ class TemplateController extends AController
 
         if ($ok_message) {
             Yii::$app->session->setFlash('success', $ok_message);
-            if ($referrer = Yii::$app->request->referrer) {
-                return $this->redirect($referrer);
-            }
+            // if ($referrer = Yii::$app->request->referrer) {
+            //     return $this->redirect($referrer);
+            // }
         }
 
         return $this->redirect(['index']);

@@ -12,17 +12,24 @@ class DatePickerRange extends DatePicker
 
     public function init()
     {
-        $this->attribute2 = $this->attribute . '_to';
+        if (empty($this->attribute2)) {
+            $this->attribute2 = $this->attribute . '_to';
+        }
 
-        $this->separator = __('between');
+        $this->separator = sprintf('← %s →', __('between'));
 
-        $this->options = [
-            'placeholder' => __('Start date'),
-        ];
+        if (empty($this->options)) {
+            $this->options = [
+                'placeholder' => __('Start date'),
+            ];
+        }
 
-        $this->options2 = [
-            'placeholder' => __('End date'),
-        ];
+        if (empty($this->options2)) {
+            $this->options2 = [
+                'placeholder' => __('End date'),
+            ];
+        }
+
         parent::init();
     }
 }

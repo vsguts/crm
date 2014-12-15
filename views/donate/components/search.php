@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\widgets\SearchForm;
 use app\widgets\DatePickerRange;
+use app\widgets\Range;
 
 ?>
 
@@ -12,7 +13,7 @@ use app\widgets\DatePickerRange;
 
     <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
 
-    <?= $form->field($model, 'sum') ?>
+    <?= $form->field($model, 'sum')->widget(Range::className()) ?>
 
     <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 

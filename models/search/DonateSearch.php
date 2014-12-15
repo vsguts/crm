@@ -16,6 +16,7 @@ class DonateSearch extends Donate
     {
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
+            'sum_to',
             'timestamp_to',
             'created_at_to',
             'updated_at_to',
@@ -29,7 +30,7 @@ class DonateSearch extends Donate
     {
         return [
             [['id', 'partner_id'], 'integer'],
-            [['sum'], 'number'],
+            [['sum', 'sum_to'], 'number'],
             [['timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
         ];
     }
@@ -74,14 +75,14 @@ class DonateSearch extends Donate
         $query->andFilterWhere([
             'id' => $this->id,
             'partner_id' => $this->partner_id,
-            'sum' => $this->sum,
         ]);
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);
 
-        $this->addTimestampRangeConditions($query);
-        $this->addTimestampRangeConditions($query, 'created_at');
-        $this->addTimestampRangeConditions($query, 'updated_at');
+        $this->addRangeCondition($query, 'sum');
+        $this->addRangeCondition($query, 'timestamp');
+        $this->addRangeCondition($query, 'created_at');
+        $this->addRangeCondition($query, 'updated_at');
 
         return $dataProvider;
     }

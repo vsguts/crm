@@ -119,8 +119,8 @@ class PartnerSearch extends Partner
             $query->orFilterWhere(['like', 'notes', $this->q]);
         }
         
-        $this->addTimestampRangeConditions($query, 'created_at');
-        $this->addTimestampRangeConditions($query, 'updated_at');
+        $this->addRangeCondition($query, 'created_at');
+        $this->addRangeCondition($query, 'updated_at');
 
         return $dataProvider;
     }

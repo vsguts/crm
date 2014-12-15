@@ -8,7 +8,7 @@ class m141102_205141_RootUserAdded extends Migration
     public function up()
     {
         $this->delete('user', 'id = 1');
-        $this->insert('user', [
+        $this->insert('user', [ // Auth: root/root
             'id' => 1,
             'username' => 'root',
             'email' => 'root@example.com',

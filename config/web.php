@@ -1,6 +1,7 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+$params = require(__DIR__ . '/_params.php');
+$db = require(__DIR__ . '/_db.php');
 
 $config = [
     'id' => 'crm',
@@ -51,7 +52,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => $db,
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
         ],

@@ -1,8 +1,9 @@
 <?php
 
-// comment out the following two lines when deployed to production
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', 'dev');
+$pre_index_file = __DIR__ . '/../config/pre_index.php';
+if (file_exists($pre_index_file)) {
+    include $pre_index_file;
+}
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');

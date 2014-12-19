@@ -62,6 +62,11 @@ class VisitSearch extends Visit
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageParam' => 'visit-page',
+                'pageSizeParam' => 'visit-per-page',
+                // 'pageSize' => 10,
+            ],
         ]);
 
         $params = $this->processParams($params);

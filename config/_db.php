@@ -8,8 +8,9 @@ $config = [
     'charset' => 'utf8',
 ];
 
-if (file_exists(__DIR__ . '/db_local.php')) {
-    $_config = require(__DIR__ . '/db_local.php');
+$db_local_file = __DIR__ . '/_db.local.php';
+if (file_exists($db_local_file)) {
+    $_config = require($db_local_file);
     $config = array_merge($config, $_config);
 }
 

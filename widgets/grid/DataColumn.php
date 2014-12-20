@@ -12,10 +12,16 @@ class DataColumn extends YDataColumn
 
     protected function renderDataCellContent($model, $key, $index)
     {
+        $link = '';
+        if (!empty($this->grid->view->params['override_controller_name'])) {
+            $link = $this->grid->view->params['override_controller_name'] . '/';
+        }
+        
         $text = parent::renderDataCellContent($model, $key, $index);
 
         if ($this->link_to && in_array($this->format, ['text'])) {
-            $url = Url::to([$this->link_to, 'id' => $key]);
+            $link .= $this->link_to;
+            $url = Url::to([$link, 'id' => $key]);
             return Html::a($text, $url);
         } else {
             return $text;

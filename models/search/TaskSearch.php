@@ -12,14 +12,24 @@ use app\models\Task;
  */
 class TaskSearch extends Task
 {
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'timestamp_to',
+            'created_at_to',
+            'updated_at_to',
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id', 'timestamp', 'created_at', 'updated_at', 'done'], 'integer'],
-            [['notes'], 'safe'],
+            [['id', 'partner_id', 'user_id', 'done'], 'integer'],
+            [['name', 'timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
         ];
     }
 
@@ -30,6 +40,13 @@ class TaskSearch extends Task
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
     }
 
     /**
@@ -45,7 +62,14 @@ class TaskSearch extends Task
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageParam' => 'task-page',
+                'pageSizeParam' => 'task-per-page',
+                // 'pageSize' => 10,
+            ],
         ]);
+
+        $params = $this->processParams($params);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -55,13 +79,15 @@ class TaskSearch extends Task
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
-            'timestamp' => $this->timestamp,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'done' => $this->done,
         ]);
 
+        $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere(['like', 'notes', $this->notes]);
+        
+        $this->addRangeCondition($query, 'timestamp');
+        $this->addRangeCondition($query, 'created_at');
+        $this->addRangeCondition($query, 'updated_at');
 
         return $dataProvider;
     }

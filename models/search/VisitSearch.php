@@ -83,7 +83,7 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);
         
-        $this->addRangeCondition($query);
+        $this->addRangeCondition($query, 'timestamp');
         $this->addRangeCondition($query, 'created_at');
         $this->addRangeCondition($query, 'updated_at');
 

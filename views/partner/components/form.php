@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Tabs;
-use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use app\widgets\ButtonsContatiner;
 
@@ -11,8 +11,19 @@ use app\widgets\ButtonsContatiner;
 <div class="partner-form">
 
 <?php
+    
     $form = ActiveForm::begin([
-        'type' => ActiveForm::TYPE_HORIZONTAL,
+        'layout' => 'horizontal',
+        'fieldConfig' => [
+            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+            'horizontalCssClasses' => [
+                'label' => 'col-sm-2',
+                'offset' => 'col-sm-offset-4',
+                'wrapper' => 'col-sm-10',
+                'error' => '',
+                'hint' => '',
+            ],
+        ],
     ]);
 
     $tab_items = [
@@ -32,13 +43,18 @@ use app\widgets\ButtonsContatiner;
     ];
 
     if (!$model->isNewRecord) {
+        
+        $this->params['override_controller_name'] = 'visit';
         $tab_items[] = [
             'label' => __('Visits'),
             'content' => $this->render('/visit/components/grid', [
                 'dataProvider' => $extra['visitsDataProvider'],
                 'partnerId' => $model->id,
+                'gvsgvs' => 'gvsgvs',
             ]),
         ];
+        
+        $this->params['override_controller_name'] = 'donate';
         $tab_items[] = [
             'label' => __('Donates'),
             'content' => $this->render('/donate/components/grid', [
@@ -46,9 +62,14 @@ use app\widgets\ButtonsContatiner;
                 'partnerId' => $model->id,
             ]),
         ];
+        
+        $this->params['override_controller_name'] = 'task';
         $tab_items[] = [
             'label' => __('Tasks'),
-            'content' => '',
+            'content' => $this->render('/task/components/grid', [
+                'dataProvider' => $extra['tasksDataProvider'],
+                'partnerId' => $model->id,
+            ]),
         ];
     }
 

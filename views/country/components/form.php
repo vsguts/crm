@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
 /* @var $this yii\web\View */
@@ -12,7 +12,17 @@ use app\widgets\ButtonsContatiner;
 <div class="country-form">
 
     <?php $form = ActiveForm::begin([
-        'type' => ActiveForm::TYPE_HORIZONTAL,
+        'layout' => 'horizontal',
+        'fieldConfig' => [
+            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+            'horizontalCssClasses' => [
+                'label' => 'col-sm-2',
+                'offset' => 'col-sm-offset-4',
+                'wrapper' => 'col-sm-10',
+                'error' => '',
+                'hint' => '',
+            ],
+        ],
     ]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>

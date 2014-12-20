@@ -6,11 +6,11 @@ use app\widgets\ButtonsContatiner;
 use app\widgets\Text;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Visit */
+/* @var $model app\models\Task */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="visit-form">
+<div class="task-form">
 
     <?php $form = ActiveForm::begin([
         'layout' => 'horizontal',
@@ -26,14 +26,18 @@ use app\widgets\Text;
         ],
     ]); ?>
 
+    <?= $form->field($model, 'name')->textInput() ?>
+
     <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name')) ?>
 
-    <?= $form->field($model, 'sum')->textInput(['maxlength' => 19]) ?>
+    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username'])) ?>
 
     <?= $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
         'options' => ['placeholder' => __('Select date')],
         'pluginOptions' => ['autoclose' => true],
     ]) ?>
+
+    <?= $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false) ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

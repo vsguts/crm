@@ -32,9 +32,9 @@ class Task extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
+            'app\behaviors\ListBehavior',
+            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampBehavior',
         ];
     }
 
@@ -44,7 +44,8 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partner_id', 'user_id', 'timestamp', 'done'], 'integer'],
+            [['name', 'partner_id', 'user_id', 'timestamp'], 'required'],
+            [['done'], 'integer'],
             [['notes'], 'string']
         ];
     }
@@ -56,9 +57,10 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'timestamp' => Yii::t('app', 'Timestamp'),
+            'partner_id' => Yii::t('app', 'Partner'),
+            'user_id' => Yii::t('app', 'User'),
+            'name' => Yii::t('app', 'Name'),
+            'timestamp' => Yii::t('app', 'Due date'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'done' => Yii::t('app', 'Done'),

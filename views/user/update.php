@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $model->username;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?= $this->render('components/form', [
         'model' => $model,
     ]) ?>
 

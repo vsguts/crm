@@ -41,29 +41,23 @@ class TaskController extends AController
     }
 
     /**
-     * Displays a single Task model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Task model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'update' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($partner_id = null)
     {
         $model = new Task();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $model->timestamp = Yii::$app->formatter->asDate(time());
+            $model->user_id = Yii::$app->user->id;
+            if ($partner_id) {
+                $model->partner_id = $partner_id;
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -72,7 +66,7 @@ class TaskController extends AController
 
     /**
      * Updates an existing Task model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
      */
@@ -81,7 +75,8 @@ class TaskController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

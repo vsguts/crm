@@ -6,7 +6,10 @@ $db = require(__DIR__ . '/_db.php');
 $config = [
     'id' => 'crm',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        // 'appBootstrap'
+    ],
     'language' => 'en-US',
     'components' => [
         'i18n' => [
@@ -62,6 +65,12 @@ $config = [
             'thousandSeparator' => ' ',
             'currencyCode' => 'USD',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        // 'appBootstrap' => [
+        //     'class' => 'app\components\Bootstrap',
+        // ],
     ],
     'params' => $params,
 ];

@@ -66,7 +66,6 @@ return [
     'Create lookup' => 'Создать запись lookup',
     'Active' => 'Вкл.',
     'Disabled' => 'Выкл.',
-    'Guest' => 'Гость',
     'Missionary' => 'Миссионер',
     'Accountant' => 'Бухгалтер',
     'Organization' => 'Организация',

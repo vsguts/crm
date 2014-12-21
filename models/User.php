@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user".
@@ -34,6 +33,11 @@ use yii\behaviors\TimestampBehavior;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    const AUTH_ROLE_1 = 'user';
+    const AUTH_ROLE_2 = 'root';
+    const AUTH_ROLE_3 = 'missionary';
+    const AUTH_ROLE_4 = 'accountant';
+
     const STATUS_ACTIVE = 1;
 
     public $password;
@@ -50,9 +54,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'app\behaviors\UserPasswordBehavior',
+            'app\behaviors\UserRoleBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
-            TimestampBehavior::className(),
+            'yii\behaviors\TimestampBehavior',
         ];
     }
 
@@ -64,6 +69,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['role', 'default', 'value' => 1],
             [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['email'], 'email'],
             [['role', 'status', 'country_id', 'state_id'], 'integer'],

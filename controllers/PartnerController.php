@@ -3,8 +3,9 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use app\models\Partner;
 use app\models\search\PartnerSearch;
 use app\models\Tag;
@@ -21,6 +22,15 @@ class PartnerController extends AController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['partner_manage'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

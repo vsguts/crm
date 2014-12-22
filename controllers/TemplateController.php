@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\Template;
 use app\models\search\TemplateSearch;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * TemplateController implements the CRUD actions for Template model.
@@ -16,6 +17,15 @@ class TemplateController extends AController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['template_manage'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

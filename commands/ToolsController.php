@@ -21,6 +21,7 @@ class ToolsController extends Controller
     public function actionRbac()
     {
         $auth = Yii::$app->authManager;
+        
         $rules = $roles = $permissions = [];
 
         // Flush
@@ -36,7 +37,7 @@ class ToolsController extends Controller
         $roles['accountant'] = $auth->createRole('accountant');
         
         // Permissions
-        $permissions['city_manage']     = $auth->createPermission('city_manage');
+        $permissions['country_manage']  = $auth->createPermission('country_manage');
         $permissions['state_manage']    = $auth->createPermission('state_manage');
         $permissions['template_manage'] = $auth->createPermission('template_manage');
         $permissions['partner_manage']  = $auth->createPermission('partner_manage');
@@ -46,6 +47,7 @@ class ToolsController extends Controller
         $permissions['user_manage']     = $auth->createPermission('user_manage');
         $permissions['user_manage_own'] = $auth->createPermission('user_manage_own');
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
+        $permissions['tools']           = $auth->createPermission('tools');
 
         foreach ([$rules, $roles, $permissions] as $items) {
             foreach ($items as $item) {
@@ -53,17 +55,12 @@ class ToolsController extends Controller
             }
         }
 
-        // Links
-        $auth->addChild($roles['root'], $roles['missionary']);
-        $auth->addChild($roles['root'], $roles['accountant']);
-        $auth->addChild($roles['root'], $roles['user']);
-        $auth->addChild($roles['missionary'], $roles['user']);
-        $auth->addChild($roles['accountant'], $roles['user']);
-
-        $auth->addChild($roles['root'], $permissions['city_manage']);
+        // Links: roles with permissions
+        $auth->addChild($roles['root'], $permissions['country_manage']);
         $auth->addChild($roles['root'], $permissions['state_manage']);
         $auth->addChild($roles['root'], $permissions['template_manage']);
         $auth->addChild($roles['root'], $permissions['user_manage']);
+        $auth->addChild($roles['root'], $permissions['tools']);
         
         $auth->addChild($roles['missionary'], $permissions['partner_manage']);
         $auth->addChild($roles['missionary'], $permissions['visit_manage']);
@@ -74,6 +71,13 @@ class ToolsController extends Controller
         $auth->addChild($roles['accountant'], $permissions['task_manage']);
 
         $auth->addChild($roles['user'], $permissions['user_manage_own']);
+
+        // Links: roles with roles
+        $auth->addChild($roles['root'], $roles['missionary']);
+        $auth->addChild($roles['root'], $roles['accountant']);
+        $auth->addChild($roles['root'], $roles['user']);
+        $auth->addChild($roles['missionary'], $roles['user']);
+        $auth->addChild($roles['accountant'], $roles['user']);
 
         // Assign roles to users
         foreach (User::find()->all() as $user) {

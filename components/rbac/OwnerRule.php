@@ -18,8 +18,10 @@ class OwnerRule extends ARule
             return false;
         }
         
-        // TODO
-        
+        if (isset($params['user'])) {
+            return $user_id == $params['user']->id;
+        }
+
         return false;
     }
 }

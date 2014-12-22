@@ -3,11 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Donate;
-use app\models\search\DonateSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\Donate;
+use app\models\search\DonateSearch;
 
 /**
  * DonateController implements the CRUD actions for Donate model.

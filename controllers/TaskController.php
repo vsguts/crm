@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\Task;
 use app\models\search\TaskSearch;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -16,6 +17,15 @@ class TaskController extends AController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['task_manage'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -38,6 +38,7 @@ $this->registerJs(AppAsset::customJs());
                 ],
             ]);
 
+            $user = Yii::$app->user;
             $controller_id = Yii::$app->controller->id;
             $action_id = Yii::$app->controller->action->id;
             $action_params = Yii::$app->controller->actionParams;
@@ -49,21 +50,25 @@ $this->registerJs(AppAsset::customJs());
                     [
                         'label' => Yii::t('app', 'Partners'),
                         'url' => ['/partner/index'],
+                        'visible' => $user->can('partner_manage'),
                         'active' => $controller_id == 'partner',
                     ],
                     [
                         'label' => Yii::t('app', 'Visits'),
                         'url' => ['/visit/index'],
+                        'visible' => $user->can('visit_manage'),
                         'active' => $controller_id == 'visit',
                     ],
                     [
                         'label' => Yii::t('app', 'Donates'),
                         'url' => ['/donate/index'],
+                        'visible' => $user->can('donate_manage'),
                         'active' => $controller_id == 'donate',
                     ],
                     [
                         'label' => Yii::t('app', 'Tasks'),
                         'url' => ['/task/index'],
+                        'visible' => $user->can('task_manage'),
                         'active' => $controller_id == 'task',
                     ],
                 ],
@@ -76,19 +81,18 @@ $this->registerJs(AppAsset::customJs());
                 $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
                 $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
             } else {
-                $user = Yii::$app->user->identity;
-                $name = trim($user->fullname);
+                $name = trim($user->identity->fullname);
                 if (empty($name)) {
-                    $name = $user->username;
+                    $name = $user->identity->username;
                 }
-                $is_profile = $controller_id == 'user' && $action_id == 'update' && $user->id == $action_params['id'];
+                $is_profile = $controller_id == 'user' && $action_id == 'update' && $user->identity->id == $action_params['id'];
                 $menu_items[] = [
                     'label' => $name,
                     'active' => $is_profile,
                     'items' => [
                         [
                             'label' => Yii::t('app', 'Profile'),
-                            'url' => ['/user/update', 'id' => $user->id],
+                            'url' => ['/user/update', 'id' => $user->identity->id],
                             'active' => $is_profile,
                         ],
                         '<li class="divider"></li>',
@@ -102,27 +106,35 @@ $this->registerJs(AppAsset::customJs());
             }
             $menu_items[] = [
                 'label' => Yii::t('app', 'Settings'),
+                'visible' => $user->can('user_manage')
+                    || $user->can('template_manage')
+                    || $user->can('country_manage')
+                    || $user->can('state_manage'),
                 'active' => in_array($controller_id, ['user', 'template', 'country', 'state']) && !$is_profile,
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Users'),
                         'url' => ['/user/index'],
+                        'visible' => $user->can('user_manage'),
                         'active' => $controller_id == 'user' && !$is_profile,
                     ],
                     [
                         'label' => Yii::t('app', 'Templates'),
                         'url' => ['/template/index'],
+                        'visible' => $user->can('template_manage'),
                         'active' => $controller_id == 'template',
                     ],
                     '<li class="divider"></li>',
                     [
                         'label' => Yii::t('app', 'Countries'),
                         'url' => ['/country/index'],
+                        'visible' => $user->can('country_manage'),
                         'active' => $controller_id == 'country',
                     ],
                     [
                         'label' => Yii::t('app', 'States'),
                         'url' => ['/state/index'],
+                        'visible' => $user->can('state_manage'),
                         'active' => $controller_id == 'state',
                     ],
                 ]

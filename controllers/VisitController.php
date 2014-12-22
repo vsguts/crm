@@ -3,10 +3,11 @@
 namespace app\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\Visit;
 use app\models\search\VisitSearch;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * VisitController implements the CRUD actions for Visit model.
@@ -16,6 +17,15 @@ class VisitController extends AController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['visit_manage'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

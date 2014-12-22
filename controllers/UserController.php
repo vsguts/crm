@@ -3,11 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\User;
-use app\models\search\UserSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
+use app\models\User;
+use app\models\search\UserSearch;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -19,9 +20,10 @@ class UserController extends AController
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['index', 'create', 'delete'],
                 'rules' => [
-                    // TODO
                     [
+                        'actions' => ['index', 'create', 'delete'],
                         'allow' => true,
                         'roles' => ['user_manage'],
                     ],
@@ -79,6 +81,13 @@ class UserController extends AController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        if (
+            !Yii::$app->user->can('user_manage')
+            && !Yii::$app->user->can('user_manage_own', ['user' => $model])
+        ) {
+            throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));

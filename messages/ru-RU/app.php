@@ -3,6 +3,7 @@
 return [
     'General' => 'Основное',
     'Send' => 'Отправить',
+    'Submit' => 'Отправить',
     'Save' => 'Сохранить',
     'Create' => 'Создать',
     'Update' => 'Обновить',
@@ -125,5 +126,9 @@ return [
     'Done' => 'Завершено',
     'Start date' => 'Дата начала',
     'End date' => 'Дата окончания',
+    'Verification Code' => 'Код подтверждения',
+    'Subject' => 'Тема',
+    'Body' => 'Тело',
+    'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.' => 'Если у вас есть деловое предложение или возник вопросы, пожалуйста, заполните следующую форму, чтобы связаться с нами. Спасибо.',
 
 ];

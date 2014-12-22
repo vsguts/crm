@@ -130,5 +130,8 @@ return [
     'Subject' => 'Тема',
     'Body' => 'Тело',
     'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.' => 'Если у вас есть деловое предложение или возник вопросы, пожалуйста, заполните следующую форму, чтобы связаться с нами. Спасибо.',
+    'Welcome to CRM' => 'Добро пожаловать в CRM',
+    'Our system allows you to manage partners and relationships with them.' => 'Наша система позволяет управлять партнерами и отношениями с ними.',
+    'Dashboard' => 'Панель инструментов',
 
 ];

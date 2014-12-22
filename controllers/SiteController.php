@@ -3,9 +3,15 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
+use app\models\Partner;
+use app\models\Visit;
+use app\models\Donate;
+use app\models\Task;
+use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\UserLoginForm;
 use app\models\form\UserSignupForm;
@@ -57,7 +63,44 @@ class SiteController extends AController
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $user = Yii::$app->user;
+        $dashboard = [];
+        
+        if ($user->can('partner_manage')) {
+            $dashboard[] = [
+                'name' => __('Partners'),
+                'link' => Url::to(['partner/index']),
+                'count' => Partner::find()->count(),
+            ];
+        }
+        
+        if ($user->can('visit_manage')) {
+            $dashboard[] = [
+                'name' => __('Visits'),
+                'link' => Url::to(['visit/index']),
+                'count' => Visit::find()->count(),
+            ];
+        }
+        
+        if ($user->can('donate_manage')) {
+            $dashboard[] = [
+                'name' => __('Donates'),
+                'link' => Url::to(['donate/index']),
+                'count' => Donate::find()->count(),
+            ];
+        }
+        
+        if ($user->can('task_manage')) {
+            $dashboard[] = [
+                'name' => __('Tasks'),
+                'link' => Url::to(['task/index']),
+                'count' => Task::find()->count(),
+            ];
+        }
+
+        return $this->render('index', [
+            'dashboard' => $dashboard
+        ]);
     }
 
     public function actionLogin()

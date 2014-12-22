@@ -82,21 +82,30 @@ class UserController extends AController
     {
         $model = $this->findModel($id);
 
-        if (
-            !Yii::$app->user->can('user_manage')
-            && !Yii::$app->user->can('user_manage_own', ['user' => $model])
-        ) {
+        $user = Yii::$app->user;
+
+        if (!$user->can('user_manage') && !$user->can('user_manage_own', ['user' => $model])) {
             throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (!$user->can('user_manage') || $user->can('user_manage_own', ['user' => $model])) {
+                if ($model->isNewRecord) {
+                    unset($model->role);
+                } else {
+                    $model->role = $model->oldAttributes['role'];
+                }
+            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
         }
+    
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

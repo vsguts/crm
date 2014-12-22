@@ -32,7 +32,12 @@ use app\widgets\Text;
     
     <?= $form->field($model, 'password')->passwordInput() ?>
 
-    <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role')) ?>
+    <?php
+        $user = \Yii::$app->user;
+        if ($user->can('user_manage') && !$user->can('user_manage_own', ['user' => $model])) {
+            echo $form->field($model, 'role')->dropDownList($model->getLookupItems('role'));
+        }
+    ?>
 
     <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
 

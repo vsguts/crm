@@ -42,6 +42,15 @@
             var selected = tabs_save_elm.find('.active a');
             $.cookie('m-tabs-' + tabs_save_elm.attr('id'), selected.attr('href'));
         }
+
+        if (jelm.hasClass('c-ajax')) {
+            $.cAjax('request', jelm.attr('href'), {
+                data: {
+                    result_ids: jelm.data('resultIds'),
+                },
+            });
+            return false;
+        }
     });
     
     // Rewrite yii events

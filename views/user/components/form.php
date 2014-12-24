@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\widgets\ButtonsContatiner;
-use app\widgets\Text;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -54,9 +53,9 @@ use app\widgets\Text;
     <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
 
     <?php if (!$model->isNewRecord): ?>
-        <?= $form->field($model, 'created_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
+        <?= $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
 
-        <?= $form->field($model, 'updated_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
+        <?= $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
     <?php endif; ?>
 
     <?= ButtonsContatiner::widget(['model' => $model]); ?>

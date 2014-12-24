@@ -14,6 +14,7 @@ use app\widgets\ButtonsContatiner;
     
     $form = ActiveForm::begin([
         'layout' => 'horizontal',
+        'options' => ['enctype' => 'multipart/form-data'],
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
@@ -39,6 +40,10 @@ use app\widgets\ButtonsContatiner;
         [
             'label' => __('Notes'),
             'content' => $this->render('form_notes', ['form' => $form, 'model' => $model]),
+        ],
+        [
+            'label' => __('Images'),
+            'content' => $this->render('form_images', ['form' => $form, 'model' => $model]),
         ],
     ];
 

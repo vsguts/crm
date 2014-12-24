@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Tabs;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Text;
 
@@ -12,8 +13,11 @@ use app\widgets\Text;
 
 <div class="visit-form">
 
-    <?php $form = ActiveForm::begin([
+<?php
+
+    $form = ActiveForm::begin([
         'layout' => 'horizontal',
+        'options' => ['enctype' => 'multipart/form-data'],
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
@@ -24,27 +28,32 @@ use app\widgets\Text;
                 'hint' => '',
             ],
         ],
-    ]); ?>
+    ]);
 
-    <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name')) ?>
+    $tab_items = [
+        [
+            'label' => __('General'),
+            'content' => $this->render('form_general', ['form' => $form, 'model' => $model]),
+            'active' => true,
+        ],
+        [
+            'label' => __('Images'),
+            'content' => $this->render('form_images', ['form' => $form, 'model' => $model]),
+        ],
+    ];
 
-    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username'])) ?>
+    echo Tabs::widget([
+        'options' => [
+            'id' => 'partner_tabs',
+            'class' => 'm-tabs-save'
+        ],
+        'items' => $tab_items,
+    ]);
 
-    <?= $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
-        'options' => ['placeholder' => __('Select date')],
-        'pluginOptions' => ['autoclose' => true],
-    ]) ?>
+    echo ButtonsContatiner::widget(['model' => $model]);
 
-    <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
+    ActiveForm::end();
 
-    <?php if (!$model->isNewRecord): ?>
-        <?= $form->field($model, 'created_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
-
-        <?= $form->field($model, 'updated_at')->widget(Text::classname(), ['formatter' => 'date']) ?>
-    <?php endif; ?>
-
-    <?= ButtonsContatiner::widget(['model' => $model]); ?>
-
-    <?php ActiveForm::end(); ?>
+?>
 
 </div>

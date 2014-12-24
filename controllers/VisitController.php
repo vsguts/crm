@@ -6,6 +6,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\behaviors\AjaxFilter;
 use app\models\Visit;
 use app\models\search\VisitSearch;
 
@@ -31,6 +32,9 @@ class VisitController extends AController
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+            'ajax' => [
+                'class' => AjaxFilter::className(),
             ],
         ];
     }

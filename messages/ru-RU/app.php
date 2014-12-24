@@ -133,5 +133,9 @@ return [
     'Welcome to CRM' => 'Добро пожаловать в CRM',
     'Our system allows you to manage partners and relationships with them.' => 'Наша система позволяет управлять партнерами и отношениями с ними.',
     'Dashboard' => 'Панель инструментов',
+    'Images' => 'Изображения',
+    'Images upload' => 'Загрузить изображения',
+    'Edit images' => 'Редактировать изображения',
+    'View images' => 'Смотреть изображения',
 
 ];

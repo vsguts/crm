@@ -55,6 +55,8 @@ class Partner extends \yii\db\ActiveRecord
             'app\behaviors\ListBehavior',
             'app\behaviors\TagsBehavior',
             'yii\behaviors\TimestampBehavior',
+            'app\behaviors\ImageUploaderBehavior',
+            'app\behaviors\ImagesBehavior',
         ];
     }
 
@@ -96,6 +98,9 @@ class Partner extends \yii\db\ActiveRecord
             'updated_at' => __('Updated At'),
             'publicTags' => __('Public tags'),
             'personalTags' => __('Personal tags'),
+            
+            // From Behaviors. FIXME
+            'imagesUpload' => __('Images upload'),
         ];
     }
 

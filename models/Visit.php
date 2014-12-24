@@ -34,6 +34,8 @@ class Visit extends \yii\db\ActiveRecord
             'app\behaviors\ListBehavior',
             'yii\behaviors\TimestampBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\ImageUploaderBehavior',
+            'app\behaviors\ImagesBehavior',
         ];
     }
 
@@ -62,6 +64,9 @@ class Visit extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'notes' => Yii::t('app', 'Notes'),
+
+            // From Behaviors. FIXME
+            'imagesUpload' => __('Images upload'),
         ];
     }
 

@@ -3,11 +3,6 @@
 composer.phar
 composer.lock
 
-# project
-/web/uploads/
-/web/images/store/
-/web/images/cache/
-
 # Mac DS_Store Files
 .DS_Store
 

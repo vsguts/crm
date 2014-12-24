@@ -68,6 +68,10 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'image' => [
+            'class' => 'yii\image\ImageDriver',
+            'driver' => 'GD', //GD or Imagick
+        ],
         // 'appBootstrap' => [
         //     'class' => 'app\components\Bootstrap',
         // ],

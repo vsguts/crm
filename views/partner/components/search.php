@@ -34,7 +34,7 @@ use app\widgets\DatePickerRange;
 
             <?= $form->field($model, 'publicTags')->label(__('Publ. tags'))->widget(Tags::classname(), ['placeholder_from_label' => 1]); ?>
 
-            <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => 'label']), ['class' => 'm-dtoggle m-dtoggle-type']) ?>
+            <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => 'label']), ['class' => 'm-dtoggle m-dtoggle-type form-control']) ?>
 
             <?= $form->field($model, 'name') ?>
 
@@ -70,7 +70,6 @@ use app\widgets\DatePickerRange;
             <?= $form->field($model, 'address') ?>
 
         </div>
-        
     </div>
 
     <?php SearchForm::end(); ?>

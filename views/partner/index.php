@@ -44,6 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             
             ['attribute' => 'id', 'label' => '#'],
 
+            ['class' => 'app\widgets\grid\ImageColumn'],
+            
             'name',
             'email:email',
             ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],

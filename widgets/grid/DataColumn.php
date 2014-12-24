@@ -12,19 +12,25 @@ class DataColumn extends YDataColumn
 
     protected function renderDataCellContent($model, $key, $index)
     {
+        $text = parent::renderDataCellContent($model, $key, $index);
+
+        if ($url = $this->getUrl($model)) {
+            return Html::a($text, $url);
+        }
+
+        return $text;
+    }
+
+    protected function getUrl($model)
+    {
         $link = '';
         if (!empty($this->grid->view->params['override_controller_name'])) {
             $link = $this->grid->view->params['override_controller_name'] . '/';
         }
         
-        $text = parent::renderDataCellContent($model, $key, $index);
-
         if ($this->link_to && in_array($this->format, ['text'])) {
             $link .= $this->link_to;
-            $url = Url::to([$link, 'id' => $key]);
-            return Html::a($text, $url);
-        } else {
-            return $text;
+            return Url::to([$link, 'id' => $model->id]);
         }
     }
 

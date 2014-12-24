@@ -10,19 +10,26 @@ use app\widgets\DatePickerRange;
 
     <?php $form = SearchForm::begin(); ?>
 
-    <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
+    <div class="row">
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
+            <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
 
-    <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
 
-    <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'notes') ?>
 
-    <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
+        </div>
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'notes') ?>
+            <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 
-    <?= $form->field($model, 'notes') ?>
+            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+
+            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
+        
+        </div>
+    </div>
 
     <?php SearchForm::end(); ?>
 

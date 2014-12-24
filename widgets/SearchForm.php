@@ -4,7 +4,7 @@ namespace app\widgets;
 
 use Yii;
 use yii\helpers\Html;
-use kartik\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 class SearchForm extends ActiveForm
 {
@@ -12,7 +12,18 @@ class SearchForm extends ActiveForm
     
     public $method = 'get';
     
-    public $type = 'horizontal';
+    public $layout = 'horizontal';
+
+    public $fieldConfig = [
+        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{endWrapper}",
+        'horizontalCssClasses' => [
+            'label' => 'col-sm-3',
+            'offset' => 'col-sm-offset-4',
+            'wrapper' => 'col-sm-9',
+            'error' => '',
+            'hint' => '',
+        ],
+    ];
 
     public $targetClass = 'search_form';
 

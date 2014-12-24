@@ -14,6 +14,12 @@ $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="partner-update">
 
+    <?php if (!$model->isNewRecord) : ?>
+        <div class="pull-right">
+            <img src="<?= $model->image->getUrl('80x80') ?>" alt="" />
+        </div>
+    <?php endif; ?>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('components/form', [

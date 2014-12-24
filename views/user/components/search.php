@@ -25,10 +25,6 @@ use app\widgets\SearchForm;
 
             <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role', ['empty' => 'label'])) ?>
 
-            <?php // echo $form->field($model, 'created_at') ?>
-
-            <?php // echo $form->field($model, 'updated_at') ?>
-    
         </div>
     </div>
 

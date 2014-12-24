@@ -9,11 +9,20 @@ use app\widgets\SearchForm;
 
     <?php $form = SearchForm::begin(); ?>
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')])) ?>
+    <div class="row">
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'name') ?>
+            <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')])) ?>
 
-    <?= $form->field($model, 'code') ?>
+            <?= $form->field($model, 'name') ?>
+        
+        </div>
+        <div class="col-md-6">
+
+            <?= $form->field($model, 'code') ?>
+
+        </div>
+    </div>
 
     <?php SearchForm::end(); ?>
 

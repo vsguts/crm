@@ -9,9 +9,18 @@ use app\widgets\SearchForm;
 
     <?php $form = SearchForm::begin(); ?>
 
-    <?= $form->field($model, 'name') ?>
+    <div class="row">
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'code') ?>
+            <?= $form->field($model, 'name') ?>
+        
+        </div>
+        <div class="col-md-6">
+
+            <?= $form->field($model, 'code') ?>
+
+        </div>
+    </div>
 
     <?php SearchForm::end(); ?>
 

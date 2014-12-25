@@ -160,11 +160,12 @@
             var select = state_dropdown.find('select');
             select.find('option').remove();
             select.append('<option value=""> -- </option>');
-            for (var state_id in states) {
-                select.append('<option value="' + state_id + '">' + states[state_id] + '</option>');
+            for (var i in states) {
+                select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
             }
+            
             var select_value = select.data('cValue');
-            if (states[select_value]) {
+            if (select.find('option[value="' + select_value + '"]').length) {
                 select.val(select_value);
             }
         } else {

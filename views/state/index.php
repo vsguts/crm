@@ -41,11 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\CheckboxColumn'],
 
             'id',
-            ['attribute' => 'country.name', 'label' => __('Country')],
             'name',
+            ['attribute' => 'country.name', 'label' => __('Country')],
             'code',
 
-            ['class' => 'app\widgets\grid\ActionColumn'],
+            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
         ],
     ]); ?>
 

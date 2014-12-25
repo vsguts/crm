@@ -48,8 +48,17 @@ class AppAsset extends AssetBundle
             $translates[$lang] = __($lang);
         }
 
+        $hash_states = [];
+        $states = State::find()->orderBy('name asc')->asArray()->all();
+        foreach ($states as $state) {
+            $hash_states[$state['country_id']][] = [
+                'id' => $state['id'],
+                'name' => $state['name'],
+            ];
+        }
+
         return "window.yii.crm = " . Json::encode([
-            'states' => (new State)->getList('state', 'name', ['hash' => 'country_id']),
+            'states' => $hash_states,
             'langs' => $translates,
         ]);
     }

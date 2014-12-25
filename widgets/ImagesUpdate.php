@@ -47,14 +47,14 @@ class ImagesUpdate extends InputWidget
         echo Html::a(Html::img($image->getUrl('180x180')), $image->getUrl(), ['target' => '_blank']);
 
         echo '<div class="checkbox">';
-        echo Html::checkbox($name . '[delete][' . $image->id . ']', false, ['label' => 'Delete']);
+        echo Html::checkbox($name . '[delete][' . $image->id . ']', false, ['label' => __('Delete')]);
         echo '</div>';
         
         if (!$image->default) {
             echo '<div class="radio">';
             echo Html::radio($name . '[default]', false, [
                 'value' => $image->id,
-                'label' => 'Set default'
+                'label' => __('Set default')
             ]);
             echo '</div>';
         }

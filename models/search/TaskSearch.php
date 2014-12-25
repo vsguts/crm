@@ -58,7 +58,9 @@ class TaskSearch extends Task
      */
     public function search($params)
     {
-        $query = Task::find();
+        $query = Task::find()
+            ->joinWith('partner')
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

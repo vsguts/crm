@@ -22,7 +22,7 @@ class TagsBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_AFTER_FIND    => 'eventGetTags',
+            // ActiveRecord::EVENT_AFTER_FIND    => 'prepareTags',
             ActiveRecord::EVENT_AFTER_INSERT  => 'eventUpdateTags',
             ActiveRecord::EVENT_AFTER_UPDATE  => 'eventUpdateTags',
             ActiveRecord::EVENT_BEFORE_DELETE => 'eventRemoveTagsPre',
@@ -30,7 +30,7 @@ class TagsBehavior extends Behavior
         ];
     }
 
-    public function eventGetTags($event)
+    public function prepareTags()
     {
         $partner = $this->owner;
 

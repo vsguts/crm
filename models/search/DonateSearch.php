@@ -60,7 +60,9 @@ class DonateSearch extends Donate
      */
     public function search($params)
     {
-        $query = Donate::find();
+        $query = Donate::find()
+            ->joinWith('partner')
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

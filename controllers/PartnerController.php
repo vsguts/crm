@@ -97,6 +97,8 @@ class PartnerController extends AController
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $model->prepareTags();
+
             $visitsDataProvider = (new VisitSearch())->search(['partner_id' => $id]);
             $donatesDataProvider = (new DonateSearch())->search(['partner_id' => $id]);
             $tasksDataProvider = (new TaskSearch())->search(['partner_id' => $id]);

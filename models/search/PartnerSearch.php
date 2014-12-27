@@ -76,6 +76,9 @@ class PartnerSearch extends Partner
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSizeLimit' => [10, 100],
+            ],
         ]);
         
         $params = $this->processParams($params);

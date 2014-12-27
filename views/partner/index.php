@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use app\widgets\ActionsDropdown;
+use app\widgets\grid\GridView;
 
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;

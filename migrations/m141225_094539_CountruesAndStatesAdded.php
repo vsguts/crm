@@ -872,7 +872,7 @@ class m141225_094539_CountruesAndStatesAdded extends Migration
 
     public function down()
     {
-        $this->truncateTable('country');
-        $this->truncateTable('state');
+        $this->delete('state');
+        $this->delete('country');
     }
 }

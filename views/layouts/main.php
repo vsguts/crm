@@ -141,6 +141,7 @@ $this->registerJs(AppAsset::customJs());
             ];
             $menu_items[] = [
                 'label' => Yii::t('app', 'Help'),
+                'active' => $controller_id == 'site' && in_array($action_id, ['contact', 'about']),
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Contact'),

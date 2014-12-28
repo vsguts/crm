@@ -65,6 +65,17 @@ $config = [
             'thousandSeparator' => ' ',
             'currencyCode' => 'USD',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                // Custom/Fixes
+                'countries' => 'country/index',
+                // Common
+                '<controller:\w+>s' => '<controller>/index',
+                '<controller:\w+>/<id:\d+>' => '<controller>/update',
+            ],
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],

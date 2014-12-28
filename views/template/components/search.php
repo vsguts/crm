@@ -1,36 +1,32 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\widgets\SearchForm;
+use app\widgets\DatePickerRange;
 
 ?>
 
 <div class="template-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <?php $form = SearchForm::begin(); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'partner_id') ?>
+            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
 
-    <?= $form->field($model, 'user_id') ?>
+            <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'name') ?>
+        </div>
+        <div class="col-md-6">
 
-    <?= $form->field($model, 'template') ?>
+            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php SearchForm::end(); ?>
 
 </div>

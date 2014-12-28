@@ -31,9 +31,8 @@ class Template extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
+            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\ListBehavior',
         ];
     }
 
@@ -43,9 +42,9 @@ class Template extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name'], 'required'],
             [['partner_id', 'user_id'], 'integer'],
             [['template'], 'string'],
-            [['name'], 'string', 'max' => 255]
         ];
     }
 
@@ -56,8 +55,8 @@ class Template extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner ID'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'partner_id' => Yii::t('app', 'Partner'),
+            'user_id' => Yii::t('app', 'User'),
             'name' => Yii::t('app', 'Name'),
             'template' => Yii::t('app', 'Template'),
             'created_at' => Yii::t('app', 'Created At'),

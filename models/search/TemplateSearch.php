@@ -12,14 +12,23 @@ use app\models\Template;
  */
 class TemplateSearch extends Template
 {
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'created_at_to',
+            'updated_at_to',
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'template'], 'safe'],
+            [['id', 'partner_id', 'user_id'], 'integer'],
+            [['name', 'template', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'], 'safe'],
         ];
     }
 
@@ -30,6 +39,13 @@ class TemplateSearch extends Template
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
     }
 
     /**
@@ -47,6 +63,8 @@ class TemplateSearch extends Template
             'query' => $query,
         ]);
 
+        $params = $this->processParams($params);
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -61,6 +79,9 @@ class TemplateSearch extends Template
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'template', $this->template]);
+
+        $this->addRangeCondition($query, 'created_at');
+        $this->addRangeCondition($query, 'updated_at');
 
         return $dataProvider;
     }

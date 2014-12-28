@@ -34,11 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'dataColumnClass' => 'app\widgets\grid\DataColumn',
-        'tableOptions' => [
-            'class' => 'table',
-        ],
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
             

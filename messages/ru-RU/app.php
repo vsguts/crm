@@ -41,6 +41,7 @@ return [
     'User: {user}' => 'Пользователь: {user}',
     'Templates' => 'Шаблоны',
     'Template' => 'Шаблон',
+    'Template: {template}' => 'Шаблон: {template}',
     'Create template' => 'Создать шаблон',
     'Countries' => 'Страны',
     'Country' => 'Страна',
@@ -139,5 +140,6 @@ return [
     'Edit images' => 'Редактировать изображения',
     'View images' => 'Смотреть изображения',
     'Set default' => 'По умолчанию',
+    'Total items: <b>{items}</b>' => 'Всего элементов: <b>{items}</b>',
 
 ];

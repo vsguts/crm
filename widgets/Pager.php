@@ -48,7 +48,8 @@ class Pager extends LinkPager
             ],
         ]);
 
-        $content = 'Total items: ' . $this->pagination->totalCount . ' / ' . $dropdown;
+        $content = __('Total items: <b>{items}</b>', ['items' => $this->pagination->totalCount]);
+        $content .= ' / ' . $dropdown;
 
         $content = Html::tag('div', $content);
         echo Html::tag('div', $content, ['class' => 'pagination-per-page']);

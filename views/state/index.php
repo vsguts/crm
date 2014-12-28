@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'States');
@@ -32,11 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
-        'dataColumnClass' => 'app\widgets\grid\DataColumn',
-        'tableOptions' => [
-            'class' => 'table',
-        ],
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 

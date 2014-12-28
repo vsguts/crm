@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Tabs;
 use app\widgets\ButtonsContatiner;
-use app\widgets\Text;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Visit */

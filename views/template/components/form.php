@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
+use app\widgets\ButtonsContatiner;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Template */
@@ -10,24 +11,41 @@ use yii\widgets\ActiveForm;
 
 <div class="template-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php
 
-    <?= $form->field($model, 'partner_id')->textInput() ?>
+    $form = ActiveForm::begin([
+        'layout' => 'horizontal',
+        'options' => ['enctype' => 'multipart/form-data'],
+        'fieldConfig' => [
+            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+            'horizontalCssClasses' => [
+                'label' => 'col-sm-2',
+                'offset' => 'col-sm-offset-4',
+                'wrapper' => 'col-sm-10',
+                'error' => '',
+                'hint' => '',
+            ],
+        ],
+    ]);
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    echo $form->field($model, 'partner_id')->textInput();
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+    echo $form->field($model, 'user_id')->textInput();
 
-    <?= $form->field($model, 'template')->textarea(['rows' => 6]) ?>
+    echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    echo $form->field($model, 'template')->textarea(['rows' => 6]);
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    if (!$model->isNewRecord) {
+        echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+        echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    }
 
-    <?php ActiveForm::end(); ?>
+    echo ButtonsContatiner::widget(['model' => $model]);
+
+    ActiveForm::end();
+
+?>
 
 </div>

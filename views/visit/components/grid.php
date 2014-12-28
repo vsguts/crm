@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use app\widgets\grid\GridView;
 
 if (!empty($partnerId)) {
     echo '<div class="pull-right">';
@@ -26,8 +26,6 @@ $columns[] = ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'];
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
-    'dataColumnClass' => 'app\widgets\grid\DataColumn',
-    'tableOptions' => ['class' => 'table'],
     'columns' => $columns,
 ]);
 

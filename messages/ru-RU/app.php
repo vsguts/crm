@@ -39,6 +39,7 @@ return [
     'Tools' => 'Инструменты',
     'User' => 'Пользователь',
     'Users' => 'Пользователи',
+    'Signed in as <br><b>{name}</b>' => 'Авторизован как <br><b>{name}</b>',
     'Create user' => 'Создать пользователя',
     'User: {user}' => 'Пользователь: {user}',
     'Templates' => 'Шаблоны',

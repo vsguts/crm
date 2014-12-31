@@ -12,6 +12,7 @@ use app\models\Visit;
 use app\models\Donate;
 use app\models\Task;
 use app\models\User;
+use app\models\PrintTemplate;
 use app\models\form\ContactForm;
 use app\models\form\UserLoginForm;
 use app\models\form\UserSignupForm;
@@ -95,6 +96,22 @@ class SiteController extends AController
                 'name' => __('Tasks'),
                 'link' => Url::to(['task/index']),
                 'count' => Task::find()->count(),
+            ];
+        }
+        
+        if ($user->can('print_template_manage')) {
+            $dashboard[] = [
+                'name' => __('Printing templates'),
+                'link' => Url::to(['printtemplate/index']),
+                'count' => PrintTemplate::find()->count(),
+            ];
+        }
+        
+        if ($user->can('user_manage')) {
+            $dashboard[] = [
+                'name' => __('Users'),
+                'link' => Url::to(['user/index']),
+                'count' => User::find()->count(),
             ];
         }
 

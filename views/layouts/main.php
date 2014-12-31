@@ -90,7 +90,7 @@ $this->registerJs(AppAsset::customJs());
                     || $user->can('print_template_manage')
                     || $user->can('country_manage')
                     || $user->can('state_manage'),
-                'active' => in_array($controller_id, ['template']),
+                'active' => in_array($controller_id, ['printtemplate']),
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Printing templates'),

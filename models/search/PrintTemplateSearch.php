@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Template;
+use app\models\PrintTemplate;
 
 /**
- * TemplateSearch represents the model behind the search form about `app\models\Template`.
+ * TemplateSearch represents the model behind the search form about `app\models\PrintTemplate`.
  */
-class TemplateSearch extends Template
+class PrintTemplateSearch extends PrintTemplate
 {
     public function attributes()
     {
@@ -27,8 +27,8 @@ class TemplateSearch extends Template
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id'], 'integer'],
-            [['name', 'template', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'content', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'], 'safe'],
         ];
     }
 
@@ -57,7 +57,7 @@ class TemplateSearch extends Template
      */
     public function search($params)
     {
-        $query = Template::find();
+        $query = PrintTemplate::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,14 +71,12 @@ class TemplateSearch extends Template
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'partner_id' => $this->partner_id,
-            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'template', $this->template]);
+            ->andFilterWhere(['like', 'content', $this->content]);
 
         $this->addRangeCondition($query, 'created_at');
         $this->addRangeCondition($query, 'updated_at');

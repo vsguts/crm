@@ -28,13 +28,9 @@ use app\widgets\ButtonsContatiner;
         ],
     ]);
 
-    echo $form->field($model, 'partner_id')->textInput();
-
-    echo $form->field($model, 'user_id')->textInput();
-
     echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
-    echo $form->field($model, 'template')->textarea(['rows' => 6]);
+    echo $form->field($model, 'content')->textarea(['rows' => 6]);
 
     if (!$model->isNewRecord) {
         echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);

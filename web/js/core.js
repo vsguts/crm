@@ -71,7 +71,8 @@
             }
             
             url_params[obj_name] = keys;
-            jelm.attr('href', url + '&' + decodeURIComponent($.param(url_params)));
+            var delimiter = url.indexOf('?') == -1 ? '?' : '&';
+            jelm.attr('href', url + delimiter + decodeURIComponent($.param(url_params)));
         }
     });
 

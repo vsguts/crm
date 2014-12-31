@@ -13,8 +13,6 @@ use app\widgets\DatePickerRange;
     <div class="row">
         <div class="col-md-6">
 
-            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
-
             <?= $form->field($model, 'name') ?>
 
         </div>

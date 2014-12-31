@@ -5,27 +5,24 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "template".
+ * This is the model class for table "print_template".
  *
  * @property integer $id
- * @property integer $partner_id
- * @property integer $user_id
  * @property string $name
- * @property string $template
+ * @property string $content
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property Partner $partner
  * @property User $user
  */
-class Template extends \yii\db\ActiveRecord
+class PrintTemplate extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'template';
+        return 'print_template';
     }
 
     public function behaviors()
@@ -43,8 +40,7 @@ class Template extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['partner_id', 'user_id'], 'integer'],
-            [['template'], 'string'],
+            [['content'], 'string'],
         ];
     }
 
@@ -55,28 +51,11 @@ class Template extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner'),
-            'user_id' => Yii::t('app', 'User'),
             'name' => Yii::t('app', 'Name'),
-            'template' => Yii::t('app', 'Template'),
+            'content' => Yii::t('app', 'Content'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPartner()
-    {
-        return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
 }

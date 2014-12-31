@@ -87,16 +87,16 @@ $this->registerJs(AppAsset::customJs());
             $menu_items[] = [
                 'label' => '<i class="glyphicon glyphicon-wrench"></i> ',
                 'visible' => $user->can('user_manage')
-                    || $user->can('template_manage')
+                    || $user->can('print_template_manage')
                     || $user->can('country_manage')
                     || $user->can('state_manage'),
                 'active' => in_array($controller_id, ['template']),
                 'items' => [
                     [
-                        'label' => Yii::t('app', 'Templates'),
-                        'url' => ['/template/index'],
-                        'visible' => $user->can('template_manage'),
-                        'active' => $controller_id == 'template',
+                        'label' => Yii::t('app', 'Printing templates'),
+                        'url' => ['/printtemplate/index'],
+                        'visible' => $user->can('print_template_manage'),
+                        'active' => $controller_id == 'print_template',
                     ],
                 ],
             ];
@@ -105,7 +105,6 @@ $this->registerJs(AppAsset::customJs());
             $menu_items[] = [
                 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
                 'visible' => $user->can('user_manage')
-                    || $user->can('template_manage')
                     || $user->can('country_manage')
                     || $user->can('state_manage'),
                 'active' => in_array($controller_id, ['user', 'country', 'state']) && !$is_profile,

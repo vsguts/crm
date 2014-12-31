@@ -6,13 +6,13 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\models\Template;
-use app\models\search\TemplateSearch;
+use app\models\PrintTemplate;
+use app\models\search\PrintTemplateSearch;
 
 /**
- * TemplateController implements the CRUD actions for Template model.
+ * PrintTemplateController implements the CRUD actions for PrintTemplate model.
  */
-class TemplateController extends AController
+class PrintTemplateController extends AController
 {
     public function behaviors()
     {
@@ -22,7 +22,7 @@ class TemplateController extends AController
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['template_manage'],
+                        'roles' => ['print_template_manage'],
                     ],
                 ],
             ],
@@ -36,12 +36,12 @@ class TemplateController extends AController
     }
 
     /**
-     * Lists all Template models.
+     * Lists all PrintTemplate models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TemplateSearch();
+        $searchModel = new PrintTemplateSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,13 +51,13 @@ class TemplateController extends AController
     }
 
     /**
-     * Creates a new Template model.
+     * Creates a new PrintTemplate model.
      * If creation is successful, the browser will be redirected to the 'update' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Template();
+        $model = new PrintTemplate();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
@@ -70,7 +70,7 @@ class TemplateController extends AController
     }
 
     /**
-     * Updates an existing Template model.
+     * Updates an existing PrintTemplate model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
@@ -90,7 +90,7 @@ class TemplateController extends AController
     }
 
     /**
-     * Deletes an existing Template model.
+     * Deletes an existing PrintTemplate model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -100,7 +100,7 @@ class TemplateController extends AController
         $ok_message = false;
         
         if (!$id && $ids) { // multiple
-            if (Template::deleteAll(['id' => $ids])) {
+            if (PrintTemplate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
         } elseif ($this->findModel($id)->delete()) { // single
@@ -118,15 +118,15 @@ class TemplateController extends AController
     }
 
     /**
-     * Finds the Template model based on its primary key value.
+     * Finds the PrintTemplate model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Template the loaded model
+     * @return PrintTemplate the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Template::findOne($id)) !== null) {
+        if (($model = PrintTemplate::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

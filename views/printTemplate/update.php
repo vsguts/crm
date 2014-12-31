@@ -5,11 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Template */
 
-$this->title = Yii::t('app', 'Template: {template}', [
+$this->title = Yii::t('app', 'Printing template: {template}', [
     'template' => $model->name,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Templates'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Printing templates'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="template-update">

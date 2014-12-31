@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Templates');
+$this->title = Yii::t('app', 'Printing templates');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="template-index">
@@ -35,17 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\CheckboxColumn'],
 
             'id',
-            'partner_id',
-            'user_id',
             'name',
-            'template:ntext',
-            // 'created_at',
-            // 'updated_at',
+            // 'content:ntext',
+            'created_at:date',
+            'updated_at:date',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'app\widgets\grid\ActionColumn'],
         ],
     ]); ?>
 

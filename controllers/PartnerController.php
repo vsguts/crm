@@ -142,6 +142,15 @@ class PartnerController extends AController
         return $this->redirect(['index']);
     }
 
+    public function actionMap(array $ids)
+    {
+        $models = Partner::findAll(['id' => $ids]);
+        
+        return $this->render('map', [
+            'models' => $models
+        ]);
+    }
+
     /**
      * Finds the Partner model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

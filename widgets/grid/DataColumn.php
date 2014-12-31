@@ -28,7 +28,7 @@ class DataColumn extends YDataColumn
             $link = $this->grid->view->params['override_controller_name'] . '/';
         }
         
-        if ($this->link_to && in_array($this->format, ['text'])) {
+        if ($this->link_to && in_array($this->format, ['text', 'date'])) {
             $link .= $this->link_to;
             return Url::to([$link, 'id' => $model->id]);
         }

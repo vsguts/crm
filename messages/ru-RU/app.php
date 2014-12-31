@@ -42,9 +42,9 @@ return [
     'Signed in as <br><b>{name}</b>' => 'Авторизован как <br><b>{name}</b>',
     'Create user' => 'Создать пользователя',
     'User: {user}' => 'Пользователь: {user}',
-    'Templates' => 'Шаблоны',
-    'Template' => 'Шаблон',
-    'Template: {template}' => 'Шаблон: {template}',
+    'Printing templates' => 'Шаблоны для печати',
+    'Printing template' => 'Шаблон для печати',
+    'Printing template: {template}' => 'Шаблон для печати: {template}',
     'Create template' => 'Создать шаблон',
     'Countries' => 'Страны',
     'Country' => 'Страна',
@@ -144,5 +144,8 @@ return [
     'View images' => 'Смотреть изображения',
     'Set default' => 'По умолчанию',
     'Total items: <b>{items}</b>' => 'Всего элементов: <b>{items}</b>',
+    'Show on map' => 'Показать на карте',
+    'Partners on map' => 'Партнеры на карте',
+    'Content' => 'Содержимое',
 
 ];

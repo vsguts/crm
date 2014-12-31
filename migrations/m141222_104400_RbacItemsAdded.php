@@ -26,17 +26,17 @@ class m141222_104400_RbacItemsAdded extends Migration
         $roles['accountant'] = $auth->createRole('accountant');
         
         // Permissions
-        $permissions['country_manage']  = $auth->createPermission('country_manage');
-        $permissions['state_manage']    = $auth->createPermission('state_manage');
-        $permissions['template_manage'] = $auth->createPermission('template_manage');
-        $permissions['partner_manage']  = $auth->createPermission('partner_manage');
-        $permissions['visit_manage']    = $auth->createPermission('visit_manage');
-        $permissions['donate_manage']   = $auth->createPermission('donate_manage');
-        $permissions['task_manage']     = $auth->createPermission('task_manage');
-        $permissions['user_manage']     = $auth->createPermission('user_manage');
-        $permissions['user_manage_own'] = $auth->createPermission('user_manage_own');
+        $permissions['country_manage']        = $auth->createPermission('country_manage');
+        $permissions['state_manage']          = $auth->createPermission('state_manage');
+        $permissions['print_template_manage'] = $auth->createPermission('print_template_manage');
+        $permissions['partner_manage']        = $auth->createPermission('partner_manage');
+        $permissions['visit_manage']          = $auth->createPermission('visit_manage');
+        $permissions['donate_manage']         = $auth->createPermission('donate_manage');
+        $permissions['task_manage']           = $auth->createPermission('task_manage');
+        $permissions['user_manage']           = $auth->createPermission('user_manage');
+        $permissions['user_manage_own']       = $auth->createPermission('user_manage_own');
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
-        $permissions['tools']           = $auth->createPermission('tools');
+        $permissions['tools']                 = $auth->createPermission('tools');
 
         foreach ([$rules, $roles, $permissions] as $items) {
             foreach ($items as $item) {
@@ -47,7 +47,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         // Links: roles with permissions
         $auth->addChild($roles['root'], $permissions['country_manage']);
         $auth->addChild($roles['root'], $permissions['state_manage']);
-        $auth->addChild($roles['root'], $permissions['template_manage']);
+        $auth->addChild($roles['root'], $permissions['print_template_manage']);
         $auth->addChild($roles['root'], $permissions['user_manage']);
         $auth->addChild($roles['root'], $permissions['tools']);
         

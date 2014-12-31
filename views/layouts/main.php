@@ -42,8 +42,13 @@ $this->registerJs(AppAsset::customJs());
             $controller_id = Yii::$app->controller->id;
             $action_id = Yii::$app->controller->action->id;
             $action_params = Yii::$app->controller->actionParams;
+
+            $is_profile = $controller_id == 'user' && $action_id == 'update' && $user->identity->id == $action_params['id'];
             
-            // Left nav
+            /**
+             * Left nav
+             */
+
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => [
@@ -74,55 +79,42 @@ $this->registerJs(AppAsset::customJs());
                 ],
             ]);
 
-            // Right nav
-            $is_profile = false;
-            $menu_items = [];
-            if (Yii::$app->user->isGuest) {
-                $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
-                $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
-            } else {
-                $name = trim($user->identity->fullname);
-                if (empty($name)) {
-                    $name = $user->identity->username;
-                }
-                $is_profile = $controller_id == 'user' && $action_id == 'update' && $user->identity->id == $action_params['id'];
-                $menu_items[] = [
-                    'label' => $name,
-                    'active' => $is_profile,
-                    'items' => [
-                        [
-                            'label' => Yii::t('app', 'Profile'),
-                            'url' => ['/user/update', 'id' => $user->identity->id],
-                            'active' => $is_profile,
-                        ],
-                        '<li class="divider"></li>',
-                        [
-                            'label' => Yii::t('app', 'Logout'),
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']
-                        ],
-                    ]
-                ];
-            }
+            /**
+             * Right nav
+             */
+
+            // Tools
             $menu_items[] = [
-                'label' => Yii::t('app', 'Settings'),
+                'label' => '<i class="glyphicon glyphicon-wrench"></i> ',
                 'visible' => $user->can('user_manage')
                     || $user->can('template_manage')
                     || $user->can('country_manage')
                     || $user->can('state_manage'),
-                'active' => in_array($controller_id, ['user', 'template', 'country', 'state']) && !$is_profile,
+                'active' => in_array($controller_id, ['template']),
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Templates'),
+                        'url' => ['/template/index'],
+                        'visible' => $user->can('template_manage'),
+                        'active' => $controller_id == 'template',
+                    ],
+                ],
+            ];
+
+            // Administration
+            $menu_items[] = [
+                'label' => '<i class="glyphicon glyphicon-cog"></i> ',
+                'visible' => $user->can('user_manage')
+                    || $user->can('template_manage')
+                    || $user->can('country_manage')
+                    || $user->can('state_manage'),
+                'active' => in_array($controller_id, ['user', 'country', 'state']) && !$is_profile,
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Users'),
                         'url' => ['/user/index'],
                         'visible' => $user->can('user_manage'),
                         'active' => $controller_id == 'user' && !$is_profile,
-                    ],
-                    [
-                        'label' => Yii::t('app', 'Templates'),
-                        'url' => ['/template/index'],
-                        'visible' => $user->can('template_manage'),
-                        'active' => $controller_id == 'template',
                     ],
                     '<li class="divider"></li>',
                     [
@@ -136,20 +128,6 @@ $this->registerJs(AppAsset::customJs());
                         'url' => ['/state/index'],
                         'visible' => $user->can('state_manage'),
                         'active' => $controller_id == 'state',
-                    ],
-                ]
-            ];
-            $menu_items[] = [
-                'label' => Yii::t('app', 'Help'),
-                'active' => $controller_id == 'site' && in_array($action_id, ['contact', 'about']),
-                'items' => [
-                    [
-                        'label' => Yii::t('app', 'Contact'),
-                        'url' => ['/site/contact']
-                    ],
-                    [
-                        'label' => Yii::t('app', 'About'),
-                        'url' => ['/site/about']
                     ],
                 ]
             ];
@@ -171,13 +149,72 @@ $this->registerJs(AppAsset::customJs());
             }
             $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items];
             
+            // Account
+            $help_menu = [
+                'items' => [
+                    'contact' => [
+                        'label' => Yii::t('app', 'Contact'),
+                        'url' => ['/site/contact']
+                    ],
+                    'about' => [
+                        'label' => Yii::t('app', 'About'),
+                        'url' => ['/site/about']
+                    ],
+                ],
+                'active' => $controller_id == 'site' && in_array($action_id, ['contact', 'about']),
+            ];
+
+            if (Yii::$app->user->isGuest) {
+            
+                $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+                $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
+
+                $menu_items[] = [
+                    'label' => Yii::t('app', 'Help'),
+                    'active' => $help_menu['active'],
+                    'items' => $help_menu['items']
+                ];
+            
+            } else {
+
+                $name = trim($user->identity->fullname);
+                if (empty($name)) {
+                    $name = $user->identity->username;
+                }
+                $menu_items[] = [
+                    'label' => '<i class="glyphicon glyphicon-user"></i>',
+                    'active' => $is_profile || $help_menu['active'],
+                    'items' => [
+                        Html::tag('li', Html::a(__('Signed in as <br><b>{name}</b>', ['name' => $name])), ['class'=>'disabled']),
+                        '<li class="divider"></li>',
+                        [
+                            'label' => Yii::t('app', 'Profile'),
+                            'url' => ['/user/update', 'id' => $user->identity->id],
+                            'active' => $is_profile,
+                        ],
+                        [
+                            'label' => Yii::t('app', 'Logout'),
+                            'url' => ['/site/logout'],
+                            'linkOptions' => ['data-method' => 'post']
+                        ],
+                        '<li class="divider"></li>',
+                        $help_menu['items']['contact'],
+                        $help_menu['items']['about'],
+                    ]
+                ];
+
+            }
+
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
+                'encodeLabels' => false,
                 'items' => $menu_items,
             ]);
 
+            /**
+             * Search nav
+             */
             if ($user->can('partner_manage')) {
-                // Search nav
                 echo '<form class="navbar-form navbar-left" role="search" method="get" action="' . Url::to(['partner/index']) . '">';
                 echo '    <div class="form-group">';
                 echo '        <input type="text" name="q" class="form-control" placeholder="' . __('Search') . '" value="' . Yii::$app->request->get('q') . '">';

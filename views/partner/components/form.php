@@ -38,10 +38,6 @@ use app\widgets\ButtonsContatiner;
             'content' => $this->render('form_address', ['form' => $form, 'model' => $model]),
         ],
         [
-            'label' => __('Notes'),
-            'content' => $this->render('form_notes', ['form' => $form, 'model' => $model]),
-        ],
-        [
             'label' => __('Images'),
             'content' => $this->render('form_images', ['form' => $form, 'model' => $model]),
         ],

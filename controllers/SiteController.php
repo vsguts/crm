@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -69,7 +70,7 @@ class SiteController extends AController
         
         if ($user->can('partner_manage')) {
             $dashboard[] = [
-                'name' => __('Partners'),
+                'name' => Html::tag('b', __('Partners')),
                 'link' => Url::to(['partner/index']),
                 'count' => Partner::find()->count(),
             ];

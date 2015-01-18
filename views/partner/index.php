@@ -7,7 +7,9 @@ use app\widgets\grid\GridView;
 
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['sidebox_size'] = 3;
 ?>
+
 <div class="partner-index">
 
     <div class="pull-right">
@@ -59,8 +61,31 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'app\widgets\grid\ActionColumn'],
+            // ['class' => 'app\widgets\grid\ActionColumn'],
         ],
     ]); ?>
 
 </div>
+
+<?php $this->beginBlock('sidebox'); ?>
+
+    <?php foreach ($tags as $list_name => $tag_list) : ?>
+        <?= Html::tag('h4', $list_name) ?>
+        <ul class="nav nav-pills nav-stacked">
+            <?php foreach ($tag_list as $tag) : ?>
+                <?php $class = (isset($_REQUEST['PartnerSearch']['tag_id']) && $_REQUEST['PartnerSearch']['tag_id'] == $tag->id) ? 'active' : '' ?>
+                <li role="presentation" class="<?= $class ?>">
+                    <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>"><?= $tag->name ?> <span class="badge"><?= $tag->partnersCount ?></span></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endforeach; ?>
+
+    <br/>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="pull-right">
+            <a href="<?= Url::to(['partner/index']) ?>"><?= __('Reset') ?></a>
+        </li>
+    </ul>
+    
+<?php $this->endBlock(); ?>

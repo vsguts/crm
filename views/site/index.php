@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -30,11 +31,9 @@ $user = Yii::$app->user;
             <ul class="list-group">
             <?php
                 foreach ($dashboard as $row) {
-                    echo '<li class="list-group-item">';
-                    echo '    <span class="badge">' . $row['count'] . '</span>';
-                    echo '    <a href="' . $row['link'] . '">' . $row['name'] . '</a>';
-                    echo '</li>';
-                    
+                    $span = Html::tag('span', $row['count'], ['class' => 'badge']);
+                    $href = Html::a($row['name'], $row['link']);
+                    echo Html::tag('li', $span . $href, ['class' => 'list-group-item']);
                 }
             ?>
             </ul>

@@ -15,6 +15,12 @@
 
 <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status')) ?>
 
+<?= $form->field($model, 'publicTags')->widget('app\widgets\Tags', []); ?>
+
+<?= $form->field($model, 'personalTags')->widget('app\widgets\Tags', []); ?>
+
+<?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
+
 <?php if (!$model->isNewRecord): ?>
     <?= $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
 

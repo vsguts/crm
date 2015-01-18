@@ -7,9 +7,13 @@ use yii\helpers\Html;
 
 class ImageColumn extends DataColumn
 {
+    public $show_header = false;
+
     protected function renderHeaderCellContent()
     {
-        return __('Image');
+        if ($this->show_header) {
+            return __('Image');
+        }
     }
 
     protected function renderDataCellContent($model, $key, $index)

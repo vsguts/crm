@@ -147,5 +147,6 @@ return [
     'Show on map' => 'Показать на карте',
     'Partners on map' => 'Партнеры на карте',
     'Content' => 'Содержимое',
+    'Advanced search' => 'Расширенный поиск',
 
 ];

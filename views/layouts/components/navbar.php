@@ -62,7 +62,7 @@ echo Nav::widget([
 
 // Tools
 $menu_items[] = [
-    'label' => '<i class="glyphicon glyphicon-wrench"></i> ',
+    'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
     'visible' => $user->can('user_manage')
         || $user->can('print_template_manage')
         || $user->can('country_manage')

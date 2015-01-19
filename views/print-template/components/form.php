@@ -30,7 +30,18 @@ use app\widgets\ButtonsContatiner;
 
     echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
-    echo $form->field($model, 'content')->textarea(['rows' => 6]);
+    // echo $form->field($model, 'content')->textarea(['rows' => 6]);
+    echo $form->field($model, 'content')->widget('yii\imperavi\Widget', [
+        // Some options, see http://imperavi.com/redactor/docs/
+        'options' => [
+            'buttonSource' => true,
+        ],
+        'plugins' => [
+            'fullscreen',
+            'clips',
+            'table',
+        ],
+    ]);
 
     if (!$model->isNewRecord) {
         echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);

@@ -22,7 +22,8 @@
         "kartik-v/yii2-widgets": "dev-master",
         "kartik-v/yii2-field-range": "*",
         "2amigos/yii2-gallery-widget": "*",
-        "yurkinx/yii2-image": "dev-master"
+        "yurkinx/yii2-image": "dev-master",
+        "asofter/yii2-imperavi-redactor": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

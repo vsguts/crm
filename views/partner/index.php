@@ -7,7 +7,7 @@ use app\widgets\grid\GridView;
 
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['sidebox_size'] = 3;
+// $this->params['sidebox_size'] = 3;
 ?>
 
 <div class="partner-index">
@@ -47,18 +47,18 @@ $this->params['sidebox_size'] = 3;
             
             'name',
             'email:email',
+            'city',
             ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
             ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
+            'created_at:date',
             // 'country_id',
             // 'state_id',
             // 'state',
-            // 'city',
             // 'address',
             // 'church_id',
             // 'volunteer',
             // 'candidate',
             // 'notes:ntext',
-            // 'created_at',
             // 'updated_at',
 
             // ['class' => 'app\widgets\grid\ActionColumn'],
@@ -75,7 +75,10 @@ $this->params['sidebox_size'] = 3;
             <?php foreach ($tag_list as $tag) : ?>
                 <?php $class = (isset($_REQUEST['PartnerSearch']['tag_id']) && $_REQUEST['PartnerSearch']['tag_id'] == $tag->id) ? 'active' : '' ?>
                 <li role="presentation" class="<?= $class ?>">
-                    <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>"><?= $tag->name ?> <span class="badge"><?= $tag->partnersCount ?></span></a>
+                    <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>">
+                        <span class="badge pull-right"><?= $tag->partnersCount ?></span>
+                        <?= $tag->name ?>
+                    </a>
                 </li>
             <?php endforeach; ?>
         </ul>

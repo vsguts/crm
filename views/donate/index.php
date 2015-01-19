@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
+                ['label' => __('Export selected'), 'url' => Url::to(['/export/index', 'object' => 'donates']), 'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                ]],
                 // ['label' => 'TODO 2', 'url' => '#'],
                 // '<li role="presentation" class="divider"></li>',
             ],

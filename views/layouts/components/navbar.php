@@ -62,7 +62,8 @@ echo Nav::widget([
 
 // Tools
 $menu_items[] = [
-    'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
+    // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
+    'label' => __('Mailing lists'),
     'visible' => $user->can('user_manage')
         || $user->can('print_template_manage')
         || $user->can('country_manage')
@@ -80,12 +81,20 @@ $menu_items[] = [
 
 // Administration
 $menu_items[] = [
-    'label' => '<i class="glyphicon glyphicon-cog"></i> ',
+    // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
+    'label' => __('Administration'),
     'visible' => $user->can('user_manage')
         || $user->can('country_manage')
         || $user->can('state_manage'),
-    'active' => in_array($controller_id, ['user', 'country', 'state']) && !$is_profile,
+    'active' => in_array($controller_id, ['export', 'user', 'country', 'state']) && !$is_profile,
     'items' => [
+        [
+            'label' => Yii::t('app', 'Export'),
+            'visible' => $user->can('partner_manage'),
+            'active' => $controller_id == 'export',
+            'url' => ['/export/partners'],
+        ],
+        '<li class="divider"></li>',
         [
             'label' => Yii::t('app', 'Users'),
             'url' => ['/user/index'],

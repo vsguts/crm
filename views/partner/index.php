@@ -24,7 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
-                '<li role="presentation" class="divider"></li>',
+                ['label' => __('Export selected'), 'url' => Url::to(['/export/index', 'object' => 'partners']), 'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                ]],
+                // '<li role="presentation" class="divider"></li>',
                 ['label' => __('Show on map'), 'url' => Url::to(['map']), 'linkOptions' => [
                     'data-c-process-items' => 'ids',
                 ]],

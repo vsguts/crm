@@ -148,5 +148,17 @@ return [
     'Partners on map' => 'Партнеры на карте',
     'Content' => 'Содержимое',
     'Advanced search' => 'Расширенный поиск',
+    'Mailing lists' => 'Рассылки',
+    'Export' => 'Экспорт',
+    'Export selected' => 'Экспортировать выбранные',
+    'Fields' => 'Поля',
+    'Semicolon' => 'Точка с запятой',
+    'Comma' => 'Запятая',
+    'Delimiter' => 'Разделитель',
+    'Filename' => 'Имя файла',
+    'Selected items' => 'Выбранные элементы',
+    'Country code' => 'Код страны',
+    'Partner name' => 'Имя/Название партнера',
+    'User name' => 'Имя пользователя',
 
 ];

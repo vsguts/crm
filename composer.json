@@ -22,8 +22,10 @@
         "kartik-v/yii2-widgets": "dev-master",
         "kartik-v/yii2-field-range": "*",
         "2amigos/yii2-gallery-widget": "*",
+        "2amigos/yii2-google-maps-library" : "*",
         "yurkinx/yii2-image": "dev-master",
-        "asofter/yii2-imperavi-redactor": "dev-master"
+        "asofter/yii2-imperavi-redactor": "dev-master",
+        "robregonm/yii2-pdf": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

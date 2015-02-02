@@ -89,6 +89,27 @@ class PrintTemplateController extends AController
         }
     }
 
+    public function actionView($id, array $ids)
+    {
+        $model = $this->findModel($id);
+
+        Yii::$app->response->format = 'pdf';
+        $this->layout = 'print';
+
+        if ($options = $model->prepareOptions()) {
+            Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], $options);
+        }
+
+        $filename = $model->name . '_' . date('Y-m-d_H:i') . '.pdf';
+        Yii::$app->response->setDownloadHeaders($filename, 'application/pdf');
+
+        $content = $this->render('view', [
+            'model' => $model,
+            'objects' => $model->findRelatedObjects($ids),
+        ]);
+        return $content;
+    }
+
     /**
      * Deletes an existing PrintTemplate model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

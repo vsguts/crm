@@ -112,7 +112,7 @@
 
     function dToggle(elm) {
         var name = matchClass(elm, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
-            value = elm.val(),
+            value = elm.attr('type') == 'checkbox' ? (elm.is(':checked') ? 'on' : 'off') : elm.val(),
             depends_all = $('[class^="m-dtoggle-' + name + '-"'),
             depends_selected = $('.m-dtoggle-' + name + '-' + value);
         

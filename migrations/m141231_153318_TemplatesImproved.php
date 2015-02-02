@@ -27,7 +27,7 @@ class m141231_153318_TemplatesImproved extends Migration
 
     public function down()
     {
-        $this->delete('lookup', ['model_name' => 'PrintTemplate']);
+        $this->delete('lookup', ['model_name' => 'PrintTemplate', 'field' => 'status']);
 
         $this->dropColumn('print_template', 'status');
         $this->renameColumn('print_template', 'content', 'template');

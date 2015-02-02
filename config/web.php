@@ -71,6 +71,7 @@ $config = [
             'rules' => [
                 // Custom/Fixes
                 'countries' => 'country/index',
+                'print-templates' => 'print-template/index',
                 'export/<object:\w+>' => 'export/index',
                 // Common
                 '<controller:\w+>s' => '<controller>/index',
@@ -83,6 +84,13 @@ $config = [
         'image' => [
             'class' => 'yii\image\ImageDriver',
             'driver' => 'GD', //GD or Imagick
+        ],
+        'response' => [
+            'formatters' => [
+                'pdf' => [
+                    'class' => 'robregonm\pdf\PdfResponseFormatter',
+                ],
+            ],
         ],
         // 'appBootstrap' => [
         //     'class' => 'app\components\Bootstrap',

@@ -10,6 +10,7 @@ use app\behaviors\AjaxFilter;
 use app\models\Partner;
 use app\models\search\PartnerSearch;
 use app\models\Tag;
+use app\models\PrintTemplate;
 use app\models\search\VisitSearch;
 use app\models\search\DonateSearch;
 use app\models\search\TaskSearch;
@@ -49,7 +50,6 @@ class PartnerController extends AController
      */
     public function actionIndex()
     {
-        // pd(Yii::$app->controller->id);
         $searchModel = new PartnerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -57,10 +57,12 @@ class PartnerController extends AController
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'partnerIds' => $dataProvider->query->ids(),
             'tags' => [
                 __('Public tags') => Tag::find()->publicTags()->all(),
                 __('Personal tags') => Tag::find()->personalTags()->all(),
             ],
+            'printTemplates' => PrintTemplate::find()->active()->all(),
         ]);
     }
 

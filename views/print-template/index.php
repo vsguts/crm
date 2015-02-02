@@ -39,7 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            // 'content:ntext',
+            ['attribute' => 'formatName', 'label' => __('Format')],
+            ['attribute' => 'statusName', 'label' => __('Status')],
             'created_at:date',
             'updated_at:date',
 

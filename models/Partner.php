@@ -186,7 +186,7 @@ class Partner extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return TagQuery
+     * @return PartnerQuery
      */
     public static function find()
     {

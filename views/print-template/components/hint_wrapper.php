@@ -1,0 +1,2 @@
+Available placeholders: 
+{content}

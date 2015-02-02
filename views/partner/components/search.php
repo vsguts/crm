@@ -38,7 +38,7 @@ use app\widgets\DatePickerRange;
                         <?= $form->field($model, 'name') ?>
 
                         <div class="m-dtoggle-type-3">
-                            <?= $form->field($model, 'church_id') ?>
+                            <?= $form->field($model, 'church_id')->dropDownList($model->getList('Partner', 'name', ['scope' => 'churches', 'empty' => true])) ?>
 
                             <?= $form->field($model, 'volunteer')->checkbox(['uncheck' => ''], false) ?>
 

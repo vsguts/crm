@@ -12,6 +12,13 @@ class ActionsDropdown extends ButtonDropdown
 
     public $options;
 
+    public $dropdown = [
+        'encodeLabels' => false,
+        'options' => [
+            'class' => 'dropdown-menu-right'
+        ],
+    ];
+
     public $layout = 'default';
     
     public $size = '';

@@ -25,7 +25,7 @@ use app\widgets\DatePickerRange;
         <div class="panel-heading m-toggle m-toggle-save pointer" data-target-class="search_form_advanced_search">
             <?=__('Advanced search')?>
         </div>
-        <div class="panel-body h search_form_advanced_search">
+        <div class="panel-body search_form_advanced_search <?=empty($_COOKIE['m-toggle-search_form_advanced_search'])?'h gvs':''?>">
             <ul class="nav nav-pills">
 
                 <div class="row">

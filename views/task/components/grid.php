@@ -6,7 +6,7 @@ use app\widgets\grid\GridView;
 if (!empty($partnerId)) {
     echo '<div class="pull-right">';
     echo '<div class="btn-group">';
-    echo Html::a(Yii::t('app', 'Create visit'), ['/visit/create', 'partner_id' => $partnerId], ['class' => 'btn btn-success']);
+    echo Html::a(Yii::t('app', 'Create task'), ['/visit/create', 'partner_id' => $partnerId], ['class' => 'btn btn-success']);
     echo '</div>';
     echo '</div>';
 }

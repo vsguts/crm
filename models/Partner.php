@@ -12,6 +12,8 @@ use app\models\query\PartnerQuery;
  * @property integer $type
  * @property integer $status
  * @property string $name
+ * @property string $firstname
+ * @property string $lastname
  * @property string $email
  * @property integer $country_id
  * @property integer $state_id
@@ -51,6 +53,7 @@ class Partner extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
+            'app\behaviors\PartnerNameBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
             'app\behaviors\TagsBehavior',
@@ -66,9 +69,9 @@ class Partner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['name', 'required'],
-            ['email', 'email'],
-            [['name', 'email', 'state', 'city', 'address'], 'string', 'max' => 255],
+            [['name', 'firstname', 'lastname'], 'required'],
+            [['email'], 'email'],
+            [['name', 'firstname', 'lastname', 'email', 'state', 'city', 'address'], 'string', 'max' => 255],
             [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'safe']
         ];
@@ -84,6 +87,8 @@ class Partner extends \yii\db\ActiveRecord
             'type' => __('Type'),
             'status' => __('Status'),
             'name' => __('Name'),
+            'firstname' => __('First name'),
+            'lastname' => __('Last name'),
             'email' => __('Email'),
             'country_id' => __('Country'),
             'state_id' => __('State'),

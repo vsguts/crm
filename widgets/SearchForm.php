@@ -27,6 +27,8 @@ class SearchForm extends ActiveForm
 
     public $targetClass = 'search_form';
 
+    protected $extraClass;
+
     public function init()
     {
         parent::init();
@@ -34,25 +36,29 @@ class SearchForm extends ActiveForm
         $controller = $this->getView()->context;
         $this->targetClass = $controller->id . '_' . $controller->action->id . '_' . $this->targetClass;
 
-        echo '<div class="panel panel-info">';
-        echo ' <div class="panel-heading m-toggle m-toggle-save pointer" data-target-class="' . $this->targetClass . '">';
-        echo __('Search');
-        echo ' </div>';
-        echo ' <div class="panel-body h ' . $this->targetClass . '">';
+        echo Html::beginTag('div', ['class' => 'panel panel-info']);
 
+        echo Html::tag('div', __('Search'), [
+            'class' => 'panel-heading m-toggle m-toggle-save pointer',
+            'data-target-class' => $this->targetClass,
+        ]);
+
+        $this->extraClass = empty($_COOKIE['m-toggle-' . $this->targetClass]) ? 'h ' : '';
+        echo Html::beginTag('div', ['class' => 'panel-body ' . $this->extraClass . $this->targetClass]);
     }
 
     public function run()
     {
-        echo ' </div>';
-        echo ' <div class="panel-footer h ' . $this->targetClass . '">';
-        echo '  <div>';
-        echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']);
-        echo ' ';
-        echo Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']);
-        echo '  </div>';
-        echo ' </div>';
-        echo '</div>';
+        echo Html::endTag('div');
+        
+        $buttons = Html::tag('div',
+            Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary'])
+            .' '. Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default'])
+        );
+        
+        echo Html::tag('div', $buttons, ['class' => 'panel-footer ' . $this->extraClass . $this->targetClass]);
+        
+        echo Html::endTag('div');
 
         parent::run();
     }

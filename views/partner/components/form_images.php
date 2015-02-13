@@ -2,13 +2,14 @@
 
 use yii\helpers\Url;
 
+$object_id = 'partner_' . $model->id . '_images'; 
+
 if ($model->images) {
     $field = $form->field($model, 'images', [
         'template' => '{input}',
         'enableLabel' => false,
     ]);
 
-    $object_id = 'partner_' . $model->id . '_images'; 
     echo '<div id="' . $object_id . '">';
 
     if (!empty($_REQUEST['edit_images'])) {

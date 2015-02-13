@@ -6,6 +6,20 @@
                 $('#' + id).replaceWith(data.html[id]);
             }
         }
+        if (data.debug) {
+            console.log(data.debug);
+        }
+        if (options.callback) {
+            options.callback(data);
+        }
+        if (data.scripts) {
+            setTimeout(function(){
+                $.each(data.scripts, function(i, script){
+                    console.log(script);
+                    $.globalEval(script);
+                });
+            }, 1);
+        }
         // TODO: notifications
     };
 
@@ -14,7 +28,10 @@
             options = options || {};
             options.success = function(data, textStatus, jqxhr) {
                 response(options, data);
-            }
+            };
+            options.error = function(jqxhr, textStatus, errorThrown) {
+                console.error(errorThrown);
+            };
             return $.ajax(url, options);
         },
     };

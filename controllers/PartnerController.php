@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use app\behaviors\AjaxFilter;
 use app\models\Partner;
 use app\models\search\PartnerSearch;
 use app\models\Tag;
@@ -39,7 +38,7 @@ class PartnerController extends AController
                 ],
             ],
             'ajax' => [
-                'class' => AjaxFilter::className(),
+                'class' => 'app\behaviors\AjaxFilter',
             ],
         ];
     }

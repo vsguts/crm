@@ -12,20 +12,26 @@ class ActionColumn extends Column
 {
     public $attribute;
     
-    public $link_to = 'update';
-    
     public $size;
 
     protected function renderDataCellContent($model, $key, $index)
     {
+        $detailsLinkOptions = $this->grid->prepareDetailsLink($model->id);
+        $removeLinkOptions = $this->grid->prepareRemoveLink($model->id);
+
         return ActionsDropdown::widget([
             'size' => $this->size,
             'items' => [
-                ['label' => Yii::t('yii', 'Update'), 'url' => Url::to(['update', 'id' => $key])],
-                ['label' => __('Delete'), 'url' => Url::to(['delete', 'id' => $key]), 'linkOptions' => [
-                    'data-confirm' => __('Are you sure you want to delete this item?'),
-                    'data-method' => 'post',
-                ]],
+                [
+                    'label' => __('Edit'),
+                    'url' => $detailsLinkOptions['href'],
+                    'linkOptions' => $detailsLinkOptions
+                ],
+                [
+                    'label' => __('Delete'),
+                    'url' => $removeLinkOptions['href'],
+                    'linkOptions' => $removeLinkOptions
+                ],
             ],
         ]);
     }

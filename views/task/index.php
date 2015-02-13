@@ -11,7 +11,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="pull-right">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create task'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Create task'), ['update', '_return_url' => Url::to()], [
+                'class' => 'btn btn-success c-modal',
+                'data-target-id' => 'task_create',
+            ]) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',

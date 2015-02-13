@@ -14,24 +14,11 @@ class DataColumn extends YDataColumn
     {
         $text = parent::renderDataCellContent($model, $key, $index);
 
-        if ($url = $this->getUrl($model)) {
-            return Html::a($text, $url);
+        if (in_array($this->format, ['text', 'date'])) {
+            return Html::a($text, null, $this->grid->prepareDetailsLink($model->id));
         }
 
         return $text;
-    }
-
-    protected function getUrl($model)
-    {
-        $link = '';
-        if (!empty($this->grid->view->params['override_controller_name'])) {
-            $link = $this->grid->view->params['override_controller_name'] . '/';
-        }
-        
-        if ($this->link_to && in_array($this->format, ['text', 'date'])) {
-            $link .= $this->link_to;
-            return Url::to([$link, 'id' => $model->id]);
-        }
     }
 
 }

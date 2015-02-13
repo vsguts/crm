@@ -12,7 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="pull-right">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create country'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Create country'), ['update', '_return_url' => Url::to()], [
+                'class' => 'btn btn-success c-modal',
+                'data-target-id' => 'country_create',
+            ]) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',
@@ -32,6 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'controllerId' => 'country',
+        'detailsLinkPopup' => true,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 

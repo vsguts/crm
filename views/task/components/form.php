@@ -1,53 +1,62 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\widgets\Modal;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Task */
-/* @var $form yii\widgets\ActiveForm */
-?>
+if ($model->isNewRecord) {
+    $obj_id = 'task_create';
+    $header = __('Create task');
+} else {
+    $obj_id = 'task_' . $model->id;
+    $header = __('Task: {task}', [
+        'task' => $model->id,
+    ]);
+}
 
-<div class="task-form">
+$form_id = $obj_id . '_form';
 
-    <?php $form = ActiveForm::begin([
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-            'horizontalCssClasses' => [
-                'label' => 'col-sm-2',
-                'offset' => 'col-sm-offset-4',
-                'wrapper' => 'col-sm-10',
-                'error' => '',
-                'hint' => '',
-            ],
-        ],
-    ]); ?>
+Modal::begin([
+    'header' => $header,
+    'id' => $obj_id,
+    'footer' => ButtonsContatiner::widget([
+        'model' => $model,
+        'footerWrapper' => false,
+        'form' => $form_id,
+    ]),
+]);
 
-    <?= $form->field($model, 'name')->textInput() ?>
+$form = ActiveForm::begin([
+    'options' => [
+        'id' => $form_id,
+    ]
+]);
 
-    <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name')) ?>
+echo $form->field($model, 'name')->textInput();
 
-    <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username'])) ?>
+echo $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name'));
 
-    <?= $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
-        'options' => ['placeholder' => __('Select date')],
-        'pluginOptions' => ['autoclose' => true],
-    ]) ?>
+echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));
 
-    <?= $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false) ?>
+echo $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
+    'options' => [
+        'id' => $form_id . '_timestamp',
+        'placeholder' => __('Select date'),
+    ],
+    'pluginOptions' => ['autoclose' => true],
+]);
 
-    <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
+echo $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false);
 
-    <?php if (!$model->isNewRecord): ?>
-        <?= $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
+echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
-        <?= $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
-    <?php endif; ?>
+if (!$model->isNewRecord) {
+    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
 
-    <?= ButtonsContatiner::widget(['model' => $model]); ?>
+    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+}
 
-    <?php ActiveForm::end(); ?>
+ActiveForm::end();
 
-</div>
+Modal::end();
+

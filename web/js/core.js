@@ -3,7 +3,7 @@
     var form_group_class = 'form-group';
 
     // Document ready
-    $(document).on('ready', function() { // FIXME: need for m-country
+    $(document).on('ready', function() {
         $('.m-toggle-save').each(function(){
             var elm = $(this),
                 target_class = elm.data('targetClass'),
@@ -26,6 +26,7 @@
         $('.m-country').each(function(){
             countrySelect($(this));
         });
+        
     });
 
     // Events
@@ -49,6 +50,30 @@
                     result_ids: jelm.data('resultIds'),
                 },
             });
+            return false;
+        }
+
+        if (jelm.hasClass('c-modal')) {
+            var target_id = jelm.data('targetId'),
+                target = $('#' + target_id);
+            
+            if (target.length) {
+                target.modal();
+            } else {
+                var href = jelm.attr('href');
+                if (href.length) {
+                    $.cAjax('request', href, {
+                        data: {
+                            result_ids: target_id,
+                        },
+                        callback: function(data){
+                            if (data.html && data.html[target_id]) {
+                                $(data.html[target_id]).modal();
+                            }
+                        },
+                    });
+                }
+            }
             return false;
         }
     });

@@ -3,16 +3,22 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
+use app\widgets\Modal;
 
 $this->title = Yii::t('app', 'Donates');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="donate-index">
 
     <div class="pull-right">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create donate'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Create donate'), ['update', '_return_url' => Url::to()], [
+                'class' => 'btn btn-success c-modal',
+                'data-target-id' => 'donate_create',
+            ]) ?>
         </div>
+        
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [

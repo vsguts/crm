@@ -1,36 +1,41 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\widgets\Modal;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Country */
-/* @var $form yii\widgets\ActiveForm */
-?>
+if ($model->isNewRecord) {
+    $obj_id = 'country_create';
+    $header = __('Create country');
+} else {
+    $obj_id = 'country_' . $model->id;
+    $header = __('Country: {country}', [
+        'country' => $model->name,
+    ]);
+}
 
-<div class="country-form">
+$form_id = $obj_id . '_form';
 
-    <?php $form = ActiveForm::begin([
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-            'horizontalCssClasses' => [
-                'label' => 'col-sm-2',
-                'offset' => 'col-sm-offset-4',
-                'wrapper' => 'col-sm-10',
-                'error' => '',
-                'hint' => '',
-            ],
-        ],
-    ]); ?>
+Modal::begin([
+    'header' => $header,
+    'id' => $obj_id,
+    'footer' => ButtonsContatiner::widget([
+        'model' => $model,
+        'footerWrapper' => false,
+        'form' => $form_id,
+    ]),
+]);
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+$form = ActiveForm::begin([
+    'options' => [
+        'id' => $form_id,
+    ]
+]);
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
+echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
-    <?= ButtonsContatiner::widget(['model' => $model]); ?>
+echo $form->field($model, 'code')->textInput(['maxlength' => 255]);
 
-    <?php ActiveForm::end(); ?>
+ActiveForm::end();
 
-</div>
+Modal::end();

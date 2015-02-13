@@ -32,4 +32,16 @@ class AController extends Controller
             }
         }
     }
+
+    public function redirect($url, $statusCode = 302)
+    {
+        $params = Yii::$app->request->queryParams;
+        
+        if (!empty($params['_return_url'])) {
+            return Yii::$app->getResponse()->redirect($params['_return_url'], $statusCode);
+        }
+
+        return parent::redirect($url, $statusCode);
+    }
+
 }

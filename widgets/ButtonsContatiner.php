@@ -8,14 +8,29 @@ use yii\helpers\Html;
 class ButtonsContatiner extends Widget
 {
     public $model;
+    
+    public $footerWrapper = true;
+    
+    public $form = '';
 
     public function run()
     {
-        echo '<div class="form-group panel-footer">';
+        if ($this->footerWrapper) {
+            echo Html::beginTag('div', ['class' => 'form-group panel-footer']);
+        }
+        
+        $submit_options = [];
+        if ($this->form) {
+            $submit_options['form'] = $this->form;
+        }
+
         if ($this->model->isNewRecord) {
-            echo Html::submitButton(__('Create'), ['class' => 'btn btn-success']);
+            $submit_options['class'] = 'btn btn-success';
+            echo Html::submitButton(__('Create'), $submit_options);
         } else {
-            echo Html::submitButton(__('Update'), ['class' => 'btn btn-primary']);
+            $submit_options['class'] = 'btn btn-primary';
+            echo Html::submitButton(__('Update'), $submit_options);
+            
             echo ' ';
             echo Html::a(__('Delete'), ['delete', 'id' => $this->model->id], [
                 'class' => 'btn btn-danger',
@@ -23,7 +38,9 @@ class ButtonsContatiner extends Widget
                 'data-method' => 'post'
             ]);
         }
-        echo '</div>';
-
+        
+        if ($this->footerWrapper) {
+            echo Html::endTag('div');
+        }
     }
 }

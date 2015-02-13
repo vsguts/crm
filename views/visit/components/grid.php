@@ -27,5 +27,6 @@ $columns[] = ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'];
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => $columns,
+    'controllerId' => 'visit',
 ]);
 

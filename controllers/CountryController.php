@@ -32,6 +32,9 @@ class CountryController extends AController
                     'delete' => ['post'],
                 ],
             ],
+            'ajax' => [
+                'class' => 'app\behaviors\AjaxFilter',
+            ],
         ];
     }
 
@@ -51,39 +54,24 @@ class CountryController extends AController
     }
 
     /**
-     * Creates a new Country model.
-     * If creation is successful, the browser will be redirected to the 'update' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Country();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
      * Updates an existing Country model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id = null)
     {
-        $model = $this->findModel($id);
+        if ($id) {
+            $model = $this->findModel($id);
+        } else {
+            $model = new Country();
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
-            return $this->redirect(['update', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }

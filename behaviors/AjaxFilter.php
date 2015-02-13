@@ -4,6 +4,7 @@ namespace app\behaviors;
 
 use Yii;
 use yii\base\ActionFilter;
+use app\components\Dom;
 
 class AjaxFilter extends ActionFilter
 {
@@ -24,16 +25,27 @@ class AjaxFilter extends ActionFilter
         $res = parent::afterAction($action, $result);
 
         if ($this->ajaxMode) {
-            Yii::$app->getResponse()->format = 'json';
-            $return = $this->ajaxVars;
+            $dom = Yii::createObject([
+                'class' => Dom::className(),
+                'html' => $res,
+            ]);
             
             $request = Yii::$app->getRequest();
             if (!empty($request->queryParams['result_ids'])) {
                 $result_ids = explode(',', $request->queryParams['result_ids']);
-                $return['html'] = $this->getDomElementById($res, $result_ids);
+                $this->ajaxVars['html'] = $dom->getElementByIds($result_ids);
             }
 
-            return $return;
+            list($scripts, $src) = $dom->getScripts();
+            if ($scripts) {
+                $this->ajaxVars['scripts'] = $scripts;
+            }
+            if ($scripts) {
+                $this->ajaxVars['scripts_src'] = $src;
+            }
+
+            Yii::$app->getResponse()->format = 'json';
+            return $this->ajaxVars;
         } else {
             return $res;
         }
@@ -46,31 +58,11 @@ class AjaxFilter extends ActionFilter
         }
     }
 
-    protected function getDomElementById($html, $result_ids = [])
+    public function ajaxGet($name)
     {
-        if (empty($result_ids) || empty($html)) {
-            return [];
+        if ($this->ajaxMode && isset($this->ajaxVars[$name])) {
+            return $this->ajaxVars[$name];
         }
-
-        if (is_string($result_ids)) {
-            $result_ids = explode(',', $result_ids);
-        }
-
-        $dom = new \DOMDocument;
-        libxml_use_internal_errors(true);
-        $dom->loadHTML($html);
-        libxml_clear_errors();
-        // $xpath = new \DOMXPath($dom); // several way
-
-        $result = [];
-        foreach ($result_ids as $result_id) {
-            $result_id = trim($result_id);
-            if (!isset($result[$result_id])) {
-                // $elm = $xpath->query("//*[@id='" . $result_id . "']")->item(0); // several way
-                $elm = $dom->getElementById($result_id);
-                $result[$result_id] = $dom->saveHTML($elm);
-            }
-        }
-        return $result;
     }
+
 }

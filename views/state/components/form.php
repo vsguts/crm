@@ -1,38 +1,43 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\widgets\Modal;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\State */
-/* @var $form yii\widgets\ActiveForm */
-?>
+if ($model->isNewRecord) {
+    $obj_id = 'state_create';
+    $header = __('Create state');
+} else {
+    $obj_id = 'state_' . $model->id;
+    $header = __('State: {state}', [
+        'state' => $model->name,
+    ]);
+}
 
-<div class="state-form">
+$form_id = $obj_id . '_form';
 
-    <?php $form = ActiveForm::begin([
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-            'horizontalCssClasses' => [
-                'label' => 'col-sm-2',
-                'offset' => 'col-sm-offset-4',
-                'wrapper' => 'col-sm-10',
-                'error' => '',
-                'hint' => '',
-            ],
-        ],
-    ]); ?>
+Modal::begin([
+    'header' => $header,
+    'id' => $obj_id,
+    'footer' => ButtonsContatiner::widget([
+        'model' => $model,
+        'footerWrapper' => false,
+        'form' => $form_id,
+    ]),
+]);
 
-    <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name')) ?>
+$form = ActiveForm::begin([
+    'options' => [
+        'id' => $form_id,
+    ]
+]);
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name'));
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
+echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
-    <?= ButtonsContatiner::widget(['model' => $model]); ?>
+echo $form->field($model, 'code')->textInput(['maxlength' => 255]);
 
-    <?php ActiveForm::end(); ?>
+ActiveForm::end();
 
-</div>
+Modal::end();

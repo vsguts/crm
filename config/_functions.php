@@ -27,26 +27,26 @@ function p()
     }
 
     if (!empty($args)) {
-        fn_echo($prefix);
-        foreach ($args as $k => $v) {
-
-            if (defined('CONSOLE')) {
-                fn_echo(print_r($v, true));
-            } else {
-                fn_echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            if ($debug = Yii::$app->controller->ajaxGet('debug')) {
+                $args = array_merge($debug, $args);
             }
-        }
-        fn_echo($suffix);
 
-        if (defined('AJAX_REQUEST')) {
-            $ajax_vars = Registry::get('ajax')->getAssignedVars();
-            if (!empty($ajax_vars['debug_info'])) {
-                $args = array_merge($ajax_vars['debug_info'], $args);
+            Yii::$app->controller->ajaxAssign('debug', $args);
+        } else {
+            fn_echo($prefix);
+            foreach ($args as $k => $v) {
+
+                if (defined('CONSOLE')) {
+                    fn_echo(print_r($v, true));
+                } else {
+                    fn_echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
+                }
             }
-            Registry::get('ajax')->assign('debug_info', $args);
+            fn_echo($suffix);
+            $count++;
         }
     }
-    $count++;
 }
 
 function pd()
@@ -54,6 +54,20 @@ function pd()
     $args = func_get_args();
     call_user_func_array('p', $args);
     die();
+}
+
+function plog()
+{
+    $file = __DIR__ . '/../plog.log';
+    
+    $resource = fopen($file, 'a');
+    if ($resource) {
+        $content = PHP_EOL . print_r(array_merge([
+            'time' => date('Y-m-d H:i:s'),
+        ], func_get_args()), 1);
+        fwrite($resource, $content);
+    }
+    fclose($resource);
 }
 
 function fn_echo($value)

@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
-use app\widgets\Modal;
 
 $this->title = Yii::t('app', 'Donates');
 $this->params['breadcrumbs'][] = $this->title;

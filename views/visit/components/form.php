@@ -1,33 +1,69 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\widgets\Modal;
 
-$form = ActiveForm::begin();
+if ($model->isNewRecord) {
+    $obj_id = 'visit_create';
+    $header = __('Create visit');
+} else {
+    $obj_id = 'visit_' . $model->id;
+    $header = __('Bisit: {visit}', [
+        'visit' => $model->id,
+    ]);
+}
+
+$form_id = $obj_id . '_form';
+
+Modal::begin([
+    'size' => Modal::SIZE_LARGE,
+    'header' => $header,
+    'id' => $obj_id,
+    'footer' => ButtonsContatiner::widget([
+        'model' => $model,
+        'footerWrapper' => false,
+        'removeLink' => false,
+        'form' => $form_id,
+    ]),
+]);
+
+$form = ActiveForm::begin([
+    'options' => [
+        'id' => $form_id,
+        'enctype' => 'multipart/form-data',
+    ]
+]);
 
 $tab_items = [
     [
         'label' => __('General'),
-        'content' => $this->render('form_general', ['form' => $form, 'model' => $model]),
+        'content' => $this->render('form_general', [
+            'form' => $form,
+            'model' => $model,
+            'form_id' => $form_id,
+        ]),
         'active' => true,
     ],
     [
         'label' => __('Images'),
-        'content' => $this->render('form_images', ['form' => $form, 'model' => $model]),
+        'content' => $this->render('form_images', [
+            'form' => $form,
+            'model' => $model,
+            'form_id' => $form_id,
+        ]),
     ],
 ];
 
 echo Tabs::widget([
     'options' => [
-        'id' => 'partner_tabs',
+        'id' => $form_id . '_tabs',
         'class' => 'm-tabs-save'
     ],
     'items' => $tab_items,
 ]);
 
-echo ButtonsContatiner::widget(['model' => $model]);
-
 ActiveForm::end();
 
+Modal::end();

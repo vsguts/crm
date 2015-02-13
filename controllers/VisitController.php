@@ -55,44 +55,33 @@ class VisitController extends AController
     }
 
     /**
-     * Creates a new Visit model.
-     * If creation is successful, the browser will be redirected to the 'update' page.
-     * @return mixed
-     */
-    public function actionCreate($partner_id = null)
-    {
-        $model = new Visit();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            $model->timestamp = Yii::$app->formatter->asDate(time());
-            $model->user_id = Yii::$app->user->id;
-            if ($partner_id) {
-                $model->partner_id = $partner_id;
-            }
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
      * Updates an existing Visit model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id = null, $partner_id = null)
     {
-        $model = $this->findModel($id);
+        if ($id) {
+            $model = $this->findModel($id);
+        } else {
+            $model = new Visit();
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
-            return $this->redirect(['update', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
+
+            if (!$id) {
+                $model->timestamp = Yii::$app->formatter->asDate(time());
+                $model->user_id = Yii::$app->user->id;
+                if ($partner_id) {
+                    $model->partner_id = $partner_id;
+                }
+            }
+
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }

@@ -26,5 +26,9 @@ if ($model->images) {
     echo '</div>';
 }
 
-echo $form->field($model, 'imagesUpload[]')->widget('app\widgets\FileInput');
+echo $form->field($model, 'imagesUpload[]')->widget('app\widgets\FileInput', [
+    'options' => [
+        'id' => $object_id . '_file_input',
+    ],
+]);
 

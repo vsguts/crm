@@ -15,7 +15,6 @@
         if (data.scripts) {
             setTimeout(function(){
                 $.each(data.scripts, function(i, script){
-                    console.log(script);
                     $.globalEval(script);
                 });
             }, 1);

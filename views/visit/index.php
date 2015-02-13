@@ -6,13 +6,18 @@ use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'Visits');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="visit-index">
 
     <div class="pull-right">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create visit'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Create visit'), ['update', '_return_url' => Url::to()], [
+                'class' => 'btn btn-success c-modal',
+                'data-target-id' => 'visit_create',
+            ]) ?>
         </div>
+
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [

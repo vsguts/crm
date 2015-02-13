@@ -1,17 +1,21 @@
+<?php
 
-<?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name')) ?>
+echo $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name'));
 
-<?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username'])) ?>
+echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));
 
-<?= $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
-    'options' => ['placeholder' => __('Select date')],
+echo $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
+    'options' => [
+        'id' => $form_id . '_timestamp',
+        'placeholder' => __('Select date'),
+    ],
     'pluginOptions' => ['autoclose' => true],
-]) ?>
+]);
 
-<?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
+echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
-<?php if (!$model->isNewRecord): ?>
-    <?= $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
+if (!$model->isNewRecord) {
+    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
 
-    <?= $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']) ?>
-<?php endif; ?>
+    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+}

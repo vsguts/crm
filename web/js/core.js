@@ -2,6 +2,10 @@
     
     var form_group_class = 'form-group';
 
+    var modal_options = {
+        backdrop: true,
+    };
+
     // Document ready
     $(document).on('ready', function() {
         $('.m-toggle-save').each(function(){
@@ -58,7 +62,7 @@
                 target = $('#' + target_id);
             
             if (target.length) {
-                target.modal();
+                target.modal(modal_options);
             } else {
                 var href = jelm.attr('href');
                 if (href.length) {
@@ -68,7 +72,7 @@
                         },
                         callback: function(data){
                             if (data.html && data.html[target_id]) {
-                                $(data.html[target_id]).modal();
+                                $(data.html[target_id]).modal(modal_options);
                             }
                         },
                     });

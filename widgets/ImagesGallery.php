@@ -30,7 +30,12 @@ class ImagesGallery extends InputWidget
             ];
         }
         
-        echo Gallery::widget(['items' => $items]);
+        echo Gallery::widget([
+            'options' => [
+                'id' => $this->objectId . '_gallery',
+            ],
+            'items' => $items
+        ]);
 
         if ($this->editLink) {
             echo Html::tag('div', '', ['class' => 'clearfix']);

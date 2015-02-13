@@ -1,14 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use app\widgets\grid\GridView;
 
 if (!empty($partnerId)) {
-    echo '<div class="pull-right">';
-    echo '<div class="btn-group">';
-    echo Html::a(Yii::t('app', 'Create visit'), ['/visit/create', 'partner_id' => $partnerId], ['class' => 'btn btn-success']);
-    echo '</div>';
-    echo '</div>';
+    $content = Html::a(__('Create visit'), ['/visit/update', 'partner_id' => $partnerId, '_return_url' => Url::to()], [
+        'class' => 'btn btn-success c-modal',
+        'data-target-id' => 'visit_create',
+    ]);
+    echo Html::tag('div', Html::tag('div', $content, ['class' => 'btn-group']), ['class' => 'pull-right']);
 }
 
 $columns = [
@@ -28,5 +29,6 @@ echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => $columns,
     'controllerId' => 'visit',
+    'detailsLinkPopup' => true,
 ]);
 

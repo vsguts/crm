@@ -34,7 +34,9 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
         'kartik\date\DatePickerAsset',
+        'kartik\file\FileInputAsset',
         'app\assets\BowerAsset',
     ];
 

@@ -12,6 +12,8 @@ class ButtonsContatiner extends Widget
     public $footerWrapper = true;
     
     public $form = '';
+    
+    public $removeLink = true;
 
     public function run()
     {
@@ -31,12 +33,14 @@ class ButtonsContatiner extends Widget
             $submit_options['class'] = 'btn btn-primary';
             echo Html::submitButton(__('Update'), $submit_options);
             
-            echo ' ';
-            echo Html::a(__('Delete'), ['delete', 'id' => $this->model->id], [
-                'class' => 'btn btn-danger',
-                'data-confirm' => __('Are you sure you want to delete this item?'),
-                'data-method' => 'post'
-            ]);
+            if ($this->removeLink) {
+                echo ' ';
+                echo Html::a(__('Delete'), ['delete', 'id' => $this->model->id], [
+                    'class' => 'btn btn-danger',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post'
+                ]);
+            }
         }
         
         if ($this->footerWrapper) {

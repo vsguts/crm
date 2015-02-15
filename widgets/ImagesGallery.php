@@ -58,7 +58,7 @@ class ImagesGallery extends InputWidget
     public static function renderTemplate()
     {
         $gallery = \Yii::createObject(['class' => Gallery::className()]);
-        return $gallery->renderTemplate();
+        echo $gallery->renderTemplate();
     }
 
 }

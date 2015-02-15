@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\assets\AppAsset;
+use app\widgets\ImagesGallery;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -37,6 +38,8 @@ $this->registerJs(AppAsset::customJs());
             } else {
                 echo $this->render('layouts/simple', $params);
             }
+
+            ImagesGallery::renderTemplate();
         ?>
         </div>
     </div>

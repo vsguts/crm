@@ -4,7 +4,7 @@ namespace app\widgets;
 
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
-use dosamigos\gallery\Gallery;
+use app\widgets\Gallery;
 
 class ImagesGallery extends InputWidget
 {
@@ -13,6 +13,8 @@ class ImagesGallery extends InputWidget
     public $editLink = '';
 
     public $objectId;
+
+    public $lastGallery;
 
     public function init()
     {
@@ -51,6 +53,12 @@ class ImagesGallery extends InputWidget
         }
         
         echo '</div>';
+    }
+
+    public static function renderTemplate()
+    {
+        $gallery = \Yii::createObject(['class' => Gallery::className()]);
+        return $gallery->renderTemplate();
     }
 
 }

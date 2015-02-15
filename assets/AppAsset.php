@@ -37,6 +37,7 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapPluginAsset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
+        'dosamigos\gallery\GalleryAsset',
         'app\assets\BowerAsset',
     ];
 

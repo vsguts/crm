@@ -8,3 +8,5 @@
 <?= $form->field($model, 'city')->textInput() ?>
 
 <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
+
+<?= $form->field($model, 'zipcode')->textInput(['maxlength' => 255]) ?>

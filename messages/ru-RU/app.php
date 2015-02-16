@@ -175,5 +175,6 @@ return [
     'Margin left' => 'Отступ слева',
     'Margin right' => 'Отступ справа',
     'Format' => 'Формат',
+    'Zip/postal code' => 'Почтовый индекс',
 
 ];

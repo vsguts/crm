@@ -20,6 +20,7 @@ use app\models\query\PartnerQuery;
  * @property string $state
  * @property integer $city
  * @property string $address
+ * @property string $zipcode
  * @property integer $church_id
  * @property integer $volunteer
  * @property integer $candidate
@@ -71,7 +72,7 @@ class Partner extends \yii\db\ActiveRecord
         return [
             [['name', 'firstname', 'lastname'], 'required'],
             [['email'], 'email'],
-            [['name', 'firstname', 'lastname', 'email', 'state', 'city', 'address'], 'string', 'max' => 255],
+            [['name', 'firstname', 'lastname', 'email', 'state', 'city', 'address', 'zipcode'], 'string', 'max' => 255],
             [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'safe']
         ];
@@ -95,6 +96,7 @@ class Partner extends \yii\db\ActiveRecord
             'state' => __('State'),
             'city' => __('City'),
             'address' => __('Address'),
+            'zipcode' => __('Zip/postal code'),
             'church_id' => __('Church'),
             'volunteer' => __('Volunteer'),
             'candidate' => __('Candidate'),

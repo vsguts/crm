@@ -118,6 +118,15 @@
         }
     });
 
+    // Yii events
+    $(document).on('beforeValidateAttribute', function(event, obj, msg, deferreds){
+        var jeml = $(obj.container);
+        if (jeml.find('input,select').attr('disabled')) { // skip validation
+            delete obj['validate'];
+            return true;
+        }
+    });
+
 
     // Private functions
 

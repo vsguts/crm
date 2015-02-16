@@ -102,6 +102,7 @@
             url_params[obj_name] = keys;
             var delimiter = url.indexOf('?') == -1 ? '?' : '&';
             jelm.attr('href', url + delimiter + decodeURIComponent($.param(url_params)));
+            return true;
         }
     });
 

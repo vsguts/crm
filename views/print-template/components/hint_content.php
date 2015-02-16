@@ -8,5 +8,6 @@ Available placeholders:
 {state.code}
 {city}
 {address}
+{zipcode}
 {church.name}
 {notes}

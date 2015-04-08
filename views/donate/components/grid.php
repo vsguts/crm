@@ -21,7 +21,13 @@ if (empty($partnerId)) {
     $columns[] = ['attribute' => 'partner.name', 'label' => __('Partner')];
 }
 
-$columns[] = 'sum';
+// $columns[] = 'sum';
+$columns[] = [
+    'attribute' => 'sum',
+    'value' => function($model, $key, $index, $column) {
+        return Yii::$app->formatter->asDecimal($model->sum) . ' руб.';
+    }
+];
 $columns[] = 'timestamp';
 $columns[] = 'created_at:date';
 $columns[] = 'updated_at:date';

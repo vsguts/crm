@@ -40,7 +40,7 @@ class AjaxFilter extends ActionFilter
             if ($scripts) {
                 $this->ajaxVars['scripts'] = $scripts;
             }
-            if ($scripts) {
+            if ($src && 0) { // disabled
                 $this->ajaxVars['scripts_src'] = $src;
             }
 

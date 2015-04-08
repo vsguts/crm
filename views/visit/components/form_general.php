@@ -4,12 +4,8 @@ echo $form->field($model, 'partner_id')->dropDownList($model->getList('Partner',
 
 echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));
 
-echo $form->field($model, 'timestamp')->widget('kartik\date\DatePicker', [
-    'options' => [
-        'id' => $form_id . '_timestamp',
-        'placeholder' => __('Select date'),
-    ],
-    'pluginOptions' => ['autoclose' => true],
+echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', [
+    'form_id' => $form_id,
 ]);
 
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);

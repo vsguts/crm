@@ -17,6 +17,7 @@ class ListBehavior extends Behavior
             'scope' => '',
             'hash' => false,
             'empty_field' => '',
+            'fields_delimiter' => ' ',
         ], $options);
 
         if (strpos($model_name, '\\') === false) {
@@ -70,7 +71,7 @@ class ListBehavior extends Behavior
             foreach ($fields as $field) {
                 $values[] = $model->$field;
             }
-            $value = implode(' ', $values);
+            $value = implode($options['fields_delimiter'], $values);
             if (!empty($options['empty_field']) && empty($value)) {
                 $value = $model->{$options['empty_field']};
             }

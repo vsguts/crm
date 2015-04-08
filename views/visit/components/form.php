@@ -59,7 +59,7 @@ $tab_items = [
 echo Tabs::widget([
     'options' => [
         'id' => $form_id . '_tabs',
-        'class' => 'm-tabs-save'
+        // 'class' => 'm-tabs-save'
     ],
     'items' => $tab_items,
 ]);

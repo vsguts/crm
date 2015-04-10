@@ -6,19 +6,22 @@ echo $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), 
     'class' => 'm-dtoggle m-dtoggle-type form-control'
 ]);
 
-$field = $form->field($model, 'name')->textInput(['maxlength' => 255]);
+$field = $form->field($model, 'name')->textInput(['maxlength' => 64]);
 echo Html::tag('div', $field, ['class' => 'm-dtoggle-type-1 m-dtoggle-type-2 ' . ($model->type == 3 ? 'h' : '')]);
 
 $fields = [
-    $form->field($model, 'firstname')->textInput(['maxlength' => 255]),
-    $form->field($model, 'lastname')->textInput(['maxlength' => 255]),
+    $form->field($model, 'firstname')->textInput(['maxlength' => 64]),
+    $form->field($model, 'lastname')->textInput(['maxlength' => 64]),
 ];
 echo Html::tag('div', implode(' ', $fields), [
     'class' => 'm-dtoggle-type-3 ' . ($model->type != 3 ? 'h' : '')
 ]);
 
-echo $form->field($model, 'email')->textInput(['maxlength' => 255]);
-echo $form->field($model, 'phone')->textInput(['maxlength' => 255]);
+$field = $form->field($model, 'contact')->textInput(['maxlength' => 128]);
+echo Html::tag('div', $field, ['class' => 'm-dtoggle-type-1 m-dtoggle-type-2 ' . ($model->type == 3 ? 'h' : '')]);
+
+echo $form->field($model, 'email')->textInput(['maxlength' => 64]);
+echo $form->field($model, 'phone')->textInput(['maxlength' => 32]);
 
 $fields = [
     $form->field($model, 'church_id')->dropDownList($model->getList('Partner', ['city', 'name'], [

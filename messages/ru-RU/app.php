@@ -177,5 +177,6 @@ return [
     'Format' => 'Формат',
     'Zip/postal code' => 'Почтовый индекс',
     'Phone' => 'Телефон',
+    'Contact person' => 'Контактное лицо',
 
 ];

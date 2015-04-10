@@ -18,6 +18,7 @@ echo Html::tag('div', implode(' ', $fields), [
 ]);
 
 echo $form->field($model, 'email')->textInput(['maxlength' => 255]);
+echo $form->field($model, 'phone')->textInput(['maxlength' => 255]);
 
 $fields = [
     $form->field($model, 'church_id')->dropDownList($model->getList('Partner', ['city', 'name'], [

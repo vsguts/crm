@@ -74,7 +74,7 @@ class Partner extends \yii\db\ActiveRecord
             [['email'], 'email'],
             [['name', 'firstname', 'lastname', 'email', 'state', 'city', 'address', 'zipcode'], 'string', 'max' => 255],
             [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
-            [['notes'], 'safe']
+            [['phone', 'notes'], 'safe']
         ];
     }
 
@@ -91,6 +91,7 @@ class Partner extends \yii\db\ActiveRecord
             'firstname' => __('First name'),
             'lastname' => __('Last name'),
             'email' => __('Email'),
+            'phone' => __('Phone'),
             'country_id' => __('Country'),
             'state_id' => __('State'),
             'state' => __('State'),

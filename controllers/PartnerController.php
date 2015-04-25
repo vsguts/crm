@@ -103,13 +103,15 @@ class PartnerController extends AController
             $visitsDataProvider = (new VisitSearch())->search(['partner_id' => $id]);
             $donatesDataProvider = (new DonateSearch())->search(['partner_id' => $id]);
             $tasksDataProvider = (new TaskSearch())->search(['partner_id' => $id]);
+            $contactsDataProvider = (new PartnerSearch())->search(['church_id' => $id]);
             
             return $this->render('update', [
                 'model' => $model,
                 'extra' => [
-                    'visitsDataProvider' => $visitsDataProvider,
-                    'donatesDataProvider' => $donatesDataProvider,
-                    'tasksDataProvider' => $tasksDataProvider,
+                    'visitsDataProvider'   => $visitsDataProvider,
+                    'donatesDataProvider'  => $donatesDataProvider,
+                    'tasksDataProvider'    => $tasksDataProvider,
+                    'contactsDataProvider' => $contactsDataProvider,
                 ],
             ]);
         }

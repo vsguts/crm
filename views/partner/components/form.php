@@ -50,6 +50,18 @@ if (!$model->isNewRecord) {
             'partnerId' => $model->id,
         ]),
     ];
+    
+    $tab_items[] = [
+        'label' => __('Contact persons'),
+        'headerOptions' => [
+            'class' => 'm-dtoggle-type-1 m-dtoggle-type-2',
+            'style' => ($model->type == 3 ? 'display: none;' : ''),
+        ],
+        'content' => $this->render('/partner/components/grid', [
+            'dataProvider' => $extra['contactsDataProvider'],
+            'partnerId' => $model->id,
+        ]),
+    ];
 }
 
 echo Tabs::widget([

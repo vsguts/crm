@@ -4,6 +4,7 @@ namespace app\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\db\ActiveRecord;
 
 class ButtonsContatiner extends Widget
 {
@@ -26,7 +27,7 @@ class ButtonsContatiner extends Widget
             $submit_options['form'] = $this->form;
         }
 
-        if ($this->model->isNewRecord) {
+        if ($this->model instanceof ActiveRecord && $this->model->isNewRecord) {
             $submit_options['class'] = 'btn btn-success';
             echo Html::submitButton(__('Create'), $submit_options);
         } else {

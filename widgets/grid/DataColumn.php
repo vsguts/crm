@@ -14,7 +14,7 @@ class DataColumn extends YDataColumn
     {
         $text = parent::renderDataCellContent($model, $key, $index);
 
-        if (in_array($this->format, ['text', 'date'])) {
+        if (in_array($this->format, ['text', 'date', 'datetime'])) {
             return Html::a($text, null, $this->grid->prepareDetailsLink($model->id));
         }
 

@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
-use app\widgets\grid\GridView;
 
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
+        
         <?php
+
         $items = [
             ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
                 'data-c-process-items' => 'ids',
@@ -61,40 +62,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
 
         ?>
+        
     </div>
     
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('components/search', ['model' => $searchModel, 'tags' => $tags]) ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\CheckboxColumn'],
-            
-            ['attribute' => 'id', 'label' => '#'],
-
-            ['class' => 'app\widgets\grid\ImageColumn'],
-            
-            'name',
-            'email:email',
-            'city',
-            ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
-            ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
-            'created_at:date',
-            // 'country_id',
-            // 'state_id',
-            // 'state',
-            // 'address',
-            // 'church_id',
-            // 'volunteer',
-            // 'candidate',
-            // 'notes:ntext',
-            // 'updated_at',
-
-            // ['class' => 'app\widgets\grid\ActionColumn'],
-        ],
-    ]); ?>
+    
+    <?= $this->render('components/grid', ['dataProvider' => $dataProvider]) ?>
 
 </div>
 

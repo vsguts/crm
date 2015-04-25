@@ -20,7 +20,10 @@
             var elm = $(this),
                 selected_href = $.cookie('m-tabs-' + elm.attr('id'));
             
-            elm.find('[href="' + selected_href + '"]').click();
+            var href = elm.find('[href="' + selected_href + '"]');
+            if (href.is(':visible')) {
+                href.click();
+            }
         });
 
         $('.m-dtoggle').each(function(){

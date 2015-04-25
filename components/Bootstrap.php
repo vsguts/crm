@@ -10,8 +10,8 @@ class Bootstrap extends ServiceLocator
 {
     public function init()
     {
-        Event::on(User::className(), User::EVENT_AFTER_LOGIN, function($e) {
-            $e->identity->doAuth();
-        });
+        // Event::on(User::className(), User::EVENT_AFTER_LOGIN, function($e) {
+        //     $e->identity->doAuth();
+        // });
     }
 }

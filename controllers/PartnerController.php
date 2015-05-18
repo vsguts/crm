@@ -65,6 +65,21 @@ class PartnerController extends AController
         ]);
     }
 
+    public function actionList($q)
+    {
+        $partners = [];
+        if ($q) {
+            $models = Partner::find()->where(['like', 'name', $q])->limit(30)->all();
+            foreach ($models as $model) {
+                $partners[] = [
+                    'id' => $model->id,
+                    'text' => $model->name,
+                ];
+            }
+        }
+        $this->ajaxAssign('partners', $partners);
+    }
+
     /**
      * Creates a new Partner model.
      * If creation is successful, the browser will be redirected to the 'update' page.

@@ -16,6 +16,7 @@ class TaskSearch extends Task
     {
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
+            'partner_id',
             'timestamp_to',
             'created_at_to',
             'updated_at_to',
@@ -49,6 +50,15 @@ class TaskSearch extends Task
         return $behaviors;
     }
 
+    public function attributeLabels()
+    {
+        $labels = parent::attributeLabels();
+
+        $labels['partner_id'] = __('Partner');
+
+        return $labels;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -59,7 +69,7 @@ class TaskSearch extends Task
     public function search($params)
     {
         $query = Task::find()
-            ->joinWith('partner')
+            ->joinWith('partners')
         ;
 
         $dataProvider = new ActiveDataProvider([
@@ -79,9 +89,9 @@ class TaskSearch extends Task
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
             'done' => $this->done,
+            'task_partner.partner_id' => $this->partner_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

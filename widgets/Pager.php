@@ -8,6 +8,19 @@ use yii\bootstrap\ButtonDropdown;
 
 class Pager extends LinkPager
 {
+    public $resultIds = '';
+
+    public function init()
+    {
+        parent::init();
+
+        // Enable ajax
+        if ($this->resultIds) {
+            $this->linkOptions['class'] = 'c-ajax';
+            $this->linkOptions['data-result-ids'] = $this->resultIds;
+        }
+    }
+
     public function run()
     {
         parent::run();
@@ -37,6 +50,7 @@ class Pager extends LinkPager
                 'label' => $per_page_item,
                 'url' => $this->pagination->createUrl(1, $per_page_item),
                 'active' => $per_page_item == $current_page_size,
+                'linkOptions' => $this->linkOptions,
             ];
         }
         

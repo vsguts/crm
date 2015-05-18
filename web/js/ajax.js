@@ -1,17 +1,26 @@
 (function($){
 
+    var spinnerSelector = '[class^="m-ajax-"]';
+
     function response(options, data) {
+        
+        $(spinnerSelector).hide();
+        
         if (data.html) {
             for (var id in data.html) {
                 $('#' + id).replaceWith(data.html[id]);
+                $.mCommonInit($('#' + id));
             }
         }
+        
         if (data.debug) {
             console.log(data.debug);
         }
+        
         if (options.callback) {
             options.callback(data);
         }
+        
         if (data.scripts) {
             setTimeout(function(){
                 $.each(data.scripts, function(i, script){
@@ -19,6 +28,7 @@
                 });
             }, 1);
         }
+        
         // TODO: notifications
     };
 
@@ -31,6 +41,9 @@
             options.error = function(jqxhr, textStatus, errorThrown) {
                 console.error(errorThrown);
             };
+            
+            $(spinnerSelector).show();
+
             return $.ajax(url, options);
         },
     };

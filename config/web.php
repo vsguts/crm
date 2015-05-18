@@ -1,7 +1,7 @@
 <?php
 
-$params = require(__DIR__ . '/_params.php');
-$db = require(__DIR__ . '/_db.php');
+$params = require(__DIR__ . '/components/params.php');
+$db = require(__DIR__ . '/components/db.php');
 
 $config = [
     'id' => 'crm',

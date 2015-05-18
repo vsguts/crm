@@ -8,6 +8,11 @@
  * @license http://www.yiiframework.com/license/
  */
 
+$pre_index_file = __DIR__ . '/config/pre_index.php';
+if (file_exists($pre_index_file)) {
+    include $pre_index_file;
+}
+
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 // fcgi doesn't have STDIN and STDOUT defined by default
@@ -16,6 +21,7 @@ defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
 
 require(__DIR__ . '/vendor/autoload.php');
 require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
+require(__DIR__ . '/components/functions.php');
 
 $config = require(__DIR__ . '/config/console.php');
 

@@ -34,7 +34,9 @@ $form = ActiveForm::begin([
     ]
 ]);
 
-echo $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name'));
+echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+    'initValueText' => $model->partner ? $model->partner->name : '',
+]);
 
 echo $form->field($model, 'sum')->textInput(['maxlength' => 19]);
 

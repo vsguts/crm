@@ -30,5 +30,6 @@ echo GridView::widget([
     'columns' => $columns,
     'controllerId' => 'visit',
     'detailsLinkPopup' => true,
+    'ajaxPager' => !empty($partnerId),
 ]);
 

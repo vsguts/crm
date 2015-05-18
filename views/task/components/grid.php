@@ -18,10 +18,18 @@ $columns = [
     'name',
 ];
 
-if (empty($partnerId)) {
-    $columns[] = ['attribute' => 'partner.name', 'label' => __('Partner')];
-}
-
+$columns[] = [
+    'label' => __('Partner'),
+    'format' => 'raw',
+    'value' => function($model, $key, $index, $column) {
+        $count = count($model->partners);
+        if ($count == 1) {
+            return $model->partners[0]->name;
+        } else {
+            return '<span class="badge">' . $count . '</span>';
+        }
+    }
+];
 $columns[] = ['attribute' => 'user.name', 'label' => __('User')];
 $columns[] = ['attribute' => 'done', 'class' => 'app\widgets\grid\CheckboxColumn'];
 $columns[] = 'timestamp';
@@ -32,5 +40,6 @@ echo GridView::widget([
     'columns' => $columns,
     'controllerId' => 'task',
     'detailsLinkPopup' => true,
+    'ajaxPager' => !empty($partnerId),
 ]);
 

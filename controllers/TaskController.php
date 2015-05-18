@@ -7,6 +7,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\Task;
+use app\models\Partner;
 use app\models\search\TaskSearch;
 
 /**
@@ -76,10 +77,13 @@ class TaskController extends AController
                 $model->timestamp = Yii::$app->formatter->asDate(time());
                 $model->user_id = Yii::$app->user->id;
                 if ($partner_id) {
-                    $model->partner_id = $partner_id;
+                    $model->select_partner = Partner::findOne($partner_id);
                 }
             }
 
+            return $this->render('update', [
+                'model' => $model,
+            ]);
             return $this->renderAjax('update', [
                 'model' => $model,
             ]);

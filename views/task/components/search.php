@@ -20,7 +20,7 @@ use app\widgets\DatePickerRange;
             <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
             
             <?= $form->field($model, 'done')->dropDownList([
-                '' => ' -- ' . __('Done') . ' -- ',
+                '' => ' - ' . __('Done') . ' - ',
                 1 => __('Yes'),
                 0 => __('No'),
             ]) ?>

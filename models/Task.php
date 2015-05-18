@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "task".
  *
  * @property integer $id
- * @property integer $partner_id
  * @property integer $user_id
  * @property integer $timestamp
  * @property integer $created_at
@@ -16,11 +15,15 @@ use Yii;
  * @property integer $done
  * @property string $notes
  *
- * @property Partner $partner
  * @property User $user
+ * @property TaskPartner[] $taskPartners
+ * @property Partner[] $partners
  */
 class Task extends \yii\db\ActiveRecord
 {
+    // Preselect partner
+    public $select_partner = null;
+
     /**
      * @inheritdoc
      */
@@ -35,6 +38,7 @@ class Task extends \yii\db\ActiveRecord
             'app\behaviors\ListBehavior',
             'yii\behaviors\TimestampBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\PartnersSelectBehavior',
         ];
     }
 
@@ -44,9 +48,10 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'partner_id', 'user_id', 'timestamp'], 'required'],
+            [['name', 'user_id', 'timestamp'], 'required'],
             [['done'], 'integer'],
-            [['notes'], 'string']
+            [['notes'], 'string'],
+            [['partners_ids'], 'safe'], //FIXME
         ];
     }
 
@@ -56,24 +61,19 @@ class Task extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner'),
-            'user_id' => Yii::t('app', 'User'),
-            'name' => Yii::t('app', 'Name'),
-            'timestamp' => Yii::t('app', 'Due date'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'done' => Yii::t('app', 'Done'),
-            'notes' => Yii::t('app', 'Notes'),
+            'id' => __('ID'),
+            'user_id' => __('User'),
+            'name' => __('Name'),
+            'timestamp' => __('Due date'),
+            'created_at' => __('Created At'),
+            'updated_at' => __('Updated At'),
+            'done' => __('Done'),
+            'notes' => __('Notes'),
+            'partners' => __('Partners'),
+            
+            // FIXME
+            'partners_ids' => __('Partners'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPartner()
-    {
-        return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
     /**
@@ -83,4 +83,21 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTaskPartners()
+    {
+        return $this->hasMany(TaskPartner::className(), ['task_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartners()
+    {
+        return $this->hasMany(Partner::className(), ['id' => 'partner_id'])->viaTable('task_partner', ['task_id' => 'id']);
+    }
+
 }

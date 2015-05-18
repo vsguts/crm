@@ -7,6 +7,7 @@ if (file_exists($pre_index_file)) {
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+require(__DIR__ . '/../components/functions.php');
 
 $config = require(__DIR__ . '/../config/web.php');
 

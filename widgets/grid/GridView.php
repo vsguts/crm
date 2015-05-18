@@ -43,6 +43,17 @@ class GridView extends YGridView
      */
     public $detailsLinkPopup = false;
 
+    public $ajaxPager = false;
+
+    public function init()
+    {
+        parent::init();
+        
+        if ($this->ajaxPager) {
+            $this->pager['resultIds'] = $this->id;
+        }
+    }
+
     public function prepareDetailsLink($id)
     {
         $linkRoute = $this->detailsLinkAction;

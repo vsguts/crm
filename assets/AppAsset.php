@@ -29,6 +29,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/ajax.js',
         'js/core.js',
+        'js/events.js',
     ];
     
     public $depends = [
@@ -37,6 +38,7 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapPluginAsset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
+        'kartik\select2\Select2Asset',
         'dosamigos\gallery\GalleryAsset',
         'app\assets\BowerAsset',
     ];

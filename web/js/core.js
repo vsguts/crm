@@ -1,22 +1,69 @@
 (function($){
-    
-    var form_group_class = 'form-group';
 
-    var modal_options = {
-        backdrop: true,
-    };
+var form_group_class = 'form-group';
 
-    // Document ready
-    $(document).on('ready', function() {
-        $('.m-toggle-save').each(function(){
+var select2 = {
+    partners: {
+        allowClear: true,
+        minimumInputLength: 3,
+        ajax: {
+            url: '', // data-m-url attr
+            dataType: 'json',
+            cache: true,
+            data: function(params){
+                return {
+                    q: params
+                };
+            },
+            results: function(data){
+                return {
+                    results: data.partners
+                };
+            },
+            width: 'resolve',
+        },
+        initSelection: function(element, callback) {
+            callback({
+                text: element.data('initValueText'),
+            });
+        },
+    },
+};
+
+function hide(elm) {
+    elm.hide();
+    elm.find('input, textarea, select').attr('disabled', 'disabled');
+};
+
+function show(elm) {
+    elm.show();
+    elm.find('input, textarea, select').removeAttr('disabled');
+};
+
+function matchClass(elem, str) {
+    var jelm = $(elem),
+        cls = jelm.attr('class');
+    if (typeof(cls) !== 'object' && cls) {
+        var result = cls.match(str);
+        if (result) {
+            return result[0];
+        }
+    }
+};
+
+$.extend({
+    mCommonInit: function(context) {
+        context = $(context || document);
+
+        $('.m-toggle-save', context).each(function(){
             var elm = $(this),
                 target_class = elm.data('targetClass'),
                 status = $.cookie('m-toggle-' + target_class);
             
-            toggle(elm, !!status);
+            elm.mToggle(!!status);
         });
 
-        $('.m-tabs-save').each(function(){
+        $('.m-tabs-save', context).each(function(){
             var elm = $(this),
                 selected_href = $.cookie('m-tabs-' + elm.attr('id'));
             
@@ -26,123 +73,32 @@
             }
         });
 
-        $('.m-dtoggle').each(function(){
-            dToggle($(this));
+        $('.m-dtoggle', context).each(function(){
+            $(this).mDToggle();
         });
 
-        $('.m-country').each(function(){
-            countrySelect($(this));
+        $('.m-country', context).each(function(){
+            $(this).mCountrySelect();
         });
-        
-    });
 
-    // Events
-    $(document).on('click', function(e) {
-        var jelm = $(e.target);
+        $('.m-select2', context).each(function(){
+            $(this).mSelect2();
+        });
+    },
+});
 
-        if (jelm.hasClass('m-toggle') || jelm.parents('.m-toggle').length) {
-            var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle');
-            toggle(elm);
-        }
+$.fn.extend({
 
-        var tabs_save_elm = jelm.parents('.m-tabs-save');
-        if (tabs_save_elm.length) {
-            var selected = tabs_save_elm.find('.active a');
-            $.cookie('m-tabs-' + tabs_save_elm.attr('id'), selected.attr('href'));
-        }
-
-        if (jelm.hasClass('c-ajax')) {
-            $.cAjax('request', jelm.attr('href'), {
-                data: {
-                    result_ids: jelm.data('resultIds'),
-                },
-            });
-            return false;
-        }
-
-        if (jelm.hasClass('c-modal')) {
-            var target_id = jelm.data('targetId'),
-                target = $('#' + target_id);
-            
-            if (target.length) {
-                target.modal(modal_options);
-            } else {
-                var href = jelm.attr('href');
-                if (href.length) {
-                    $.cAjax('request', href, {
-                        data: {
-                            result_ids: target_id,
-                        },
-                        callback: function(data){
-                            if (data.html && data.html[target_id]) {
-                                $(data.html[target_id]).modal(modal_options);
-                            }
-                        },
-                    });
-                }
-            }
-            return false;
-        }
-    });
-    
-    // Rewrite yii events
-    $(document).on('click.crm', yii.clickableSelector, function(e) {
-        var jelm = $(e.target);
-
-        if (jelm.data('cProcessItems')) {
-            var url = jelm.data('url') || jelm.attr('href');
-            jelm.data('url', url);
-            var obj_name = jelm.data('cProcessItems'),
-                url_params = {},
-                keys = $('.grid-view').yiiGridView('getSelectedRows');
-            
-            if (!keys.length) {
-                alert(yii.crm.langs['No items selected']);
-                e.stopImmediatePropagation();
-                return false;
-            }
-            
-            url_params[obj_name] = keys;
-            var delimiter = url.indexOf('?') == -1 ? '?' : '&';
-            jelm.attr('href', url + delimiter + decodeURIComponent($.param(url_params)));
-            return true;
-        }
-    });
-
-    $(document).on('change', function(e) {
-        var jelm = $(e.target);
-
-        if (jelm.hasClass('m-dtoggle')) {
-            dToggle(jelm);
-        }
-
-        if (jelm.hasClass('m-country')) {
-            countrySelect(jelm);
-        }
-    });
-
-    // Yii events
-    $(document).on('beforeValidateAttribute', function(event, obj, msg, deferreds){
-        var jeml = $(obj.container);
-        if (jeml.find('input,select').attr('disabled')) { // skip validation
-            delete obj['validate'];
-            return true;
-        }
-    });
-
-
-    // Private functions
-
-    function toggle(elm, force_status_init) {
-        var target_class = elm.data('targetClass'),
-            toggle_class = elm.data('toggleClass'),
+    mToggle: function(force_status_init) {
+        var target_class = this.data('targetClass'),
+            toggle_class = this.data('toggleClass'),
             target = $('.' + target_class);
 
         target.toggle(force_status_init);
         if (toggle_class) {
-            elm.toggleClass(toggle_class, force_status_init);
+            this.toggleClass(toggle_class, force_status_init);
         }
-        if (elm.hasClass('m-toggle-save') && typeof(force_status_init) == 'undefined') {
+        if (this.hasClass('m-toggle-save') && typeof(force_status_init) == 'undefined') {
             if (target.is(':visible')) {
                 $.cookie('m-toggle-' + target_class, 1);
             } else {
@@ -150,11 +106,11 @@
             }
         }
 
-    };
+    },
 
-    function dToggle(elm) {
-        var name = matchClass(elm, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
-            value = elm.attr('type') == 'checkbox' ? (elm.is(':checked') ? 'on' : 'off') : elm.val(),
+    mDToggle: function() {
+        var name = matchClass(this, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
+            value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
             depends_all = $('[class^="m-dtoggle-' + name + '-"'),
             depends_selected = $('.m-dtoggle-' + name + '-' + value);
         
@@ -164,34 +120,12 @@
             hide(depends_all);
             show(depends_selected);
         }
-    };
+    },
 
-    function hide(elm) {
-        elm.hide();
-        elm.find('input, textarea, select').attr('disabled', 'disabled');
-    };
-
-    function show(elm) {
-        elm.show();
-        elm.find('input, textarea, select').removeAttr('disabled');
-    };
-
-    function matchClass(elem, str) {
-        var jelm = $(elem),
-            cls = jelm.attr('class');
-        if (typeof(cls) !== 'object' && cls) {
-            var result = cls.match(str);
-            if (result) {
-                return result[0];
-            }
-        }
-    };
-
-    function countrySelect(elm)
-    {
-        var country_id = elm.val(),
-            prefix = elm.attr('id').replace('country_id', ''),
-            form = elm.parents('form'),
+    mCountrySelect: function() {
+        var country_id = this.val(),
+            prefix = this.attr('id').replace('country_id', ''),
+            form = this.parents('form'),
             state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_group_class),
             state_text = form.find('#' + prefix + 'state').parents('.' + form_group_class),
             states = yii.crm.states[country_id];
@@ -215,6 +149,29 @@
             hide(state_dropdown);
             show(state_text);
         }
-    }
+    },
+
+    mSelect2: function() {
+        var params = select2.partners;
+        params.ajax.url = this.data('mUrl');
+        this.select2(params);
+    },
+
+    mClone: function() {
+        var item = this.clone().insertAfter(this);
+        item.find('[id]').each(function(){
+            var elm = $(this),
+                id = elm.attr('id');
+            elm.attr('id', id + 'z');
+        });
+
+        //FIXME
+        item.find('.select2-container').remove();
+        item.find('.m-select2').show();
+        
+        $.mCommonInit(item);
+    },
+
+});
 
 })(jQuery);

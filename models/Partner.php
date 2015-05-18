@@ -33,8 +33,8 @@ use app\models\query\PartnerQuery;
  * @property State $state0
  * @property PartnerTag[] $partnerTags
  * @property Tag[] $tags
+ * @property TaskPartner[] $taskPartners
  * @property Task[] $tasks
- * @property Template[] $templates
  * @property Visit[] $visits
  */
 class Partner extends \yii\db\ActiveRecord
@@ -176,17 +176,17 @@ class Partner extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getTaskPartners()
     {
-        return $this->hasMany(Task::className(), ['partner_id' => 'id']);
+        return $this->hasMany(TaskPartner::className(), ['partner_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTemplates()
+    public function getTasks()
     {
-        return $this->hasMany(Template::className(), ['partner_id' => 'id']);
+        return $this->hasMany(Task::className(), ['id' => 'task_id'])->viaTable('task_partner', ['partner_id' => 'id']);
     }
 
     /**

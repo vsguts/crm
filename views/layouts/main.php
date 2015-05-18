@@ -24,6 +24,9 @@ $this->registerJs(AppAsset::customJs());
 
 <?php $this->beginBody() ?>
 
+    <div class="m-ajax-overlay"></div>
+    <div class="m-ajax-spinner"></div>
+
     <div class="wrap">
         <?= $this->render('components/navbar') ?>
         <div class="container">

@@ -35,7 +35,10 @@ $form = ActiveForm::begin([
 
 echo $form->field($model, 'name')->textInput();
 
-echo $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name'));
+echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
+    'multiple' => true,
+    'initObject' => $model->select_partner,
+]);
 
 echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));
 
@@ -56,4 +59,3 @@ if (!$model->isNewRecord) {
 ActiveForm::end();
 
 Modal::end();
-

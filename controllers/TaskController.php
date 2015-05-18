@@ -81,9 +81,6 @@ class TaskController extends AController
                 }
             }
 
-            return $this->render('update', [
-                'model' => $model,
-            ]);
             return $this->renderAjax('update', [
                 'model' => $model,
             ]);

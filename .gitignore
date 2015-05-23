@@ -8,9 +8,3 @@ composer.lock
 
 # sublime project files
 *.sublime-*
-
-# phpunit itself is not needed
-phpunit.phar
-# local phpunit config
-/phpunit.xml
-

@@ -8,7 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
-        // 'appBootstrap'
+        'appBootstrap',
     ],
     'language' => 'en-US',
     'components' => [
@@ -89,9 +89,9 @@ $config = [
                 ],
             ],
         ],
-        // 'appBootstrap' => [
-        //     'class' => 'app\components\Bootstrap',
-        // ],
+        'appBootstrap' => [
+            'class' => 'app\components\Bootstrap',
+        ],
     ],
     'params' => $params,
 ];

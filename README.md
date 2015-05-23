@@ -79,7 +79,7 @@ http://localhost/crm/requirements.php
 
 ### Database
 
-Copy the file `config/components/db.php.example` into the `config/components/db.php` and edit them with real data. For example:
+Copy the file `config/db.php.example` into the `config/db.php` and edit them with real data. For example:
 
 ```php
 return [
@@ -105,7 +105,7 @@ Use following to apply mogrations:
 ./yii migrate
 ```
 
-Copy the file `config/components/params.php.example` into the `config/components/params.php` and edit them with real data. For example:
+Copy the file `config/params.php.example` into the `config/params.php` and edit them with real data. For example:
 
 ```php
 return [

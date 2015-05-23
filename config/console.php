@@ -43,5 +43,4 @@ return [
         ],
     ],
     'params' => $params,
-    'dirs' => $dirs,
 ];

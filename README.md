@@ -1,18 +1,16 @@
-Yii 2 Basic Application Template
-================================
+CRM System for non-profit organizations
+=======================================
 
-Yii 2 Basic Application Template is a skeleton Yii 2 application best for
-rapidly creating small projects.
+System allows you to manage partners and relationships with them.
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+Based on Yii 2 Basic Application Template.
 
 
 DIRECTORY STRUCTURE
 -------------------
 
       assets/             contains assets definition
+      behaviors/          contains behaviors definition
       commands/           contains console commands (controllers)
       config/             contains application configurations
       controllers/        contains Web controller classes
@@ -23,6 +21,7 @@ DIRECTORY STRUCTURE
       vendor/             contains dependent 3rd-party packages
       views/              contains view files for the Web application
       web/                contains the entry script and Web resources
+      widgets/            contains widgets for view files for the Web application
 
 
 
@@ -35,55 +34,86 @@ The minimum requirement by this application template that your Web server suppor
 INSTALLATION
 ------------
 
-### Install from an Archive File
+Clone repo:
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install via Composer
+```bash
+git clone git@bitbucket.org:wycliffe/crm.git
+```
 
 If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
 at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 
-You can then install this application template using the following command:
+Install composer plugin using the following command:
 
 ~~~
-php composer.phar global require "fxp/composer-asset-plugin:1.0.0-beta2"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+php composer.phar global require "fxp/composer-asset-plugin:1.0.0"
 ~~~
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
+Install composer dependencies
 
 ~~~
-http://localhost/basic/web/
+php composer update
+~~~
+
+You can then access the application through the following URL:
+
+~~~
+http://localhost/crm/web/
 ~~~
 
 
 CONFIGURATION
 -------------
 
+### Check requirements
+
+Console:
+```bash
+php requirements.php
+```
+
+Web:
+~~~
+http://localhost/crm/requirements.php
+~~~
+
 ### Database
 
-Edit the file `config/db.php` with real data, for example:
+Copy the file `config/components/db.php.example` into the `config/components/db.php` and edit them with real data. For example:
 
 ```php
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'dsn' => 'mysql:host=localhost;dbname=crm',
     'username' => 'root',
-    'password' => '1234',
+    'password' => '',
     'charset' => 'utf8',
 ];
 ```
 
 **NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
 
-Also check and edit the other files in the `config/` directory to customize your application.
+Use following to create database
+
+```sql
+CREATE DATABASE crm CHARACTER SET utf8;
+```
+
+Use following to apply mogrations:
+
+```bash
+./yii migrate
+```
+
+Copy the file `config/components/params.php.example` into the `config/components/params.php` and edit them with real data. For example:
+
+```php
+return [
+    'adminEmail' => 'admin@example.com',
+    'supportEmail' => 'admin@example.com',
+    'user.passwordResetTokenExpire' => 3600,
+    'brandName' => 'CRM',
+    'applicationName' => 'My CRM',
+    'companyName' => 'My Company',
+];
+```

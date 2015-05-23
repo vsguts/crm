@@ -1,0 +1,19 @@
+<?php
+
+return [
+    'adminEmail' => 'admin@example.com',
+    'supportEmail' => 'admin@example.com',
+    'brandName' => 'CRM',
+    'applicationName' => 'My CRM',
+    'companyName' => 'My Company',
+    
+    'user.passwordResetTokenExpire' => 3600,
+
+    'dirs' => [
+        'uploads' => '@webroot/uploads/',
+        'images' => '@webroot/images/',
+        'images_store' => '@webroot/images/store/',
+        'images_cache' => '@webroot/images/cache/',
+    ],
+
+];

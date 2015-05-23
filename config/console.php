@@ -1,11 +1,9 @@
 <?php
 
-define('CONSOLE', true); //GVS debug
-
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
-$params = require(__DIR__ . '/components/params.php');
-$db = require(__DIR__ . '/components/db.php');
+$params = require(__DIR__ . '/params.php');
+$db = require(__DIR__ . '/db.php');
 
 return [
     'id' => 'basic-console',
@@ -45,4 +43,5 @@ return [
         ],
     ],
     'params' => $params,
+    'dirs' => $dirs,
 ];

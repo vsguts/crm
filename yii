@@ -1,23 +1,11 @@
 #!/usr/bin/env php
 <?php
-/**
- * Yii console bootstrap file.
- *
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
-$pre_index_file = __DIR__ . '/config/pre_index.php';
-if (file_exists($pre_index_file)) {
-    include $pre_index_file;
-}
-
-defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 // fcgi doesn't have STDIN and STDOUT defined by default
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
+
+file_exists($constants = __DIR__ . '/../config/constants.php') && include($constants);
 
 require(__DIR__ . '/vendor/autoload.php');
 require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');

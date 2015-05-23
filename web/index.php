@@ -1,9 +1,6 @@
 <?php
 
-$pre_index_file = __DIR__ . '/../config/pre_index.php';
-if (file_exists($pre_index_file)) {
-    include $pre_index_file;
-}
+file_exists($constants = __DIR__ . '/../config/constants.php') && include($constants);
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');

@@ -30,25 +30,25 @@ echo Nav::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => Html::tag('b', Yii::t('app', 'Partners')),
+            'label' => Html::tag('b', __('Partners')),
             'url' => ['/partner/index'],
             'visible' => $user->can('partner_manage'),
             'active' => $controller_id == 'partner',
         ],
         [
-            'label' => Yii::t('app', 'Visits'),
+            'label' => __('Visits'),
             'url' => ['/visit/index'],
             'visible' => $user->can('visit_manage'),
             'active' => $controller_id == 'visit',
         ],
         [
-            'label' => Yii::t('app', 'Donates'),
+            'label' => __('Donates'),
             'url' => ['/donate/index'],
             'visible' => $user->can('donate_manage'),
             'active' => $controller_id == 'donate',
         ],
         [
-            'label' => Yii::t('app', 'Tasks'),
+            'label' => __('Tasks'),
             'url' => ['/task/index'],
             'visible' => $user->can('task_manage'),
             'active' => $controller_id == 'task',
@@ -71,7 +71,7 @@ $menu_items[] = [
     'active' => in_array($controller_id, ['print-template']),
     'items' => [
         [
-            'label' => Yii::t('app', 'Printing templates'),
+            'label' => __('Printing templates'),
             'url' => ['/print-template/index'],
             'visible' => $user->can('print_template_manage'),
             'active' => $controller_id == 'print_template',
@@ -80,41 +80,62 @@ $menu_items[] = [
 ];
 
 // Administration
+$items = [];
+if ($user->can('file_manage')) {
+    $items[] = [
+        'label' => __('Files'),
+        'visible' => $user->can('file_manage'),
+        'active' => $controller_id == 'file',
+        'url' => ['/file/index'],
+    ];
+    $items[] = '<li class="divider"></li>';
+}
+if ($user->can('partner_manage')) {
+    $items[] = [
+        'label' => __('Export'),
+        'visible' => $user->can('partner_manage'),
+        'active' => $controller_id == 'export',
+        'url' => ['/export/partners'],
+    ];
+    $items[] = '<li class="divider"></li>';
+}
+if ($user->can('user_manage')) {
+    $items[] = [
+        'label' => __('Users'),
+        'url' => ['/user/index'],
+        'visible' => $user->can('user_manage'),
+        'active' => $controller_id == 'user' && !$is_profile,
+    ];
+    $items[] = '<li class="divider"></li>';
+}
+if ($user->can('country_manage')) {
+    $items[] = [
+        'label' => __('Countries'),
+        'url' => ['/country/index'],
+        'visible' => $user->can('country_manage'),
+        'active' => $controller_id == 'country',
+    ];
+}
+if ($user->can('state_manage')) {
+    $items[] = [
+        'label' => __('States'),
+        'url' => ['/state/index'],
+        'visible' => $user->can('state_manage'),
+        'active' => $controller_id == 'state',
+    ];
+}
+
 $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
     'label' => __('Administration'),
-    'visible' => $user->can('user_manage')
+    'visible' => 
+        $user->can('file_manage')
+        || $user->can('user_manage')
+        || $user->can('partner_manage')
         || $user->can('country_manage')
         || $user->can('state_manage'),
-    'active' => in_array($controller_id, ['export', 'user', 'country', 'state']) && !$is_profile,
-    'items' => [
-        [
-            'label' => Yii::t('app', 'Export'),
-            'visible' => $user->can('partner_manage'),
-            'active' => $controller_id == 'export',
-            'url' => ['/export/partners'],
-        ],
-        '<li class="divider"></li>',
-        [
-            'label' => Yii::t('app', 'Users'),
-            'url' => ['/user/index'],
-            'visible' => $user->can('user_manage'),
-            'active' => $controller_id == 'user' && !$is_profile,
-        ],
-        '<li class="divider"></li>',
-        [
-            'label' => Yii::t('app', 'Countries'),
-            'url' => ['/country/index'],
-            'visible' => $user->can('country_manage'),
-            'active' => $controller_id == 'country',
-        ],
-        [
-            'label' => Yii::t('app', 'States'),
-            'url' => ['/state/index'],
-            'visible' => $user->can('state_manage'),
-            'active' => $controller_id == 'state',
-        ],
-    ]
+    'active' => in_array($controller_id, ['file', 'export', 'user', 'country', 'state']) && !$is_profile,
+    'items' => $items
 ];
 
 // Languages
@@ -138,11 +159,11 @@ $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items
 $help_menu = [
     'items' => [
         'contact' => [
-            'label' => Yii::t('app', 'Contact'),
+            'label' => __('Contact'),
             'url' => ['/site/contact']
         ],
         'about' => [
-            'label' => Yii::t('app', 'About'),
+            'label' => __('About'),
             'url' => ['/site/about']
         ],
     ],
@@ -151,11 +172,11 @@ $help_menu = [
 
 if (Yii::$app->user->isGuest) {
 
-    $menu_items[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
-    $menu_items[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
+    $menu_items[] = ['label' => __('Signup'), 'url' => ['/site/signup']];
+    $menu_items[] = ['label' => __('Login'), 'url' => ['/site/login']];
 
     $menu_items[] = [
-        'label' => Yii::t('app', 'Help'),
+        'label' => __('Help'),
         'active' => $help_menu['active'],
         'items' => $help_menu['items']
     ];
@@ -173,12 +194,12 @@ if (Yii::$app->user->isGuest) {
             Html::tag('li', Html::a(__('Signed in as <br><b>{name}</b>', ['name' => $name])), ['class'=>'disabled']),
             '<li class="divider"></li>',
             [
-                'label' => Yii::t('app', 'Profile'),
+                'label' => __('Profile'),
                 'url' => ['/user/update', 'id' => $user->identity->id],
                 'active' => $is_profile,
             ],
             [
-                'label' => Yii::t('app', 'Logout'),
+                'label' => __('Logout'),
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ],

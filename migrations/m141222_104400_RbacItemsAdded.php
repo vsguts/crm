@@ -35,6 +35,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         $permissions['task_manage']           = $auth->createPermission('task_manage');
         $permissions['user_manage']           = $auth->createPermission('user_manage');
         $permissions['user_manage_own']       = $auth->createPermission('user_manage_own');
+        $permissions['file_manage']           = $auth->createPermission('file_manage');
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
         $permissions['tools']                 = $auth->createPermission('tools');
 
@@ -49,6 +50,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         $auth->addChild($roles['root'], $permissions['state_manage']);
         $auth->addChild($roles['root'], $permissions['print_template_manage']);
         $auth->addChild($roles['root'], $permissions['user_manage']);
+        $auth->addChild($roles['root'], $permissions['file_manage']);
         $auth->addChild($roles['root'], $permissions['tools']);
         
         $auth->addChild($roles['missionary'], $permissions['partner_manage']);

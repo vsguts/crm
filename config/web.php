@@ -93,6 +93,23 @@ $config = [
             'class' => 'app\components\Bootstrap',
         ],
     ],
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\Controller',
+            'access' => ['file_manage'],
+            'roots' => [
+                [
+                    'path' => 'uploads',
+                    'name' => 'Uploads',
+                ],
+                [
+                    'path' => 'images',
+                    'name' => 'Images stored',
+                    'access' => ['read' => '*', 'write' => 'UserFilesAccess']
+                ],
+            ],
+        ]
+    ],
     'params' => $params,
 ];
 

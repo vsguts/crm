@@ -180,5 +180,6 @@ return [
     'Contact person' => 'Контактное лицо',
     'Contact persons' => 'Контактные лица',
     'Partners search' => 'Поиск партнеров',
+    'Files' => 'Файлы',
 
 ];

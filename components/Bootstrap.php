@@ -25,7 +25,8 @@ class Bootstrap extends ServiceLocator
     protected function clearCache()
     {
         FileHelper::removeDirectory(Yii::getAlias('@runtime'));
-        FileHelper::removeDirectory(Yii::getAlias(Yii::$app->params['dirs']['images_cache']));
+        FileHelper::removeDirectory(Yii::getAlias('@webroot/assets'));
+        FileHelper::removeDirectory(Yii::getAlias(Yii::$app->params['dirs']['image_stored_thumbnails']));
     }
 
 }

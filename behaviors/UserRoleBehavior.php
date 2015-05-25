@@ -36,7 +36,7 @@ class UserRoleBehavior extends Behavior
         $model = $this->owner;
         $this->auth->revokeAll($model->id);
 
-        $const = $model::className() . '::AUTH_ROLE_' . $model->role;
+        $const = $model::className() . '::AUTH_ROLE_' . $model->role; // e.g. User::AUTH_ROLE_1
         if (defined($const)) {
             $role_name = constant($const);
             $role = $this->auth->getRole($role_name);

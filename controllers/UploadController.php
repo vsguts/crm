@@ -5,7 +5,7 @@ namespace app\controllers;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class FileController extends AController
+class UploadController extends AController
 {
     public function behaviors()
     {
@@ -15,7 +15,7 @@ class FileController extends AController
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['file_manage'],
+                        'roles' => ['upload_images', 'upload_own_files', 'upload_common_files'],
                     ],
                 ],
             ],

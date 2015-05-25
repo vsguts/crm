@@ -11,19 +11,25 @@ class m141222_104400_RbacItemsAdded extends Migration
     {
         $auth = Yii::$app->authManager;
 
-        $rules = $roles = $permissions = [];
-
         // Flush
         $auth->removeAll();
+
+
+        /**
+         * Entities
+         */
+
+        $rules = $roles = $permissions = [];
 
         // Rules
         $rules['owner'] = new OwnerRule;
 
         // Roles
-        $roles['user'] = $auth->createRole('user');
-        $roles['root'] = $auth->createRole('root');
+        $roles['user']       = $auth->createRole('user');
         $roles['missionary'] = $auth->createRole('missionary');
         $roles['accountant'] = $auth->createRole('accountant');
+        $roles['manager']    = $auth->createRole('manager');
+        $roles['root']       = $auth->createRole('root');
         
         // Permissions
         $permissions['country_manage']        = $auth->createPermission('country_manage');
@@ -35,8 +41,10 @@ class m141222_104400_RbacItemsAdded extends Migration
         $permissions['task_manage']           = $auth->createPermission('task_manage');
         $permissions['user_manage']           = $auth->createPermission('user_manage');
         $permissions['user_manage_own']       = $auth->createPermission('user_manage_own');
-        $permissions['file_manage']           = $auth->createPermission('file_manage');
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
+        $permissions['upload_images']         = $auth->createPermission('upload_images');
+        $permissions['upload_own_files']      = $auth->createPermission('upload_own_files');
+        $permissions['upload_common_files']   = $auth->createPermission('upload_common_files');
         $permissions['tools']                 = $auth->createPermission('tools');
 
         foreach ([$rules, $roles, $permissions] as $items) {
@@ -45,30 +53,36 @@ class m141222_104400_RbacItemsAdded extends Migration
             }
         }
 
-        // Links: roles with permissions
-        $auth->addChild($roles['root'], $permissions['country_manage']);
-        $auth->addChild($roles['root'], $permissions['state_manage']);
-        $auth->addChild($roles['root'], $permissions['print_template_manage']);
-        $auth->addChild($roles['root'], $permissions['user_manage']);
-        $auth->addChild($roles['root'], $permissions['file_manage']);
-        $auth->addChild($roles['root'], $permissions['tools']);
-        
+
+        /**
+         * Links
+         */
+
+        $auth->addChild($roles['user'], $permissions['user_manage_own']);
+        $auth->addChild($roles['user'], $permissions['upload_own_files']);
+
+        $auth->addChild($roles['missionary'], $roles['user']);
         $auth->addChild($roles['missionary'], $permissions['partner_manage']);
         $auth->addChild($roles['missionary'], $permissions['visit_manage']);
         $auth->addChild($roles['missionary'], $permissions['task_manage']);
 
+        $auth->addChild($roles['accountant'], $roles['user']);
         $auth->addChild($roles['accountant'], $permissions['partner_manage']);
         $auth->addChild($roles['accountant'], $permissions['donate_manage']);
         $auth->addChild($roles['accountant'], $permissions['task_manage']);
 
-        $auth->addChild($roles['user'], $permissions['user_manage_own']);
+        $auth->addChild($roles['manager'],    $roles['missionary']);
+        $auth->addChild($roles['manager'],    $roles['accountant']);
+        $auth->addChild($roles['manager'],    $permissions['print_template_manage']);
+        $auth->addChild($roles['manager'],    $permissions['upload_images']);
+        $auth->addChild($roles['manager'],    $permissions['upload_common_files']);
 
-        // Links: roles with roles
-        $auth->addChild($roles['root'], $roles['missionary']);
-        $auth->addChild($roles['root'], $roles['accountant']);
-        $auth->addChild($roles['root'], $roles['user']);
-        $auth->addChild($roles['missionary'], $roles['user']);
-        $auth->addChild($roles['accountant'], $roles['user']);
+        $auth->addChild($roles['root'],       $roles['manager']);
+        $auth->addChild($roles['root'],       $permissions['country_manage']);
+        $auth->addChild($roles['root'],       $permissions['state_manage']);
+        $auth->addChild($roles['root'],       $permissions['user_manage']);
+        $auth->addChild($roles['root'],       $permissions['tools']);
+
 
         // Assign roles to users
         foreach (User::find()->all() as $user) {

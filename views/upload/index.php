@@ -8,7 +8,7 @@ $this->title = __('Files');
 echo ElFinder::widget([
     'language'         => 'ru',
     'controller'       => 'elfinder',
-    'filter'           => 'image',
+    'filter'           => ['image', 'x', 'text', 'application'],
     'containerOptions' => [
         'style' => 'height: 800px',
     ],

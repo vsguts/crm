@@ -37,6 +37,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     const AUTH_ROLE_2 = 'root';
     const AUTH_ROLE_3 = 'missionary';
     const AUTH_ROLE_4 = 'accountant';
+    const AUTH_ROLE_5 = 'manager';
 
     const STATUS_ACTIVE = 1;
 

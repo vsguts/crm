@@ -89,6 +89,7 @@ return [
     // \Lookup
     'Field' => 'Поле',
     'Root' => 'Главный администратор',
+    'Manager' => 'Мэнеджер',
     'Created At' => 'Создано',
     'Updated At' => 'Обновлено',
     'Code' => 'Код',

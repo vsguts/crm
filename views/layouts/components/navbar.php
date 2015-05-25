@@ -81,12 +81,13 @@ $menu_items[] = [
 
 // Administration
 $items = [];
-if ($user->can('file_manage')) {
+$can_upload = $user->can('upload_images') || $user->can('upload_own_files') || $user->can('upload_common_files');
+if ($can_upload) {
     $items[] = [
         'label' => __('Files'),
-        'visible' => $user->can('file_manage'),
-        'active' => $controller_id == 'file',
-        'url' => ['/file/index'],
+        'visible' => $can_upload,
+        'active' => $controller_id == 'upload',
+        'url' => ['/upload/index'],
     ];
     $items[] = '<li class="divider"></li>';
 }
@@ -129,12 +130,12 @@ $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
     'label' => __('Administration'),
     'visible' => 
-        $user->can('file_manage')
+        $can_upload
         || $user->can('user_manage')
         || $user->can('partner_manage')
         || $user->can('country_manage')
         || $user->can('state_manage'),
-    'active' => in_array($controller_id, ['file', 'export', 'user', 'country', 'state']) && !$is_profile,
+    'active' => in_array($controller_id, ['upload', 'export', 'user', 'country', 'state']) && !$is_profile,
     'items' => $items
 ];
 

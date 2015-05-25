@@ -96,16 +96,23 @@ $config = [
     'controllerMap' => [
         'elfinder' => [
             'class' => 'mihaildev\elfinder\Controller',
-            'access' => ['file_manage'],
+            'access' => ['upload_images', 'upload_own_files', 'upload_common_files'],
             'roots' => [
                 [
-                    'path' => 'uploads',
-                    'name' => 'Uploads',
+                    'path' => 'files/common',
+                    'name' => ['category' => 'app', 'message' => 'Common files'],
+                    'access' => ['read' => 'upload_common_files', 'write' => 'upload_common_files']
                 ],
                 [
-                    'path' => 'images',
-                    'name' => 'Images stored',
-                    'access' => ['read' => '*', 'write' => 'UserFilesAccess']
+                    'class' => 'mihaildev\elfinder\UserPath',
+                    'path' => 'files/personal/user_{id}',
+                    'name' => ['category' => 'app', 'message' => 'Personal files'],
+                    'access' => ['read' => 'upload_own_files', 'write' => 'upload_own_files']
+                ],
+                [
+                    'path' => 'images/uploads',
+                    'name' => ['category' => 'app', 'message' => 'Images'],
+                    'access' => ['read' => '*', 'write' => 'upload_images']
                 ],
             ],
         ]

@@ -139,13 +139,13 @@ class Image extends ActiveRecord
             $subdir .= $this->model_id . '/';
         }
 
-        $path = Yii::$app->params['dirs']['images_store'] . $subdir;
+        $path = Yii::$app->params['dirs']['image_stored'] . $subdir;
         if (!$only_dir) {
             $path .= $this->filename;
         }
 
         if ($size) {
-            $path = Yii::$app->params['dirs']['images_cache'] . $subdir;
+            $path = Yii::$app->params['dirs']['image_stored_thumbnails'] . $subdir;
             if (!$only_dir) {
                 $file = pathinfo($this->filename);
                 $path .= $file['filename'] . '_' . $size . '.' . $file['extension'];

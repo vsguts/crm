@@ -14,25 +14,40 @@ class ActionColumn extends Column
     
     public $size;
 
+    public $extraItems = [];
+
     protected function renderDataCellContent($model, $key, $index)
     {
         $detailsLinkOptions = $this->grid->prepareDetailsLink($model->id);
         $removeLinkOptions = $this->grid->prepareRemoveLink($model->id);
 
+        $items = [
+            [
+                'label' => __('Edit'),
+                'url' => $detailsLinkOptions['href'],
+                'linkOptions' => $detailsLinkOptions
+            ],
+        ];
+
+        foreach ($this->extraItems as $item) {
+            $idField = !empty($item['idField']) ? $item['idField'] : 'id';
+            $items[] = [
+                'label' => $item['label'],
+                'url' => $this->grid->prepareCustomLink($item['action'], [$idField => $model->id]),
+                'linkOptions' => !empty($item['linkOptions']) ? $item['linkOptions'] : [],
+            ];
+        }
+
+        $items[] = [
+            'label' => __('Delete'),
+            'url' => $removeLinkOptions['href'],
+            'linkOptions' => $removeLinkOptions
+        ];
+
         return ActionsDropdown::widget([
             'size' => $this->size,
-            'items' => [
-                [
-                    'label' => __('Edit'),
-                    'url' => $detailsLinkOptions['href'],
-                    'linkOptions' => $detailsLinkOptions
-                ],
-                [
-                    'label' => __('Delete'),
-                    'url' => $removeLinkOptions['href'],
-                    'linkOptions' => $removeLinkOptions
-                ],
-            ],
+            'items' => $items,
         ]);
     }
+
 }

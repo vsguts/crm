@@ -56,16 +56,10 @@ class GridView extends YGridView
 
     public function prepareDetailsLink($id)
     {
-        $linkRoute = $this->detailsLinkAction;
         $linkParams = [
             'id' => $id
         ];
         
-        // Override controller
-        if ($this->controllerId) {
-            $linkRoute = '/' . $this->controllerId . '/' . $linkRoute;
-        }
-
         $options = [];
 
         if ($this->detailsLinkPopup) {
@@ -74,30 +68,31 @@ class GridView extends YGridView
             $linkParams['_return_url'] = Url::to();
         }
 
-        $options['href'] = Url::to(array_merge([$linkRoute], $linkParams));
+        $options['href'] = $this->prepareCustomLink($this->detailsLinkAction, $linkParams);
 
         return $options;
     }
 
     public function prepareRemoveLink($id)
     {
-        $linkRoute = 'delete';
-        $linkParams = [
-            'id' => $id
-        ];
-        
-        // Override controller
-        if ($this->controllerId) {
-            $linkRoute = '/' . $this->controllerId . '/' . $linkRoute;
-        }
-
         $options = [
-            'href' => Url::to(array_merge([$linkRoute], $linkParams)),
+            'href' => $this->prepareCustomLink('delete', ['id' => $id]),
             'data-confirm' => __('Are you sure you want to delete this item?'),
             'data-method' => 'post',
         ];
 
         return $options;
+    }
+
+    public function prepareCustomLink($action, $linkParams = [])
+    {
+        $linkRoute = $action;
+        // Override controller
+        if ($this->controllerId) {
+            $linkRoute = '/' . $this->controllerId . '/' . $linkRoute;
+        }
+
+        return Url::to(array_merge([$linkRoute], $linkParams));
     }
 
 }

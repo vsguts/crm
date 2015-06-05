@@ -15,6 +15,8 @@ class SelectAjax extends InputWidget
     
     public $initObject;
 
+    public $organizations = false;
+
     public function init()
     {
         if (!$this->options) {
@@ -23,6 +25,10 @@ class SelectAjax extends InputWidget
                 'placeholder' => __('Partners search'),
                 'data-m-url' => Url::to(['partner/list']),
             ];
+        }
+
+        if ($this->organizations) {
+            $this->options['data-m-organizations-only'] = 1;
         }
 
         if ($this->initValueText) {

@@ -41,8 +41,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email:email',
             'fullname',
-            ['attribute' => 'roleName', 'label' => Yii::t('app', 'Role')],
-            ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
+            [
+                'attribute' => 'role',
+                'value' => function($model, $key, $index, $column){
+                    return $model->getLookupItem('role', $model->role);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function($model, $key, $index, $column){
+                    return $model->getLookupItem('status', $model->status);
+                }
+            ],
             // 'country_id',
             // 'state_id',
             // 'state',

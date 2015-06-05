@@ -11,9 +11,14 @@ var select2 = {
             dataType: 'json',
             cache: true,
             data: function(params){
-                return {
+                var data = {
                     q: params
                 };
+                if (this.data('mOrganizationsOnly')) {
+                    data.organizations = true;
+                }
+
+                return data;
             },
             results: function(data){
                 return {
@@ -111,14 +116,21 @@ $.fn.extend({
     mDToggle: function() {
         var name = matchClass(this, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
             value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
-            depends_all = $('[class^="m-dtoggle-' + name + '-"'),
-            depends_selected = $('.m-dtoggle-' + name + '-' + value);
+            sel_dep_all = '[class^="m-dtoggle-' + name + '-"',
+            sel_dep = '.m-dtoggle-' + name + '-' + value;
+
+        this.find('option').each(function(i, elm){
+            var val = $(elm).val();
+            if (val != value) {
+                sel_dep = sel_dep + ', .m-dtoggle-' + name + '-n' + val;
+            }
+        });
         
         if (!value && !depends_selected.length) {
-            show(depends_all);
+            show($(sel_dep_all));
         } else {
-            hide(depends_all);
-            show(depends_selected);
+            hide($(sel_dep_all));
+            show($(sel_dep));
         }
     },
 

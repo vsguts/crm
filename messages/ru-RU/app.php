@@ -1,6 +1,6 @@
 <?php
 
-return [
+$messages = [
     'General' => 'Основное',
     'Send' => 'Отправить',
     'Submit' => 'Отправить',
@@ -79,12 +79,13 @@ return [
     'Missionary' => 'Миссионер',
     'Accountant' => 'Бухгалтер',
     'Organization' => 'Организация',
+    'NPO' => 'НКО',
     'Church' => 'Церковь',
+    'Member' => 'Сотрудник',
     'People' => 'Человек',
     'Unachieved' => 'Недостигнутый',
     'Knows' => 'Знает',
     'Interested' => 'Интересуется',
-    'Prays' => 'Молится',
     'Financial partner' => 'Финансовый партнер',
     // \Lookup
     'Field' => 'Поле',
@@ -184,3 +185,12 @@ return [
     'Files' => 'Файлы',
 
 ];
+
+if (file_exists(__DIR__ . '/app.local.php')) {
+    $messages = array_merge(
+        $messages,
+        include(__DIR__ . '/app.local.php')
+    );
+}
+
+return $messages;

@@ -7,9 +7,9 @@ use app\models\Partner;
 
 class PartnerQuery extends ActiveQuery
 {
-    public function churches()
+    public function organizations()
     {
-        $this->andWhere(['type' => Partner::TYPE_CHURCH]);
+        $this->andWhere(['not', ['type' => Partner::TYPE_PEOPLE]]);
         $this->orderBy('name');
         
         return $this;

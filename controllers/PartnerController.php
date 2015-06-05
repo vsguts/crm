@@ -65,18 +65,33 @@ class PartnerController extends AController
         ]);
     }
 
-    public function actionList($q)
+    public function actionList($q, $organizations = false)
     {
         $partners = [];
+            
         if ($q) {
-            $models = Partner::find()->where(['like', 'name', $q])->limit(30)->all();
+            $query = Partner::find();
+            if ($organizations) {
+                $query->organizations()->andWhere([
+                    'or',
+                    ['like', 'name', $q],
+                    ['like', 'city', $q],
+                ]);
+                $text_field = 'extendedName';
+            } else {
+                $query->where(['like', 'name', $q]);
+                $text_field = 'name';
+            }
+
+            $models = $query->limit(30)->all();
             foreach ($models as $model) {
                 $partners[] = [
                     'id' => $model->id,
-                    'text' => $model->name,
+                    'text' => $model->$text_field,
                 ];
             }
         }
+
         $this->ajaxAssign('partners', $partners);
     }
 
@@ -118,7 +133,7 @@ class PartnerController extends AController
             $visitsDataProvider = (new VisitSearch())->search(['partner_id' => $id]);
             $donatesDataProvider = (new DonateSearch())->search(['partner_id' => $id]);
             $tasksDataProvider = (new TaskSearch())->search(['partner_id' => $id]);
-            $contactsDataProvider = (new PartnerSearch())->search(['church_id' => $id]);
+            $contactsDataProvider = (new PartnerSearch())->search(['parent_id' => $id]);
             
             return $this->render('update', [
                 'model' => $model,

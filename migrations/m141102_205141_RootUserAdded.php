@@ -14,8 +14,7 @@ class m141102_205141_RootUserAdded extends Migration
             'email' => 'root@example.com',
             'auth_key' => 'JxTq8CyzZwAa85PYUVy1GuI0X3WmUWUW',
             'password_hash' => '$2y$13$CPWVAx9rW6IYpVD7dU.mNe/mUWty8WN6Dheo0IrRkVAvubamuPqxK',
-            'firstname' => 'Root',
-            'lastname' => 'Admin',
+            'fullname' => 'Root Admin',
             'role' => 2,
             'status' => 1,
         ]);

@@ -101,19 +101,6 @@ class PrintTemplate extends \yii\db\ActiveRecord
     }
 
     /**
-     * Lookup
-     */
-    public function getStatusName()
-    {
-        return $this->getLookupItem('status', $this->status);
-    }
-
-    public function getFormatName()
-    {
-        return $this->getLookupItem('format', $this->format);
-    }
-
-    /**
      * Print
      */
     public function findRelatedObjects($ids)

@@ -142,20 +142,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * Lookup
-     */
-    public function getStatusName()
-    {
-        return $this->getLookupItem('status', $this->status);
-    }
 
-    public function getRoleName()
-    {
-        return $this->getLookupItem('role', $this->role);
-    }
-
-    
     /**
      * @inheritdoc
      */

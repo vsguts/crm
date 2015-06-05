@@ -39,8 +39,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            ['attribute' => 'formatName', 'label' => __('Format')],
-            ['attribute' => 'statusName', 'label' => __('Status')],
+            [
+                'attribute' => 'format',
+                'value' => function($model, $key, $index, $column){
+                    return $model->getLookupItem('format', $model->format);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function($model, $key, $index, $column){
+                    return $model->getLookupItem('status', $model->status);
+                }
+            ],
             'created_at:date',
             'updated_at:date',
 

@@ -18,10 +18,10 @@ use app\models\query\PartnerQuery;
  * @property integer $country_id
  * @property integer $state_id
  * @property string $state
- * @property integer $city
+ * @property string $city
  * @property string $address
  * @property string $zipcode
- * @property integer $church_id
+ * @property integer $parent_id
  * @property integer $volunteer
  * @property integer $candidate
  * @property string $notes
@@ -29,6 +29,8 @@ use app\models\query\PartnerQuery;
  * @property integer $updated_at
  *
  * @property Donate[] $donates
+ * @property Partner $parent
+ * @property Partner[] $partners
  * @property Country $country
  * @property State $state0
  * @property PartnerTag[] $partnerTags
@@ -39,9 +41,10 @@ use app\models\query\PartnerQuery;
  */
 class Partner extends \yii\db\ActiveRecord
 {
-    const TYPE_ORG = 1;
-    const TYPE_CHURCH = 2;
-    const TYPE_PEOPLE = 3;
+    const TYPE_PEOPLE = 1;
+    const TYPE_ORG = 2;
+    const TYPE_NPO = 3;
+    const TYPE_CHURCH = 4;
 
     /**
      * @inheritdoc
@@ -77,7 +80,7 @@ class Partner extends \yii\db\ActiveRecord
             [['name', 'firstname', 'lastname', 'email', 'state', 'city'], 'string', 'max' => 64],
             [['contact'], 'string', 'max' => 128],
             [['address'], 'string', 'max' => 255],
-            [['type', 'status', 'country_id', 'state_id', 'church_id', 'volunteer', 'candidate'], 'integer'],
+            [['type', 'status', 'country_id', 'state_id', 'parent_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'safe'],
         ];
     }
@@ -103,7 +106,7 @@ class Partner extends \yii\db\ActiveRecord
             'city' => __('City'),
             'address' => __('Address'),
             'zipcode' => __('Zip/postal code'),
-            'church_id' => __('Church'),
+            'parent_id' => __('Member'),
             'volunteer' => __('Volunteer'),
             'candidate' => __('Candidate'),
             'notes' => __('Notes'),
@@ -123,6 +126,22 @@ class Partner extends \yii\db\ActiveRecord
     public function getDonates()
     {
         return $this->hasMany(Donate::className(), ['partner_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(Partner::className(), ['id' => 'parent_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartners()
+    {
+        return $this->hasMany(Partner::className(), ['parent_id' => 'id']);
     }
 
     /**
@@ -204,19 +223,6 @@ class Partner extends \yii\db\ActiveRecord
     public static function find()
     {
         return new PartnerQuery(get_called_class());
-    }
-
-    /**
-     * Lookup
-     */
-    public function getStatusName()
-    {
-        return $this->getLookupItem('status', $this->status);
-    }
-
-    public function getTypeName()
-    {
-        return $this->getLookupItem('type', $this->type);
     }
 
 }

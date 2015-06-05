@@ -54,7 +54,7 @@ if (!$model->isNewRecord) {
     $tab_items[] = [
         'label' => __('Contact persons'),
         'headerOptions' => [
-            'class' => 'm-dtoggle-type-1 m-dtoggle-type-2',
+            'class' => 'm-dtoggle-type-n1',
             'style' => ($model->type == 3 ? 'display: none;' : ''),
         ],
         'content' => $this->render('/partner/components/grid', [

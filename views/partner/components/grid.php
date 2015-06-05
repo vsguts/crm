@@ -12,14 +12,24 @@ $columns = [
     'name',
     'email:email',
     'city',
-    ['attribute' => 'typeName', 'label' => Yii::t('app', 'Type')],
-    ['attribute' => 'statusName', 'label' => Yii::t('app', 'Status')],
+    [
+        'attribute' => 'type',
+        'value' => function($model, $key, $index, $column){
+            return $model->getLookupItem('type', $model->type);
+        }
+    ],
+    [
+        'attribute' => 'status',
+        'value' => function($model, $key, $index, $column){
+            return $model->getLookupItem('status', $model->status);
+        }
+    ],
     'created_at:date',
     // 'country_id',
     // 'state_id',
     // 'state',
     // 'address',
-    // 'church_id',
+    // 'parent_id',
     // 'volunteer',
     // 'candidate',
     // 'notes:ntext',

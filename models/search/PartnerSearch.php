@@ -33,7 +33,7 @@ class PartnerSearch extends Partner
     {
         return [
             [
-                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'church_id', 'volunteer', 'candidate', 'tag_id'],
+                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'parent_id', 'volunteer', 'candidate', 'tag_id'],
                 'integer'
             ],
             [
@@ -94,7 +94,7 @@ class PartnerSearch extends Partner
             'country_id' => $this->country_id,
             'state_id' => $this->state_id,
             'city' => $this->city,
-            'church_id' => $this->church_id,
+            'parent_id' => $this->parent_id,
             'volunteer' => $this->volunteer,
             'candidate' => $this->candidate,
             'partner_tag.tag_id' => $this->tag_id,

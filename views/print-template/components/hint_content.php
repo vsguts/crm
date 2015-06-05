@@ -9,5 +9,5 @@ Available placeholders:
 {city}
 {address}
 {zipcode}
-{church.name}
+{partner.name}
 {notes}

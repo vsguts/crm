@@ -7,7 +7,7 @@ System allows you to manage partners and relationships with them.
 - Partners management
   - Built-in available partner types: People, Organization, NPO, Church
   - Partner photos management (with gallery widget to view)
-  - Tag system allows you to conveniently search for partners
+  - Tag system allows you to conveniently search for partners. Public and personal tags are available.
   - Child partners: Organization -> People
 - Partner visits management
   - Visit photos
@@ -24,9 +24,10 @@ System allows you to manage partners and relationships with them.
   - Donates
   - Tasks
 - Multi Language support (currently English and Russian languages are available)
+- PDF documents for partners generator
 
 ###### Technologies
-- Written in PHP (>5.4). Based on Yii 2 Framework.
+- Written in PHP (>=5.4). Based on Yii 2 Framework.
 - MySQL database (via ORM)
 - Bootstrap 3
 
@@ -148,3 +149,4 @@ TODO
 
 - Mailing lists
 - Partners on map
+- Improve PDF generator

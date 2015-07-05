@@ -3,7 +3,32 @@ CRM System for non-profit organizations
 
 System allows you to manage partners and relationships with them.
 
-Based on Yii 2 Basic Application Template.
+###### Features:
+- Partners management
+  - Built-in available partner types: People, Organization, NPO, Church
+  - Partner photos management (with gallery widget to view)
+  - Tag system allows you to conveniently search for partners
+  - Child partners: Organization -> People
+- Partner visits management
+  - Visit photos
+- Partner donates management
+- Tasks system (many-to-many relation with partners)
+- Users management
+  - RBAC access control system
+  - Built-in roles: Root, Accountant, Missionary, User
+- Contries and states management
+- File storage (common and personal)
+- Export to CSV
+  - Partners
+  - Visits
+  - Donates
+  - Tasks
+- Multi Language support (currently English and Russian languages are available)
+
+###### Technologies
+- Written in PHP (>5.4). Based on Yii 2 Framework.
+- MySQL database (via ORM)
+- Bootstrap 3
 
 
 DIRECTORY STRUCTURE
@@ -28,7 +53,7 @@ DIRECTORY STRUCTURE
 REQUIREMENTS
 ------------
 
-The minimum requirement by this application template that your Web server supports PHP 5.4.0.
+The minimum requirement by this application that your Web server supports PHP 5.4.0.
 
 
 INSTALLATION
@@ -37,7 +62,7 @@ INSTALLATION
 Clone repo:
 
 ```bash
-git clone git@bitbucket.org:wycliffe/crm.git
+git clone git@github.com:vsguts/crm.git
 ```
 
 If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
@@ -52,7 +77,7 @@ php composer.phar global require "fxp/composer-asset-plugin:1.0.0"
 Install composer dependencies
 
 ~~~
-php composer update
+php composer.phar update
 ~~~
 
 You can then access the application through the following URL:
@@ -91,7 +116,7 @@ return [
 ];
 ```
 
-**NOTE:** Yii won't create the database for you, this has to be done manually before you can access it.
+**NOTE:** CRM won't create the database for you, this has to be done manually before you can access it.
 
 Use following to create database
 
@@ -99,7 +124,7 @@ Use following to create database
 CREATE DATABASE crm CHARACTER SET utf8;
 ```
 
-Use following to apply mogrations:
+Use following to apply migrations:
 
 ```bash
 ./yii migrate
@@ -117,3 +142,9 @@ return [
     'companyName' => 'My Company',
 ];
 ```
+
+TODO
+------------
+
+- Mailing lists
+- Partners on map

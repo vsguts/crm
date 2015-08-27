@@ -24,9 +24,6 @@ class Task extends \yii\db\ActiveRecord
     // Preselect partner
     public $select_partner = null;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'task';
@@ -42,9 +39,6 @@ class Task extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -55,9 +49,6 @@ class Task extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -76,28 +67,21 @@ class Task extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTaskPartners()
     {
         return $this->hasMany(TaskPartner::className(), ['task_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartners()
     {
-        return $this->hasMany(Partner::className(), ['id' => 'partner_id'])->viaTable('task_partner', ['task_id' => 'id']);
+        return $this
+            ->hasMany(Partner::className(), ['id' => 'partner_id'])
+            ->viaTable('task_partner', ['task_id' => 'id']);
     }
 
 }

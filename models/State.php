@@ -18,9 +18,6 @@ use Yii;
  */
 class State extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'state';
@@ -35,9 +32,6 @@ class State extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -47,9 +41,6 @@ class State extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -60,25 +51,16 @@ class State extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartners()
     {
         return $this->hasMany(Partner::className(), ['state_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUsers()
     {
         return $this->hasMany(User::className(), ['state_id' => 'id']);

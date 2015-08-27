@@ -25,9 +25,6 @@ class Image extends ActiveRecord
 
     protected $_unset_defaults = [];
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'image';

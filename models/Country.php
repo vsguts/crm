@@ -17,17 +17,11 @@ use Yii;
  */
 class Country extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'country';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -36,9 +30,6 @@ class Country extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -48,25 +39,16 @@ class Country extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartners()
     {
         return $this->hasMany(Partner::className(), ['country_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getStates()
     {
         return $this->hasMany(State::className(), ['country_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUsers()
     {
         return $this->hasMany(User::className(), ['country_id' => 'id']);

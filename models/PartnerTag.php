@@ -15,17 +15,11 @@ use Yii;
  */
 class PartnerTag extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'partner_tag';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -34,9 +28,6 @@ class PartnerTag extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -45,17 +36,11 @@ class PartnerTag extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartner()
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTag()
     {
         return $this->hasOne(Tag::className(), ['id' => 'tag_id']);

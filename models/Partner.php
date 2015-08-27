@@ -28,12 +28,14 @@ use app\models\query\PartnerQuery;
  * @property integer $created_at
  * @property integer $updated_at
  *
+ * @property Country $country
  * @property Donate[] $donates
+ * @property MailingList[] $mailingList
+ * @property MailingListPartner[] $mailingListPartners
  * @property Partner $parent
  * @property Partner[] $partners
- * @property Country $country
- * @property State $state0
  * @property PartnerTag[] $partnerTags
+ * @property State $state0
  * @property Tag[] $tags
  * @property TaskPartner[] $taskPartners
  * @property Task[] $tasks
@@ -46,9 +48,6 @@ class Partner extends \yii\db\ActiveRecord
     const TYPE_NPO = 3;
     const TYPE_CHURCH = 4;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'partner';
@@ -67,9 +66,6 @@ class Partner extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -85,9 +81,6 @@ class Partner extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -120,60 +113,41 @@ class Partner extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getDonates()
     {
         return $this->hasMany(Donate::className(), ['partner_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getParent()
     {
         return $this->hasOne(Partner::className(), ['id' => 'parent_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartners()
     {
         return $this->hasMany(Partner::className(), ['parent_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getState0()
     {
         return $this->hasOne(State::className(), ['id' => 'state_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartnerTags()
     {
         return $this->hasMany(PartnerTag::className(), ['partner_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTags()
     {
-        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('partner_tag', ['partner_id' => 'id']);
+        return $this
+            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
     public function getPublicTags()
@@ -192,34 +166,35 @@ class Partner extends \yii\db\ActiveRecord
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTaskPartners()
     {
         return $this->hasMany(TaskPartner::className(), ['partner_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTasks()
     {
-        return $this->hasMany(Task::className(), ['id' => 'task_id'])->viaTable('task_partner', ['partner_id' => 'id']);
+        return $this
+            ->hasMany(Task::className(), ['id' => 'task_id'])
+            ->viaTable('task_partner', ['partner_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['partner_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return PartnerQuery
-     */
+    public function getMailingListPartners()
+    {
+        return $this->hasMany(MailingListPartner::className(), ['partner_id' => 'id']);
+    }
+
+    public function getMailingLists()
+    {
+        return $this
+            ->hasMany(MailingList::className(), ['id' => 'list_id'])
+            ->viaTable('mailing_list_partner', ['partner_id' => 'id']);
+    }
+
     public static function find()
     {
         return new PartnerQuery(get_called_class());

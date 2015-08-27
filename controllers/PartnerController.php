@@ -65,6 +65,13 @@ class PartnerController extends AController
         ]);
     }
 
+    /**
+     * Ajax handler
+     * 
+     * @param  string  $q             Query
+     * @param  boolean $organizations Include organizations flag
+     * @return mixed
+     */
     public function actionList($q, $organizations = false)
     {
         $partners = [];

@@ -29,16 +29,16 @@ class PartnersSelectBehavior extends Behavior
             $current_ids[] = $partner->id;
         }
 
-        $ids_new = array_diff($ids, $current_ids);
-        foreach ($ids_new as $id) {
-            $partner = Partner::findOne($id);
-            $model->link('partners', $partner);
+        if ($ids_new = array_diff($ids, $current_ids)) {
+            foreach (Partner::findAll($ids_new) as $partner) {
+                $model->link('partners', $partner);
+            }
         }
 
-        $ids_removed = array_diff($current_ids, $ids);
-        foreach ($ids_removed as $id) {
-            $partner = Partner::findOne($id);
-            $model->unlink('partners', $partner, true);
+        if ($ids_removed = array_diff($current_ids, $ids)) {
+            foreach (Partner::findAll($ids_removed) as $partner) {
+                $model->unlink('partners', $partner, true);
+            }
         }
     }
 

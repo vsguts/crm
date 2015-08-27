@@ -34,7 +34,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         // Permissions
         $permissions['country_manage']        = $auth->createPermission('country_manage');
         $permissions['state_manage']          = $auth->createPermission('state_manage');
-        $permissions['print_template_manage'] = $auth->createPermission('print_template_manage');
+        $permissions['newsletter_manage']     = $auth->createPermission('newsletter_manage');
         $permissions['partner_manage']        = $auth->createPermission('partner_manage');
         $permissions['visit_manage']          = $auth->createPermission('visit_manage');
         $permissions['donate_manage']         = $auth->createPermission('donate_manage');
@@ -73,7 +73,7 @@ class m141222_104400_RbacItemsAdded extends Migration
 
         $auth->addChild($roles['manager'],    $roles['missionary']);
         $auth->addChild($roles['manager'],    $roles['accountant']);
-        $auth->addChild($roles['manager'],    $permissions['print_template_manage']);
+        $auth->addChild($roles['manager'],    $permissions['newsletter_manage']);
         $auth->addChild($roles['manager'],    $permissions['upload_images']);
         $auth->addChild($roles['manager'],    $permissions['upload_common_files']);
 

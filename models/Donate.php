@@ -19,9 +19,6 @@ use Yii;
  */
 class Donate extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'donate';
@@ -36,9 +33,6 @@ class Donate extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -49,9 +43,6 @@ class Donate extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -65,9 +56,6 @@ class Donate extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPartner()
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);

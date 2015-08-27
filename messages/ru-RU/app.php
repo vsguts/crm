@@ -155,7 +155,13 @@ $messages = [
     'Partners on map' => 'Партнеры на карте',
     'Content' => 'Содержимое',
     'Advanced search' => 'Расширенный поиск',
-    'Mailing lists' => 'Рассылки',
+    'Newsletters' => 'Рассылки',
+    'Newsletter: {newsletter}' => 'Рассылка: {newsletter}',
+    'Subscribers' => 'Подписчики',
+    'Create newsletter' => 'Создать рассылку',
+    'Mailing lists' => 'Списки рассылок',
+    'Mailing list: {name}' => 'Список рассылки: {name}',
+    'Create mailing list' => 'Создать список рассылки',
     'Export' => 'Экспорт',
     'Export selected' => 'Экспортировать выбранные',
     'Fields' => 'Поля',
@@ -183,6 +189,9 @@ $messages = [
     'Contact persons' => 'Контактные лица',
     'Partners search' => 'Поиск партнеров',
     'Files' => 'Файлы',
+    'From name' => 'От кого',
+    'From email' => 'Email отправителя',
+    'Reply to' => 'Email для ответа',
 
 ];
 

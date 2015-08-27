@@ -9,10 +9,11 @@ use yii\helpers\Url;
 class CounterColumn extends Column
 {
     public $label;
-    public $modelClass;
+    public $countField = null;
+    public $modelClass = null;
     public $modelField;
     public $controllerName;
-    public $searchFieldName;
+    public $searchFieldName = null;
     
     protected function renderHeaderCellContent()
     {
@@ -21,20 +22,30 @@ class CounterColumn extends Column
 
     protected function renderDataCellContent($model, $key, $index)
     {
-        $childModelClass = $this->modelClass;
-
-        $count = $childModelClass::find()->where([$this->modelField => $key])->count();
-        
-        $childModel = new $childModelClass;
-        if (empty($this->controllerName)) {
-            $this->controllerName = $childModel->formName();
-        }
-        if (empty($this->searchFieldName)) {
-            $this->searchFieldName = $childModel->formName().'Search['.$this->modelField.']';
+        if ($this->countField) {
+            $count = $model->{$this->countField};
+        } elseif ($this->modelClass) {
+            $childModelClass = $this->modelClass;
+            $count = $childModelClass::find()->where([$this->modelField => $key])->count();
+        } else {
+            throw new \Exception("Count is empty");
         }
 
-        $url = Url::to([strtolower($this->controllerName) . '/index', $this->searchFieldName => $key]);
+        $content = Html::tag('span', $count, ['class' => 'badge']);
+
+        if ($this->modelClass && $this->modelField) { // need url
+            $childModel = new $childModelClass;
+            if (empty($this->controllerName)) {
+                $this->controllerName = $childModel->formName();
+            }
+            if (empty($this->searchFieldName)) {
+                $this->searchFieldName = $childModel->formName().'Search['.$this->modelField.']';
+            }
+
+            $url = Url::to([strtolower($this->controllerName) . '/index', $this->searchFieldName => $key]);
+            return Html::a($content, $url);
+        }
         
-        return Html::a('<span class="badge">' . $count . '</span>', $url);
+        return $content;
     }
 }

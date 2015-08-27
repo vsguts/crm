@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\PrintTemplate;
+use app\models\Newsletter;
 
 /**
- * TemplateSearch represents the model behind the search form about `app\models\PrintTemplate`.
+ * NewsletterSearch represents the model behind the search form about `app\models\Newsletter`.
  */
-class PrintTemplateSearch extends PrintTemplate
+class NewsletterSearch extends Newsletter
 {
     public function attributes()
     {
@@ -25,14 +25,8 @@ class PrintTemplateSearch extends PrintTemplate
     {
         return [
             [['id'], 'integer'],
-            [['name', 'content', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'], 'safe'],
+            [['subject', 'body', 'created_at', 'updated_at', 'created_at_to', 'updated_at_to'], 'safe'],
         ];
-    }
-
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
     }
 
     public function behaviors()
@@ -40,6 +34,12 @@ class PrintTemplateSearch extends PrintTemplate
         $behaviors = parent::behaviors();
         $behaviors[] = 'app\behaviors\SearchBehavior';
         return $behaviors;
+    }
+
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
     }
 
     /**
@@ -51,15 +51,15 @@ class PrintTemplateSearch extends PrintTemplate
      */
     public function search($params)
     {
-        $query = PrintTemplate::find();
+        $query = Newsletter::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $params = $this->processParams($params);
+        $this->load($params);
 
-        if (!($this->load($params) && $this->validate())) {
+        if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -72,8 +72,8 @@ class PrintTemplateSearch extends PrintTemplate
         ]);
 
         $query
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'content', $this->content]);
+            ->andFilterWhere(['like', 'subject', $this->subject])
+            ->andFilterWhere(['like', 'body', $this->body]);
 
         $this->addRangeCondition($query, 'created_at');
         $this->addRangeCondition($query, 'updated_at');

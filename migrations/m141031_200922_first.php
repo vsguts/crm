@@ -7,6 +7,11 @@ class m141031_200922_first extends Migration
 {
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('lookup', [
             'id' => Schema::TYPE_PK,
             'model_name' => Schema::TYPE_STRING . ' NOT NULL',
@@ -14,7 +19,7 @@ class m141031_200922_first extends Migration
             'code' => Schema::TYPE_INTEGER . ' NOT NULL',
             'position' => Schema::TYPE_INTEGER . ' NOT NULL',
             'name' => Schema::TYPE_STRING . ' NOT NULL',
-        ]);
+        ], $tableOptions);
         $this->insert('lookup', ['model_name'=>'User',          'field'=>'role',   'code'=>1, 'position'=>10, 'name'=>'User']);
         $this->insert('lookup', ['model_name'=>'User',          'field'=>'role',   'code'=>2, 'position'=>90, 'name'=>'Root']);
         $this->insert('lookup', ['model_name'=>'User',          'field'=>'role',   'code'=>3, 'position'=>20, 'name'=>'Missionary']);
@@ -42,14 +47,14 @@ class m141031_200922_first extends Migration
             'id' => Schema::TYPE_PK,
             'name' => Schema::TYPE_STRING . ' NOT NULL',
             'code' => Schema::TYPE_STRING,
-        ]);
+        ], $tableOptions);
 
         $this->createTable('state', [
             'id' => Schema::TYPE_PK,
             'country_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING . ' NOT NULL',
             'code' => Schema::TYPE_STRING,
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('state_country', 'state', 'country_id', 'country', 'id', 'RESTRICT', 'RESTRICT');
 
         $this->createTable('user', [
@@ -69,7 +74,7 @@ class m141031_200922_first extends Migration
             'address' => Schema::TYPE_STRING,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('user_country', 'user', 'country_id', 'country', 'id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('user_state', 'user', 'state_id', 'state', 'id', 'RESTRICT', 'RESTRICT');
 
@@ -95,7 +100,7 @@ class m141031_200922_first extends Migration
             'notes' => Schema::TYPE_TEXT,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('partner_country', 'partner', 'country_id', 'country', 'id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('partner_state', 'partner', 'state_id', 'state', 'id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('partner_parent', 'partner', 'parent_id', 'partner', 'id', 'RESTRICT', 'RESTRICT');
@@ -104,14 +109,14 @@ class m141031_200922_first extends Migration
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING,
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('tag_user', 'tag', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('partner_tag', [
             'partner_id' => Schema::TYPE_INTEGER,
             'tag_id' => Schema::TYPE_INTEGER,
             'PRIMARY KEY (partner_id, tag_id)'
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('partner_tag_partner', 'partner_tag', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('partner_tag_tag', 'partner_tag', 'tag_id', 'tag', 'id', 'CASCADE', 'CASCADE');
 
@@ -123,7 +128,7 @@ class m141031_200922_first extends Migration
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'notes' => Schema::TYPE_TEXT,
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('donate_partner', 'donate', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('task', [
@@ -135,14 +140,14 @@ class m141031_200922_first extends Migration
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'done' => Schema::TYPE_SMALLINT,
             'notes' => Schema::TYPE_TEXT,
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('task_user', 'task', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('task_partner', [
             'task_id' => Schema::TYPE_INTEGER,
             'partner_id' => Schema::TYPE_INTEGER,
             'PRIMARY KEY (task_id, partner_id)'
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('task_partner_task', 'task_partner', 'task_id', 'task', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('task_partner_partner', 'task_partner', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
 
@@ -154,7 +159,7 @@ class m141031_200922_first extends Migration
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'notes' => Schema::TYPE_TEXT,
-        ]);
+        ], $tableOptions);
         $this->addForeignKey('visit_partner', 'visit', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('visit_user', 'visit', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
 
@@ -173,14 +178,14 @@ class m141031_200922_first extends Migration
             'wrapper' => Schema::TYPE_TEXT,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-        ]);
+        ], $tableOptions);
 
         $this->createTable('language', [
             'id' => Schema::TYPE_PK,
             'code' => Schema::TYPE_STRING . ' NOT NULL',
             'short_name' => Schema::TYPE_STRING . ' NOT NULL',
             'name' => Schema::TYPE_STRING . ' NOT NULL',
-        ]);
+        ], $tableOptions);
         $this->insert('language', ['code'=>'en-US', 'name'=>'English', 'short_name'=>'EN']);
         $this->insert('language', ['code'=>'ru-RU', 'name'=>'Русский', 'short_name'=>'RU']);
 
@@ -190,7 +195,7 @@ class m141031_200922_first extends Migration
             'model_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'filename' => Schema::TYPE_STRING . ' NOT NULL',
             'default' => Schema::TYPE_INTEGER,
-        ]);
+        ], $tableOptions);
 
     }
 

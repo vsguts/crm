@@ -100,7 +100,7 @@ class SiteController extends AController
             ];
         }
         
-        if ($user->can('print_template_manage')) {
+        if ($user->can('newsletter_manage')) {
             $dashboard[] = [
                 'name' => __('Printing templates'),
                 'link' => Url::to(['printtemplate/index']),

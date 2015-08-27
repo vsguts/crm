@@ -43,9 +43,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public $password;
 
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'user';
@@ -62,9 +59,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -79,9 +73,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -102,58 +93,37 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTasks()
     {
         return $this->hasMany(Task::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getTemplates()
     {
         return $this->hasMany(Template::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getState0()
     {
         return $this->hasOne(State::className(), ['id' => 'state_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);
     }
 
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
@@ -192,25 +162,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
         return $this->getPrimaryKey();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAuthKey()
     {
         return $this->auth_key;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;

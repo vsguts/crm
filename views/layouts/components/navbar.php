@@ -63,17 +63,27 @@ echo Nav::widget([
 // Tools
 $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
-    'label' => __('Mailing lists'),
-    'visible' => $user->can('user_manage')
-        || $user->can('print_template_manage')
-        || $user->can('country_manage')
-        || $user->can('state_manage'),
-    'active' => in_array($controller_id, ['print-template']),
+    'label' => __('Newsletters'),
+    'visible' => $user->can('newsletter_manage'),
+    'active' => in_array($controller_id, ['newsletter', 'mailing-list', 'print-template']),
     'items' => [
+        [
+            'label' => __('Newsletters'),
+            'url' => ['/newsletter/index'],
+            'visible' => $user->can('newsletter_manage'),
+            'active' => $controller_id == 'newsletter',
+        ],
+        [
+            'label' => __('Mailing lists'),
+            'url' => ['/mailing-list/index'],
+            'visible' => $user->can('newsletter_manage'),
+            'active' => $controller_id == 'mailing-list',
+        ],
+        '<li class="divider"></li>',
         [
             'label' => __('Printing templates'),
             'url' => ['/print-template/index'],
-            'visible' => $user->can('print_template_manage'),
+            'visible' => $user->can('newsletter_manage'),
             'active' => $controller_id == 'print_template',
         ],
     ],
@@ -89,27 +99,22 @@ if ($can_upload) {
         'active' => $controller_id == 'upload',
         'url' => ['/upload/index'],
     ];
-    $items[] = '<li class="divider"></li>';
-}
-if ($user->can('partner_manage')) {
-    $items[] = [
-        'label' => __('Export'),
-        'visible' => $user->can('partner_manage'),
-        'active' => $controller_id == 'export',
-        'url' => ['/export/partners'],
-    ];
-    $items[] = '<li class="divider"></li>';
 }
 if ($user->can('user_manage')) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
     $items[] = [
         'label' => __('Users'),
         'url' => ['/user/index'],
         'visible' => $user->can('user_manage'),
         'active' => $controller_id == 'user' && !$is_profile,
     ];
-    $items[] = '<li class="divider"></li>';
 }
 if ($user->can('country_manage')) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
     $items[] = [
         'label' => __('Countries'),
         'url' => ['/country/index'],
@@ -125,16 +130,22 @@ if ($user->can('state_manage')) {
         'active' => $controller_id == 'state',
     ];
 }
+if ($user->can('partner_manage')) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
+    $items[] = [
+        'label' => __('Export'),
+        'visible' => $user->can('partner_manage'),
+        'active' => $controller_id == 'export',
+        'url' => ['/export/partners'],
+    ];
+}
 
 $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
     'label' => __('Administration'),
-    'visible' => 
-        $can_upload
-        || $user->can('user_manage')
-        || $user->can('partner_manage')
-        || $user->can('country_manage')
-        || $user->can('state_manage'),
+    'visible' => !!$items,
     'active' => in_array($controller_id, ['upload', 'export', 'user', 'country', 'state']) && !$is_profile,
     'items' => $items
 ];

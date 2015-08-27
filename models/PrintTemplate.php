@@ -27,9 +27,6 @@ use app\models\query\PrintTemplateQuery;
  */
 class PrintTemplate extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'print_template';
@@ -44,9 +41,6 @@ class PrintTemplate extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -56,9 +50,6 @@ class PrintTemplate extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

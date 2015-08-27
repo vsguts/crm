@@ -68,11 +68,10 @@ $config = [
             'rules' => [
                 // Custom/Fixes
                 'countries' => 'country/index',
-                'print-templates' => 'print-template/index',
                 'export/<object:\w+>' => 'export/index',
                 // Common
-                '<controller:\w+>s' => '<controller>/index',
-                '<controller:\w+>/<id:\d+>' => '<controller>/update',
+                '<controller:[\w\-]+>s' => '<controller>/index',
+                '<controller:[\w\-]+>/<id:\d+>' => '<controller>/update',
             ],
         ],
         'authManager' => [

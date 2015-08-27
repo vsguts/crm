@@ -3,29 +3,20 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Newsletter;
+use app\models\MailingList;
+use app\models\search\NewsletterSearch;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\models\PrintTemplate;
-use app\models\search\PrintTemplateSearch;
 
 /**
- * PrintTemplateController implements the CRUD actions for PrintTemplate model.
+ * NewsletterController implements the CRUD actions for Newsletter model.
  */
-class PrintTemplateController extends AController
+class NewsletterController extends AController
 {
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['newsletter_manage'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,12 +27,12 @@ class PrintTemplateController extends AController
     }
 
     /**
-     * Lists all PrintTemplate models.
+     * Lists all Newsletter models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PrintTemplateSearch();
+        $searchModel = new NewsletterSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,13 +42,13 @@ class PrintTemplateController extends AController
     }
 
     /**
-     * Creates a new PrintTemplate model.
+     * Creates a new Newsletter model.
      * If creation is successful, the browser will be redirected to the 'update' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new PrintTemplate();
+        $model = new Newsletter();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
@@ -65,12 +56,13 @@ class PrintTemplateController extends AController
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'mailingLists' => MailingList::find()->all(),
             ]);
         }
     }
 
     /**
-     * Updates an existing PrintTemplate model.
+     * Updates an existing Newsletter model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
@@ -85,35 +77,16 @@ class PrintTemplateController extends AController
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'mailingLists' => MailingList::find()->all(),
             ]);
         }
     }
 
-    public function actionView($id, array $ids)
-    {
-        $model = $this->findModel($id);
-
-        Yii::$app->response->format = 'pdf';
-        $this->layout = 'print';
-
-        if ($options = $model->prepareOptions()) {
-            Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], $options);
-        }
-
-        $filename = $model->name . '_' . date('Y-m-d_H:i') . '.pdf';
-        Yii::$app->response->setDownloadHeaders($filename, 'application/pdf');
-
-        $content = $this->render('view', [
-            'model' => $model,
-            'objects' => $model->findRelatedObjects($ids),
-        ]);
-        return $content;
-    }
-
     /**
-     * Deletes an existing PrintTemplate model.
+     * Deletes an existing Newsletter model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param array   $ids
      * @return mixed
      */
     public function actionDelete($id = null, array $ids = null)
@@ -121,7 +94,7 @@ class PrintTemplateController extends AController
         $ok_message = false;
         
         if (!$id && $ids) { // multiple
-            if (PrintTemplate::deleteAll(['id' => $ids])) {
+            if (Newsletter::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
         } elseif ($this->findModel($id)->delete()) { // single
@@ -130,24 +103,21 @@ class PrintTemplateController extends AController
 
         if ($ok_message) {
             Yii::$app->session->setFlash('success', $ok_message);
-            // if ($referrer = Yii::$app->request->referrer) {
-            //     return $this->redirect($referrer);
-            // }
         }
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the PrintTemplate model based on its primary key value.
+     * Finds the Newsletter model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return PrintTemplate the loaded model
+     * @return Newsletter the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = PrintTemplate::findOne($id)) !== null) {
+        if (($model = Newsletter::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

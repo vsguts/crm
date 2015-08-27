@@ -24,17 +24,9 @@ echo $form->field($model, 'margin_left');
 echo $form->field($model, 'margin_right');
 
 // echo $form->field($model, 'content')->textarea(['rows' => 6]);
-echo $form->field($model, 'content')->widget('yii\imperavi\Widget', [
-    // Some options, see http://imperavi.com/redactor/docs/
-    'options' => [
-        'buttonSource' => true,
-    ],
-    'plugins' => [
-        'fullscreen',
-        'clips',
-        'table',
-    ],
-])->hint($this->render('hint_content'));
+echo $form->field($model, 'content')
+    ->widget('app\widgets\Wysiwyg')
+    ->hint($this->render('hint_content'));
 
 echo $form->field($model, 'wrapper_enabled')->checkbox(['class' => 'checkboxfix m-dtoggle m-dtoggle-wrapper'], false);
 

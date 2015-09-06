@@ -14,14 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="newsletter-index">
 
-    <div class="pull-right">
+    <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create newsletter'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
                     'data-c-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
@@ -49,8 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at:date',
 
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
+            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Logs'), 'countField' => 'logsCount'],
 
-            ['class' => 'app\widgets\grid\ActionColumn'],
+            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
         ],
     ]); ?>
 

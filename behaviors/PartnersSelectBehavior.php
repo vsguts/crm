@@ -10,11 +10,28 @@ class PartnersSelectBehavior extends Behavior
 {
     public $partners_ids = [];
 
+    // Preselect partner
+    public $select_partner = null;
+
     public function events()
     {
         return [
             ActiveRecord::EVENT_AFTER_INSERT => 'update',
             ActiveRecord::EVENT_AFTER_UPDATE => 'update',
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            [['partners_ids'], 'safe'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'partners_ids' => __('Partners'),
         ];
     }
 

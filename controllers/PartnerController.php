@@ -3,8 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use app\models\Partner;
 use app\models\search\PartnerSearch;
@@ -23,7 +21,7 @@ class PartnerController extends AController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => 'yii\filters\AccessControl',
                 'rules' => [
                     [
                         'allow' => true,
@@ -32,7 +30,7 @@ class PartnerController extends AController
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],
@@ -56,12 +54,10 @@ class PartnerController extends AController
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'partnerIds' => $dataProvider->query->ids(),
             'tags' => [
                 __('Public tags') => Tag::find()->publicTags()->all(),
                 __('Personal tags') => Tag::find()->personalTags()->all(),
             ],
-            'printTemplates' => PrintTemplate::find()->active()->all(),
         ]);
     }
 

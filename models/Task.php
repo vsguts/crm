@@ -10,8 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $user_id
  * @property integer $timestamp
- * @property integer $created_at
- * @property integer $updated_at
  * @property integer $done
  * @property string $notes
  *
@@ -19,10 +17,8 @@ use Yii;
  * @property TaskPartner[] $taskPartners
  * @property Partner[] $partners
  */
-class Task extends \yii\db\ActiveRecord
+class Task extends AModel
 {
-    // Preselect partner
-    public $select_partner = null;
 
     public static function tableName()
     {
@@ -32,39 +28,33 @@ class Task extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'app\behaviors\ListBehavior',
-            'yii\behaviors\TimestampBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampConvertBehavior',
             'app\behaviors\PartnersSelectBehavior',
+            'app\behaviors\ListBehavior',
         ];
     }
 
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             [['name', 'user_id', 'timestamp'], 'required'],
             [['done'], 'integer'],
             [['notes'], 'string'],
-            [['partners_ids'], 'safe'], //FIXME
-        ];
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'user_id' => __('User'),
             'name' => __('Name'),
             'timestamp' => __('Due date'),
-            'created_at' => __('Created At'),
-            'updated_at' => __('Updated At'),
             'done' => __('Done'),
             'notes' => __('Notes'),
             'partners' => __('Partners'),
-            
-            // FIXME
-            'partners_ids' => __('Partners'),
-        ];
+        ]);
     }
 
     public function getUser()

@@ -16,7 +16,7 @@ use app\models\query\TagQuery;
  * @property Partner[] $partners
  * @property User $user
  */
-class Tag extends \yii\db\ActiveRecord
+class Tag extends AModel
 {
     public static function tableName()
     {

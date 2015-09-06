@@ -22,16 +22,15 @@ use yii\base\NotSupportedException;
  * @property string $state
  * @property integer $city
  * @property string $address
- * @property integer $created_at
- * @property integer $updated_at
  *
  * @property Task[] $tasks
  * @property Template[] $templates
  * @property Country $country
  * @property State $state0
  * @property Visit[] $visits
+ * @property NewsletterLog[] $newsletterLogs
  */
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends AModel implements \yii\web\IdentityInterface
 {
     const AUTH_ROLE_1 = 'user';
     const AUTH_ROLE_2 = 'root';
@@ -55,7 +54,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'app\behaviors\UserRoleBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
-            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampBehavior',
         ];
     }
 
@@ -75,23 +74,25 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function attributeLabels()
     {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
-            'password' => Yii::t('app', 'Password'),
-            'email' => Yii::t('app', 'E-mail'),
-            'role' => Yii::t('app', 'Role'),
-            'status' => Yii::t('app', 'Status'),
-            'fullname' => Yii::t('app', 'Full name'),
-            'country_id' => Yii::t('app', 'Country'),
-            'state_id' => Yii::t('app', 'State'),
-            'state' => Yii::t('app', 'State'),
-            'city' => Yii::t('app', 'City'),
-            'address' => Yii::t('app', 'Address'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'id' => __('ID'),
+            'username' => __('Username'),
+            'password' => __('Password'),
+            'email' => __('E-mail'),
+            'role' => __('Role'),
+            'status' => __('Status'),
+            'fullname' => __('Full name'),
+            'country_id' => __('Country'),
+            'state_id' => __('State'),
+            'state' => __('State'),
+            'city' => __('City'),
+            'address' => __('Address'),
+        ]);
     }
+
+    /**
+     * Relations
+     */
 
     public function getTasks()
     {
@@ -116,6 +117,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);
+    }
+
+    public function getNewsletterLogs()
+    {
+        return $this->hasMany(NewsletterLog::className(), ['user_id' => 'id']);
     }
 
 
@@ -233,6 +239,5 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             return $this->username;
         }
     }
-
     
 }

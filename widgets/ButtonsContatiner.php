@@ -16,6 +16,8 @@ class ButtonsContatiner extends Widget
     
     public $removeLink = true;
 
+    public $extraBtns = [];
+
     public function run()
     {
         if ($this->footerWrapper) {
@@ -27,13 +29,22 @@ class ButtonsContatiner extends Widget
             $submit_options['form'] = $this->form;
         }
 
+        $extra = '';
+        if ($this->extraBtns) {
+            $extra = '&nbsp;' . implode(' ', (array)$this->extraBtns);
+        }
+
         if ($this->model instanceof ActiveRecord && $this->model->isNewRecord) {
             $submit_options['class'] = 'btn btn-success';
             echo Html::submitButton(__('Create'), $submit_options);
+            
+            echo $extra;
         } else {
             $submit_options['class'] = 'btn btn-primary';
             echo Html::submitButton(__('Update'), $submit_options);
-            
+
+            echo $extra;
+
             if ($this->removeLink) {
                 echo ' ';
                 echo Html::a(__('Delete'), ['delete', 'id' => $this->model->id], [
@@ -43,7 +54,7 @@ class ButtonsContatiner extends Widget
                 ]);
             }
         }
-        
+
         if ($this->footerWrapper) {
             echo Html::endTag('div');
         }

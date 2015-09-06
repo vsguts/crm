@@ -5,8 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\MailingList;
 use app\models\search\MailingListSearch;
+use app\models\form\MailingListAppendPartner;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * MailingListController implements the CRUD actions for MailingList model.
@@ -16,11 +16,23 @@ class MailingListController extends AController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['newsletter_manage'],
+                    ],
+                ],
+            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+            'ajax' => [
+                'class' => 'app\behaviors\AjaxFilter',
             ],
         ];
     }
@@ -103,6 +115,30 @@ class MailingListController extends AController
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionAppendPartners(array $partner_ids = [])
+    {
+        $request = Yii::$app->request;
+        $model = new MailingListAppendPartner;
+        if (
+            $request->isPost
+            && $model->load($request->post())
+            && $model->validate()
+        ) {
+            if ($model->append()) {
+                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            }
+            if ($request->isAjax) {
+                return;
+            }
+            return $this->redirect(['index']);
+        } else {
+            $model->partner_ids = implode(',', $partner_ids);
+            return $this->renderAjax('appendPartners', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

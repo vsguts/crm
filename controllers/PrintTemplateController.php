@@ -6,6 +6,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\Partner;
 use app\models\PrintTemplate;
 use app\models\search\PrintTemplateSearch;
 
@@ -89,7 +90,7 @@ class PrintTemplateController extends AController
         }
     }
 
-    public function actionView($id, array $ids)
+    public function actionView($id)
     {
         $model = $this->findModel($id);
 
@@ -103,11 +104,7 @@ class PrintTemplateController extends AController
         $filename = $model->name . '_' . date('Y-m-d_H:i') . '.pdf';
         Yii::$app->response->setDownloadHeaders($filename, 'application/pdf');
 
-        $content = $this->render('view', [
-            'model' => $model,
-            'objects' => $model->findRelatedObjects($ids),
-        ]);
-        return $content;
+        return $model->generate();
     }
 
     /**

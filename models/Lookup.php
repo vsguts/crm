@@ -14,7 +14,7 @@ use Yii;
  * @property integer $position
  * @property string $name
  */
-class Lookup extends \yii\db\ActiveRecord
+class Lookup extends AModel
 {
     public static function tableName()
     {

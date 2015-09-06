@@ -29,7 +29,12 @@
             }, 1);
         }
         
-        // TODO: notifications
+        if (data.alerts) {
+            for (var type in data.alerts) {
+                var text = '<div id="w8-success" class="alert-' + type + ' alert fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + data.alerts[type] + '</div>';
+                $('.alerts-container').append(text);
+            }
+        }
     };
 
     var methods = {

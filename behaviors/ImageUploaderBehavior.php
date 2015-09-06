@@ -21,6 +21,13 @@ class ImageUploaderBehavior extends Behavior
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'imagesUpload' => __('Images upload')
+        ];
+    }
+
     public function attachImages($event)
     {
         $model = $event->sender;

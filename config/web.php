@@ -58,6 +58,7 @@ $config = [
         'db' => $db,
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
+            'datetimeFormat' => 'dd.MM.yyyy HH:mm',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
             'currencyCode' => 'USD',

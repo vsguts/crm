@@ -37,3 +37,12 @@
 .pagination-per-page > div {
     float: left;
 }
+
+.partner-thumbnail {
+    margin-left: 10px;
+    margin-top: -5px;
+}
+
+.buttons-container {
+    margin-top: 4px;
+}

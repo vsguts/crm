@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="donate-index">
 
-    <div class="pull-right">
+    <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create donate'), ['update', '_return_url' => Url::to()], [
                 'class' => 'btn btn-success c-modal',
@@ -21,12 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
                     'data-c-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
-                ['label' => __('Export selected'), 'url' => Url::to(['/export/index', 'object' => 'donates']), 'linkOptions' => [
+                ['label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'donates']), 'linkOptions' => [
                     'data-c-process-items' => 'ids',
                 ]],
                 // ['label' => 'TODO 2', 'url' => '#'],

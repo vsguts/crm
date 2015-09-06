@@ -7,7 +7,7 @@ use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
 
-$form = ActiveForm::begin();
+$form = ActiveForm::begin(['id' => 'partner_form']);
 
 $tab_items = [
     [
@@ -72,6 +72,6 @@ echo Tabs::widget([
     'items' => $tab_items,
 ]);
 
-echo ButtonsContatiner::widget(['model' => $model]);
+// echo ButtonsContatiner::widget(['model' => $model]);
 
 ActiveForm::end();

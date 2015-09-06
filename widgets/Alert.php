@@ -7,6 +7,8 @@
 
 namespace app\widgets;
 
+use yii\helpers\Html;
+
 /**
  * Alert widget renders a message from session flash. All flash messages are displayed
  * in the sequence they were assigned using setFlash. You can set message as following:
@@ -55,6 +57,8 @@ class Alert extends \yii\bootstrap\Widget
         $flashes = $session->getAllFlashes();
         $appendCss = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
+        echo Html::beginTag('div', ['class' => 'alerts-container']);
+
         foreach ($flashes as $type => $data) {
             if (isset($this->alertTypes[$type])) {
                 $data = (array) $data;
@@ -75,5 +79,7 @@ class Alert extends \yii\bootstrap\Widget
                 $session->removeFlash($type);
             }
         }
+
+        echo Html::endTag('div');
     }
 }

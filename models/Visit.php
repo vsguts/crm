@@ -11,14 +11,12 @@ use Yii;
  * @property integer $partner_id
  * @property integer $user_id
  * @property integer $timestamp
- * @property integer $created_at
- * @property integer $updated_at
  * @property string $notes
  *
  * @property Partner $partner
  * @property User $user
  */
-class Visit extends \yii\db\ActiveRecord
+class Visit extends AModel
 {
     public static function tableName()
     {
@@ -28,11 +26,11 @@ class Visit extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'app\behaviors\ListBehavior',
-            'yii\behaviors\TimestampBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampConvertBehavior',
             'app\behaviors\ImageUploaderBehavior',
             'app\behaviors\ImagesBehavior',
+            'app\behaviors\ListBehavior',
         ];
     }
 
@@ -47,18 +45,13 @@ class Visit extends \yii\db\ActiveRecord
 
     public function attributeLabels()
     {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner'),
-            'user_id' => Yii::t('app', 'User'),
-            'timestamp' => Yii::t('app', 'Date'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'notes' => Yii::t('app', 'Notes'),
-
-            // From Behaviors. FIXME
-            'imagesUpload' => __('Images upload'),
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'id' => __('ID'),
+            'partner_id' => __('Partner'),
+            'user_id' => __('User'),
+            'timestamp' => __('Date'),
+            'notes' => __('Notes'),
+        ]);
     }
 
     public function getPartner()

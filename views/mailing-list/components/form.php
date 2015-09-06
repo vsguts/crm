@@ -5,7 +5,7 @@ use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
-$form = ActiveForm::begin();
+$form = ActiveForm::begin(['id' => 'mailing_list_form']);
 
 $this->beginBlock('general');
 
@@ -13,6 +13,7 @@ $this->beginBlock('general');
     echo $form->field($model, 'from_name')->textInput(['maxlength' => true]);
     echo $form->field($model, 'from_email')->textInput(['maxlength' => true]);
     echo $form->field($model, 'reply_to')->textInput(['maxlength' => true]);
+    echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));
 
 $this->endBlock();
 
@@ -42,7 +43,5 @@ echo Tabs::widget([
     ],
     'items' => $tab_items,
 ]);
-
-echo ButtonsContatiner::widget(['model' => $model]);
 
 ActiveForm::end();

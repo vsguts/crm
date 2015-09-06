@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
-$form = ActiveForm::begin();
+$form = ActiveForm::begin(['id' => 'user_form']);
 
 echo $form->field($model, 'username')->textInput(['maxlength' => 255]);
 
@@ -33,11 +33,8 @@ echo $form->field($model, 'address')->textInput(['maxlength' => 255]);
 
 if (!$model->isNewRecord) {
     echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
-
     echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
 }
-
-echo ButtonsContatiner::widget(['model' => $model]);
 
 ActiveForm::end();
 

@@ -45,6 +45,8 @@ class GridView extends YGridView
 
     public $ajaxPager = false;
 
+    public $enableLinks = true;
+
     public function init()
     {
         parent::init();

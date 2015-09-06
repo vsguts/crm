@@ -10,14 +10,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <div class="pull-right">
+    <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create user'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
                     'data-c-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',

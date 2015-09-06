@@ -25,7 +25,7 @@ class PrintTemplateSearch extends PrintTemplate
     {
         return [
             [['id'], 'integer'],
-            [['name', 'content', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'], 'safe'],
+            [['name', 'content', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'status'], 'safe'],
         ];
     }
 
@@ -69,6 +69,7 @@ class PrintTemplateSearch extends PrintTemplate
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'status' => $this->status,
         ]);
 
         $query

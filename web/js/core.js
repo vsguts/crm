@@ -126,7 +126,7 @@ $.fn.extend({
             }
         });
         
-        if (!value && !depends_selected.length) {
+        if (!value && !sel_dep.length) {
             show($(sel_dep_all));
         } else {
             hide($(sel_dep_all));

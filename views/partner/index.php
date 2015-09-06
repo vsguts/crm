@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="partner-index">
 
-    <div class="pull-right">
+    <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
@@ -19,41 +19,34 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
 
         $items = [
-            ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                'data-c-process-items' => 'ids',
-                'data-confirm' => __('Are you sure you want to delete this item?'),
-                'data-method' => 'post',
-            ]],
-            ['label' => __('Export selected'), 'url' => Url::to(['/export/index', 'object' => 'partners']), 'linkOptions' => [
-                'data-c-process-items' => 'ids',
-            ]],
-            ['label' => __('Show selected on map'), 'url' => Url::to(['map']), 'linkOptions' => [
-                'data-c-process-items' => 'ids',
-            ]]
+            [
+                'label' => __('Delete'),
+                'url' => Url::to(['delete']),
+                'linkOptions' => [
+                    'data-c-process-items' => 'ids',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post',
+                ]
+            ],
+            [
+                'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
+                'linkOptions' => ['data-c-process-items' => 'ids']
+            ],
+            [
+                'label' => __('Show on map'), 'url' => Url::to(['map']),
+                'linkOptions' => ['data-c-process-items' => 'ids']
+            ],
         ];
-
-        if (!empty($printTemplates)) {
-            $items[] = '<li role="presentation" class="divider"></li>';
-            
-            foreach ($printTemplates as $template) {
-                $items[] = [
-                    'label' => __('Print <b>{template}</b> template: selected', [
-                        'template' => $template->name,
-                    ]),
-                    'url' => Url::to(['/print-template/view', 'id' => $template->id]),
-                    'linkOptions' => [
-                        'data-c-process-items' => 'ids',
-                    ],
-                ];
-                if (!empty($partnerIds)) {
-                    $items[] = [
-                        'label' => __('Print <b>{template}</b> template: all', [
-                            'template' => $template->name,
-                        ]),
-                        'url' => Url::to(['/print-template/view', 'id' => $template->id, 'ids' => $partnerIds]),
-                    ];
-                }
-            }
+        if (Yii::$app->user->can('newsletter_manage')) {
+            $items[] = [
+                'label' => __('Add to mailing list'),
+                'url' => Url::to(['/mailing-list/append-partners']),
+                'linkOptions' => [
+                    'data-c-process-items' => 'partner_ids',
+                    'class' => 'c-modal c-modal-force',
+                    'data-target-id' => 'append_partners',
+                ]
+            ];
         }
 
         echo ActionsDropdown::widget([

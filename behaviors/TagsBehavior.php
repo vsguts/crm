@@ -30,6 +30,14 @@ class TagsBehavior extends Behavior
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'publicTags' => __('Public tags'),
+            'personalTags' => __('Personal tags'),
+        ];
+    }
+
     public function prepareTags()
     {
         $partner = $this->owner;

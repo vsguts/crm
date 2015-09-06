@@ -25,8 +25,6 @@ use app\models\query\PartnerQuery;
  * @property integer $volunteer
  * @property integer $candidate
  * @property string $notes
- * @property integer $created_at
- * @property integer $updated_at
  *
  * @property Country $country
  * @property Donate[] $donates
@@ -41,7 +39,7 @@ use app\models\query\PartnerQuery;
  * @property Task[] $tasks
  * @property Visit[] $visits
  */
-class Partner extends \yii\db\ActiveRecord
+class Partner extends AModel
 {
     const TYPE_PEOPLE = 1;
     const TYPE_ORG = 2;
@@ -57,18 +55,18 @@ class Partner extends \yii\db\ActiveRecord
     {
         return [
             'app\behaviors\PartnerNameBehavior',
-            'app\behaviors\LookupBehavior',
-            'app\behaviors\ListBehavior',
             'app\behaviors\TagsBehavior',
-            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampBehavior',
             'app\behaviors\ImageUploaderBehavior',
             'app\behaviors\ImagesBehavior',
+            'app\behaviors\ListBehavior',
+            'app\behaviors\LookupBehavior',
         ];
     }
 
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             [['name', 'firstname', 'lastname'], 'required'],
             [['email'], 'email'],
             [['zipcode'], 'string', 'max' => 16],
@@ -78,12 +76,12 @@ class Partner extends \yii\db\ActiveRecord
             [['address'], 'string', 'max' => 255],
             [['type', 'status', 'country_id', 'state_id', 'parent_id', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'safe'],
-        ];
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'type' => __('Type'),
             'status' => __('Status'),
@@ -103,14 +101,7 @@ class Partner extends \yii\db\ActiveRecord
             'volunteer' => __('Volunteer'),
             'candidate' => __('Candidate'),
             'notes' => __('Notes'),
-            'created_at' => __('Created At'),
-            'updated_at' => __('Updated At'),
-            'publicTags' => __('Public tags'),
-            'personalTags' => __('Personal tags'),
-            
-            // From Behaviors. FIXME
-            'imagesUpload' => __('Images upload'),
-        ];
+        ]);
     }
 
     public function getDonates()

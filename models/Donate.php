@@ -17,7 +17,7 @@ use Yii;
  *
  * @property Partner $partner
  */
-class Donate extends \yii\db\ActiveRecord
+class Donate extends AModel
 {
     public static function tableName()
     {
@@ -27,9 +27,9 @@ class Donate extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'app\behaviors\ListBehavior',
-            'yii\behaviors\TimestampBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\TimestampConvertBehavior',
+            'app\behaviors\ListBehavior',
         ];
     }
 
@@ -45,15 +45,13 @@ class Donate extends \yii\db\ActiveRecord
 
     public function attributeLabels()
     {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'partner_id' => Yii::t('app', 'Partner'),
-            'sum' => Yii::t('app', 'Sum'),
-            'timestamp' => Yii::t('app', 'Date'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'notes' => Yii::t('app', 'Notes'),
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'id' => __('ID'),
+            'partner_id' => __('Partner'),
+            'sum' => __('Sum'),
+            'timestamp' => __('Date'),
+            'notes' => __('Notes'),
+        ]);
     }
 
     public function getPartner()

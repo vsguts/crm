@@ -10,16 +10,13 @@ use Yii;
  * @property integer $id
  * @property string $subject
  * @property string $body
- * @property integer $created_at
- * @property integer $updated_at
  *
+ * @property NewsletterLog[] $logs
  * @property NewsletterMailingList[] $newsletterMailingLists
  * @property MailingList[] $mailingList
  */
-class Newsletter extends \yii\db\ActiveRecord
+class Newsletter extends AModel
 {
-    public $mailingListIds;
-
     public static function tableName()
     {
         return 'newsletter';
@@ -28,32 +25,34 @@ class Newsletter extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\MailingListBehavior',
+            'app\behaviors\TimestampBehavior',
             'app\behaviors\ListBehavior',
+            'app\behaviors\NewsletterBehavior',
         ];
     }
 
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             [['subject'], 'required'],
             [['body'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
             [['subject'], 'string', 'max' => 255],
-            [['mailingListIds'], 'safe'],
-        ];
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'subject' => __('Subject'),
             'body' => __('Body'),
-            'created_at' => __('Created At'),
-            'updated_at' => __('Updated At'),
-            'mailingListIds' => __('Mailing lists'),
-        ];
+        ]);
+    }
+
+    public function getLogs()
+    {
+        return $this->hasMany(NewsletterLog::className(), ['newsletter_id' => 'id']);
     }
 
     public function getNewsletterMailingLists()
@@ -68,31 +67,14 @@ class Newsletter extends \yii\db\ActiveRecord
             ->viaTable('newsletter_mailing_list', ['newsletter_id' => 'id']);
     }
 
+    public function getLogsCount()
+    {
+        return NewsletterLog::find()->where(['newsletter_id' => $this->id])->count();
+    }
+
     public function getMailingListsCount()
     {
         return MailingList::find()->joinWith('newsletterMailingLists')->where(['newsletter_id' => $this->id])->count();
     }
 
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        $this->unlinkAll('mailingLists', true);
-        if ($this->mailingListIds) {
-            $models = MailingList::findAll($this->mailingListIds);
-            foreach ($models as $model) {
-                $this->link('mailingLists', $model);
-            }
-        }
-    }
-
-    public function afterFind()
-    {
-        parent::afterFind();
-
-        $this->mailingListIds = [];
-        foreach ($this->mailingLists as $list) {
-            $this->mailingListIds[] = $list->id;
-        }
-    }
 }

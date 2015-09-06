@@ -20,12 +20,11 @@ use app\models\query\PrintTemplateQuery;
  * @property string $content
  * @property string $wrapper
  * @property integer $wrapper_enabled
- * @property integer $created_at
- * @property integer $updated_at
  *
- * @property User $user
+ * @property PrintTemplateMailingList[] $printTemplateMailingLists
+ * @property MailingList[] $lists
  */
-class PrintTemplate extends \yii\db\ActiveRecord
+class PrintTemplate extends AModel
 {
     public static function tableName()
     {
@@ -35,7 +34,8 @@ class PrintTemplate extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'yii\behaviors\TimestampBehavior',
+            'app\behaviors\MailingListBehavior',
+            'app\behaviors\TimestampBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
         ];
@@ -43,19 +43,19 @@ class PrintTemplate extends \yii\db\ActiveRecord
 
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             [['name', 'format', 'content'], 'required'],
             [['content', 'wrapper'], 'string'],
             [['status', 'format', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
-        ];
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'content' => Yii::t('app', 'Content'),
+        return array_merge(parent::attributeLabels(), [
+            'id' => __('ID'),
+            'name' => __('Name'),
+            'content' => __('Content'),
             'wrapper' => __('Wrapper'),
             'wrapper_enabled' => __('Enable wrapper'),
             'orientation_landscape' => __('Landscape orientation'),
@@ -65,9 +65,7 @@ class PrintTemplate extends \yii\db\ActiveRecord
             'margin_right' => __('Margin right'),
             'status' => __('Status'),
             'format' => __('Format'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-        ];
+        ]);
     }
 
     public function init()
@@ -82,6 +80,23 @@ class PrintTemplate extends \yii\db\ActiveRecord
         $this->margin_right = 15;
     }
 
+    public function getPrintTemplateMailingLists()
+    {
+        return $this->hasMany(PrintTemplateMailingList::className(), ['template_id' => 'id']);
+    }
+
+    public function getMailingLists()
+    {
+        return $this
+            ->hasMany(MailingList::className(), ['id' => 'list_id'])
+            ->viaTable('print_template_mailing_list', ['template_id' => 'id']);
+    }
+
+    public function getMailingListsCount()
+    {
+        return MailingList::find()->joinWith('printTemplateMailingLists')->where(['template_id' => $this->id])->count();
+    }
+
     /**
      * @inheritdoc
      * @return PrintTemplateQuery
@@ -94,29 +109,14 @@ class PrintTemplate extends \yii\db\ActiveRecord
     /**
      * Print
      */
-    public function findRelatedObjects($ids)
+    public function generate()
     {
-        return Partner::find()->where(['id' => $ids])->all();
-    }
-
-    public function prepareContent($model)
-    {
-        $content = $this->content;
-
-        $content = preg_replace_callback('/\{([a-z.0-9]+)\}/Sui', function($m) use($model) {
-            $parts = explode('.', $m[1]);
-            $result = $model;
-            foreach ($parts as $part) {
-                if (is_object($result) && isset($result->$part)) {
-                    $result = $result->$part;
-                }
-            }
-
-            if (is_object($result)) {
-                return $m[0];
-            }
-            return $result;
-        }, $content);
+        $content = [];
+        $partners = Partner::find()->viaMailingLists($this->mailingLists)->all();
+        foreach ($partners as $partner) {
+            $content[] = $this->processContent($this->content, $partner);
+        }
+        $content = implode(' ', $content);
 
         if ($this->wrapper_enabled) {
             $content = preg_replace('/\{content\}/Sui', $content, $this->wrapper);

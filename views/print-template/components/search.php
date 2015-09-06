@@ -14,12 +14,12 @@ use app\widgets\DatePickerRange;
         <div class="col-md-6">
 
             <?= $form->field($model, 'name') ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
 
         </div>
         <div class="col-md-6">
 
             <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
-
             <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
 
         </div>

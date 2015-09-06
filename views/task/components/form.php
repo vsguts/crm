@@ -23,6 +23,7 @@ Modal::begin([
     'footer' => ButtonsContatiner::widget([
         'model' => $model,
         'footerWrapper' => false,
+        'removeLink' => false,
         'form' => $form_id,
     ]),
 ]);

@@ -68,23 +68,22 @@ $menu_items[] = [
     'active' => in_array($controller_id, ['newsletter', 'mailing-list', 'print-template']),
     'items' => [
         [
+            'label' => __('Mailing lists'),
+            'url' => ['/mailing-list/index'],
+            'visible' => $user->can('newsletter_manage'),
+            'active' => $controller_id == 'mailing-list',
+        ],
+        [
             'label' => __('Newsletters'),
             'url' => ['/newsletter/index'],
             'visible' => $user->can('newsletter_manage'),
             'active' => $controller_id == 'newsletter',
         ],
         [
-            'label' => __('Mailing lists'),
-            'url' => ['/mailing-list/index'],
-            'visible' => $user->can('newsletter_manage'),
-            'active' => $controller_id == 'mailing-list',
-        ],
-        '<li class="divider"></li>',
-        [
             'label' => __('Printing templates'),
             'url' => ['/print-template/index'],
             'visible' => $user->can('newsletter_manage'),
-            'active' => $controller_id == 'print_template',
+            'active' => $controller_id == 'print-template',
         ],
     ],
 ];

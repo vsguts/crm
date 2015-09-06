@@ -16,7 +16,7 @@ use Yii;
  * @property Country $country
  * @property User[] $users
  */
-class State extends \yii\db\ActiveRecord
+class State extends AModel
 {
     public static function tableName()
     {

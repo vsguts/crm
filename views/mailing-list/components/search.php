@@ -14,13 +14,12 @@ use app\widgets\DatePickerRange;
         <div class="col-md-6">
 
             <?= $form->field($model, 'name') ?>
-            <?= $form->field($model, 'from_name') ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
 
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'from_email') ?>
-            <?= $form->field($model, 'reply_to') ?>
+            <?= $form->field($model, 'sender') ?>
 
         </div>
     </div>

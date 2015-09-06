@@ -13,7 +13,7 @@ use Yii;
  * @property Partner $partner
  * @property Task $task
  */
-class TaskPartner extends \yii\db\ActiveRecord
+class TaskPartner extends AModel
 {
     public static function tableName()
     {

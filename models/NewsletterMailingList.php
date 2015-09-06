@@ -13,7 +13,7 @@ use Yii;
  * @property MailingList $mailingList
  * @property Newsletter $newsletter
  */
-class NewsletterMailingList extends \yii\db\ActiveRecord
+class NewsletterMailingList extends AModel
 {
     public static function tableName()
     {

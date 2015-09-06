@@ -12,7 +12,7 @@ use Yii;
  * @property string $short_name
  * @property string $name
  */
-class Language extends \yii\db\ActiveRecord
+class Language extends AModel
 {
     public static function tableName()
     {

@@ -44,9 +44,13 @@ class AjaxFilter extends ActionFilter
                 if ($src && 0) { // disabled
                     $this->ajaxVars['scripts_src'] = $src;
                 }
+
             }
 
-            Yii::$app->getResponse()->format = 'json';
+            // Flashes
+            $this->ajaxVars['alerts'] = Yii::$app->session->getAllFlashes();
+
+            Yii::$app->response->format = 'json';
             return $this->ajaxVars;
         }
 

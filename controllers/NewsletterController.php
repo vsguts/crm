@@ -4,8 +4,10 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Newsletter;
+use app\models\NewsletterLog;
 use app\models\MailingList;
 use app\models\search\NewsletterSearch;
+use app\models\search\NewsletterLogSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -21,6 +23,7 @@ class NewsletterController extends AController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'send' => ['post'],
                 ],
             ],
         ];
@@ -56,7 +59,6 @@ class NewsletterController extends AController
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'mailingLists' => MailingList::find()->all(),
             ]);
         }
     }
@@ -77,7 +79,7 @@ class NewsletterController extends AController
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'mailingLists' => MailingList::find()->all(),
+                'logSearch' => (new NewsletterLogSearch())->search(['newsletter_id' => $id]),
             ]);
         }
     }
@@ -106,6 +108,14 @@ class NewsletterController extends AController
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSend($id)
+    {
+        $model = $this->findModel($id);
+        $model->send();
+        Yii::$app->session->setFlash('success', __('The newsletter have been sent successfully.'));
+        return $this->redirect(['update', 'id' => $id]);
     }
 
     /**

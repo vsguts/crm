@@ -8,12 +8,14 @@ use yii\helpers\Url;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
-use app\models\Partner;
-use app\models\Visit;
 use app\models\Donate;
-use app\models\Task;
-use app\models\User;
+use app\models\Newsletter;
+use app\models\MailingList;
+use app\models\Partner;
 use app\models\PrintTemplate;
+use app\models\Task;
+use app\models\Visit;
+use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\UserLoginForm;
 use app\models\form\UserSignupForm;
@@ -102,8 +104,18 @@ class SiteController extends AController
         
         if ($user->can('newsletter_manage')) {
             $dashboard[] = [
+                'name' => __('Mailing lists'),
+                'link' => Url::to(['mailing-list/index']),
+                'count' => MailingList::find()->count(),
+            ];
+            $dashboard[] = [
+                'name' => __('Newsletters'),
+                'link' => Url::to(['newsletter/index']),
+                'count' => Newsletter::find()->count(),
+            ];
+            $dashboard[] = [
                 'name' => __('Printing templates'),
-                'link' => Url::to(['printtemplate/index']),
+                'link' => Url::to(['print-template/index']),
                 'count' => PrintTemplate::find()->count(),
             ];
         }

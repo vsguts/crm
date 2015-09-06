@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\query\MailingListQuery;
 
 /**
  * This is the model class for table "mailing_list".
@@ -12,13 +13,16 @@ use Yii;
  * @property string $from_name
  * @property string $from_email
  * @property string $reply_to
+ * @property string $status
  *
  * @property MailingListPartner[] $mailingListPartners
  * @property Partner[] $partners
  * @property NewsletterMailingList[] $newsletterMailingLists
  * @property Newsletter[] $newsletters
+ * @property PrintTemplateMailingList[] $printTemplateMailingLists
+ * @property PrintTemplate[] $templates
  */
-class MailingList extends \yii\db\ActiveRecord
+class MailingList extends AModel
 {
     public static function tableName()
     {
@@ -29,31 +33,30 @@ class MailingList extends \yii\db\ActiveRecord
     {
         return [
             'app\behaviors\PartnersSelectBehavior',
+            'app\behaviors\LookupBehavior',
         ];
     }
 
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             [['name', 'from_email'], 'required'],
+            [['status'], 'integer'],
             [['name', 'from_name', 'from_email', 'reply_to'], 'string', 'max' => 255],
             [['from_email', 'reply_to'], 'email'],
-            [['partners_ids'], 'safe'], //FIXME
-        ];
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'name' => __('Name'),
             'from_name' => __('From name'),
             'from_email' => __('From email'),
             'reply_to' => __('Reply to'),
-
-            // FIXME
-            'partners_ids' => __('Partners'),
-        ];
+            'status' => __('Status'),
+        ]);
     }
 
     public function getMailingListPartners()
@@ -84,4 +87,22 @@ class MailingList extends \yii\db\ActiveRecord
             ->hasMany(Newsletter::className(), ['id' => 'newsletter_id'])
             ->viaTable('newsletter_mailing_list', ['list_id' => 'id']);
     }
+
+    public function getPrintTemplateMailingLists()
+    {
+        return $this->hasMany(PrintTemplateMailingList::className(), ['list_id' => 'id']);
+    }
+
+    public function getTemplates()
+    {
+        return $this
+            ->hasMany(PrintTemplate::className(), ['id' => 'template_id'])
+            ->viaTable('print_template_mailing_list', ['list_id' => 'id']);
+    }
+
+    public static function find()
+    {
+        return new MailingListQuery(get_called_class());
+    }
+
 }

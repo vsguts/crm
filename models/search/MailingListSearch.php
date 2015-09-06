@@ -12,15 +12,28 @@ use app\models\MailingList;
  */
 class MailingListSearch extends MailingList
 {
-    /**
-     * @inheritdoc
-     */
+
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'sender',
+        ]);
+    }
+
     public function rules()
     {
         return [
             [['id'], 'integer'],
-            [['name', 'from_name', 'from_email', 'reply_to'], 'safe'],
+            [['name', 'sender', 'status'], 'safe'],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'sender' => __('Sender')
+        ]);
     }
 
     /**
@@ -60,9 +73,16 @@ class MailingListSearch extends MailingList
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'from_name', $this->from_name])
-            ->andFilterWhere(['like', 'from_email', $this->from_email])
-            ->andFilterWhere(['like', 'reply_to', $this->reply_to]);
+            // ->andFilterWhere(['like', 'from_name', $this->from_name])
+            // ->andFilterWhere(['like', 'from_email', $this->from_email])
+            // ->andFilterWhere(['like', 'reply_to', $this->reply_to])
+            ->andFilterWhere(['like', 'status', $this->status]);
+
+        if ($this->sender) {
+            $query->orFilterWhere(['like', 'from_name', $this->sender]);
+            $query->orFilterWhere(['like', 'from_email', $this->sender]);
+            $query->orFilterWhere(['like', 'reply_to', $this->sender]);
+        }
 
         return $dataProvider;
     }

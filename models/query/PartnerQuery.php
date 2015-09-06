@@ -36,4 +36,21 @@ class PartnerQuery extends ActiveQuery
         return $ids;
     }
 
+    public function viaMailingLists($mailingLists)
+    {
+        $ids = [];
+        foreach ($mailingLists as $list) {
+            $ids[] = $list->id;
+        }
+
+        if (!$ids) {
+            return $this->where('0=1');
+        }
+
+        return $this
+            ->joinWith('mailingListPartners')
+            ->groupBy('partner.id')
+            ->where(['in', 'mailing_list_partner.list_id', $ids]);
+    }
+
 }

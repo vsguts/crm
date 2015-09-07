@@ -41,10 +41,7 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            // 'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -120,8 +117,13 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
+if (YII_ENV_DEV) { // configuration adjustments for 'dev' environment
+    
+    // send all mails to a file by default. You have to set
+    // 'useFileTransport' to false and configure a transport
+    // for the mailer to send real emails.
+    $config['components']['mailer']['useFileTransport'] = true;
+    
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',

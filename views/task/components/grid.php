@@ -14,7 +14,7 @@ if (!empty($partnerId)) {
 
 $columns = [
     ['class' => 'yii\grid\CheckboxColumn'],
-    'id',
+    ['attribute' => 'id', 'label' => '#'],
     'name',
 ];
 

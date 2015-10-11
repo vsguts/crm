@@ -90,21 +90,24 @@ class PrintTemplateController extends AController
         }
     }
 
-    public function actionView($id)
+    public function actionView($id, $to_pdf = false)
     {
         $model = $this->findModel($id);
 
-        Yii::$app->response->format = 'pdf';
         $this->layout = 'print';
-
-        if ($options = $model->prepareOptions()) {
-            Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], $options);
+        $html = $this->render('view', ['content' => $model->generate()]);
+        
+        if (!$to_pdf) {
+            return $html;
         }
+        
+        $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
 
-        $filename = $model->name . '_' . date('Y-m-d_H:i') . '.pdf';
-        Yii::$app->response->setDownloadHeaders($filename, 'application/pdf');
-
-        return $model->generate();
+        return Yii::$app->response->sendContentAsFile(
+            $pdf,
+            $model->name . '_' . date('Y-m-d_H:i') . '.pdf',
+            ['mimeType' => 'application/pdf']
+        );
     }
 
     /**

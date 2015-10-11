@@ -59,10 +59,10 @@ class PrintTemplate extends AModel
             'wrapper' => __('Wrapper'),
             'wrapper_enabled' => __('Enable wrapper'),
             'orientation_landscape' => __('Landscape orientation'),
-            'margin_top' => __('Margin top'),
-            'margin_bottom' => __('Margin bottom'),
-            'margin_left' => __('Margin left'),
-            'margin_right' => __('Margin right'),
+            'margin_top' => __('Margin top (mm)'),
+            'margin_bottom' => __('Margin bottom (mm)'),
+            'margin_left' => __('Margin left (mm)'),
+            'margin_right' => __('Margin right (mm)'),
             'status' => __('Status'),
             'format' => __('Format'),
         ]);
@@ -129,20 +129,20 @@ class PrintTemplate extends AModel
     {
         $options = [];
         
-        $options['format'] = $this->getLookupItem('format', $this->format);
+        $options['page-size'] = $this->getLookupItem('format', $this->format);
+        if ($options['page-size'] == 'C5') {
+            $options['page-size'] .= 'E'; //C5E
+        }
         
         // Margins
         foreach (['top', 'bottom', 'left', 'right'] as $margin) {
             $field = 'margin_' . $margin;
             if (isset($this->$field)) {
-                $options['margin' . ucfirst($margin)] = $this->$field;
+                $options['margin-' . $margin] = $this->$field;
             }
         }
 
-        // Orientation
-        if ($this->orientation_landscape) {
-            $options['format'] .= '-L';
-        }
+        $options['orientation'] = $this->orientation_landscape ? 'Landscape' : 'Portrait';
 
         return $options;
     }

@@ -1,3 +1,3 @@
 <?php
 
-echo $model->prepareContent($objects);
+echo $content;

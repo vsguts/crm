@@ -18,7 +18,12 @@ $this->params['breadcrumbs'][] = $model->name;
         <?php
             $items = [
                 [
-                    'label' => __('Print'), 'url' => Url::to(['view', 'id' => $model->id]),
+                    'label' => __('Print'), 'url' => Url::to(['view', 'id' => $model->id, 'to_pdf' => true]),
+                ],
+                [
+                    'label' => __('Preview'),
+                    'url' => Url::to(['view', 'id' => $model->id]),
+                    'linkOptions' => ['target' => '_blank'],
                 ],
                 [
                     'label' => __('Delete'),

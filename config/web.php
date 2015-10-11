@@ -52,6 +52,19 @@ $config = [
                 ],
             ],
         ],
+        'htmlToPdf' => [
+            'class' => 'boundstate\htmlconverter\HtmlToPdfConverter',
+            'bin' => '/usr/local/bin/wkhtmltopdf',
+            // global wkhtmltopdf command line options (see http://wkhtmltopdf.org/usage/wkhtmltopdf.txt)
+            'options' => [
+                'print-media-type',
+                'disable-smart-shrinking',
+                'no-outline',
+                'page-size' => 'letter',
+                'load-error-handling' => 'ignore',
+                'load-media-error-handling' => 'ignore'
+            ],
+        ],
         'db' => $db,
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
@@ -82,7 +95,9 @@ $config = [
         'response' => [
             'formatters' => [
                 'pdf' => [
-                    'class' => 'robregonm\pdf\PdfResponseFormatter',
+                    'class' => 'boundstate\htmlconverter\PdfResponseFormatter',
+                    // Set a filename to download the response as an attachments (instead of displaying in browser)
+                    'filename' => 'attachment.pdf'
                 ],
             ],
         ],

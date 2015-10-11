@@ -25,10 +25,13 @@ foreach ($this->assetBundles as &$bundle) {
 <body>
 
 <?php $this->beginBody() ?>
+<div class="container">
 
 <?= $content ?>
 
+</div>
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

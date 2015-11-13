@@ -33,12 +33,16 @@ class PartnerSearch extends Partner
     {
         return [
             [
-                ['id', 'type', 'status', 'country_id', 'state_id', 'city', 'parent_id', 'volunteer', 'candidate', 'tag_id'],
+                ['id', 'type', 'status', 'country_id', 'state_id', 'parent_id', 'volunteer', 'candidate', 'tag_id'],
                 'integer'
             ],
             [
-                ['name', 'email', 'state', 'address', 'notes', 'tag_id', 'publicTagsStr', 'personalTagsStr', 'q', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'],
+                ['name', 'email', 'state', 'address', 'city', 'notes', 'tag_id', 'publicTagsStr', 'personalTagsStr', 'q', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to'],
                 'safe'
+            ],
+            [
+                ['name', 'email', 'state', 'address', 'notes', 'city', 'q'],
+                'filter', 'filter' => 'trim'
             ],
         ];
     }

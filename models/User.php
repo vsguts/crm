@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\NotSupportedException;
+use app\models\form\UserSignupForm;
 
 /**
  * This is the model class for table "user".
@@ -62,7 +63,7 @@ class User extends AModel implements \yii\web\IdentityInterface
     {
         return [
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => UserSignupForm::PASS_MIN_LEN],
             ['role', 'default', 'value' => 1],
             [['username', 'auth_key', 'password_hash', 'email'], 'required'],
             [['email'], 'email'],

@@ -24,13 +24,13 @@ class UserSignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('app', 'This username has already been taken.')],
+            ['username', 'unique', 'targetClass' => User::className(), 'message' => __('This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('app', 'This email address has already been taken.')],
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => __('This email address has already been taken.')],
 
             ['password', 'required'],
             ['password', 'string', 'min' => static::PASS_MIN_LEN],
@@ -40,9 +40,9 @@ class UserSignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('app', 'Username'),
-            'email' => Yii::t('app', 'Email'),
-            'password' => Yii::t('app', 'Password'),
+            'username' => __('Username'),
+            'email' => __('Email'),
+            'password' => __('Password'),
         ];
     }
 
@@ -58,8 +58,9 @@ class UserSignupForm extends Model
             $user->username = $this->username;
             $user->email = $this->email;
             $user->password = $this->password;
-            $user->save();
-            return $user;
+            if ($user->save()) {
+                return $user;
+            }
         }
 
         return null;

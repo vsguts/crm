@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\Cookie;
 use app\models\Language;
 
 class AController extends Controller
@@ -12,10 +13,9 @@ class AController extends Controller
     {
         parent::init();
 
-        $session = Yii::$app->session;
-        $session->open();
+        Yii::$app->session->open();
 
-        if ($language = $session->get('language')) {
+        if ($language = Yii::$app->request->cookies->getValue('language')) {
             Yii::$app->language = $language;
         } else {
             if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -26,7 +26,11 @@ class AController extends Controller
                 }
                 if (preg_match("/(" . implode('|' , $codes) . ")+(-|;|,)?(.*)?/", $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches)) {
                     $browser_language = $matches[1];
-                    Yii::$app->session->set('language', $browser_language);
+                    Yii::$app->response->cookies->add(new Cookie([
+                        'name' => 'language',
+                        'value' => $browser_language,
+                        'expire' => (new \Datetime)->modify('+1 year')->getTimestamp(),
+                    ]));
                     Yii::$app->language = $browser_language;
                 }
             }

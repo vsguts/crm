@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\web\Cookie;
 use app\models\Language;
 
 class LanguageController extends AController
@@ -10,7 +11,11 @@ class LanguageController extends AController
     public function actionSelect($id, $current_url = '')
     {
         $language = Language::findOne($id);
-        Yii::$app->session->set('language', $language->code);
+        Yii::$app->response->cookies->add(new Cookie([
+            'name' => 'language',
+            'value' => $language->code,
+            'expire' => (new \Datetime)->modify('+1 year')->getTimestamp(),
+        ]));
         
         if ($current_url) {
             $current_url = urldecode($current_url);

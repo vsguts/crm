@@ -11,6 +11,7 @@ $config = [
         'appBootstrap',
     ],
     'language' => 'en-US',
+    'sourceLanguage' => 'en-US',
     'components' => [
         'i18n' => [
             'translations' => [

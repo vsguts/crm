@@ -5,4 +5,4 @@ git pull --rebase
 composer self-update
 composer update
 
-./yii migrate/up --interactive=0
+./app migrate/up --interactive=0

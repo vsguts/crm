@@ -97,7 +97,6 @@ class PartnerSearch extends Partner
             'status' => $this->status,
             'country_id' => $this->country_id,
             'state_id' => $this->state_id,
-            'city' => $this->city,
             'parent_id' => $this->parent_id,
             'volunteer' => $this->volunteer,
             'candidate' => $this->candidate,
@@ -109,6 +108,7 @@ class PartnerSearch extends Partner
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'state', $this->state])
             ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'city', $this->city])
             ->andFilterWhere(['like', 'notes', $this->notes]);
 
         $tags = $this->parseTagsStr([$this->publicTagsStr, $this->personalTagsStr]);

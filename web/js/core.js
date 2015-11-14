@@ -136,30 +136,36 @@ $.fn.extend({
 
     mCountrySelect: function() {
         var country_id = this.val(),
+            is_required = this.hasClass('m-country-required'),
             prefix = this.attr('id').replace('country_id', ''),
             form = this.parents('form'),
             state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_group_class),
-            state_text = form.find('#' + prefix + 'state').parents('.' + form_group_class),
-            states = yii.crm.states[country_id];
+            state_text = form.find('#' + prefix + 'state').parents('.' + form_group_class);
 
-        if (states) {
-            show(state_dropdown);
-            hide(state_text);
-            
-            var select = state_dropdown.find('select');
-            select.find('option').remove();
-            select.append('<option value=""> -- </option>');
-            for (var i in states) {
-                select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
-            }
-            
-            var select_value = select.data('cValue');
-            if (select.find('option[value="' + select_value + '"]').length) {
-                select.val(select_value);
+        if (country_id || !is_required) {
+            var states = yii.crm.states[country_id];
+            if (states) {
+                show(state_dropdown);
+                hide(state_text);
+                
+                var select = state_dropdown.find('select');
+                select.find('option').remove();
+                select.append('<option value=""> -- </option>');
+                for (var i in states) {
+                    select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
+                }
+                
+                var select_value = select.data('cValue');
+                if (select.find('option[value="' + select_value + '"]').length) {
+                    select.val(select_value);
+                }
+            } else {
+                hide(state_dropdown);
+                show(state_text);
             }
         } else {
             hide(state_dropdown);
-            show(state_text);
+            hide(state_text);
         }
     },
 

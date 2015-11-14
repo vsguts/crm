@@ -63,11 +63,11 @@ use app\widgets\DatePickerRange;
 
                         <?= $form->field($model, 'email') ?>
 
-                        <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')]), ['class' => 'form-control m-country']) ?>
+                        <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')]), ['class' => 'form-control m-country m-country-required']) ?>
 
-                        <?= $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-c-value' => $model->state_id]) ?>
+                        <?= $form->field($model, 'state_id', ['options' => ['class' => 'form-group h']])->dropDownList(['' => ' -- '], ['data-c-value' => $model->state_id]) ?>
 
-                        <?= $form->field($model, 'state') ?>
+                        <?= $form->field($model, 'state', ['options' => ['class' => 'form-group h']]) ?>
 
                         <?= $form->field($model, 'city') ?>
 

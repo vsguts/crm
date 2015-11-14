@@ -49,7 +49,7 @@ class Task extends AModel
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'user_id' => __('User'),
-            'name' => __('Name'),
+            'name' => __('Title'),
             'timestamp' => __('Due date'),
             'done' => __('Done'),
             'notes' => __('Notes'),

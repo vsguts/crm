@@ -9,6 +9,7 @@ abstract class AExport extends Model
 {
     public $position = 10;
     
+    public $formatter;
     public $fields;
     public $delimiter;
     public $filename;
@@ -17,7 +18,7 @@ abstract class AExport extends Model
     public function rules()
     {
         return [
-            [['fields', 'delimiter', 'filename'], 'required'],
+            [['formatter', 'fields', 'delimiter', 'filename'], 'required'],
             [['ids'], 'safe'],
         ];
     }
@@ -28,17 +29,17 @@ abstract class AExport extends Model
     {
         parent::init();
         $this->fields = array_keys($this->getAvailableFields());
-        $this->filename = strtolower($this->getClassName()) . '_' . date('Y-m-d') . '.csv';
+        $this->filename = strtolower(getClassName($this)) . '_' . date('Y-m-d');
     }
 
     public function getName()
     {
-        return __($this->getClassName());
+        return __(getClassName($this));
     }
 
     public function getId()
     {
-        return strtolower($this->getClassName());
+        return strtolower(getClassName($this));
     }
 
     abstract public function getAvailableFields();
@@ -54,61 +55,97 @@ abstract class AExport extends Model
         } else {
             $models = $query->all(); // FIXME
         }
-        
-        header('Content-type: text/csv');
-        header('Content-disposition: attachment;filename=' . $this->filename);
 
-        $this->exportHeaders();
+        $formatter = Yii::createObject([
+            'class'   => 'app\models\export\formatter\\' . ucfirst($this->formatter),
+            'owner'   => $this,
+            'columns' => $this->prepareColumns(),
+            'data'    => $this->prepareData($models),
+        ]);
 
-        $field_rules = $this->getFieldsRules();
-        foreach ($models as $model) {
-            $this->exportRow($model, $field_rules);
-        }
+        $formatter->export();
 
         exit;
     }
 
-    public function exportHeaders()
+    public function attributeLabels()
+    {
+        return [
+            'filename' => __('Filename'),
+            'ids' => __('Selected items'),
+            'formatter' => __('Format'),
+            // CSV
+            'fields' => __('Fields'),
+            'delimiter' => __('Delimiter'),
+        ];
+    }
+
+    public function getAvailableDelimiters()
+    {
+        return [
+            ';' => __('Semicolon'),
+            ',' => __('Comma'),
+        ];
+    }
+
+    protected function getFieldsRules()
+    {
+        return [
+            'created_at' => ['format' => 'asDate'],
+            'updated_at' => ['format' => 'asDate'],
+        ];
+    }
+
+    protected function prepareColumns()
     {
         $available = $this->getAvailableFields();
 
-        $headers = [];
+        $columns = [];
         foreach ($this->fields as $field) {
-            $headers[] = $available[$field];
+            $columns[$field] = $available[$field];
         }
-        
-        echo implode($this->delimiter, $headers) . "\r\n";
+
+        return $columns;
     }
 
-    public function exportRow($model, $rules = [])
+    protected function prepareData($models)
     {
-        $row = [];
-        foreach ($this->fields as $field) {
-            $data = $this->getModelValue($model, $field);
-            if (!empty($rules[$field])) {
-                $rule = $rules[$field];
-                if (!empty($rule['replaceBy'])) {
-                    $data = $this->getModelValue($model, $rule['replaceBy']);
-                }
-                if (!empty($rule['handler'])) {
-                    $data = call_user_func_array($rule['handler'], [$data, $model, $field]);
-                }
-                if (!empty($rule['escape'])) {
-                    if (!empty($data)) {
-                        $data = '"' . str_replace('"', '\"', $data) . '"';
+        $data = [];
+
+        $field_rules = $this->getFieldsRules();
+        foreach ($models as $model) {
+            $row = [];
+            foreach ($this->fields as $field) {
+                $value = $this->getModelValue($model, $field);
+                if (!empty($field_rules[$field])) {
+                    $rule = $field_rules[$field];
+                    if (!empty($rule['bool'])) {
+                        $value = $value ? __('Yes') : __('No');
+                    }
+                    if (!empty($rule['replaceBy'])) {
+                        $value = $this->getModelValue($model, $rule['replaceBy']);
+                    }
+                    if (!empty($rule['handler'])) {
+                        $value = call_user_func_array($rule['handler'], [$value, $model, $field]);
+                    }
+                    if (!empty($rule['format'])) {
+                        $value = Yii::$app->formatter->{$rule['format']}($value);
                     }
                 }
-                if (!empty($rule['format'])) {
-                    $data = Yii::$app->formatter->{$rule['format']}($data);
-                }
+                $row[$field] = $value;
             }
-            
-            $row[] = $data;
+            $data[] = $row;
         }
 
-        echo implode($this->delimiter, $row) . "\r\n";
+        return $data;
     }
 
+    /**
+     * Geting model value, e.g. 'partner.name'
+     * @param  Model  $model [description]
+     * @param  string $field Extended field name
+     * @return mixed
+     */
     protected function getModelValue($model, $field)
     {
         if (strpos($field, '.')) {
@@ -126,33 +163,7 @@ abstract class AExport extends Model
         return $model->$field;
     }
 
-    public function attributeLabels()
-    {
-        return [
-            'fields' => Yii::t('app', 'Fields'),
-            'delimiter' => Yii::t('app', 'Delimiter'),
-            'filename' => Yii::t('app', 'Filename'),
-            'ids' => Yii::t('app', 'Selected items'),
-        ];
-    }
-
-    public function getAvailableDelimiters()
-    {
-        return [
-            ';' => __('Semicolon'),
-            ',' => __('Comma'),
-        ];
-    }
-
-    public function getFieldsRules()
-    {
-    }
-
-    protected function getClassName()
-    {
-        $name = get_class($this);
-        return substr($name, strrpos($name, '\\') + 1);
-    }
+    // Common
 
     protected function getModelFields($model)
     {
@@ -164,11 +175,11 @@ abstract class AExport extends Model
         return $fields;
     }
 
+    // Handlers
+
     protected function convertLookupItem($data, $model, $field)
     {
         return $model->getLookupItem($field, $data);
     }
-
-
 
 }

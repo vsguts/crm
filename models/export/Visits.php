@@ -25,15 +25,4 @@ class Visits extends AExport
         return $fields;
     }
 
-    public function getFieldsRules()
-    {
-        return [
-            'created_at' => ['format' => 'asDate'],
-            'updated_at' => ['format' => 'asDate'],
-            'notes' => ['escape' => true],
-            'partner.name' => ['escape' => true],
-            'user.name' => ['escape' => true],
-        ];
-    }
-
 }

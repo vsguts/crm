@@ -19,7 +19,16 @@ if ($model->ids) {
 
 echo $form->field($model, 'fields')->checkboxList($model->availableFields);
 
-echo $form->field($model, 'delimiter')->dropDownList($model->availableDelimiters);
+echo $form->field($model, 'formatter')->dropDownList($formatters, [
+    'class' => 'm-dtoggle m-dtoggle-formatter form-control'
+]);
+
+$csv_fields = [
+    $form->field($model, 'delimiter')->dropDownList($model->availableDelimiters)
+];
+echo Html::tag('div', implode(' ', $csv_fields), [
+    'class' => 'm-dtoggle-formatter-csv h'
+]);
 
 echo $form->field($model, 'filename');
 

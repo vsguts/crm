@@ -25,20 +25,16 @@ class Partners extends AExport
         return $fields;
     }
 
-    public function getFieldsRules()
+    protected function getFieldsRules()
     {
-        return [
+        return array_merge(parent::getFieldsRules(), [
             'type' => ['handler' => [$this, 'convertLookupItem']],
             'status' => ['handler' => [$this, 'convertLookupItem']],
             'state' => ['handler' => [$this, 'convertState']],
-            'name' => ['escape' => true],
-            'country_id' => ['replaceBy' => 'country.name', 'escape' => true],
-            'city' => ['escape' => true],
-            'address' => ['escape' => true],
-            'notes' => ['escape' => true],
-            'created_at' => ['format' => 'asDate'],
-            'updated_at' => ['format' => 'asDate'],
-        ];
+            'country_id' => ['replaceBy' => 'country.name'],
+            'volunteer' => ['bool' => true],
+            'candidate' => ['bool' => true],
+        ]);
     }
 
     public function convertState($data, $model)

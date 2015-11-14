@@ -27,7 +27,8 @@
         "yurkinx/yii2-image": "1.*",
         "asofter/yii2-imperavi-redactor": "dev-master",
         "mihaildev/yii2-elfinder": "*",
-        "boundstate/yii2-htmlconverter": "*"
+        "boundstate/yii2-htmlconverter": "*",
+        "phpoffice/phpexcel": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

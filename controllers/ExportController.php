@@ -30,23 +30,28 @@ class ExportController extends AController
         return $this->render('index', [
             'model' => $model,
             'objects' => $this->getObjects(),
+            'formatters' => $this->getFormatters(),
         ]);
     }
 
-    public function getObjects()
+    protected function getObjects($suffix = '')
     {
-        $dir = Yii::getAlias($this->path);
-        $namespace = $this->getNamespace();
+        $path = $this->path . $suffix;
+        $dir = Yii::getAlias($path);
+        $namespace = $this->getNamespace($path);
 
         $objects = [];
         $object_positions = [];
         foreach (scandir($dir) as $file) {
-            if (in_array($file, ['.', '..', 'AExport.php'])) {
+            if (in_array($file, ['.', '..'])) {
                 continue;
             }
             $file = str_replace('.php', '', $file);
             $class = $namespace . $file;
             if (class_exists($class)) {
+                if ((new \ReflectionClass($class))->isAbstract()) {
+                    continue;
+                }
                 $object = Yii::createObject($class);
                 $objects[$class] = $object;
                 $object_positions[$class] = $object->position;
@@ -62,17 +67,28 @@ class ExportController extends AController
         return $objects_sorted;
     }
 
-    public function getObject($object)
+    protected function getFormatters()
     {
-        $class = $this->getNamespace() . ucfirst($object);
+        $objects = $this->getObjects('/formatter');
+        $formatters = [];
+        foreach ($objects as $object) {
+            $name = getClassName($object);
+            $formatters[strtolower($name)] = __($name);
+        }
+        return $formatters;
+    }
+
+    protected function getObject($object)
+    {
+        $class = $this->getNamespace($this->path) . ucfirst($object);
         if (class_exists($class)) {
             return Yii::createObject($class);
         }
     }
 
-    protected function getNamespace()
+    protected function getNamespace($path)
     {
-        return strtr($this->path, ['@' => '', '/' => '\\']) . '\\';
+        return strtr($path, ['@' => '', '/' => '\\']) . '\\';
     }
 
 }

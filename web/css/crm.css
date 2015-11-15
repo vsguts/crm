@@ -46,3 +46,17 @@
 .buttons-container {
     margin-top: 4px;
 }
+
+/* Tags */
+.tags-sidebox {
+    margin-left: -8px;
+    margin-right: -20px;
+}
+.tags-sidebox .nav-stacked > li + li {
+    margin-top: 0;
+}
+.tags-sidebox .nav > li > a {
+    padding: 5px 8px 4px;
+}
+
+/* \Tags */

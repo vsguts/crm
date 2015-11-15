@@ -68,6 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $this->beginBlock('sidebox'); ?>
 
+    <div class="tags-sidebox">
+    
     <?php foreach ($tags as $list_name => $tag_list) : ?>
         <?= Html::tag('h4', $list_name) ?>
         <ul class="nav nav-pills nav-stacked">
@@ -89,5 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a href="<?= Url::to(['partner/index']) ?>"><?= __('Reset') ?></a>
         </li>
     </ul>
+
+    </div>
     
 <?php $this->endBlock(); ?>

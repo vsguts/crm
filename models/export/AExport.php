@@ -7,8 +7,13 @@ use yii\base\Model;
 
 abstract class AExport extends Model
 {
+    // sidebox positions
     public $position = 10;
+
+    // Export fields map
+    public $attributesMap = [];
     
+    // form fields
     public $formatter;
     public $fields;
     public $delimiter;
@@ -22,8 +27,6 @@ abstract class AExport extends Model
             [['ids'], 'safe'],
         ];
     }
-
-    abstract public function find();
 
     public function init()
     {
@@ -42,11 +45,26 @@ abstract class AExport extends Model
         return strtolower(getClassName($this));
     }
 
-    abstract public function getAvailableFields();
+    abstract public function getModelClassName();
+
+    public function getAvailableFields()
+    {
+        $class = $this->getModelClassName();
+        $model = new $class;
+
+        $fields = [];
+        foreach ($model->attributes() as $attribute) {
+            $key = !empty($this->attributesMap[$attribute]) ? $this->attributesMap[$attribute] : $attribute;
+            $fields[$key] = $model->getAttributeLabel($attribute);
+        }
+
+        return $fields;
+    }
 
     public function export()
     {
-        $query = $this->find();
+        $class = $this->getModelClassName();
+        $query = $class::find();
         if ($this->ids) {
             if (is_string($this->ids)) {
                 $this->ids = explode(',', $this->ids);
@@ -122,9 +140,6 @@ abstract class AExport extends Model
                     if (!empty($rule['bool'])) {
                         $value = $value ? __('Yes') : __('No');
                     }
-                    if (!empty($rule['replaceBy'])) {
-                        $value = $this->getModelValue($model, $rule['replaceBy']);
-                    }
                     if (!empty($rule['handler'])) {
                         $value = call_user_func_array($rule['handler'], [$value, $model, $field]);
                     }
@@ -161,18 +176,6 @@ abstract class AExport extends Model
         }
 
         return $model->$field;
-    }
-
-    // Common
-
-    protected function getModelFields($model)
-    {
-        $fields = [];
-        foreach ($model->attributes() as $attribute) {
-            $fields[$attribute] = $model->getAttributeLabel($attribute);
-        }
-
-        return $fields;
     }
 
     // Handlers

@@ -9,20 +9,14 @@ class Visits extends AExport
 {
     public $position = 10;
 
-    public function find()
-    {
-        return Visit::find();
-    }
+    public $attributesMap = [
+        'partner_id' => 'partner.name',
+        'user_id'    => 'user.name',
+    ];
 
-    public function getAvailableFields()
+    public function getModelClassName()
     {
-        $model = new Visit;
-        $fields = $this->getModelFields($model);
-
-        $fields['partner.name'] = __('Partner name');
-        $fields['user.name'] = __('User name');
-        
-        return $fields;
+        return Visit::className();
     }
 
 }

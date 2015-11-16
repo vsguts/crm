@@ -9,19 +9,13 @@ class Donates extends AExport
 {
     public $position = 20;
 
-    public function find()
-    {
-        return Donate::find();
-    }
+    public $attributesMap = [
+        'partner_id' => 'partner.name',
+    ];
 
-    public function getAvailableFields()
+    public function getModelClassName()
     {
-        $model = new Donate;
-        $fields = $this->getModelFields($model);
-
-        $fields['partner.name'] = __('Partner name');
-        
-        return $fields;
+        return Donate::className();
     }
 
 }

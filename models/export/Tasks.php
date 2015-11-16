@@ -9,20 +9,20 @@ class Tasks extends AExport
 {
     public $position = 30;
 
-    public function find()
+    public $attributesMap = [
+        'partner_id' => 'partner.name',
+        'user_id'    => 'user.name',
+    ];
+
+    public function getModelClassName()
     {
-        return Task::find();
+        return Task::className();
     }
 
-    public function getAvailableFields()
+    protected function getFieldsRules()
     {
-        $model = new Task;
-        $fields = $this->getModelFields($model);
-
-        $fields['partner.name'] = __('Partner name');
-        $fields['user.name'] = __('User name');
-        
-        return $fields;
+        return array_merge(parent::getFieldsRules(), [
+            'done' => ['bool' => true],
+        ]);
     }
-
 }

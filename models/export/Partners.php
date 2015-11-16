@@ -9,15 +9,18 @@ class Partners extends AExport
 {
     public $position = 0;
 
-    public function find()
+    public $attributesMap = [
+        'country_id' => 'country.name',
+    ];
+
+    public function getModelClassName()
     {
-        return Partner::find();
+        return Partner::className();
     }
 
     public function getAvailableFields()
     {
-        $model = new Partner;
-        $fields = $this->getModelFields($model);
+        $fields = parent::getAvailableFields();
         unset($fields['state_id']);
 
         $fields['country.code'] = __('Country code');
@@ -31,7 +34,6 @@ class Partners extends AExport
             'type' => ['handler' => [$this, 'convertLookupItem']],
             'status' => ['handler' => [$this, 'convertLookupItem']],
             'state' => ['handler' => [$this, 'convertState']],
-            'country_id' => ['replaceBy' => 'country.name'],
             'volunteer' => ['bool' => true],
             'candidate' => ['bool' => true],
         ]);

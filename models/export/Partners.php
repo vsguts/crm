@@ -31,9 +31,9 @@ class Partners extends AExport
     protected function getFieldsRules()
     {
         return array_merge(parent::getFieldsRules(), [
-            'type' => ['handler' => [$this, 'convertLookupItem']],
-            'status' => ['handler' => [$this, 'convertLookupItem']],
-            'state' => ['handler' => [$this, 'convertState']],
+            'type'      => ['handler' => [$this, 'convertLookupItem']],
+            'status'    => ['handler' => [$this, 'convertLookupItem']],
+            'state'     => ['handler' => [$this, 'convertState']],
             'volunteer' => ['bool' => true],
             'candidate' => ['bool' => true],
         ]);

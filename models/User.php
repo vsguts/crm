@@ -62,11 +62,12 @@ class User extends AModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            ['password', 'required'],
-            ['password', 'string', 'min' => UserSignupForm::PASS_MIN_LEN],
-            ['role', 'default', 'value' => 1],
-            [['username', 'auth_key', 'password_hash', 'email'], 'required'],
+            [['username', 'password', 'auth_key', 'password_hash', 'email'], 'required'],
+            [['username'], 'unique', 'message' => __('This username has already been taken.')],
             [['email'], 'email'],
+            [['email'], 'unique', 'message' => __('This email address has already been taken.')],
+            [['password'], 'string', 'min' => UserSignupForm::PASS_MIN_LEN],
+            [['role'], 'default', 'value' => 1],
             [['role', 'status', 'country_id', 'state_id'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'fullname', 'state', 'address'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]

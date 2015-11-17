@@ -74,15 +74,16 @@ class PartnerController extends AController
             
         if ($q) {
             $query = Partner::find();
+            
             if ($organizations) {
-                $query->organizations()->andWhere([
-                    'or',
-                    ['like', 'name', $q],
-                    ['like', 'city', $q],
-                ]);
-            } else {
-                $query->where(['like', 'name', $q]);
+                $query->organizations();
             }
+            
+            $query->andWhere([
+                'or',
+                ['like', 'name', $q],
+                ['like', 'city', $q],
+            ]);
 
             $models = $query->limit(30)->all();
             foreach ($models as $model) {

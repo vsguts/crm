@@ -32,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
                 'linkOptions' => ['data-c-process-items' => 'ids']
             ],
-            [
-                'label' => __('Show on map'), 'url' => Url::to(['map']),
-                'linkOptions' => ['data-c-process-items' => 'ids']
-            ],
+            // [
+            //     'label' => __('Show on map'), 'url' => Url::to(['map']),
+            //     'linkOptions' => ['data-c-process-items' => 'ids']
+            // ],
         ];
         if (Yii::$app->user->can('newsletter_manage')) {
             $items[] = [

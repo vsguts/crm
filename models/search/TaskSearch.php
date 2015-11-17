@@ -94,7 +94,7 @@ class TaskSearch extends Task
             'task_partner.partner_id' => $this->partner_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'task.name', $this->name]);
         $query->andFilterWhere(['like', 'notes', $this->notes]);
         
         $this->addRangeCondition($query, 'timestamp');

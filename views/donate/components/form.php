@@ -35,7 +35,7 @@ $form = ActiveForm::begin([
 ]);
 
 echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
-    'initValueText' => $model->partner ? $model->partner->name : '',
+    'initValueText' => $model->partner ? $model->partner->extendedName : '',
 ]);
 
 echo $form->field($model, 'sum')->textInput(['maxlength' => 19]);

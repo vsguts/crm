@@ -44,7 +44,7 @@ class PartnerNameBehavior extends Behavior
 
         $fields = [
             $partner->city,
-            $partner->getLookupItem('type', $partner->type),
+            // $partner->getLookupItem('type', $partner->type),
         ];
 
         $fields = array_filter($fields);

@@ -14,7 +14,9 @@ use app\widgets\Range;
     <div class="row">
         <div class="col-md-6">
 
-            <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
+            <?= $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+                'initValueText' => $model->partner ? $model->partner->extendedName : '',
+            ]); ?>
 
             <?= $form->field($model, 'sum')->widget(Range::className()) ?>
 

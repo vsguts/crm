@@ -80,17 +80,15 @@ class PartnerController extends AController
                     ['like', 'name', $q],
                     ['like', 'city', $q],
                 ]);
-                $text_field = 'extendedName';
             } else {
                 $query->where(['like', 'name', $q]);
-                $text_field = 'name';
             }
 
             $models = $query->limit(30)->all();
             foreach ($models as $model) {
                 $partners[] = [
-                    'id' => $model->id,
-                    'text' => $model->$text_field,
+                    'id'   => $model->id,
+                    'text' => $model->extendedName,
                 ];
             }
         }

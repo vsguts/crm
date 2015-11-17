@@ -15,6 +15,8 @@ class SelectAjax extends InputWidget
     
     public $initObject;
 
+    public $modelField = 'name';
+
     public $organizations = false;
 
     public function init()
@@ -57,7 +59,7 @@ class SelectAjax extends InputWidget
                 $extra_class = 'm-item-hidden';
                 foreach ($items as $item) {
                     $content = [
-                        Html::tag('div', $item->name, ['class' => 'col-sm-11 form-text-value']),
+                        Html::tag('div', $item->{$this->modelField}, ['class' => 'col-sm-11 form-text-value']),
                         Html::activeHiddenInput($this->model, $this->attribute, ['value' => $item->id]),
                         $this->multipleButtons(),
                     ];

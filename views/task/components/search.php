@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Partner;
 use app\widgets\SearchForm;
 use app\widgets\DatePickerRange;
 
@@ -15,7 +16,9 @@ use app\widgets\DatePickerRange;
             
             <?= $form->field($model, 'name') ?>
 
-            <?= $form->field($model, 'partner_id')->dropDownList($model->getList('Partner', 'name', ['empty' => __('Partner')])) ?>
+            <?= $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+                'initValueText' => $model->partner_id ? Partner::findOne($model->partner_id)->extendedName : '',
+            ]); ?>
 
             <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
             

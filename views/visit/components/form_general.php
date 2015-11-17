@@ -1,7 +1,7 @@
 <?php
 
 echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
-    'initValueText' => $model->partner ? $model->partner->name : '',
+    'initValueText' => $model->partner ? $model->partner->extendedName : '',
 ]);
 
 echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));

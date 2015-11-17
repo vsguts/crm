@@ -18,7 +18,7 @@ $columns = [
 ];
 
 if (empty($partnerId)) {
-    $columns[] = ['attribute' => 'partner.name', 'label' => __('Partner')];
+    $columns[] = ['attribute' => 'partner.extendedName', 'label' => __('Partner')];
 }
 
 // $columns[] = 'sum';

@@ -24,7 +24,7 @@ $columns[] = [
     'value' => function($model, $key, $index, $column) {
         $count = count($model->partners);
         if ($count == 1) {
-            return $model->partners[0]->name;
+            return $model->partners[0]->extendedName;
         } else {
             return '<span class="badge">' . $count . '</span>';
         }

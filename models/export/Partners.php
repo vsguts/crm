@@ -23,9 +23,15 @@ class Partners extends AExport
         $fields = parent::getAvailableFields();
         unset($fields['state_id']);
 
-        $fields['country.code'] = __('Country code');
+        $processed = [];
+        foreach ($fields as $key => $name) {
+            $processed[$key] = $name;
+            if ($key == 'country.name') {
+                $processed['country.code'] = __('Country code');
+            }
+        }
         
-        return $fields;
+        return $processed;
     }
 
     protected function getFieldsRules()

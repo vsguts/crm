@@ -53,10 +53,18 @@ abstract class AExport extends Model
         $model = new $class;
 
         $fields = [];
+        $post_fields = [];
         foreach ($model->attributes() as $attribute) {
             $key = !empty($this->attributesMap[$attribute]) ? $this->attributesMap[$attribute] : $attribute;
-            $fields[$key] = $model->getAttributeLabel($attribute);
+            $value = $model->getAttributeLabel($attribute);
+            if (in_array($key, ['created_at', 'updated_at'])) {
+                $post_fields[$key] = $value;
+            } else {
+                $fields[$key] = $value;
+            }
         }
+
+        $fields = array_merge($fields, $post_fields);
 
         return $fields;
     }

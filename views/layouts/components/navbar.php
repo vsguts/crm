@@ -99,6 +99,17 @@ if ($can_upload) {
         'url' => ['/upload/index'],
     ];
 }
+if ($user->can('partner_manage')) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
+    $items[] = [
+        'label' => __('Export'),
+        'visible' => $user->can('partner_manage'),
+        'active' => $controller_id == 'export',
+        'url' => ['/export/partners'],
+    ];
+}
 if ($user->can('user_manage')) {
     if ($items) {
         $items[] = '<li class="divider"></li>';
@@ -127,17 +138,6 @@ if ($user->can('state_manage')) {
         'url' => ['/state/index'],
         'visible' => $user->can('state_manage'),
         'active' => $controller_id == 'state',
-    ];
-}
-if ($user->can('partner_manage')) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
-    $items[] = [
-        'label' => __('Export'),
-        'visible' => $user->can('partner_manage'),
-        'active' => $controller_id == 'export',
-        'url' => ['/export/partners'],
     ];
 }
 if ($user->can('setting_manage')) {

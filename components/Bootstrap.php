@@ -7,11 +7,15 @@ use yii\di\ServiceLocator;
 use yii\base\Event;
 use yii\web\User;
 use yii\helpers\FileHelper;
+use app\models\Setting;
 
 class Bootstrap extends ServiceLocator
 {
     public function init()
     {
+        // Settings
+        Yii::$app->params = array_merge(Yii::$app->params, Setting::settings());
+
         // Event::on(User::className(), User::EVENT_AFTER_LOGIN, function($e) {
         //     $e->identity->doAuth();
         // });

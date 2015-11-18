@@ -140,12 +140,23 @@ if ($user->can('partner_manage')) {
         'url' => ['/export/partners'],
     ];
 }
+if ($user->can('setting_manage')) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
+    $items[] = [
+        'label' => __('Settings'),
+        'visible' => $user->can('setting_manage'),
+        'active' => $controller_id == 'setting',
+        'url' => ['/setting/index'],
+    ];
+}
 
 $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
     'label' => __('Administration'),
     'visible' => !!$items,
-    'active' => in_array($controller_id, ['upload', 'export', 'user', 'country', 'state']) && !$is_profile,
+    'active' => in_array($controller_id, ['upload', 'export', 'user', 'country', 'state', 'setting']) && !$is_profile,
     'items' => $items
 ];
 

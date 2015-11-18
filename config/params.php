@@ -1,12 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'admin@example.com',
-    'brandName' => 'CRM',
-    'applicationName' => 'My CRM',
-    'companyName' => 'My Company',
-    
+
     'user.passwordResetTokenExpire' => 3600,
 
     'dirs' => [
@@ -16,4 +11,6 @@ return [
         'file_uploads' => '@webroot/files/',
     ],
 
+    // Will be merged by Setting::settings()
+    
 ];

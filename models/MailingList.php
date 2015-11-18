@@ -40,7 +40,7 @@ class MailingList extends AModel
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['name', 'from_email'], 'required'],
+            [['name'], 'required'],
             [['status'], 'integer'],
             [['name', 'from_name', 'from_email', 'reply_to'], 'string', 'max' => 255],
             [['from_email', 'reply_to'], 'email'],

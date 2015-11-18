@@ -1,6 +1,7 @@
 <?php
 
 $messages = [
+    'Powered by' => 'Работает на',
     'General' => 'Основное',
     'Send' => 'Отправить',
     'Submit' => 'Отправить',
@@ -16,6 +17,7 @@ $messages = [
     'Timestamp' => 'Метка времени',
     'Time' => 'Время',
     'Due date' => 'Дата выполнения',
+    'Settings' => 'Настройки',
     'Partner' => 'Партнер',
     'Partners' => 'Партнеры',
     'Partner: {partner}' => 'Партнер: {partner}',

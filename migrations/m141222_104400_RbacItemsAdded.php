@@ -46,6 +46,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         $permissions['upload_own_files']      = $auth->createPermission('upload_own_files');
         $permissions['upload_common_files']   = $auth->createPermission('upload_common_files');
         $permissions['tools']                 = $auth->createPermission('tools');
+        $permissions['setting_manage']        = $auth->createPermission('setting_manage');
 
         foreach ([$rules, $roles, $permissions] as $items) {
             foreach ($items as $item) {
@@ -82,6 +83,7 @@ class m141222_104400_RbacItemsAdded extends Migration
         $auth->addChild($roles['root'],       $permissions['state_manage']);
         $auth->addChild($roles['root'],       $permissions['user_manage']);
         $auth->addChild($roles['root'],       $permissions['tools']);
+        $auth->addChild($roles['root'],       $permissions['setting_manage']);
 
 
         // Assign roles to users

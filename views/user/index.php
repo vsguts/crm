@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Users');
+$this->title = __('Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">

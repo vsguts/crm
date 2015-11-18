@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
-use kartik\date\DatePicker;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 

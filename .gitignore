@@ -1,3 +1,7 @@
+/messages/*/*.local.php
+/config/db.php
+/config/constants.php
+
 # composer
 /vendor
 composer.phar
@@ -8,5 +12,3 @@ composer.lock
 
 # sublime project files
 *.sublime-*
-
-/messages/*/*.local.php

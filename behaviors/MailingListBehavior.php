@@ -66,7 +66,7 @@ class MailingListBehavior extends Behavior
             }
 
             if (is_object($result)) {
-                return $m[0];
+                return '';
             }
             return $result;
         }, $content);

@@ -81,7 +81,7 @@ class PartnerSearch extends Partner
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSizeLimit' => [10, 100],
+                'pageSizeLimit' => [10, 500],
             ],
             'sort' => [
                 'defaultOrder' => [

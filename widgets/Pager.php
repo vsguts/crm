@@ -44,7 +44,16 @@ class Pager extends LinkPager
         }
 
         $items = [];
-        $per_page_items = range($min_page_size, $max_page_size, 10);
+
+        $_max_page_size = ($max_page_size > 100) ? 100 : $max_page_size;
+        $per_page_items = range($min_page_size, $_max_page_size, 10);
+        
+        if ($max_page_size > 100) {
+            $_per_page_items = range(100, $max_page_size, 100);
+            unset($_per_page_items[0]);
+            $per_page_items = array_merge($per_page_items, $_per_page_items);
+        }
+
         foreach ($per_page_items as $per_page_item) {
             $items[] = [
                 'label' => $per_page_item,

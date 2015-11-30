@@ -77,9 +77,11 @@ class NewsletterController extends AController
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $logSearch = array_merge(Yii::$app->request->queryParams, ['newsletter_id' => $id]);
+            unset($logSearch['id']);
             return $this->render('update', [
-                'model' => $model,
-                'logSearch' => (new NewsletterLogSearch())->search(['newsletter_id' => $id]),
+                'model'     => $model,
+                'logSearch' => (new NewsletterLogSearch())->search($logSearch),
             ]);
         }
     }
@@ -110,10 +112,19 @@ class NewsletterController extends AController
         return $this->redirect(['index']);
     }
 
+    public function actionLogDelete($newsletter_id, array $ids = null)
+    {
+        if ($newsletter_id && $ids && NewsletterLog::deleteAll(['newsletter_id' => $newsletter_id, 'id' => $ids])) {
+            Yii::$app->session->setFlash('success', __('Items have been deleted successfully.'));
+        }
+
+        return $this->redirect(['update', 'id' => $newsletter_id]);
+    }
+
     public function actionSend($id)
     {
         $model = $this->findModel($id);
-        $model->send();
+        $model->send(true);
         Yii::$app->session->setFlash('success', __('The newsletter have been sent successfully.'));
         return $this->redirect(['update', 'id' => $id]);
     }

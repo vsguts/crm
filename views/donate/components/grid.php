@@ -29,8 +29,8 @@ $columns[] = [
     }
 ];
 $columns[] = 'timestamp';
-$columns[] = 'created_at:date';
-$columns[] = 'updated_at:date';
+// $columns[] = 'created_at:date';
+// $columns[] = 'updated_at:date';
 $columns[] = ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'];
 
 echo GridView::widget([

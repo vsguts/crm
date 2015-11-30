@@ -39,7 +39,7 @@ if ($model->isNewRecord) {
             ],
             [
                 'label' => __('Logs'),
-                'content' => $this->render('logs', ['dataProvider' => $logSearch]),
+                'content' => $this->render('logs', ['dataProvider' => $logSearch, 'model' => $model]),
             ],
         ],
     ]);

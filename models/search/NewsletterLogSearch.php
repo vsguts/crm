@@ -45,6 +45,11 @@ class NewsletterLogSearch extends NewsletterLog
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'timestamp' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $params = $this->processParams($params);

@@ -71,6 +71,11 @@ class DonateSearch extends Donate
                 'pageSizeParam' => 'donate-per-page',
                 // 'pageSize' => 10,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'timestamp' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $params = $this->processParams($params);

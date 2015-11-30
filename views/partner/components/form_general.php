@@ -14,7 +14,7 @@ $fields = [
     $form->field($model, 'lastname')->textInput(['maxlength' => 64]),
 ];
 echo Html::tag('div', implode(' ', $fields), [
-    'class' => 'm-dtoggle-type-1 ' . ($model->type != 3 ? 'h' : '')
+    'class' => 'm-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
 ]);
 
 $field = $form->field($model, 'contact')->textInput(['maxlength' => 128]);
@@ -33,7 +33,7 @@ $fields = [
     $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false),
 ];
 echo Html::tag('div', implode(' ', $fields), [
-    'class' => 'm-dtoggle-type-1 ' . ($model->type != 3 ? 'h' : '')
+    'class' => 'm-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
 ]);
 
 echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));

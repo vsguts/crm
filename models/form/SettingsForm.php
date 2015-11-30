@@ -14,12 +14,31 @@ class SettingsForm extends Model
     /**
      * Settings
      */
+    // General
     public $brandName;
     public $applicationName;
     public $companyName;
     public $poweredBy;
     public $adminEmail;
     public $supportEmail;
+    
+    // Email
+    public $mailSendMethod;
+    public $smtpHost;
+    public $smtpPort;
+    public $smtpUsername;
+    public $smtpPassword;
+    public $smtpEncrypt;
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'app\behaviors\LookupBehavior',
+                'modelName' => 'Setting',
+            ],
+        ];
+    }
 
     /**
      * @return array the validation rules.
@@ -38,8 +57,19 @@ class SettingsForm extends Model
     public function attributeLabels()
     {
         return [
-            'adminEmail' => __('Admin E-mail'),
-            'email' => __('E-mail'),
+            'brandName' => __('Brand name'),
+            'applicationName' => __('Application name'),
+            'companyName' => __('Company name'),
+            'poweredBy' => __('Powered by'),
+            'adminEmail' => __('Admin e-mail'),
+            'supportEmail' => __('Support e-mail'),
+            
+            'mailSendMethod' => __('Method of sending e-mails'),
+            'smtpHost' => __('SMTP host'),
+            'smtpPort' => __('SMTP port'),
+            'smtpUsername' => __('SMTP username'),
+            'smtpPassword' => __('SMTP password'),
+            'smtpEncrypt' => __('SMTP encrypted connection'),
         ];
     }
 

@@ -14,7 +14,24 @@ class Bootstrap extends ServiceLocator
     public function init()
     {
         // Settings
-        Yii::$app->params = array_merge(Yii::$app->params, Setting::settings());
+        $settings = Setting::settings();
+        Yii::$app->params = array_merge(Yii::$app->params, $settings);
+
+        // Mailer
+        $mailer = Yii::$app->components['mailer'];
+        if ($settings['mailSendMethod'] == 'file') {
+            $mailer['useFileTransport'] = true;
+        } elseif ($settings['mailSendMethod'] == 'smtp') {
+            $mailer['transport'] = [
+                'class'      => 'Swift_SmtpTransport',
+                'host'       => $settings['smtpHost'],
+                'username'   => $settings['smtpUsername'],
+                'password'   => $settings['smtpPassword'],
+                'port'       => $settings['smtpPort'] == 'none' ? 25 : 465,
+                'encryption' => $settings['smtpEncrypt'] == 'none' ? null : $settings['smtpEncrypt'],
+            ];
+        }
+        Yii::$app->set('mailer', $mailer);
 
         // Event::on(User::className(), User::EVENT_AFTER_LOGIN, function($e) {
         //     $e->identity->doAuth();

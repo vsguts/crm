@@ -70,6 +70,11 @@ class VisitSearch extends Visit
                 'pageSizeParam' => 'visit-per-page',
                 // 'pageSize' => 10,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'timestamp' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $params = $this->processParams($params);

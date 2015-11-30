@@ -10,7 +10,7 @@ use app\models\Partner;
 class NewsletterBehavior extends Behavior
 {
 
-    public function send()
+    public function send($display_log = false)
     {
         $mailer = Yii::$app->mailer;
         $newsletter = $this->owner;
@@ -18,9 +18,12 @@ class NewsletterBehavior extends Behavior
         $log = new NewsletterLog;
         $log->link('newsletter', $newsletter);
         
-        $appendToLog = function($string, $skip_eol = false) use($log){
-            $eol = $skip_eol ? '' : PHP_EOL;
-            $log->content .= $string . $eol;
+        $appendToLog = function($string, $skip_eol = false) use($log, $display_log){
+            $content = $string . ($skip_eol ? '' : PHP_EOL);
+            if ($display_log) {
+                echo nl2br($content);
+            }
+            $log->content .= $content;
             $log->save();
         };
 

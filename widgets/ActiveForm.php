@@ -8,7 +8,11 @@ use yii\bootstrap\ActiveForm as YActiveForm;
 
 class ActiveForm extends YActiveForm
 {
+    const COLS_TOTAL = 12;
+
     public $layout = 'horizontal';
+
+    public $labelCols = 2;
 
     public $fieldConfig = [
         'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -23,6 +27,9 @@ class ActiveForm extends YActiveForm
 
     public function init()
     {
+        $this->fieldConfig['horizontalCssClasses']['label'] = 'col-sm-' . $this->labelCols;
+        $this->fieldConfig['horizontalCssClasses']['wrapper'] = 'col-sm-' . (self::COLS_TOTAL - $this->labelCols);
+
         parent::init();
         
         $params = Yii::$app->request->queryParams;

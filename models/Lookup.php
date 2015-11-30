@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $model_name
  * @property string $field
- * @property integer $code
+ * @property string $code
  * @property integer $position
  * @property string $name
  */
@@ -25,20 +25,22 @@ class Lookup extends AModel
     {
         return [
             [['model_name', 'field', 'code', 'position', 'name'], 'required'],
-            [['code', 'position'], 'integer'],
-            [['model_name', 'field', 'name'], 'string', 'max' => 255]
+            [['position'], 'integer'],
+            [['model_name', 'field'], 'string', 'max' => 32],
+            [['code'], 'string', 'max' => 64],
+            [['name'], 'string', 'max' => 255]
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'model_name' => Yii::t('app', 'Model Name'),
-            'field' => Yii::t('app', 'Field'),
-            'code' => Yii::t('app', 'Code'),
-            'position' => Yii::t('app', 'Position'),
-            'name' => Yii::t('app', 'Name'),
+            'id' => __('ID'),
+            'model_name' => __('Model Name'),
+            'field' => __('Field'),
+            'code' => __('Code'),
+            'position' => __('Position'),
+            'name' => __('Name'),
         ];
     }
 }

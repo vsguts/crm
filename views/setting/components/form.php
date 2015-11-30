@@ -6,7 +6,10 @@ use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
 
-$form = ActiveForm::begin(['id' => 'settings_form']);
+$form = ActiveForm::begin([
+    'id' => 'settings_form',
+    'labelCols' => 3,
+]);
 
 $tab_items = [
     [
@@ -14,10 +17,10 @@ $tab_items = [
         'content' => $this->render('form_general', ['form' => $form, 'model' => $model]),
         'active' => true,
     ],
-    // [
-    //     'label' => __('E-mails'),
-    //     'content' => $this->render('form_emails', ['form' => $form, 'model' => $model]),
-    // ],
+    [
+        'label' => __('E-mails'),
+        'content' => $this->render('form_emails', ['form' => $form, 'model' => $model]),
+    ],
 
 ];
 

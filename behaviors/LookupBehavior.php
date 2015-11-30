@@ -8,6 +8,8 @@ use yii\base\Behavior;
 class LookupBehavior extends Behavior
 {
 
+    public $modelName; // if empty will be set using owner name
+
     public function getLookupItem($field, $code)
     {
         $items = $this->getLookupItems($field);
@@ -31,7 +33,7 @@ class LookupBehavior extends Behavior
         }
 
         foreach ($this->getModelsByField($field) as $model) {
-            $items[$model->code] = \Yii::t('app', $model->name);
+            $items[$model->code] = __($model->name);
         }
 
         return $items;
@@ -44,7 +46,7 @@ class LookupBehavior extends Behavior
         if (!isset(static::$models[$field])) {
             static::$models[$field] = Lookup::find()
                 ->where([
-                    'model_name' => $this->modelName($this->owner),
+                    'model_name' => $this->modelName(),
                     'field' => $field,
                 ])
                 ->orderBy('position')
@@ -54,14 +56,19 @@ class LookupBehavior extends Behavior
         return static::$models[$field];
     }
 
-    protected function modelName($model)
+    protected function modelName()
     {
-        $reflector = new \ReflectionClass($model);
+        if ($this->modelName) {
+            return $this->modelName;
+        }
+
+        $reflector = new \ReflectionClass($this->owner);
         $name = $reflector->getShortName();
 
-        if ($pos = strrpos($name, 'Search')) {
-            $name = substr($name, 0, $pos);
-        }
+        $name = strtr($name, [
+            'Search' => '',
+            'Form' => '',
+        ]);
 
         return $name;
     }

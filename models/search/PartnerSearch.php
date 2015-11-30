@@ -83,6 +83,11 @@ class PartnerSearch extends Partner
             'pagination' => [
                 'pageSizeLimit' => [10, 100],
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ],
+            ],
         ]);
         
         $params = $this->processParams($params);

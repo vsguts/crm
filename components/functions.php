@@ -33,7 +33,7 @@ function p()
     }
 
     if (!empty($args)) {
-        if (Yii::$app && Yii::$app->getRequest()->getIsAjax()) {
+        if (Yii::$app && Yii::$app->has('request') && Yii::$app->getRequest()->getIsAjax()) {
             if ($debug = Yii::$app->controller->ajaxGet('debug')) {
                 $args = array_merge($debug, $args);
             }

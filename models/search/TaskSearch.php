@@ -79,6 +79,11 @@ class TaskSearch extends Task
                 'pageSizeParam' => 'task-per-page',
                 // 'pageSize' => 10,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'timestamp' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $params = $this->processParams($params);

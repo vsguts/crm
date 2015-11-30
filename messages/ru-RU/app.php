@@ -24,6 +24,7 @@ $messages = [
     'Create partner' => 'Создать партнера',
     'Type' => 'Тип',
     'Delete' => 'Удалить',
+    'Delete selected' => 'Удалить выбранное',
     'Tags' => 'Тэги',
     'Create tag' => 'Создать тэг',
     'Date' => 'Дата',
@@ -78,6 +79,25 @@ $messages = [
     'Username' => 'Логин',
     'Password' => 'Пароль',
     'Remember me' => 'Запомнить',
+
+    // Settings
+    'Brand name' => 'Название брэнда',
+    'Application name' => 'Название приложения',
+    'Company name' => 'Название компании',
+    'Powered by' => 'Работает на',
+    'Admin e-mail' => 'Email администратора сайта',
+    'Support e-mail' => 'Email отдела поддержки',
+    'Method of sending e-mails' => 'Способ отправки почты',
+    'SMTP host' => 'SMTP сервер',
+    'SMTP port' => 'SMTP порт',
+    'SMTP username' => 'Имя пользователя для SMTP',
+    'SMTP password' => 'Пароль для SMTP',
+    'SMTP encrypted connection' => 'Шифрованное SMTP соединение',
+    'via PHP mail function' => 'с помощью функции PHP mail',
+    'via SMTP server' => 'через SMTP сервер',
+    'save to local EML files' => 'сохранять локально в EML файлы',
+    // \Settings
+    
     // Lookup
     'Lookup' => 'Lookup',
     'Create lookup' => 'Создать запись lookup',
@@ -95,6 +115,7 @@ $messages = [
     'Interested' => 'Интересуется',
     'Financial partner' => 'Финансовый партнер',
     // \Lookup
+    
     'Field' => 'Поле',
     'Root' => 'Главный администратор',
     'Manager' => 'Мэнеджер',

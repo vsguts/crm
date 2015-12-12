@@ -19,6 +19,8 @@ class SelectAjax extends InputWidget
 
     public $organizations = false;
 
+    public $url = false;
+
     public function init()
     {
         if (!$this->options) {
@@ -58,8 +60,12 @@ class SelectAjax extends InputWidget
             if ($items) {
                 $extra_class = 'm-item-hidden';
                 foreach ($items as $item) {
+                    $text = $item->{$this->modelField};
+                    if ($url = $this->getUrl($item->id)) {
+                        $text = Html::a($text, $url);
+                    }
                     $content = [
-                        Html::tag('div', $item->{$this->modelField}, ['class' => 'col-sm-11 form-text-value']),
+                        Html::tag('div', $text, ['class' => 'col-sm-11 form-text-value']),
                         Html::activeHiddenInput($this->model, $this->attribute, ['value' => $item->id]),
                         $this->multipleButtons(),
                     ];
@@ -72,7 +78,16 @@ class SelectAjax extends InputWidget
         }
 
         if ($this->hasModel()) {
-            echo Html::activeTextInput($this->model, $this->attribute, $this->options);
+            $content = Html::activeTextInput($this->model, $this->attribute, $this->options);
+            if (!$this->multiple) {
+                if ($url = $this->getUrl()) {
+                    $link = Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-link']), $url);
+                    $content = Html::tag('div', $content, ['class' => 'col-sm-11'])
+                        . Html::tag('div', $link, ['class' => 'col-sm-1 form-text-value']);
+                    $content = Html::tag('div', $content, ['class' => 'row']);
+                }
+            }
+            echo $content;
         } else {
             echo Html::textInput($this->name, $this->value, $this->options);
         }
@@ -94,6 +109,18 @@ class SelectAjax extends InputWidget
         $content = implode(' ' , $buttons);
         
         return Html::tag('div', $content, ['class' => 'col-sm-1 form-text-value']);
+    }
+
+    protected function getUrl($id = false)
+    {
+        if ($this->url) {
+            $url = $this->url;
+            if ($id) {
+                $url['id'] = $id;
+            }
+            return $url;
+        }
+        return false;
     }
 
 }

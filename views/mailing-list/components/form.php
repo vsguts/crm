@@ -22,6 +22,7 @@ $this->beginBlock('subscribers');
     echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
         'multiple' => true,
         'modelField' => 'extendedName',
+        'url' => ['partner/update']
     ]);
 
 $this->endBlock();

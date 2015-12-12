@@ -40,6 +40,7 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
     'multiple' => true,
     'initObject' => $model->select_partner,
     'modelField' => 'extendedName',
+    'url' => ['partner/update']
 ]);
 
 echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty_field' => 'username']));

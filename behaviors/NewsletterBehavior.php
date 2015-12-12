@@ -27,6 +27,8 @@ class NewsletterBehavior extends Behavior
             $log->save();
         };
 
+        $errors = [];
+
         foreach ($newsletter->mailingLists as $list) {
             $from_name = $list->from_name ?: null;
             foreach ($list->partners as $partner) {
@@ -48,11 +50,19 @@ class NewsletterBehavior extends Behavior
                     $mail->setReplyTo($list->reply_to);
                 }
                 
-                $result = $mail->send();
+                $error = '';
+                try {
+                    $result = $mail->send();
+                    $appendToLog($result ? __('Success') : __('Failed'));
+                } catch (\Swift_SwiftException $e) {
+                    $appendToLog(__('Failed') . ': ' . $e->getMessage());
+                    $errors[] = $e->getMessage();
+                }
                 
-                $appendToLog($result ? __('Success') : __('Failed'));
             }
         }
+
+        return $errors;
     }
 
 }

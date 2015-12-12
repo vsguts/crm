@@ -8,7 +8,6 @@ echo $form->field($model, 'mailSendMethod')->dropDownList($model->getLookupItems
 
 $smtpFields = [
     $form->field($model, 'smtpHost'),
-    $form->field($model, 'smtpPort'),
     $form->field($model, 'smtpUsername'),
     $form->field($model, 'smtpPassword')->passwordInput(),
     $form->field($model, 'smtpEncrypt')->dropDownList($model->getLookupItems('smtpEncrypt')),

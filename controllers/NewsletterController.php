@@ -124,8 +124,12 @@ class NewsletterController extends AController
     public function actionSend($id)
     {
         $model = $this->findModel($id);
-        $model->send(true);
-        Yii::$app->session->setFlash('success', __('The newsletter have been sent successfully.'));
+        $errors = $model->send(true);
+        if (empty($errors)) {
+            Yii::$app->session->setFlash('success', __('The newsletter have been sent successfully.'));
+        } else {
+            Yii::$app->session->setFlash('error', reset($errors));
+        }
         return $this->redirect(['update', 'id' => $id]);
     }
 

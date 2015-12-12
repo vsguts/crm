@@ -22,12 +22,22 @@ class Bootstrap extends ServiceLocator
         if ($settings['mailSendMethod'] == 'file') {
             $mailer['useFileTransport'] = true;
         } elseif ($settings['mailSendMethod'] == 'smtp') {
+            if (strpos($settings['smtpHost'], ':')) {
+                list($settings['smtpHost'], $port) = explode(':', $settings['smtpHost']);
+            } else {
+                $port = 25;
+                if ($settings['smtpEncrypt'] == 'ssl') {
+                    $port = 465;
+                } elseif ($settings['smtpEncrypt'] == 'tls') {
+                    $port = 587;
+                }
+            }
             $mailer['transport'] = [
                 'class'      => 'Swift_SmtpTransport',
                 'host'       => $settings['smtpHost'],
                 'username'   => $settings['smtpUsername'],
                 'password'   => $settings['smtpPassword'],
-                'port'       => $settings['smtpPort'] == 'none' ? 25 : 465,
+                'port'       => $port,
                 'encryption' => $settings['smtpEncrypt'] == 'none' ? null : $settings['smtpEncrypt'],
             ];
         }

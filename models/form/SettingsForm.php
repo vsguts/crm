@@ -25,7 +25,6 @@ class SettingsForm extends Model
     // Email
     public $mailSendMethod;
     public $smtpHost;
-    public $smtpPort;
     public $smtpUsername;
     public $smtpPassword;
     public $smtpEncrypt;
@@ -66,7 +65,6 @@ class SettingsForm extends Model
             
             'mailSendMethod' => __('Method of sending e-mails'),
             'smtpHost' => __('SMTP host'),
-            'smtpPort' => __('SMTP port'),
             'smtpUsername' => __('SMTP username'),
             'smtpPassword' => __('SMTP password'),
             'smtpEncrypt' => __('SMTP encrypted connection'),

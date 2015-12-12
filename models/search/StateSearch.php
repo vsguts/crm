@@ -45,6 +45,14 @@ class StateSearch extends State
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSizeLimit' => [10, 100],
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                ],
+            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {

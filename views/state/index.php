@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
-            ['attribute' => 'id', 'label' => '#'],
+            // ['attribute' => 'id', 'label' => '#'],
             'name',
             ['attribute' => 'country.name', 'label' => __('Country')],
             'code',

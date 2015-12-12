@@ -75,9 +75,9 @@ class TaskSearch extends Task
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
+                'pageSizeLimit' => [10, 100],
                 'pageParam' => 'task-page',
                 'pageSizeParam' => 'task-per-page',
-                // 'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [

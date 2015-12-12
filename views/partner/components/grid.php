@@ -5,7 +5,7 @@ use app\widgets\grid\GridView;
 $columns = [
     ['class' => 'yii\grid\CheckboxColumn'],
     
-    ['attribute' => 'id', 'label' => '#'],
+    // ['attribute' => 'id', 'label' => '#'],
 
     ['class' => 'app\widgets\grid\ImageColumn'],
     

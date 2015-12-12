@@ -147,6 +147,4 @@ return [
 TODO
 ------------
 
-- Mailing lists
 - Partners on map
-- Improve PDF generator

@@ -55,6 +55,14 @@ class NewsletterSearch extends Newsletter
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSizeLimit' => [10, 100],
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'subject' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);

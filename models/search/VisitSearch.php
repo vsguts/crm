@@ -66,9 +66,9 @@ class VisitSearch extends Visit
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
+                'pageSizeLimit' => [10, 500],
                 'pageParam' => 'visit-page',
                 'pageSizeParam' => 'visit-per-page',
-                // 'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [

@@ -67,9 +67,9 @@ class DonateSearch extends Donate
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
+                'pageSizeLimit' => [10, 100],
                 'pageParam' => 'donate-page',
                 'pageSizeParam' => 'donate-per-page',
-                // 'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [

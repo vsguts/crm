@@ -45,6 +45,9 @@ class NewsletterLogSearch extends NewsletterLog
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSizeLimit' => [10, 100],
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'timestamp' => SORT_DESC,

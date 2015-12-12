@@ -39,19 +39,21 @@ class NewsletterBehavior extends Behavior
 
                 $appendToLog($partner->email . ': ', true);
 
-                $content = $newsletter->processContent($newsletter->body, $partner);
-                $mail = $mailer
-                    ->compose('simple', ['content' => $content])
-                    ->setFrom($list->from_email, $from_name)
-                    ->setTo($partner->email)
-                    ->setSubject($newsletter->subject);
-                
-                if ($list->reply_to) {
-                    $mail->setReplyTo($list->reply_to);
-                }
-                
                 $error = '';
+
+                $content = $newsletter->processContent($newsletter->body, $partner);
+                
                 try {
+                    $mail = $mailer
+                        ->compose('simple', ['content' => $content])
+                        ->setFrom($list->from_email, $from_name)
+                        ->setTo($partner->email)
+                        ->setSubject($newsletter->subject);
+                    
+                    if ($list->reply_to) {
+                        $mail->setReplyTo($list->reply_to);
+                    }
+                    
                     $result = $mail->send();
                     $appendToLog($result ? __('Success') : __('Failed'));
                 } catch (\Swift_SwiftException $e) {

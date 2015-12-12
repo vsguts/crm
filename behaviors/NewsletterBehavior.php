@@ -30,7 +30,13 @@ class NewsletterBehavior extends Behavior
         $errors = [];
 
         foreach ($newsletter->mailingLists as $list) {
-            $from_name = $list->from_name ?: null;
+            if ($list->from_email) {
+                $from_email = $list->from_email;
+                $from_name = $list->from_name ?: null;
+            } else {
+                $from_email = Yii::$app->params['supportEmail'];
+                $from_name = $list->from_name ?: Yii::$app->params['companyName'];
+            }
             foreach ($list->partners as $partner) {
                 if (!$partner->email) {
                     $appendToLog(sprintf("Partner #%s didn't have email. Skipping.", $partner->id));
@@ -42,11 +48,11 @@ class NewsletterBehavior extends Behavior
                 $error = '';
 
                 $content = $newsletter->processContent($newsletter->body, $partner);
-                
+
                 try {
                     $mail = $mailer
                         ->compose('simple', ['content' => $content])
-                        ->setFrom($list->from_email, $from_name)
+                        ->setFrom($from_email, $from_name)
                         ->setTo($partner->email)
                         ->setSubject($newsletter->subject);
                     

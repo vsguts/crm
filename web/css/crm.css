@@ -29,9 +29,14 @@
     margin: auto;
 }
 
+
+.pagination {
+    margin: 10px 0;
+}
+
 .pagination-per-page {
     display: inline-block;
-    margin: 20px 20px;
+    margin: 10px 20px;
 }
 
 .pagination-per-page > div {
@@ -58,5 +63,23 @@
 .tags-sidebox .nav > li > a {
     padding: 5px 8px 4px;
 }
-
 /* \Tags */
+
+/* Search form */
+.search-form.panel, .search-form .panel {
+    margin-bottom: 5px;
+}
+.search-form .panel-heading {
+    padding: 5px 12px;
+}
+.search-form .panel-footer {
+    padding: 2px 10px;
+}
+.search-form .panel-body {
+    padding: 5px;
+    padding-bottom: 0px;
+}
+.search-form .form-group {
+    margin-bottom: 5px;
+}
+/* \Search form */

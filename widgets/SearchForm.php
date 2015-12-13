@@ -36,7 +36,7 @@ class SearchForm extends ActiveForm
         $controller = $this->getView()->context;
         $this->targetClass = $controller->id . '_' . $controller->action->id . '_' . $this->targetClass;
 
-        echo Html::beginTag('div', ['class' => 'panel panel-info']);
+        echo Html::beginTag('div', ['class' => 'panel panel-info search-form']);
 
         echo Html::tag('div', __('Search'), [
             'class' => 'panel-heading m-toggle m-toggle-save pointer',
@@ -53,7 +53,7 @@ class SearchForm extends ActiveForm
         
         $buttons = Html::tag('div',
             Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary'])
-            .' '. Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default'])
+            // .' '. Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default'])
         );
         
         echo Html::tag('div', $buttons, ['class' => 'panel-footer ' . $this->extraClass . $this->targetClass]);

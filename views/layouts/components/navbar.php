@@ -36,16 +36,16 @@ echo Nav::widget([
             'active' => $controller_id == 'partner',
         ],
         [
-            'label' => __('Visits'),
-            'url' => ['/visit/index'],
-            'visible' => $user->can('visit_manage'),
-            'active' => $controller_id == 'visit',
-        ],
-        [
             'label' => __('Donates'),
             'url' => ['/donate/index'],
             'visible' => $user->can('donate_manage'),
             'active' => $controller_id == 'donate',
+        ],
+        [
+            'label' => __('Visits'),
+            'url' => ['/visit/index'],
+            'visible' => $user->can('visit_manage'),
+            'active' => $controller_id == 'visit',
         ],
         [
             'label' => __('Tasks'),

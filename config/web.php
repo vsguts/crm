@@ -105,6 +105,14 @@ $config = [
             'class' => 'app\components\Bootstrap',
         ],
     ],
+    'modules' => [
+        'redactor' => [
+            'class' => 'app\modules\RedactorModule',
+            'uploadDir' => '@webroot/images/uploads',
+            'uploadUrl' => '@web/images/uploads',
+            'imageAllowExtensions' => ['jpg', 'png', 'gif'],
+        ],
+    ],
     'controllerMap' => [
         'elfinder' => [
             'class' => 'mihaildev\elfinder\Controller',

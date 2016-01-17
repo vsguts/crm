@@ -2,19 +2,22 @@
 
 namespace app\widgets;
 
-use yii\imperavi\Widget;
-
-class Wysiwyg extends Widget
+class Wysiwyg extends \yii\redactor\widgets\Redactor
 {
-    // Some options, see http://imperavi.com/redactor/docs/
-    public $options = [
-        'buttonSource' => true,
+    public $clientOptions = [
+        'plugins' => [
+            'imagemanager',
+            'table',
+            'fontcolor',
+            'clips',
+            'fullscreen',
+        ],
     ];
 
-    public $plugins = [
-        'fullscreen',
-        'clips',
-        'table',
-    ];
+    public function init()
+    {
+        list($this->clientOptions['lang']) = explode('-', \Yii::$app->language);
+        parent::init();
+    }
 
 }

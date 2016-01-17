@@ -25,7 +25,7 @@
         "2amigos/yii2-gallery-widget": "1.0.*",
         "2amigos/yii2-google-maps-library" : "0.1.*",
         "yurkinx/yii2-image": "1.*",
-        "asofter/yii2-imperavi-redactor": "dev-master",
+        "yiidoc/yii2-redactor": "*",
         "mihaildev/yii2-elfinder": "*",
         "boundstate/yii2-htmlconverter": "*",
         "phpoffice/phpexcel": "*"

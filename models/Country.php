@@ -33,9 +33,9 @@ class Country extends AModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'code' => Yii::t('app', 'Code'),
+            'id' => __('ID'),
+            'name' => __('Name'),
+            'code' => __('Code'),
         ];
     }
 

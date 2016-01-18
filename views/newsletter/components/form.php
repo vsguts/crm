@@ -5,7 +5,7 @@ use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
-$form = ActiveForm::begin(['id' => 'newsletter_form']);
+$form = ActiveForm::begin(['id' => 'newsletter_form', 'options' => ['enctype' => 'multipart/form-data']]);
 
 $this->beginBlock('general');
 
@@ -14,6 +14,13 @@ echo $form->field($model, 'subject')->textInput(['maxlength' => true]);
 echo $form->field($model, 'body')
     ->widget('app\widgets\Wysiwyg')
     ->hint($this->render('hint_content'));
+
+$widget = $form->field($model, 'attachments')->widget('app\widgets\Attachments');
+if ($widget->parts['{input}']) {
+    echo $widget;
+}
+
+echo $form->field($model, 'attachmentsUpload[]')->fileInput(['multiple' => true]);
 
 echo $form->field($model, 'mailingListIds')->checkboxList($model->getList('MailingList', 'name', ['scope' => 'active']));
 

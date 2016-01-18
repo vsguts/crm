@@ -10,7 +10,6 @@ use app\models\ImagePlaceholder;
 
 class ImagesBehavior extends Behavior
 {
-    
     public function events()
     {
         return [
@@ -22,7 +21,7 @@ class ImagesBehavior extends Behavior
     {
         $image = Image::find()
             ->where([
-                'model_name' => $this->getModelName(),
+                'model_name' => $this->owner->formName(),
                 'model_id' => $this->owner->id,
                 'default' => 1,
             ])
@@ -39,7 +38,7 @@ class ImagesBehavior extends Behavior
     {
         return Image::find()
             ->where([
-                'model_name' => $this->getModelName(),
+                'model_name' => $this->owner->formName(),
                 'model_id' => $this->owner->id,
             ])
             ->orderBy(['default' => SORT_DESC, 'id' => SORT_ASC])
@@ -51,7 +50,7 @@ class ImagesBehavior extends Behavior
         $image = new Image;
         $image->attach = $attach;
         $image->related_model = $this->owner;
-        $image->model_name = $this->getModelName();
+        $image->model_name = $this->owner->formName();
         $image->model_id = $this->owner->id;
         $image->save();
         $image->default = $default;
@@ -81,18 +80,9 @@ class ImagesBehavior extends Behavior
 
     public function removeImage(Image $image)
     {
-        if ($image->model_name == $this->getModelName()) {
+        if ($image->model_name == $this->owner->formName()) {
             $image->delete();
         }
-    }
-
-    protected function getModelName($model = null)
-    {
-        if (!$model) {
-            $model = $this->owner;
-        }
-
-        return $model->formName();
     }
 
 }

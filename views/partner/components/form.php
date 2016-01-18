@@ -6,7 +6,7 @@ use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
 
-$form = ActiveForm::begin(['id' => 'partner_form']);
+$form = ActiveForm::begin(['id' => 'partner_form', 'options' => ['enctype' => 'multipart/form-data']]);
 
 $tab_items = [
     [

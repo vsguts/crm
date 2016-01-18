@@ -59,6 +59,10 @@ class NewsletterBehavior extends Behavior
                     if ($list->reply_to) {
                         $mail->setReplyTo($list->reply_to);
                     }
+
+                    foreach ($newsletter->getAttachments() as $attachment) {
+                        $mail->attach($attachment->getPath());
+                    }
                     
                     $result = $mail->send();
                     $appendToLog($result ? __('Success') : __('Failed'));

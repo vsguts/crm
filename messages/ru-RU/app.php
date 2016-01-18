@@ -117,6 +117,9 @@ $messages = [
     // \Lookup
     
     'Field' => 'Поле',
+    'Upload attachment' => 'Загрузить вложение',
+    'Attachments' => 'Вложения',
+    'File size' => 'Размер файла',
     'Root' => 'Главный администратор',
     'Manager' => 'Мэнеджер',
     'Created At' => 'Создано',

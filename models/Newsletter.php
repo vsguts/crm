@@ -29,6 +29,7 @@ class Newsletter extends AModel
             'app\behaviors\TimestampBehavior',
             'app\behaviors\ListBehavior',
             'app\behaviors\NewsletterBehavior',
+            'app\behaviors\AttachmentsBehavior',
         ];
     }
 
@@ -44,9 +45,9 @@ class Newsletter extends AModel
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'id' => __('ID'),
+            'id'      => __('ID'),
             'subject' => __('Subject'),
-            'body' => __('Body'),
+            'body'    => __('Body'),
         ]);
     }
 

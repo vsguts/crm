@@ -12,9 +12,9 @@ use yii\web\UploadedFile;
  * This is the model class for table "image".
  *
  * @property integer $id
- * @property string $model_name
+ * @property string  $model_name
  * @property integer $model_id
- * @property string $filename
+ * @property string  $filename
  */
 class Image extends ActiveRecord
 {

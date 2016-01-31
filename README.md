@@ -143,8 +143,3 @@ return [
     'companyName' => 'My Company',
 ];
 ```
-
-TODO
-------------
-
-- Partners on map

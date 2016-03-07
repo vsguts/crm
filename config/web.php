@@ -52,6 +52,7 @@ $config = [
                 ],
             ],
         ],
+        'db' => $db,
         'htmlToPdf' => [
             'class' => 'boundstate\htmlconverter\HtmlToPdfConverter',
             'bin' => '/usr/local/bin/wkhtmltopdf',
@@ -65,7 +66,6 @@ $config = [
                 'load-media-error-handling' => 'ignore'
             ],
         ],
-        'db' => $db,
         'formatter' => [
             'dateFormat' => 'dd.MM.yyyy',
             'datetimeFormat' => 'dd.MM.yyyy HH:mm',

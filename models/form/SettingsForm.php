@@ -60,10 +60,10 @@ class SettingsForm extends Model
             'applicationName' => __('Application name'),
             'companyName' => __('Company name'),
             'poweredBy' => __('Powered by'),
-            'adminEmail' => __('Admin e-mail'),
-            'supportEmail' => __('Support e-mail'),
+            'adminEmail' => __('Admin email'),
+            'supportEmail' => __('Support email'),
             
-            'mailSendMethod' => __('Method of sending e-mails'),
+            'mailSendMethod' => __('Method of sending emails'),
             'smtpHost' => __('SMTP host'),
             'smtpUsername' => __('SMTP username'),
             'smtpPassword' => __('SMTP password'),

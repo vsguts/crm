@@ -33,6 +33,8 @@ class GridView extends YGridView
      * @var string
      */
     public $detailsLinkAction = 'update';
+    
+    public $idField = 'id';
 
     /**
      * Details link action
@@ -56,10 +58,17 @@ class GridView extends YGridView
         }
     }
 
-    public function prepareDetailsLink($id)
+    public function prepareDetailsLink($model)
     {
+        $id = 0;
+        if (is_object($model) && isset($model->{$this->idField})) {
+            $id = $model->{$this->idField};
+        } elseif (is_array($model) && isset($model[$this->idField])) {
+            $id = $model[$this->idField];
+        }
+
         $linkParams = [
-            'id' => $id
+            $this->idField => $id
         ];
         
         $options = [];
@@ -75,10 +84,17 @@ class GridView extends YGridView
         return $options;
     }
 
-    public function prepareRemoveLink($id)
+    public function prepareRemoveLink($model)
     {
+        $id = 0;
+        if (is_object($model) && isset($model->{$this->idField})) {
+            $id = $model->{$this->idField};
+        } elseif (is_array($model) && isset($model[$this->idField])) {
+            $id = $model[$this->idField];
+        }
+
         $options = [
-            'href' => $this->prepareCustomLink('delete', ['id' => $id]),
+            'href' => $this->prepareCustomLink('delete', [$this->idField => $id]),
             'data-confirm' => __('Are you sure you want to delete this item?'),
             'data-method' => 'post',
         ];

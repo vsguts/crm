@@ -10,8 +10,8 @@ use app\models\User;
  */
 class UserSignupForm extends Model
 {
-    public $username;
     public $email;
+    public $name;
     public $password;
 
     const PASS_MIN_LEN = 4;
@@ -22,15 +22,14 @@ class UserSignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => User::className(), 'message' => __('This username has already been taken.')],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => User::className(), 'message' => __('This email address has already been taken.')],
+
+            ['name', 'required'],
+            ['name', 'filter', 'filter' => 'trim'],
+            ['name', 'string', 'min' => 2, 'max' => 255],
 
             ['password', 'required'],
             ['password', 'string', 'min' => static::PASS_MIN_LEN],
@@ -40,8 +39,8 @@ class UserSignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => __('Username'),
             'email' => __('Email'),
+            'name' => __('Name'),
             'password' => __('Password'),
         ];
     }
@@ -55,8 +54,8 @@ class UserSignupForm extends Model
     {
         if ($this->validate()) {
             $user = new User();
-            $user->username = $this->username;
             $user->email = $this->email;
+            $user->name = $this->name;
             $user->password = $this->password;
             if ($user->save()) {
                 return $user;

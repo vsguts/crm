@@ -34,7 +34,7 @@ class ButtonsContatiner extends Widget
             $extra = '&nbsp;' . implode(' ', (array)$this->extraBtns);
         }
 
-        if ($this->model instanceof ActiveRecord && $this->model->isNewRecord) {
+        if (isset($this->model->isNewRecord) && $this->model->isNewRecord) {
             $submit_options['class'] = 'btn btn-success';
             echo Html::submitButton(__('Create'), $submit_options);
             

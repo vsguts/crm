@@ -12,6 +12,8 @@ $config = [
     ],
     'language' => 'en-US',
     'sourceLanguage' => 'en-US',
+    'params' => $params,
+
     'components' => [
         'i18n' => [
             'translations' => [
@@ -86,7 +88,7 @@ $config = [
             ],
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
+            'class' => 'app\components\rbac\DbManager',
         ],
         'image' => [
             'class' => 'yii\image\ImageDriver',
@@ -105,6 +107,7 @@ $config = [
             'class' => 'app\components\Bootstrap',
         ],
     ],
+
     'modules' => [
         'redactor' => [
             'class' => 'app\modules\RedactorModule',
@@ -113,6 +116,7 @@ $config = [
             'imageAllowExtensions' => ['jpg', 'png', 'gif'],
         ],
     ],
+
     'controllerMap' => [
         'elfinder' => [
             'class' => 'mihaildev\elfinder\Controller',
@@ -137,7 +141,7 @@ $config = [
             ],
         ]
     ],
-    'params' => $params,
+
 ];
 
 if (YII_ENV_DEV) { // configuration adjustments for 'dev' environment

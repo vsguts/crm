@@ -10,9 +10,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'app\commands',
-    'modules' => [
-        'gii' => 'yii\gii\Module',
-    ],
+    'params' => $params,
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -36,11 +34,13 @@ return [
             'currencyCode' => 'USD',
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
+            'class' => 'app\components\rbac\DbManager',
         ],
         'appBootstrap' => [
             'class' => 'app\components\Bootstrap',
         ],
     ],
-    'params' => $params,
+    'modules' => [
+        'gii' => 'yii\gii\Module',
+    ],
 ];

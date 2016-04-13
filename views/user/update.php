@@ -5,11 +5,11 @@ use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'User: {user}', [
-    'user' => $model->username,
+    'user' => $model->name,
 ]);
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->username;
+$this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="user-update">
 

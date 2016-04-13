@@ -1,3 +1,0 @@
-<?= $breadcrumbs ?>
-<?= $alerts ?>
-<?= $content ?>

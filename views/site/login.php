@@ -7,29 +7,33 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = Yii::t('app', 'Login');
+$this->title = Yii::t('app', 'Sign in');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="site-login col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
 
-    <p><?= Yii::t('app', 'Please fill out the following fields to login') ?>:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <?= $form->field($model, 'username') ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                
+                <?= $form->field($model, 'email') ?>
+                
+                <?= $form->field($model, 'password')->passwordInput()->label(__('Password') . ' (' . Html::a(__('Forgot password?'), ['site/request-password-reset'], ['tabindex' => '5']) . ')') ?>
+                
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
-                <div style="color:#999;margin:1em 0">
-                    <?= Yii::t('app', 'If you forgot your password you can <a href="{href}">reset it</a>.', [
-                        'href' => Url::to(['site/request-password-reset'])
-                    ]) ?>
-                </div>
-                <div class="form-group">
-                    <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
+                
+                <?= Html::submitButton(Yii::t('app', 'Sign in'), ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+
             <?php ActiveForm::end(); ?>
         </div>
+    </div>
+
+    <p class="text-center">
+        <a href="<?= Url::to(['site/signup']) ?>"><?= __("Don't have an account? Sign up!") ?></a>
+    </p>
+    
     </div>
 </div>

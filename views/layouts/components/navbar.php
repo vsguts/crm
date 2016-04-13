@@ -120,6 +120,12 @@ if ($user->can('user_manage')) {
         'visible' => $user->can('user_manage'),
         'active' => $controller_id == 'user' && !$is_profile,
     ];
+    $items[] = [
+        'label' => __('User roles'),
+        'url' => ['/user-role/index'],
+        'visible' => $user->can('user_manage'),
+        'active' => $controller_id == 'user-role',
+    ];
 }
 if ($user->can('country_manage')) {
     if ($items) {
@@ -194,8 +200,8 @@ $help_menu = [
 
 if (Yii::$app->user->isGuest) {
 
-    $menu_items[] = ['label' => __('Signup'), 'url' => ['/site/signup']];
-    $menu_items[] = ['label' => __('Login'), 'url' => ['/site/login']];
+    $menu_items[] = ['label' => __('Sign up'), 'url' => ['/site/signup']];
+    $menu_items[] = ['label' => __('Sign in'), 'url' => ['/site/login']];
 
     $menu_items[] = [
         'label' => __('Help'),
@@ -205,9 +211,9 @@ if (Yii::$app->user->isGuest) {
 
 } else {
 
-    $name = trim($user->identity->fullname);
+    $name = trim($user->identity->name);
     if (empty($name)) {
-        $name = $user->identity->username;
+        $name = $user->identity->email;
     }
     $menu_items[] = [
         'label' => '<i class="glyphicon glyphicon-user"></i>',

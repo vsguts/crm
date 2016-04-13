@@ -18,8 +18,8 @@ class ActionColumn extends Column
 
     protected function renderDataCellContent($model, $key, $index)
     {
-        $detailsLinkOptions = $this->grid->prepareDetailsLink($model->id);
-        $removeLinkOptions = $this->grid->prepareRemoveLink($model->id);
+        $detailsLinkOptions = $this->grid->prepareDetailsLink($model);
+        $removeLinkOptions = $this->grid->prepareRemoveLink($model);
 
         $items = [
             [
@@ -33,7 +33,7 @@ class ActionColumn extends Column
             $idField = !empty($item['idField']) ? $item['idField'] : 'id';
             $items[] = [
                 'label' => $item['label'],
-                'url' => $this->grid->prepareCustomLink($item['action'], [$idField => $model->id]),
+                'url' => $this->grid->prepareCustomLink($item['action'], [$idField => $id]),
                 'linkOptions' => !empty($item['linkOptions']) ? $item['linkOptions'] : [],
             ];
         }

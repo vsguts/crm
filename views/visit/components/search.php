@@ -17,7 +17,7 @@ use app\widgets\DatePickerRange;
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'fullname', ['empty' => __('User'), 'empty_field' => 'username'])) ?>
+            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty' => __('User'), 'empty_field' => 'email'])) ?>
 
             <?= $form->field($model, 'notes') ?>
 

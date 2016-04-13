@@ -33,14 +33,15 @@ $(document).on('click', function(e) {
         return false;
     }
 
-    if (jelm.hasClass('c-modal')) {
-        var target_id = jelm.data('targetId'),
+    var modal_elm = jelm.closest('.c-modal');
+    if (modal_elm.length) {
+        var target_id = modal_elm.data('targetId'),
             target = $('#' + target_id);
         
-        if (target.length && !jelm.hasClass('c-modal-force')) {
+        if (target.length && !modal_elm.hasClass('c-modal-force')) {
             target.modal(modal_options);
         } else {
-            var href = jelm.attr('href');
+            var href = modal_elm.attr('href');
             if (href.length) {
                 $.cAjax('request', href, {
                     data: {

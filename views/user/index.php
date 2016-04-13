@@ -38,9 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\CheckboxColumn'],
 
             ['attribute' => 'id', 'label' => '#'],
-            'username',
             'email:email',
-            'fullname',
+            'name',
             [
                 'attribute' => 'role',
                 'value' => function($model, $key, $index, $column){

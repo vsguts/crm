@@ -4,8 +4,6 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 use app\models\User;
 use app\models\search\UserSearch;
@@ -19,7 +17,7 @@ class UserController extends AController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => 'yii\filters\AccessControl',
                 'only' => ['index', 'create', 'delete'],
                 'rules' => [
                     [
@@ -30,7 +28,7 @@ class UserController extends AController
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],

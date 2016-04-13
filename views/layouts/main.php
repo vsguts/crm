@@ -37,9 +37,9 @@ $this->registerJs(AppAsset::customJs());
                 'content' => $content,
             ];
             if (!empty($this->blocks['sidebox'])) {
-                echo $this->render('layouts/sidebox', $params);
+                echo $this->render('wrappers/sidebox', $params);
             } else {
-                echo $this->render('layouts/simple', $params);
+                echo $this->render('wrappers/simple', $params);
             }
 
             ImagesGallery::renderTemplate();

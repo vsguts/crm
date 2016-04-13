@@ -7,6 +7,7 @@ use app\widgets\ActionsDropdown;
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
 // $this->params['sidebox_size'] = 3;
+// $this->params['sidebox_side'] = 'right';
 ?>
 
 <div class="partner-index">

@@ -6,11 +6,11 @@ use app\widgets\ButtonsContatiner;
 
 $form = ActiveForm::begin(['id' => 'user_form']);
 
-echo $form->field($model, 'username')->textInput(['maxlength' => 255]);
-
 echo $form->field($model, 'email')->textInput(['maxlength' => 255]);
 
 echo $form->field($model, 'password')->passwordInput();
+
+echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
 $user = \Yii::$app->user;
 if ($user->can('user_manage') && !$user->can('user_manage_own', ['user' => $model])) {
@@ -18,8 +18,6 @@ if ($user->can('user_manage') && !$user->can('user_manage_own', ['user' => $mode
 }
 
 echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));
-
-echo $form->field($model, 'fullname')->textInput(['maxlength' => 255]);
 
 echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control m-country']);
 

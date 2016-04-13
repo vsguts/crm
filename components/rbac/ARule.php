@@ -18,6 +18,7 @@ abstract class ARule extends Rule
             $name = substr($name, $pos + 1);
         }
         
-        $this->name = str_replace('Rule', '', $name);
+        $name = str_replace('Rule', '', $name);
+        $this->name = strtolower($name);
     }
 }

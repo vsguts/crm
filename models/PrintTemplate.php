@@ -129,10 +129,7 @@ class PrintTemplate extends AModel
     {
         $options = [];
         
-        $options['page-size'] = $this->getLookupItem('format', $this->format);
-        if ($options['page-size'] == 'C5') {
-            $options['page-size'] .= 'E'; //C5E
-        }
+        $options['page-size'] = $this->format;
         
         // Margins
         foreach (['top', 'bottom', 'left', 'right'] as $margin) {

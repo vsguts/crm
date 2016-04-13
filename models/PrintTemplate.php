@@ -46,7 +46,7 @@ class PrintTemplate extends AModel
         return array_merge(parent::rules(), [
             [['name', 'format', 'content'], 'required'],
             [['content', 'wrapper'], 'string'],
-            [['status', 'format', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
+            [['status', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
         ]);
     }
 

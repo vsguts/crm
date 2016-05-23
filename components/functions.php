@@ -40,19 +40,25 @@ function p()
 
             Yii::$app->controller->ajaxAssign('debug', $args);
         } else {
-            fn_echo($prefix);
+            echo($prefix);
             foreach ($args as $k => $v) {
 
                 if (defined('CONSOLE')) {
-                    fn_echo(print_r($v, true));
+                    echo(print_r($v, true));
                 } else {
-                    fn_echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
+                    echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
                 }
             }
-            fn_echo($suffix);
+            echo($suffix);
             $count++;
         }
     }
+
+    if (function_exists('ob_flush')) {
+        @ob_flush();
+    }
+
+    flush();
 }
 
 function pd()
@@ -75,25 +81,3 @@ function plog()
     }
     fclose($resource);
 }
-
-function fn_echo($value)
-{
-    if (defined('CONSOLE')) {
-        $value = str_replace(array('<br>', '<br />', '<br/>'), "\n", $value);
-        $value = strip_tags($value);
-    }
-
-    echo($value);
-
-    fn_flush();
-}
-
-function fn_flush()
-{
-    if (function_exists('ob_flush')) {
-        @ob_flush();
-    }
-
-    flush();
-}
-

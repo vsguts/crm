@@ -14,7 +14,7 @@ a, .pointer {
     padding-top: 7px;
 }
 
-.m-ajax-overlay {
+.a-ajax-overlay {
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -23,7 +23,7 @@ a, .pointer {
     z-index: 10000;
     display: none;
 }
-.m-ajax-spinner {
+.a-ajax-spinner {
     position: fixed;
     top: 50%;
     right: 50%;

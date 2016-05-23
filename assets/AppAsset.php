@@ -23,7 +23,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/common.css',
         'css/site.css',
-        'css/crm.css',
+        'css/app.css',
     ];
     
     public $js = [

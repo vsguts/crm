@@ -46,7 +46,7 @@ class PrintTemplate extends AModel
         return array_merge(parent::rules(), [
             [['name', 'format', 'content'], 'required'],
             [['content', 'wrapper'], 'string'],
-            [['status', 'format', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
+            [['status', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
         ]);
     }
 
@@ -129,10 +129,7 @@ class PrintTemplate extends AModel
     {
         $options = [];
         
-        $options['page-size'] = $this->getLookupItem('format', $this->format);
-        if ($options['page-size'] == 'C5') {
-            $options['page-size'] .= 'E'; //C5E
-        }
+        $options['page-size'] = $this->format;
         
         // Margins
         foreach (['top', 'bottom', 'left', 'right'] as $margin) {

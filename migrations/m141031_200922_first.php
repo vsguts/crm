@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m141031_200922_first extends Migration
 {
@@ -38,9 +38,10 @@ class m141031_200922_first extends Migration
         $this->insert('lookup', ['model_name'=>'Partner',       'field'=>'status', 'position'=>50, 'code'=>5, 'name'=>'Financial partner']);
         $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'status', 'position'=>10, 'code'=>1, 'name'=>'Active']);
         $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'status', 'position'=>20, 'code'=>2, 'name'=>'Disabled']);
-        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>10, 'code'=>1, 'name'=>'A4']);
-        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>20, 'code'=>2, 'name'=>'A5']);
-        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>30, 'code'=>3, 'name'=>'C5']);
+        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>10, 'code'=>'A4', 'name'=>'A4']);
+        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>20, 'code'=>'A5', 'name'=>'A5']);
+        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>30, 'code'=>'C5E', 'name'=>'C5']);
+        $this->insert('lookup', ['model_name'=>'PrintTemplate', 'field'=>'format', 'position'=>40, 'code'=>'DLE', 'name'=>'Е65']);
 
 
         $this->createTable('country', [
@@ -167,7 +168,7 @@ class m141031_200922_first extends Migration
             'id'                    => Schema::TYPE_PK,
             'name'                  => Schema::TYPE_STRING,
             'status'                => Schema::TYPE_INTEGER . ' DEFAULT 1',
-            'format'                => Schema::TYPE_INTEGER,
+            'format'                => Schema::TYPE_STRING . '(32) NOT NULL',
             'orientation_landscape' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'margin_top'            => Schema::TYPE_INTEGER,
             'margin_bottom'         => Schema::TYPE_INTEGER,

@@ -44,22 +44,28 @@ function p()
         && Yii::$app->getRequest() instanceof yii\console\Request
     ) {
 
-        fn_echo(PHP_EOL);
+        echo(PHP_EOL);
         foreach ($args as $v) {
-            fn_echo(print_r($v, true) . PHP_EOL);
+            echo(print_r($v, true) . PHP_EOL);
         }
-        fn_echo(PHP_EOL);
+        echo(PHP_EOL);
 
     // Web
     } else {
 
-        fn_echo('<ol style="font-family: Courier; font-size: 12px; border: 1px solid #dedede; background-color: #efefef; float: left; padding-right: 20px;">');
+        echo('<ol style="font-family: Courier; font-size: 12px; border: 1px solid #dedede; background-color: #efefef; float: left; padding-right: 20px;">');
         foreach ($args as $v) {
-            fn_echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
+            echo('<li><pre>' . htmlspecialchars(print_r($v, true)) . "\n" . '</pre></li>');
         }
-        fn_echo('</ol><div style="clear:left;"></div>');
+        echo('</ol><div style="clear:left;"></div>');
 
     }
+
+    // Flush
+    if (function_exists('ob_flush')) {
+        @ob_flush();
+    }
+    flush();
 }
 
 function pd()
@@ -81,21 +87,5 @@ function plog()
         fwrite($resource, $content);
     }
     fclose($resource);
-}
-
-function fn_echo($value)
-{
-    if (defined('CONSOLE')) {
-        $value = str_replace(array('<br>', '<br />', '<br/>'), "\n", $value);
-        $value = strip_tags($value);
-    }
-
-    echo($value);
-
-    if (function_exists('ob_flush')) {
-        @ob_flush();
-    }
-
-    flush();
 }
 

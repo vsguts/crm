@@ -22,12 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'layout' => 'info',
             'items' => [
                 ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
                 ['label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'visits']), 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                 ]],
                 // ['label' => 'TODO 2', 'url' => '#'],
                 // '<li role="presentation" class="divider"></li>',

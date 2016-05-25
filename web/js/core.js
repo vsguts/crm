@@ -57,20 +57,20 @@ function matchClass(elem, str) {
 };
 
 $.extend({
-    mCommonInit: function(context) {
+    appCommonInit: function(context) {
         context = $(context || document);
 
-        $('.m-toggle-save', context).each(function(){
+        $('.app-toggle-save', context).each(function(){
             var elm = $(this),
                 target_class = elm.data('targetClass'),
-                status = $.cookie('m-toggle-' + target_class);
+                status = $.cookie('app-toggle-' + target_class);
             
-            elm.mToggle(!!status);
+            elm.appToggle(!!status);
         });
 
-        $('.m-tabs-save', context).each(function(){
+        $('.app-tabs-save', context).each(function(){
             var elm = $(this),
-                selected_href = $.cookie('m-tabs-' + elm.attr('id'));
+                selected_href = $.cookie('app-tabs-' + elm.attr('id'));
             
             var href = elm.find('[href="' + selected_href + '"]');
             if (href.is(':visible')) {
@@ -78,23 +78,23 @@ $.extend({
             }
         });
 
-        $('.m-dtoggle', context).each(function(){
-            $(this).mDToggle();
+        $('.app-dtoggle', context).each(function(){
+            $(this).appDToggle();
         });
 
-        $('.m-country', context).each(function(){
-            $(this).mCountrySelect();
+        $('.app-country', context).each(function(){
+            $(this).appCountrySelect();
         });
 
-        $('.m-select2', context).each(function(){
-            $(this).mSelect2();
+        $('.app-select2', context).each(function(){
+            $(this).appSelect2();
         });
     },
 });
 
 $.fn.extend({
 
-    mToggle: function(force_status_init) {
+    appToggle: function(force_status_init) {
         var target_class = this.data('targetClass'),
             toggle_class = this.data('toggleClass'),
             target = $('.' + target_class);
@@ -103,26 +103,26 @@ $.fn.extend({
         if (toggle_class) {
             this.toggleClass(toggle_class, force_status_init);
         }
-        if (this.hasClass('m-toggle-save') && typeof(force_status_init) == 'undefined') {
+        if (this.hasClass('app-toggle-save') && typeof(force_status_init) == 'undefined') {
             if (target.is(':visible')) {
-                $.cookie('m-toggle-' + target_class, 1);
+                $.cookie('app-toggle-' + target_class, 1);
             } else {
-                $.removeCookie('m-toggle-' + target_class);
+                $.removeCookie('app-toggle-' + target_class);
             }
         }
 
     },
 
-    mDToggle: function() {
-        var name = matchClass(this, /m-dtoggle-([-\w]+)?/gi).replace('m-dtoggle-', ''),
+    appDToggle: function() {
+        var name = matchClass(this, /app-dtoggle-([-\w]+)?/gi).replace('app-dtoggle-', ''),
             value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
-            sel_dep_all = '[class^="m-dtoggle-' + name + '-"',
-            sel_dep = '.m-dtoggle-' + name + '-' + value;
+            sel_dep_all = '[class^="app-dtoggle-' + name + '-"',
+            sel_dep = '.app-dtoggle-' + name + '-' + value;
 
         this.find('option').each(function(i, elm){
             var val = $(elm).val();
             if (val != value) {
-                sel_dep = sel_dep + ', .m-dtoggle-' + name + '-n' + val;
+                sel_dep = sel_dep + ', .app-dtoggle-' + name + '-n' + val;
             }
         });
         
@@ -134,16 +134,16 @@ $.fn.extend({
         }
     },
 
-    mCountrySelect: function() {
+    appCountrySelect: function() {
         var country_id = this.val(),
-            is_required = this.hasClass('m-country-required'),
+            is_required = this.hasClass('app-country-required'),
             prefix = this.attr('id').replace('country_id', ''),
             form = this.parents('form'),
             state_dropdown = form.find('#' + prefix + 'state_id').parents('.' + form_group_class),
             state_text = form.find('#' + prefix + 'state').parents('.' + form_group_class);
 
         if (country_id || !is_required) {
-            var states = yii.crm.states[country_id];
+            var states = yii.app.states[country_id];
             if (states) {
                 show(state_dropdown);
                 hide(state_text);
@@ -169,13 +169,13 @@ $.fn.extend({
         }
     },
 
-    mSelect2: function() {
+    appSelect2: function() {
         var params = select2.partners;
         params.ajax.url = this.data('mUrl');
         this.select2(params);
     },
 
-    mClone: function() {
+    appClone: function() {
         var item = this.clone().insertAfter(this);
         item.find('[id]').each(function(){
             var elm = $(this),
@@ -185,9 +185,9 @@ $.fn.extend({
 
         //FIXME
         item.find('.select2-container').remove();
-        item.find('.m-select2').show();
+        item.find('.app-select2').show();
         
-        $.mCommonInit(item);
+        $.appCommonInit(item);
     },
 
 });

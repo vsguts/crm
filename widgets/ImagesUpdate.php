@@ -29,7 +29,7 @@ class ImagesUpdate extends InputWidget
                 'class' => 'btn btn-default'
             ];
             if ($this->objectId) {
-                Html::addCssClass($options, 'c-ajax');
+                Html::addCssClass($options, 'app-ajax');
                 $options['data-result-ids'] = $this->objectId;
             }
             $link = Html::a(__('View images'), $this->viewLink, $options);

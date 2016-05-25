@@ -21,9 +21,8 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     
     public $css = [
-        'css/common.css',
-        'css/site.css',
-        'css/crm.css',
+        'css/site.less',
+        'css/app.less',
     ];
     
     public $js = [
@@ -33,9 +32,10 @@ class AppAsset extends AssetBundle
     ];
     
     public $depends = [
-        'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'yii\validators\ValidationAsset',
+        'yii\web\YiiAsset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
         'kartik\select2\Select2Asset',
@@ -63,7 +63,7 @@ class AppAsset extends AssetBundle
             ];
         }
 
-        return "window.yii.crm = " . Json::encode([
+        return "window.yii.app = " . Json::encode([
             'states' => $hash_states,
             'langs' => $translates,
         ]);

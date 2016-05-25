@@ -41,7 +41,7 @@ $tab_items = [
 echo Tabs::widget([
     'options' => [
         'id' => 'partner_tabs',
-        // 'class' => 'm-tabs-save'
+        // 'class' => 'app-tabs-save'
     ],
     'items' => $tab_items,
 ]);

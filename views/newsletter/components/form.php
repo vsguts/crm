@@ -37,7 +37,7 @@ if ($model->isNewRecord) {
     echo Tabs::widget([
         'options' => [
             'id' => 'partner_tabs',
-            'class' => 'm-tabs-save'
+            'class' => 'app-tabs-save'
         ],
         'items' => [
             [

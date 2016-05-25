@@ -24,18 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => __('Delete'),
                 'url' => Url::to(['delete']),
                 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]
             ],
             [
                 'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
-                'linkOptions' => ['data-c-process-items' => 'ids']
+                'linkOptions' => ['data-app-process-items' => 'ids']
             ],
             // [
             //     'label' => __('Show on map'), 'url' => Url::to(['map']),
-            //     'linkOptions' => ['data-c-process-items' => 'ids']
+            //     'linkOptions' => ['data-app-process-items' => 'ids']
             // ],
         ];
         if (Yii::$app->user->can('newsletter_manage')) {
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => __('Add to mailing list'),
                 'url' => Url::to(['/mailing-list/append-partners']),
                 'linkOptions' => [
-                    'data-c-process-items' => 'partner_ids',
+                    'data-app-process-items' => 'partner_ids',
                     'class' => 'c-modal c-modal-force',
                     'data-target-id' => 'append_partners',
                 ]

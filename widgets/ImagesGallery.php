@@ -45,7 +45,7 @@ class ImagesGallery extends InputWidget
                 'class' => 'btn btn-default'
             ];
             if ($this->objectId) {
-                Html::addCssClass($options, 'c-ajax');
+                Html::addCssClass($options, 'app-ajax');
                 $options['data-result-ids'] = $this->objectId;
             }
             $link = Html::a(__('Edit images'), $this->editLink, $options);

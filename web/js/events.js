@@ -6,26 +6,26 @@ var modal_options = {
 
 // Document ready
 $(document).on('ready', function() {
-    $.mCommonInit();
+    $.appCommonInit();
 });
 
 // Events
 $(document).on('click', function(e) {
     var jelm = $(e.target);
 
-    if (jelm.hasClass('m-toggle') || jelm.parents('.m-toggle').length) {
-        var elm = jelm.hasClass('m-toggle') ? jelm : jelm.parents('.m-toggle');
-        elm.mToggle();
+    if (jelm.hasClass('app-toggle') || jelm.parents('.app-toggle').length) {
+        var elm = jelm.hasClass('app-toggle') ? jelm : jelm.parents('.app-toggle');
+        elm.appToggle();
     }
 
-    var tabs_save_elm = jelm.parents('.m-tabs-save');
+    var tabs_save_elm = jelm.parents('.app-tabs-save');
     if (tabs_save_elm.length) {
         var selected = tabs_save_elm.find('.active a');
-        $.cookie('m-tabs-' + tabs_save_elm.attr('id'), selected.attr('href'));
+        $.cookie('app-tabs-' + tabs_save_elm.attr('id'), selected.attr('href'));
     }
 
-    if (jelm.hasClass('c-ajax')) {
-        $.cAjax('request', jelm.attr('href'), {
+    if (jelm.hasClass('app-ajax')) {
+        $.appAjax('request', jelm.attr('href'), {
             data: {
                 result_ids: jelm.data('resultIds'),
             },
@@ -43,14 +43,14 @@ $(document).on('click', function(e) {
         } else {
             var href = modal_elm.attr('href');
             if (href.length) {
-                $.cAjax('request', href, {
+                $.appAjax('request', href, {
                     data: {
                         result_ids: target_id,
                     },
                     callback: function(data){
                         if (data.html && data.html[target_id]) {
                             $(data.html[target_id]).modal(modal_options);
-                            $.mCommonInit($('#' + target_id));
+                            $.appCommonInit($('#' + target_id));
                         }
                     },
                 });
@@ -60,41 +60,41 @@ $(document).on('click', function(e) {
     }
 
     // Items
-    var _jelm = jelm.closest('.m-item-new');
+    var _jelm = jelm.closest('.app-item-new');
     if (_jelm.length) {
-        var item = _jelm.closest('.m-item'),
+        var item = _jelm.closest('.app-item'),
             container = item.parent(),
-            hidden_item = container.find('.m-item.m-item-hidden');
+            hidden_item = container.find('.app-item.app-item-hidden');
         
         if (hidden_item.length) {
-            hidden_item.removeClass('m-item-hidden');
+            hidden_item.removeClass('app-item-hidden');
         } else {
-            container.find('.m-item:last').mClone();
+            container.find('.app-item:last').appClone();
         }
     }
 
-    var _jelm = jelm.closest('.m-item-remove');
+    var _jelm = jelm.closest('.app-item-remove');
     if (_jelm.length) {
-        var item = _jelm.closest('.m-item'),
-            is_text = item.hasClass('m-item-text'),
-            items_count = item.parent().find('.m-item').length,
-            items_text_count = item.parent().find('.m-item.m-item-text').length,
+        var item = _jelm.closest('.app-item'),
+            is_text = item.hasClass('app-item-text'),
+            items_count = item.parent().find('.app-item').length,
+            items_text_count = item.parent().find('.app-item.app-item-text').length,
             items_form_count = items_count - items_text_count;
 
         if (is_text) {
-            if (items_text_count > 1 || !item.parent().find('.m-item-hidden').length) {
+            if (items_text_count > 1 || !item.parent().find('.app-item-hidden').length) {
                 item.remove();
             }
         } else {
             if (items_form_count > 1) {
                 item.remove();
             } else if (items_text_count >= 1) {
-                item.addClass('m-item-hidden');
+                item.addClass('app-item-hidden');
             }
         }
     }
 
-    var _jelm = jelm.closest('.m-grid-toggle');
+    var _jelm = jelm.closest('.app-grid-toggle');
     if (_jelm.length) {
         _jelm.closest('table').find('tr[data-key="' + _jelm.closest('tr').data('key') + '-extra"]').toggle();
         var icon = _jelm.find('.glyphicon');
@@ -109,19 +109,19 @@ $(document).on('click', function(e) {
 $(document).on('change', function(e) {
     var jelm = $(e.target);
 
-    if (jelm.hasClass('m-dtoggle')) {
-        jelm.mDToggle();
+    if (jelm.hasClass('app-dtoggle')) {
+        jelm.appDToggle();
     }
 
-    if (jelm.hasClass('m-country')) {
-        jelm.mCountrySelect();
+    if (jelm.hasClass('app-country')) {
+        jelm.appCountrySelect();
     }
 });
 
 $(document).on('submit', function(e) {
     var form = $(e.target);
-    if (form.hasClass('c-ajax')) {
-        $.cAjax('request', form.attr('action'), {
+    if (form.hasClass('app-ajax')) {
+        $.appAjax('request', form.attr('action'), {
             type: "post",
             data: form.serialize(),
             callback: function() {
@@ -138,18 +138,18 @@ $(document).on('submit', function(e) {
 /**
  * Rewrite Yii events
  */
-$(document).on('click.crm', yii.clickableSelector, function(e) {
+$(document).on('click.app', yii.clickableSelector, function(e) {
     var jelm = $(e.target);
 
-    if (jelm.data('cProcessItems')) {
+    if (jelm.data('appProcessItems')) {
         var url = jelm.data('url') || jelm.attr('href');
         jelm.data('url', url);
-        var obj_name = jelm.data('cProcessItems'),
+        var obj_name = jelm.data('appProcessItems'),
             url_params = {},
             keys = $('.grid-view').yiiGridView('getSelectedRows');
         
         if (!keys.length) {
-            alert(yii.crm.langs['No items selected']);
+            alert(yii.app.langs['No items selected']);
             e.stopImmediatePropagation();
             return false;
         }

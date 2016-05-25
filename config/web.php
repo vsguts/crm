@@ -90,6 +90,11 @@ $config = [
         'authManager' => [
             'class' => 'app\components\rbac\DbManager',
         ],
+        'assetManager' => [
+            'converter' => [
+                'class' => 'yii\web\AssetConverter',
+            ],
+        ],
         'image' => [
             'class' => 'yii\image\ImageDriver',
             'driver' => 'GD', //GD or Imagick

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'layout' => 'info',
             'items' => [
                 ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],

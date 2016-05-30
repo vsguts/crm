@@ -32,15 +32,16 @@ class AppAsset extends AssetBundle
     ];
     
     public $depends = [
+        'yii\web\YiiAsset',
+        'yii\widgets\ActiveFormAsset',
+        'yii\validators\ValidationAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'yii\validators\ValidationAsset',
-        'yii\web\YiiAsset',
+        'app\assets\BowerAsset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
         'kartik\select2\Select2Asset',
         'dosamigos\gallery\GalleryAsset',
-        'app\assets\BowerAsset',
     ];
 
     public static function customJs()

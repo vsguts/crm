@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use app\widgets\SearchForm;
-use app\widgets\DatePickerRange;
-use app\widgets\Range;
 
 ?>
 
@@ -18,18 +16,18 @@ use app\widgets\Range;
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'sum')->widget(Range::className()) ?>
+            <?= $form->field($model, 'sum')->widget('app\widgets\Range') ?>
 
             <?= $form->field($model, 'notes') ?>
 
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'timestamp')->widget('app\widgets\DatePickerRange') ?>
 
-            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'created_at')->widget('app\widgets\DatePickerRange') ?>
 
-            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'updated_at')->widget('app\widgets\DatePickerRange') ?>
 
         </div>
     </div>

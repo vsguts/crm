@@ -16,6 +16,8 @@ class ButtonsContatiner extends Widget
     
     public $removeLink = true;
 
+    public $saveLink = true;
+
     public $extraBtns = [];
 
     public function run()
@@ -35,13 +37,17 @@ class ButtonsContatiner extends Widget
         }
 
         if (isset($this->model->isNewRecord) && $this->model->isNewRecord) {
-            $submit_options['class'] = 'btn btn-success';
-            echo Html::submitButton(__('Create'), $submit_options);
+            if ($this->saveLink) {
+                $submit_options['class'] = 'btn btn-success';
+                echo Html::submitButton(__('Create'), $submit_options);
+            }
             
             echo $extra;
         } else {
-            $submit_options['class'] = 'btn btn-primary';
-            echo Html::submitButton(__('Update'), $submit_options);
+            if ($this->saveLink) {
+                $submit_options['class'] = 'btn btn-primary';
+                echo Html::submitButton(__('Update'), $submit_options);
+            }
 
             echo $extra;
 

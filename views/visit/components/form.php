@@ -25,6 +25,7 @@ Modal::begin([
         'model' => $model,
         'footerWrapper' => false,
         'removeLink' => false,
+        'saveLink' => Yii::$app->user->can('visit_manage'),
         'form' => $form_id,
     ]),
 ]);

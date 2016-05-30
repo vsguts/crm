@@ -15,7 +15,7 @@ class m160307_185310_User extends Migration
         $this->alterColumn('user', 'email', Schema::TYPE_STRING . ' NOT NULL AFTER id');
         $this->dropColumn('user', 'username');
         $this->renameColumn('user', 'fullname', 'name');
-        $this->alterColumn('user', 'name', Schema::TYPE_STRING . ' NOT NULL AFTER email');
+        $this->alterColumn('user', 'name', Schema::TYPE_STRING . ' NOT NULL AFTER id');
     }
 
     public function down()

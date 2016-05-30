@@ -16,6 +16,12 @@ class UserController extends AController
     public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => 'yii\filters\VerbFilter',
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
             'access' => [
                 'class' => 'yii\filters\AccessControl',
                 'only' => ['index', 'create', 'delete'],
@@ -27,11 +33,8 @@ class UserController extends AController
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => 'yii\filters\VerbFilter',
-                'actions' => [
-                    'delete' => ['post'],
-                ],
+            'ajax' => [
+                'class' => 'app\behaviors\AjaxFilter',
             ],
         ];
     }
@@ -66,6 +69,7 @@ class UserController extends AController
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'roles' => Yii::$app->authManager->getRolesList('guest'),
             ]);
         }
     }
@@ -87,23 +91,23 @@ class UserController extends AController
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            if (!$user->can('user_manage') || $user->can('user_manage_own', ['user' => $model])) {
-                if ($model->isNewRecord) {
-                    unset($model->role);
-                } else {
-                    $model->role = $model->oldAttributes['role'];
-                }
-            }
-
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
                 return $this->redirect(['update', 'id' => $model->id]);
             }
         }
-    
-        return $this->render('update', [
+
+        $auth = Yii::$app->authManager;
+
+        $data = [
             'model' => $model,
-        ]);
+        ];
+
+        if (Yii::$app->user->identity->id != $model->id) { // Restrict user to manage own roles
+            $data['roles'] = $auth->getRolesList('guest');
+        }
+
+        return $this->render('update', $data);
     }
 
     /**

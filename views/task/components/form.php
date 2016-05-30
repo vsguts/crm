@@ -24,6 +24,7 @@ Modal::begin([
         'model' => $model,
         'footerWrapper' => false,
         'removeLink' => false,
+        'saveLink' => Yii::$app->user->can('task_manage'),
         'form' => $form_id,
     ]),
 ]);

@@ -10,13 +10,12 @@ use app\models\form\UserSignupForm;
  * This is the model class for table "user".
  *
  * @property integer $id
+ * @property string $name
+ * @property string $email
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $email
- * @property integer $role
  * @property integer $status
- * @property string $name
  * @property integer $country_id
  * @property integer $state_id
  * @property string $state
@@ -51,7 +50,7 @@ class User extends AModel implements \yii\web\IdentityInterface
     {
         return [
             'app\behaviors\UserPasswordBehavior',
-            'app\behaviors\UserRoleBehavior',
+            'app\behaviors\UserRolesBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
             'app\behaviors\TimestampBehavior',
@@ -61,13 +60,12 @@ class User extends AModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['email', 'password', 'name', 'auth_key', 'password_hash'], 'required'],
+            [['name', 'email', 'password', 'auth_key', 'password_hash'], 'required'],
             [['email'], 'unique', 'message' => __('This email address has already been taken.')],
             [['email'], 'email'],
             [['password'], 'string', 'min' => UserSignupForm::PASS_MIN_LEN],
-            [['role'], 'default', 'value' => 1],
-            [['role', 'status', 'country_id', 'state_id'], 'integer'],
-            [['email', 'name', 'password_hash', 'password_reset_token', 'state', 'address'], 'string', 'max' => 255],
+            [['status', 'country_id', 'state_id'], 'integer'],
+            [['name', 'email', 'password_hash', 'password_reset_token', 'state', 'address'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]
         ];
     }
@@ -76,10 +74,9 @@ class User extends AModel implements \yii\web\IdentityInterface
     {
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
+            'name' => __('Name'),
             'email' => __('E-mail'),
             'password' => __('Password'),
-            'name' => __('Name'),
-            'role' => __('Role'),
             'status' => __('Status'),
             'country_id' => __('Country'),
             'state_id' => __('State'),

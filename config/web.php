@@ -89,6 +89,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'app\components\rbac\DbManager',
+            'defaultRoles' => ['guest'],
         ],
         'assetManager' => [
             'converter' => [

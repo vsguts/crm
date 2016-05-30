@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $model->name;
 
     <?= $this->render('components/form', [
         'model' => $model,
+        'roles' => isset($roles) ? $roles : null,
     ]) ?>
 
 </div>

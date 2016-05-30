@@ -38,14 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\CheckboxColumn'],
 
             ['attribute' => 'id', 'label' => '#'],
-            'email:email',
             'name',
-            [
-                'attribute' => 'role',
-                'value' => function($model, $key, $index, $column){
-                    return $model->getLookupItem('role', $model->role);
-                }
-            ],
+            'email',
             [
                 'attribute' => 'status',
                 'value' => function($model, $key, $index, $column){

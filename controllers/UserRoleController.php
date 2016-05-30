@@ -85,8 +85,13 @@ class UserRoleController extends AController
             $model = new UserRoleForm;
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+        if (Yii::$app->request->post()) {
+            $model->permissions = [];
+            $model->roles = [];
+            $model->load(Yii::$app->request->post());
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            }
             return $this->redirect(['index', 'name' => $model->name]);
         } else {
             return $this->renderAjax('update', [

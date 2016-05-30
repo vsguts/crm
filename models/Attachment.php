@@ -9,7 +9,7 @@ use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
- * This is the model class for table "file".
+ * This is the model class for table "attachment".
  *
  * @property integer $id
  * @property string  $model_name

@@ -20,19 +20,32 @@ class PartnerController extends AController
     public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => 'yii\filters\VerbFilter',
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
             'access' => [
                 'class' => 'yii\filters\AccessControl',
                 'rules' => [
                     [
                         'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'list', 'update'],
+                        'roles' => ['partner_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
                         'roles' => ['partner_manage'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => 'yii\filters\VerbFilter',
-                'actions' => [
-                    'delete' => ['post'],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'verbs' => ['GET'],
+                        'roles' => ['partner_manage'],
+                    ],
                 ],
             ],
             'ajax' => [

@@ -26,6 +26,28 @@ class NewsletterController extends AController
                     'send' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['newsletter_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['newsletter_manage'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'verbs' => ['GET'],
+                        'roles' => ['newsletter_manage'],
+                    ],
+                ],
+            ],
         ];
     }
 

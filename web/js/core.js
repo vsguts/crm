@@ -155,7 +155,7 @@ $.fn.extend({
                     select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
                 }
                 
-                var select_value = select.data('cValue');
+                var select_value = select.data('appValue');
                 if (select.find('option[value="' + select_value + '"]').length) {
                     select.val(select_value);
                 }

@@ -70,7 +70,7 @@ class SiteController extends AController
         $user = Yii::$app->user;
         $dashboard = [];
         
-        if ($user->can('partner_manage')) {
+        if ($user->can('partner_view')) {
             $dashboard[] = [
                 'name' => Html::tag('b', __('Partners')),
                 'link' => Url::to(['partner/index']),
@@ -78,7 +78,7 @@ class SiteController extends AController
             ];
         }
         
-        if ($user->can('visit_manage')) {
+        if ($user->can('visit_view')) {
             $dashboard[] = [
                 'name' => __('Visits'),
                 'link' => Url::to(['visit/index']),
@@ -86,7 +86,7 @@ class SiteController extends AController
             ];
         }
         
-        if ($user->can('donate_manage')) {
+        if ($user->can('donate_view')) {
             $dashboard[] = [
                 'name' => __('Donates'),
                 'link' => Url::to(['donate/index']),
@@ -94,7 +94,7 @@ class SiteController extends AController
             ];
         }
         
-        if ($user->can('task_manage')) {
+        if ($user->can('task_view')) {
             $dashboard[] = [
                 'name' => __('Tasks'),
                 'link' => Url::to(['task/index']),
@@ -102,7 +102,7 @@ class SiteController extends AController
             ];
         }
         
-        if ($user->can('newsletter_manage')) {
+        if ($user->can('newsletter_view')) {
             $dashboard[] = [
                 'name' => __('Mailing lists'),
                 'link' => Url::to(['mailing-list/index']),

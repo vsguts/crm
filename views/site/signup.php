@@ -19,11 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
+                <?= $form->field($model, 'name') ?>
+
                 <?= $form->field($model, 'email') ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'name') ?>
 
                 <?= Html::submitButton(__('Sign up'), ['class' => 'btn btn-success btn-block', 'name' => 'signup-button']) ?>
 

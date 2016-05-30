@@ -6,8 +6,10 @@ use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 
-class UserRoleBehavior extends Behavior
+class UserRolesBehavior extends Behavior
 {
+    public $roles;
+
     protected $auth;
 
     public function init()
@@ -19,10 +21,20 @@ class UserRoleBehavior extends Behavior
     public function events()
     {
         return [
+            ActiveRecord::EVENT_AFTER_FIND  => 'prepareAuth',
             ActiveRecord::EVENT_BEFORE_DELETE  => 'deleteAuth',
             ActiveRecord::EVENT_AFTER_INSERT  => 'assignAuth',
             ActiveRecord::EVENT_AFTER_UPDATE  => 'assignAuth',
         ];
+    }
+
+    public function prepareAuth($event)
+    {
+        $model = $this->owner;
+        if ($model->id) {
+            $roles = $this->auth->getRolesByUser($model->id);
+            $this->roles = array_keys($roles);
+        }
     }
 
     public function deleteAuth($event)
@@ -35,12 +47,14 @@ class UserRoleBehavior extends Behavior
     {
         $model = $this->owner;
         $this->auth->revokeAll($model->id);
-
-        $const = $model::className() . '::AUTH_ROLE_' . $model->role; // e.g. User::AUTH_ROLE_1
-        if (defined($const)) {
-            $role_name = constant($const);
-            $role = $this->auth->getRole($role_name);
-            $this->auth->assign($role, $model->id);
+        if ($data = Yii::$app->request->post($model->formName())) { // FIXME
+            if (!empty($data['roles'])) {
+                foreach ($data['roles'] as $role_name) {
+                    if ($role = $this->auth->getRole($role_name)) {
+                        $this->auth->assign($role, $model->id);
+                    }
+                }
+            }
         }
     }
 

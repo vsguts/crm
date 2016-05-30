@@ -78,18 +78,33 @@ class ToolsController extends Controller
         $permissions['setting_manage']->description = 'Administration::Settings manage';
 
         // Newsletters
+        $permissions['newsletter_view'] = $auth->createPermission('newsletter_view');
+        $permissions['newsletter_view']->description = 'Newsletters::Newsletters view';
+
         $permissions['newsletter_manage'] = $auth->createPermission('newsletter_manage');
-        $permissions['newsletter_manage']->description = 'Newsletters::Newsletter manage';
+        $permissions['newsletter_manage']->description = 'Newsletters::Newsletters manage';
 
         // Partners
+        $permissions['partner_view'] = $auth->createPermission('partner_view');
+        $permissions['partner_view']->description = 'Partners::Partners view';
+        
         $permissions['partner_manage'] = $auth->createPermission('partner_manage');
         $permissions['partner_manage']->description = 'Partners::Partners manage';
-        
+
+        $permissions['visit_view'] = $auth->createPermission('visit_view');
+        $permissions['visit_view']->description = 'Partners::Visits view';
+
         $permissions['visit_manage'] = $auth->createPermission('visit_manage');
         $permissions['visit_manage']->description = 'Partners::Visits manage';
         
+        $permissions['donate_view'] = $auth->createPermission('donate_view');
+        $permissions['donate_view']->description = 'Partners::Donates view';
+        
         $permissions['donate_manage'] = $auth->createPermission('donate_manage');
         $permissions['donate_manage']->description = 'Partners::Donates manage';
+        
+        $permissions['task_view'] = $auth->createPermission('task_view');
+        $permissions['task_view']->description = 'Partners::Tasks view';
         
         $permissions['task_manage'] = $auth->createPermission('task_manage');
         $permissions['task_manage']->description = 'Partners::Tasks manage';
@@ -137,7 +152,11 @@ class ToolsController extends Controller
         }
         Yii::$app->db->createCommand()->delete('auth_item', ['not in', 'type', array_keys($added)])->execute();
         foreach ($added as $type => $item_names) {
-            Yii::$app->db->createCommand()->delete('auth_item', ['and', ['type' => $type], ['not in', 'name', $item_names]])->execute();
+            if ($type != 1) { // Not role
+                Yii::$app->db->createCommand()
+                    ->delete('auth_item', ['and', ['type' => $type], ['not in', 'name', $item_names]])
+                    ->execute();
+            }
         }
 
         /**

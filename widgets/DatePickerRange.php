@@ -2,6 +2,7 @@
 
 namespace app\widgets;
 
+use Yii;
 use kartik\date\DatePicker;
 
 class DatePickerRange extends DatePicker
@@ -29,6 +30,8 @@ class DatePickerRange extends DatePicker
                 'placeholder' => __('End date'),
             ];
         }
+
+        $this->pluginOptions['format'] = strtolower(Yii::$app->formatter->dateFormat);
 
         parent::init();
     }

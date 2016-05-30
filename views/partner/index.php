@@ -13,14 +13,17 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="partner-index">
 
     <div class="pull-right buttons-container">
-        <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
+        <?php if (Yii::$app->user->can('partner_manage')) : ?>
+            <div class="btn-group">
+                <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php endif; ?>
         
         <?php
 
-        $items = [
-            [
+        $items = [];
+        if (Yii::$app->user->can('partner_manage')) {
+            $items[] = [
                 'label' => __('Delete'),
                 'url' => Url::to(['delete']),
                 'linkOptions' => [
@@ -28,16 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]
-            ],
-            [
-                'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
-                'linkOptions' => ['data-app-process-items' => 'ids']
-            ],
-            // [
-            //     'label' => __('Show on map'), 'url' => Url::to(['map']),
-            //     'linkOptions' => ['data-app-process-items' => 'ids']
-            // ],
+            ];
+        }
+        $items[] = [
+            'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
+            'linkOptions' => ['data-app-process-items' => 'ids']
         ];
+        // $items[] = [
+        //     'label' => __('Show on map'), 'url' => Url::to(['map']),
+        //     'linkOptions' => ['data-app-process-items' => 'ids']
+        // ];
         if (Yii::$app->user->can('newsletter_manage')) {
             $items[] = [
                 'label' => __('Add to mailing list'),

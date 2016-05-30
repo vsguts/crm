@@ -11,6 +11,24 @@ class ExportController extends AController
 
     protected $path = '@app/models/export';
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['partner_view'],
+                    ],
+                ],
+            ],
+            'ajax' => [
+                'class' => 'app\behaviors\AjaxFilter',
+            ],
+        ];
+    }
+
     public function actionIndex($object, array $ids = null)
     {
         $model = $this->getObject($object);

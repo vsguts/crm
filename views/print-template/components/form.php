@@ -27,10 +27,10 @@ foreach (['margin_top', 'margin_bottom', 'margin_left', 'margin_right'] as $fiel
 }
 Html::endTag('div');
 
-echo $form->field($model, 'content')->textarea(['rows' => 6]);
-// echo $form->field($model, 'content')
-//     ->widget('app\widgets\Wysiwyg')
-//     ->hint($this->render('hint_content'));
+echo $form->field($model, 'content')
+    ->hint($this->render('hint_content'))
+    ->textarea(['rows' => 6]);
+    // ->widget('app\widgets\Wysiwyg');
 
 echo $form->field($model, 'wrapper_enabled')->checkbox(['class' => 'checkboxfix app-dtoggle app-dtoggle-wrapper'], false);
 

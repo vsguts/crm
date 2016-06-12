@@ -11,15 +11,12 @@ $user = Yii::$app->user;
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1><?= __('Welcome to CRM') ?></h1>
+        <h1><?= __('Welcome') ?></h1>
 
-        <p class="lead"><?= __('Our system allows you to manage partners and relationships with them.') ?></p>
+        <p class="lead">
+            <?= nl2br(Yii::$app->params['about']) ?>
+        </p>
 
-        <?php 
-            if ($user->can('partner_manage')) {
-                echo '<p><a class="btn btn-lg btn-success" href="' . Url::to(['partner/index']) . '"> ' . __('Partners') . '</a></p>';
-            }
-        ?>
     </div>
 
     <div class="body-content">

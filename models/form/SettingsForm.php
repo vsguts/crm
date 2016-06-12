@@ -21,6 +21,7 @@ class SettingsForm extends Model
     public $poweredBy;
     public $adminEmail;
     public $supportEmail;
+    public $about;
     
     // Email
     public $mailSendMethod;
@@ -62,6 +63,7 @@ class SettingsForm extends Model
             'poweredBy' => __('Powered by'),
             'adminEmail' => __('Admin email'),
             'supportEmail' => __('Support email'),
+            'about' => __('About text'),
             
             'mailSendMethod' => __('Method of sending emails'),
             'smtpHost' => __('SMTP host'),

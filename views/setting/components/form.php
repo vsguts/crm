@@ -32,6 +32,4 @@ echo Tabs::widget([
     'items' => $tab_items,
 ]);
 
-// echo ButtonsContatiner::widget(['model' => $model]);
-
 ActiveForm::end();

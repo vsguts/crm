@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
@@ -35,17 +36,36 @@ $form = ActiveForm::begin([
     ]
 ]);
 
-echo $form->field($model, 'description')->textInput();
+echo Tabs::widget([
+    'options' => [
+        'id' => $form_id . '_tabs',
+        'class' => 'app-tabs-save'
+    ],
+    'items' => [
+        [
+            'label' => __('General'),
+            'content' => $this->render('form_general', [
+                'form' => $form,
+                'model' => $model,
+            ]),
+        ],
+        [
+            'label' => __('Permissions'),
+            'content' => $this->render('form_permissions', [
+                'form' => $form,
+                'model' => $model,
+            ]),
+        ],
+        [
+            'label' => __('Inherited roles'),
+            'content' => $this->render('form_inherit', [
+                'form' => $form,
+                'model' => $model,
+            ]),
+        ],
+    ],
+]);
 
-echo Html::tag('h4', __('Permissions'));
-
-foreach ($model->getAllPermissions() as $section => $permissions) {
-    echo $form->field($model, 'permissions')->checkboxList($permissions, ['unselect' => null])->label($section);
-}
-
-echo Html::tag('h4', __('Inherited roles'));
-
-echo $form->field($model, 'roles')->checkboxList($model->getAllRoles(['plain' => true, 'exclude_self' => true]), ['unselect' => null])->label('');
 
 ActiveForm::end();
 

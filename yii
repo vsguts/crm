@@ -11,7 +11,7 @@ require(__DIR__ . '/vendor/autoload.php');
 require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
 require(__DIR__ . '/components/functions.php');
 
-$config = require(__DIR__ . '/config/console_app.php');
+$config = require(__DIR__ . '/config/console_yii.php');
 
 $application = new yii\console\Application($config);
 $exitCode = $application->run();

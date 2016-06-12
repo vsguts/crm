@@ -9,7 +9,7 @@ function __()
     return call_user_func_array(['Yii', 't'], $args);
 }
 
-function getClassName($object)
+function app_get_class_name($object)
 {
     $name = get_class($object);
     return substr($name, strrpos($name, '\\') + 1);

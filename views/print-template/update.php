@@ -19,7 +19,8 @@ $this->params['breadcrumbs'][] = $model->name;
         if (Yii::$app->user->can('newsletter_manage')) {
             $items = [
                 [
-                    'label' => __('Print'), 'url' => Url::to(['view', 'id' => $model->id, 'to_pdf' => true]),
+                    'label' => __('Print'),
+                    'url' => Url::to(['view', 'id' => $model->id, 'to_pdf' => true]),
                 ],
                 [
                     'label' => __('Preview'),

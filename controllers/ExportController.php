@@ -90,7 +90,7 @@ class ExportController extends AController
         $objects = $this->getObjects('/formatter');
         $formatters = [];
         foreach ($objects as $object) {
-            $name = getClassName($object);
+            $name = app_get_class_name($object);
             $formatters[strtolower($name)] = __($name);
         }
         return $formatters;

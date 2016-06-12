@@ -1,3 +1,4 @@
+/* Common classes */
 .h, .app-item-hidden {
     display: none;
 }
@@ -42,11 +43,29 @@ a, .pointer {
     -moz-border-radius: 6px;
     border-radius: 6px;
 }
+.nowrap {
+    white-space: nowrap;
+}
+.center {
+    text-align: center;
+}
+.strong {
+    font-weight: bold;
+}
+/* \Common classes */
 
+/* Active form */
+.required label {
+    background: url('../images/design/required_mark.png') no-repeat;
+    background-position: right 10px;
+}
+/* \Active form */
 
+/* Tabs content fixes */
 .tab-content {
     margin-top: 20px;
 }
+/* \Tabs content fixes */
 
 .gallery-item, .images-upload-item {
     display: block;
@@ -76,18 +95,19 @@ a, .pointer {
 }
 
 
+/* Pagination fixes */
 .pagination {
     margin: 10px 0;
 }
-
 .pagination-per-page {
     display: inline-block;
     margin: 10px 20px;
 }
-
 .pagination-per-page > div {
     float: left;
 }
+/* \Pagination fixes */
+
 
 .partner-thumbnail {
     margin-left: 10px;
@@ -102,30 +122,33 @@ a, .pointer {
 .tags-sidebox {
     margin-left: -8px;
     margin-right: -20px;
-}
-.tags-sidebox .nav-stacked > li + li {
-    margin-top: 0;
-}
-.tags-sidebox .nav > li > a {
-    padding: 5px 8px 4px;
+    .nav-stacked > li + li {
+        margin-top: 0;
+    }
+    .nav > li > a {
+        padding: 5px 8px 4px;
+    }
 }
 /* \Tags */
 
 /* Search form */
-.search-form.panel, .search-form .panel {
-    margin-bottom: 5px;
-}
-.search-form .panel-heading {
-    padding: 5px 12px;
-}
-.search-form .panel-footer {
-    padding: 2px 10px;
-}
-.search-form .panel-body {
-    padding: 5px;
-    padding-bottom: 0px;
-}
-.search-form .form-group {
-    margin-bottom: 5px;
+.search-form {
+
+    &.panel, .search-form .panel {
+        margin-bottom: 5px;
+    }
+    .panel-heading {
+        padding: 5px 12px;
+    }
+    .panel-footer {
+        padding: 2px 10px;
+    }
+    .panel-body {
+        padding: 5px;
+        padding-bottom: 0px;
+    }
+    .form-group {
+        margin-bottom: 5px;
+    }
 }
 /* \Search form */

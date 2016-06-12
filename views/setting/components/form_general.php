@@ -6,3 +6,4 @@ echo $form->field($model, 'companyName');
 echo $form->field($model, 'poweredBy');
 echo $form->field($model, 'adminEmail');
 echo $form->field($model, 'supportEmail');
+echo $form->field($model, 'about')->textarea(['rows' => 4]);

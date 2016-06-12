@@ -32,17 +32,17 @@ abstract class AExport extends Model
     {
         parent::init();
         $this->fields = array_keys($this->getAvailableFields());
-        $this->filename = strtolower(getClassName($this)) . '_' . date('Y-m-d');
+        $this->filename = strtolower(app_get_class_name($this)) . '_' . date('Y-m-d');
     }
 
     public function getName()
     {
-        return __(getClassName($this));
+        return __(app_get_class_name($this));
     }
 
     public function getId()
     {
-        return strtolower(getClassName($this));
+        return strtolower(app_get_class_name($this));
     }
 
     abstract public function getModelClassName();

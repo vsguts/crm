@@ -74,6 +74,9 @@ class ToolsController extends Controller
         $permissions['tools'] = $auth->createPermission('tools');
         $permissions['tools']->description = 'Administration::Tools';
         
+        $permissions['setting_view'] = $auth->createPermission('setting_view');
+        $permissions['setting_view']->description = 'Administration::Settings view';
+
         $permissions['setting_manage'] = $auth->createPermission('setting_manage');
         $permissions['setting_manage']->description = 'Administration::Settings manage';
 
@@ -164,8 +167,13 @@ class ToolsController extends Controller
          */
 
         foreach ($permissions as $permission) {
+            // All permissions to root
             if (!$auth->hasChild($roles['root'], $permission)) {
                 $auth->addChild($roles['root'], $permission);
+            }
+            // Own permissions to guest
+            if (strpos($permission->name, '_own') && !$auth->hasChild($roles['guest'], $permission)) {
+                $auth->addChild($roles['guest'], $permission);
             }
         }
         

@@ -77,6 +77,7 @@ class PrintTemplateController extends AController
             Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $model->validate(['margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'wrapper']);
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -110,17 +111,17 @@ class PrintTemplateController extends AController
         $this->layout = 'print';
         $html = $this->render('view', ['content' => $model->generate()]);
         
-        if (!$to_pdf) {
-            return $html;
+        if ($to_pdf) {
+            $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
+
+            return Yii::$app->response->sendContentAsFile(
+                $pdf,
+                $model->name . '_' . date('Y-m-d_H:i') . '.pdf',
+                ['mimeType' => 'application/pdf']
+            );
         }
         
-        $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
-
-        return Yii::$app->response->sendContentAsFile(
-            $pdf,
-            $model->name . '_' . date('Y-m-d_H:i') . '.pdf',
-            ['mimeType' => 'application/pdf']
-        );
+        return $html;
     }
 
     /**

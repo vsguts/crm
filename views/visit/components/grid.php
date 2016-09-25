@@ -6,7 +6,7 @@ use app\widgets\grid\GridView;
 
 if (!empty($partnerId)) {
     $content = Html::a(__('Create visit'), ['/visit/update', 'partner_id' => $partnerId, '_return_url' => Url::to()], [
-        'class' => 'btn btn-success c-modal',
+        'class' => 'btn btn-success btn-sm c-modal',
         'data-target-id' => 'visit_create',
     ]);
     echo Html::tag('div', Html::tag('div', $content, ['class' => 'btn-group']), ['class' => 'pull-right']);

@@ -27,11 +27,9 @@ $tab_items = [
 echo Tabs::widget([
     'options' => [
         'id' => 'settings_tabs',
-        'class' => 'm-tabs-save'
+        'class' => 'app-tabs-save'
     ],
     'items' => $tab_items,
 ]);
-
-// echo ButtonsContatiner::widget(['model' => $model]);
 
 ActiveForm::end();

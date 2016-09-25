@@ -10,6 +10,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="template-index">
 
+    <?php if (Yii::$app->user->can('newsletter_manage')) : ?>
+
     <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create template'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'layout' => 'info',
             'items' => [
                 ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
@@ -27,6 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </div>
+
+    <?php endif; ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 

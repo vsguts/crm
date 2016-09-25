@@ -32,7 +32,6 @@ class Csv extends AFormatter
 
     public function exportColumns()
     {
-        
         echo implode($this->owner->delimiter, array_values($this->columns)) . "\n";
     }
 

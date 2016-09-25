@@ -18,19 +18,26 @@ class VisitController extends AController
     public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['visit_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
                         'roles' => ['visit_manage'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
                 ],
             ],
             'ajax' => [
@@ -69,7 +76,7 @@ class VisitController extends AController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['index']);
         } else {
 

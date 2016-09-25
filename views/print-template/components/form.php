@@ -27,15 +27,15 @@ foreach (['margin_top', 'margin_bottom', 'margin_left', 'margin_right'] as $fiel
 }
 Html::endTag('div');
 
-echo $form->field($model, 'content')->textarea(['rows' => 6]);
-// echo $form->field($model, 'content')
-//     ->widget('app\widgets\Wysiwyg')
-//     ->hint($this->render('hint_content'));
+echo $form->field($model, 'content')
+    ->hint($this->render('hint_content'))
+    ->textarea(['rows' => 6]);
+    // ->widget('app\widgets\Wysiwyg');
 
-echo $form->field($model, 'wrapper_enabled')->checkbox(['class' => 'checkboxfix m-dtoggle m-dtoggle-wrapper'], false);
+echo $form->field($model, 'wrapper_enabled')->checkbox(['class' => 'checkboxfix app-dtoggle app-dtoggle-wrapper'], false);
 
 $textarea = $form->field($model, 'wrapper')->textarea(['rows' => 6])->hint($this->render('hint_wrapper'));
-$css_class = 'm-dtoggle-wrapper-on ' . ($model->wrapper_enabled ? 'h' : '');
+$css_class = 'app-dtoggle-wrapper-on ' . ($model->wrapper_enabled ? 'h' : '');
 echo Html::tag('div', $textarea, ['class' => $css_class]);
 
 echo $form->field($model, 'mailingListIds')->checkboxList($model->getList('MailingList', 'name', ['scope' => 'active']));

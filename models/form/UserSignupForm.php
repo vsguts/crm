@@ -10,7 +10,7 @@ use app\models\User;
  */
 class UserSignupForm extends Model
 {
-    public $username;
+    public $name;
     public $email;
     public $password;
 
@@ -22,10 +22,9 @@ class UserSignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => User::className(), 'message' => __('This username has already been taken.')],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['name', 'required'],
+            ['name', 'filter', 'filter' => 'trim'],
+            ['name', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -40,7 +39,7 @@ class UserSignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => __('Username'),
+            'name' => __('Name'),
             'email' => __('Email'),
             'password' => __('Password'),
         ];
@@ -55,7 +54,7 @@ class UserSignupForm extends Model
     {
         if ($this->validate()) {
             $user = new User();
-            $user->username = $this->username;
+            $user->name = $this->name;
             $user->email = $this->email;
             $user->password = $this->password;
             if ($user->save()) {

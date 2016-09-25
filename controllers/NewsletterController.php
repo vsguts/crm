@@ -26,6 +26,28 @@ class NewsletterController extends AController
                     'send' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['newsletter_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['newsletter_manage'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'verbs' => ['GET'],
+                        'roles' => ['newsletter_manage'],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -54,7 +76,7 @@ class NewsletterController extends AController
         $model = new Newsletter();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -74,7 +96,7 @@ class NewsletterController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             $logSearch = array_merge(Yii::$app->request->queryParams, ['newsletter_id' => $id]);

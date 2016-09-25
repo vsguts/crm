@@ -9,7 +9,7 @@ use app\widgets\grid\GridExtraRowView;
 $dropdown = ActionsDropdown::widget([
     'items' => [
         ['label' => __('Delete selected'), 'url' => Url::to(['log-delete', 'newsletter_id' => $model->id]), 'linkOptions' => [
-            'data-c-process-items' => 'ids',
+            'data-app-process-items' => 'ids',
             'data-confirm' => __('Are you sure you want to delete this item?'),
             'data-method' => 'post',
         ]],

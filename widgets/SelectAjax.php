@@ -25,7 +25,7 @@ class SelectAjax extends InputWidget
     {
         if (!$this->options) {
             $this->options = [
-                'class' => 'form-control m-select2',
+                'class' => 'form-control app-select2',
                 'placeholder' => __('Partners search'),
                 'data-m-url' => Url::to(['partner/list']),
             ];
@@ -58,7 +58,7 @@ class SelectAjax extends InputWidget
             }
             $extra_class = '';
             if ($items) {
-                $extra_class = 'm-item-hidden';
+                $extra_class = 'app-item-hidden';
                 foreach ($items as $item) {
                     $text = $item->{$this->modelField};
                     if ($url = $this->getUrl($item->id)) {
@@ -69,11 +69,11 @@ class SelectAjax extends InputWidget
                         Html::activeHiddenInput($this->model, $this->attribute, ['value' => $item->id]),
                         $this->multipleButtons(),
                     ];
-                    echo Html::tag('div', implode(' ', $content), ['class' => 'row m-item m-item-text']);
+                    echo Html::tag('div', implode(' ', $content), ['class' => 'row app-item app-item-real']);
                 }
             }
 
-            echo Html::beginTag('div', ['class' => 'row m-item ' . $extra_class]);
+            echo Html::beginTag('div', ['class' => 'row app-item ' . $extra_class]);
             echo Html::beginTag('div', ['class' => 'col-sm-11']);
         }
 
@@ -102,8 +102,8 @@ class SelectAjax extends InputWidget
     protected function multipleButtons()
     {
         $buttons = [
-            Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-plus']), ['class' => 'm-item-new']),
-            Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), ['class' => 'm-item-remove']),
+            Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-plus']), ['class' => 'app-item-new']),
+            Html::tag('a', Html::tag('span', '', ['class' => 'glyphicon glyphicon-trash']), ['class' => 'app-item-remove']),
         ];
 
         $content = implode(' ' , $buttons);

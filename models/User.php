@@ -10,14 +10,12 @@ use app\models\form\UserSignupForm;
  * This is the model class for table "user".
  *
  * @property integer $id
- * @property string $username
+ * @property string $name
+ * @property string $email
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $email
- * @property integer $role
  * @property integer $status
- * @property string $fullname
  * @property integer $country_id
  * @property integer $state_id
  * @property string $state
@@ -52,7 +50,7 @@ class User extends AModel implements \yii\web\IdentityInterface
     {
         return [
             'app\behaviors\UserPasswordBehavior',
-            'app\behaviors\UserRoleBehavior',
+            'app\behaviors\UserRolesBehavior',
             'app\behaviors\LookupBehavior',
             'app\behaviors\ListBehavior',
             'app\behaviors\TimestampBehavior',
@@ -62,14 +60,12 @@ class User extends AModel implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'auth_key', 'password_hash', 'email'], 'required'],
-            [['username'], 'unique', 'message' => __('This username has already been taken.')],
-            [['email'], 'email'],
+            [['name', 'email', 'password', 'auth_key', 'password_hash'], 'required'],
             [['email'], 'unique', 'message' => __('This email address has already been taken.')],
+            [['email'], 'email'],
             [['password'], 'string', 'min' => UserSignupForm::PASS_MIN_LEN],
-            [['role'], 'default', 'value' => 1],
-            [['role', 'status', 'country_id', 'state_id'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'fullname', 'state', 'address'], 'string', 'max' => 255],
+            [['status', 'country_id', 'state_id'], 'integer'],
+            [['name', 'email', 'password_hash', 'password_reset_token', 'state', 'address'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32]
         ];
     }
@@ -78,12 +74,10 @@ class User extends AModel implements \yii\web\IdentityInterface
     {
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
-            'username' => __('Username'),
-            'password' => __('Password'),
+            'name' => __('Name'),
             'email' => __('E-mail'),
-            'role' => __('Role'),
+            'password' => __('Password'),
             'status' => __('Status'),
-            'fullname' => __('Full name'),
             'country_id' => __('Country'),
             'state_id' => __('State'),
             'state' => __('State'),
@@ -138,14 +132,14 @@ class User extends AModel implements \yii\web\IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds user by email
      *
-     * @param string $username
+     * @param string $email
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByEmail($email)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -228,18 +222,6 @@ class User extends AModel implements \yii\web\IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
-    }
-
-    /**
-     * List
-     */
-    public function getName()
-    {
-        if ($this->fullname) {
-            return $this->fullname;
-        } else {
-            return $this->username;
-        }
     }
     
 }

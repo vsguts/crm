@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'layout' => 'info',
             'items' => [
                 ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
@@ -38,15 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\CheckboxColumn'],
 
             ['attribute' => 'id', 'label' => '#'],
-            'username',
-            'email:email',
-            'fullname',
-            [
-                'attribute' => 'role',
-                'value' => function($model, $key, $index, $column){
-                    return $model->getLookupItem('role', $model->role);
-                }
-            ],
+            'name',
+            'email',
             [
                 'attribute' => 'status',
                 'value' => function($model, $key, $index, $column){

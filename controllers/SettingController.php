@@ -40,7 +40,7 @@ class SettingController extends AController
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->saveSettings();
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['index']);
         } else {
             return $this->render('index', [

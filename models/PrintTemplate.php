@@ -47,6 +47,9 @@ class PrintTemplate extends AModel
             [['name', 'format', 'content'], 'required'],
             [['content', 'wrapper'], 'string'],
             [['status', 'wrapper_enabled', 'orientation_landscape', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right'], 'integer'],
+            [['margin_top', 'margin_bottom'], 'default', 'value' => 16],
+            [['margin_left', 'margin_right'], 'default', 'value' => 15],
+            [['wrapper'], 'default', 'value' => '{content}'],
         ]);
     }
 
@@ -66,18 +69,6 @@ class PrintTemplate extends AModel
             'status' => __('Status'),
             'format' => __('Format'),
         ]);
-    }
-
-    public function init()
-    {
-        parent::init();
-        
-        // Default values
-        $this->wrapper = '{content}';
-        $this->margin_top = 16;
-        $this->margin_bottom = 16;
-        $this->margin_left = 15;
-        $this->margin_right = 15;
     }
 
     public function getPrintTemplateMailingLists()

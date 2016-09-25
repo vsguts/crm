@@ -53,7 +53,7 @@ if (!$model->isNewRecord) {
     $tab_items[] = [
         'label' => __('Contact persons'),
         'headerOptions' => [
-            'class' => 'm-dtoggle-type-n1',
+            'class' => 'app-dtoggle-type-n1',
             'style' => ($model->type == 3 ? 'display: none;' : ''),
         ],
         'content' => $this->render('/partner/components/grid', [
@@ -66,7 +66,7 @@ if (!$model->isNewRecord) {
 echo Tabs::widget([
     'options' => [
         'id' => 'partner_tabs',
-        'class' => 'm-tabs-save'
+        'class' => 'app-tabs-save'
     ],
     'items' => $tab_items,
 ]);

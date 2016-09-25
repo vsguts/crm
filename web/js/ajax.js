@@ -1,6 +1,6 @@
 (function($){
 
-    var spinnerSelector = '[class^="m-ajax-"]';
+    var spinnerSelector = '[class^="app-ajax-"]';
 
     function response(options, data) {
         
@@ -9,7 +9,7 @@
         if (data.html) {
             for (var id in data.html) {
                 $('#' + id).replaceWith(data.html[id]);
-                $.mCommonInit($('#' + id));
+                $.appCommonInit($('#' + id));
             }
         }
         
@@ -45,6 +45,7 @@
             };
             options.error = function(jqxhr, textStatus, errorThrown) {
                 console.error(errorThrown);
+                response(options, {});
             };
             
             $(spinnerSelector).show();
@@ -53,11 +54,11 @@
         },
     };
 
-    $.cAjax = function(method) {
+    $.appAjax = function(method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else {
-            $.error('cAjax: method ' +  method + ' does not exist');
+            $.error('appAjax: method ' +  method + ' does not exist');
         }
     };
 

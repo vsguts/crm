@@ -15,7 +15,8 @@ $this->params['breadcrumbs'][] = $model->subject;
 <div class="newsletter-update">
 
     <div class="pull-right buttons-container">
-        <?php
+    <?php
+        if (Yii::$app->user->can('newsletter_manage')) {
             $items = [
                 [
                     'label' => __('Send'),
@@ -37,11 +38,13 @@ $this->params['breadcrumbs'][] = $model->subject;
             echo ActionsDropdown::widget([
                 'items' => $items,
             ]);
-        ?>
-        <?= Html::submitButton(__('Update'), [
-            'form' => 'newsletter_form',
-            'class' => 'btn btn-primary',
-        ]) ?>
+            echo '&nbsp;';
+            echo Html::submitButton(__('Update'), [
+                'form' => 'newsletter_form',
+                'class' => 'btn btn-primary',
+            ]);
+        }
+    ?>
     </div>
     <h1><?= Html::encode($this->title) ?></h1>
 

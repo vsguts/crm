@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 echo $form->field($model, 'mailSendMethod')->dropDownList($model->getLookupItems('mailSendMethod'), [
-    'class' => 'm-dtoggle m-dtoggle-method form-control'
+    'class' => 'app-dtoggle app-dtoggle-method form-control'
 ]);
 
 $smtpFields = [
@@ -14,5 +14,5 @@ $smtpFields = [
 ];
 
 echo Html::tag('div', implode(' ', $smtpFields), [
-    'class' => 'm-dtoggle-method-smtp' . ($model->mailSendMethod != 'smtp' ? ' h' : '')
+    'class' => 'app-dtoggle-method-smtp' . ($model->mailSendMethod != 'smtp' ? ' h' : '')
 ]);

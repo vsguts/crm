@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use app\widgets\SearchForm;
-use app\widgets\DatePickerRange;
 
 ?>
 
@@ -19,8 +18,8 @@ use app\widgets\DatePickerRange;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
-            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'created_at')->widget('app\widgets\DatePickerRange') ?>
+            <?= $form->field($model, 'updated_at')->widget('app\widgets\DatePickerRange') ?>
 
         </div>
     </div>

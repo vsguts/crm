@@ -12,6 +12,9 @@ NavBar::begin([
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
+    'innerContainerOptions' => [
+        'class' => 'container-fluid',
+    ]
 ]);
 
 $user = Yii::$app->user;
@@ -32,25 +35,25 @@ echo Nav::widget([
         [
             'label' => Html::tag('b', __('Partners')),
             'url' => ['/partner/index'],
-            'visible' => $user->can('partner_manage'),
+            'visible' => $user->can('partner_view'),
             'active' => $controller_id == 'partner',
         ],
         [
             'label' => __('Donates'),
             'url' => ['/donate/index'],
-            'visible' => $user->can('donate_manage'),
+            'visible' => $user->can('donate_view'),
             'active' => $controller_id == 'donate',
         ],
         [
             'label' => __('Visits'),
             'url' => ['/visit/index'],
-            'visible' => $user->can('visit_manage'),
+            'visible' => $user->can('visit_view'),
             'active' => $controller_id == 'visit',
         ],
         [
             'label' => __('Tasks'),
             'url' => ['/task/index'],
-            'visible' => $user->can('task_manage'),
+            'visible' => $user->can('task_view'),
             'active' => $controller_id == 'task',
         ],
     ],
@@ -64,25 +67,25 @@ echo Nav::widget([
 $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
     'label' => __('Newsletters'),
-    'visible' => $user->can('newsletter_manage'),
+    'visible' => $user->can('newsletter_view'),
     'active' => in_array($controller_id, ['newsletter', 'mailing-list', 'print-template']),
     'items' => [
         [
             'label' => __('Mailing lists'),
             'url' => ['/mailing-list/index'],
-            'visible' => $user->can('newsletter_manage'),
+            'visible' => $user->can('newsletter_view'),
             'active' => $controller_id == 'mailing-list',
         ],
         [
             'label' => __('Newsletters'),
             'url' => ['/newsletter/index'],
-            'visible' => $user->can('newsletter_manage'),
+            'visible' => $user->can('newsletter_view'),
             'active' => $controller_id == 'newsletter',
         ],
         [
             'label' => __('Printing templates'),
             'url' => ['/print-template/index'],
-            'visible' => $user->can('newsletter_manage'),
+            'visible' => $user->can('newsletter_view'),
             'active' => $controller_id == 'print-template',
         ],
     ],
@@ -99,13 +102,13 @@ if ($can_upload) {
         'url' => ['/upload/index'],
     ];
 }
-if ($user->can('partner_manage')) {
+if ($user->can('partner_view')) {
     if ($items) {
         $items[] = '<li class="divider"></li>';
     }
     $items[] = [
         'label' => __('Export'),
-        'visible' => $user->can('partner_manage'),
+        'visible' => $user->can('partner_view'),
         'active' => $controller_id == 'export',
         'url' => ['/export/partners'],
     ];
@@ -119,6 +122,12 @@ if ($user->can('user_manage')) {
         'url' => ['/user/index'],
         'visible' => $user->can('user_manage'),
         'active' => $controller_id == 'user' && !$is_profile,
+    ];
+    $items[] = [
+        'label' => __('User roles'),
+        'url' => ['/user-role/index'],
+        'visible' => $user->can('user_manage'),
+        'active' => $controller_id == 'user-role',
     ];
 }
 if ($user->can('country_manage')) {
@@ -156,7 +165,7 @@ $menu_items[] = [
     // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
     'label' => __('Administration'),
     'visible' => !!$items,
-    'active' => in_array($controller_id, ['upload', 'export', 'user', 'country', 'state', 'setting']) && !$is_profile,
+    'active' => in_array($controller_id, ['upload', 'export', 'user', 'user-role', 'country', 'state', 'setting']) && !$is_profile,
     'items' => $items
 ];
 
@@ -174,6 +183,9 @@ foreach ($languages as $language) {
         'url' => ['language/select', 'id' => $language->id, 'current_url' => Url::to()],
         'active' => $language == $select_language,
     ];
+}
+if (!$select_language) {
+    $select_language = Language::find()->where(['code' => 'en-US'])->one();
 }
 $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items];
 
@@ -194,8 +206,8 @@ $help_menu = [
 
 if (Yii::$app->user->isGuest) {
 
-    $menu_items[] = ['label' => __('Signup'), 'url' => ['/site/signup']];
-    $menu_items[] = ['label' => __('Login'), 'url' => ['/site/login']];
+    $menu_items[] = ['label' => __('Sign up'), 'url' => ['/site/signup']];
+    $menu_items[] = ['label' => __('Sign in'), 'url' => ['/site/login']];
 
     $menu_items[] = [
         'label' => __('Help'),
@@ -205,9 +217,9 @@ if (Yii::$app->user->isGuest) {
 
 } else {
 
-    $name = trim($user->identity->fullname);
+    $name = trim($user->identity->name);
     if (empty($name)) {
-        $name = $user->identity->username;
+        $name = $user->identity->email;
     }
     $menu_items[] = [
         'label' => '<i class="glyphicon glyphicon-user"></i>',
@@ -243,7 +255,7 @@ echo Nav::widget([
  * Search nav
  */
 /* Disabled
-if ($user->can('partner_manage')) {
+if ($user->can('partner_view')) {
     echo '<form class="navbar-form navbar-left" role="search" method="get" action="' . Url::to(['partner/index']) . '">';
     echo '    <div class="form-group">';
     echo '        <input type="text" name="q" class="form-control" placeholder="' . __('Search') . '" value="' . Yii::$app->request->get('q') . '">';

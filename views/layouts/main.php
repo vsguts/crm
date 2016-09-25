@@ -4,11 +4,9 @@ use yii\helpers\Url;
 use app\assets\AppAsset;
 use app\widgets\ImagesGallery;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 AppAsset::register($this);
 $this->registerJs(AppAsset::customJs());
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,12 +22,12 @@ $this->registerJs(AppAsset::customJs());
 
 <?php $this->beginBody() ?>
 
-    <div class="a-ajax-overlay"></div>
-    <div class="a-ajax-spinner"></div>
+    <div class="app-ajax-overlay"></div>
+    <div class="app-ajax-spinner"></div>
 
     <div class="wrap">
         <?= $this->render('components/navbar') ?>
-        <div class="container">
+        <div class="container-fluid">
         <?php
             $params = [
                 'breadcrumbs' => $this->render('components/breadcrumbs'),
@@ -37,9 +35,9 @@ $this->registerJs(AppAsset::customJs());
                 'content' => $content,
             ];
             if (!empty($this->blocks['sidebox'])) {
-                echo $this->render('layouts/sidebox', $params);
+                echo $this->render('wrappers/sidebox', $params);
             } else {
-                echo $this->render('layouts/simple', $params);
+                echo $this->render('wrappers/simple', $params);
             }
 
             ImagesGallery::renderTemplate();
@@ -48,7 +46,7 @@ $this->registerJs(AppAsset::customJs());
     </div>
 
     <footer class="footer">
-        <div class="container">
+        <div class="container-fluid">
             <p class="pull-left">&copy; <?= Yii::$app->params['companyName'] ?> <?= date('Y') ?></p>
             <?php if (Yii::$app->params['poweredBy']) : ?>
             <p class="pull-right"><?= __('Powered by') . ' ' . Yii::$app->params['poweredBy'] ?></p>

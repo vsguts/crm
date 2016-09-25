@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'role', 'status', 'country_id', 'state_id', 'city', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'state', 'address'], 'safe'],
+            [['email', 'name', 'auth_key', 'password_hash', 'password_reset_token', 'state', 'address'], 'safe'],
         ];
     }
 
@@ -50,7 +50,7 @@ class UserSearch extends User
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'username' => SORT_ASC,
+                    'name' => SORT_ASC,
                 ],
             ],
         ]);
@@ -70,12 +70,11 @@ class UserSearch extends User
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'fullname', $this->fullname])
             ->andFilterWhere(['like', 'state', $this->state])
             ->andFilterWhere(['like', 'address', $this->address]);
 

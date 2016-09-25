@@ -7,42 +7,46 @@ use app\widgets\ActionsDropdown;
 $this->title = Yii::t('app', 'Partners');
 $this->params['breadcrumbs'][] = $this->title;
 // $this->params['sidebox_size'] = 3;
+// $this->params['sidebox_side'] = 'right';
 ?>
 
 <div class="partner-index">
 
     <div class="pull-right buttons-container">
-        <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
+        <?php if (Yii::$app->user->can('partner_manage')) : ?>
+            <div class="btn-group">
+                <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php endif; ?>
         
         <?php
 
-        $items = [
-            [
+        $items = [];
+        if (Yii::$app->user->can('partner_manage')) {
+            $items[] = [
                 'label' => __('Delete'),
                 'url' => Url::to(['delete']),
                 'linkOptions' => [
-                    'data-c-process-items' => 'ids',
+                    'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]
-            ],
-            [
-                'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
-                'linkOptions' => ['data-c-process-items' => 'ids']
-            ],
-            // [
-            //     'label' => __('Show on map'), 'url' => Url::to(['map']),
-            //     'linkOptions' => ['data-c-process-items' => 'ids']
-            // ],
+            ];
+        }
+        $items[] = [
+            'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
+            'linkOptions' => ['data-app-process-items' => 'ids']
         ];
+        // $items[] = [
+        //     'label' => __('Show on map'), 'url' => Url::to(['map']),
+        //     'linkOptions' => ['data-app-process-items' => 'ids']
+        // ];
         if (Yii::$app->user->can('newsletter_manage')) {
             $items[] = [
                 'label' => __('Add to mailing list'),
                 'url' => Url::to(['/mailing-list/append-partners']),
                 'linkOptions' => [
-                    'data-c-process-items' => 'partner_ids',
+                    'data-app-process-items' => 'partner_ids',
                     'class' => 'c-modal c-modal-force',
                     'data-target-id' => 'append_partners',
                 ]

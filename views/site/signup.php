@@ -1,29 +1,38 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
-$this->title = __('Signup');
+$this->title = __('Sign up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="site-signup col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
 
-    <p><?= __('Please fill out the following fields to signup') ?>:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                <?= $form->field($model, 'username') ?>
+
+                <?= $form->field($model, 'name') ?>
+
                 <?= $form->field($model, 'email') ?>
+
                 <?= $form->field($model, 'password')->passwordInput() ?>
-                <div class="form-group">
-                    <?= Html::submitButton(__('Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                </div>
+
+                <?= Html::submitButton(__('Sign up'), ['class' => 'btn btn-success btn-block', 'name' => 'signup-button']) ?>
+
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+
+    <p class="text-center">
+        <a href="<?= Url::to(['site/login']) ?>"><?= __("Already registered? Sign in!") ?></a>
+    </p>
+
 </div>

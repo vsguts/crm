@@ -21,9 +21,8 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     
     public $css = [
-        'css/common.css',
-        'css/site.css',
-        'css/app.css',
+        'css/site.less',
+        'css/app.less',
     ];
     
     public $js = [
@@ -34,13 +33,15 @@ class AppAsset extends AssetBundle
     
     public $depends = [
         'yii\web\YiiAsset',
+        'yii\widgets\ActiveFormAsset',
+        'yii\validators\ValidationAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'app\assets\BowerAsset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
         'kartik\select2\Select2Asset',
         'dosamigos\gallery\GalleryAsset',
-        'app\assets\BowerAsset',
     ];
 
     public static function customJs()
@@ -63,7 +64,7 @@ class AppAsset extends AssetBundle
             ];
         }
 
-        return "window.yii.crm = " . Json::encode([
+        return "window.yii.app = " . Json::encode([
             'states' => $hash_states,
             'langs' => $translates,
         ]);

@@ -12,8 +12,9 @@ $this->beginBlock('general');
 echo $form->field($model, 'subject')->textInput(['maxlength' => true]);
 
 echo $form->field($model, 'body')
-    ->widget('app\widgets\Wysiwyg')
-    ->hint($this->render('hint_content'));
+    ->hint($this->render('hint_content'))
+    // ->textarea(['rows' => 6]);
+    ->widget('app\widgets\Wysiwyg');
 
 $widget = $form->field($model, 'attachments')->widget('app\widgets\Attachments');
 if ($widget->parts['{input}']) {
@@ -37,7 +38,7 @@ if ($model->isNewRecord) {
     echo Tabs::widget([
         'options' => [
             'id' => 'partner_tabs',
-            'class' => 'm-tabs-save'
+            'class' => 'app-tabs-save'
         ],
         'items' => [
             [

@@ -15,10 +15,12 @@ $this->params['breadcrumbs'][] = $model->name;
 <div class="template-update">
 
     <div class="pull-right buttons-container">
-        <?php
+    <?php
+        if (Yii::$app->user->can('newsletter_manage')) {
             $items = [
                 [
-                    'label' => __('Print'), 'url' => Url::to(['view', 'id' => $model->id, 'to_pdf' => true]),
+                    'label' => __('Print'),
+                    'url' => Url::to(['view', 'id' => $model->id, 'to_pdf' => true]),
                 ],
                 [
                     'label' => __('Preview'),
@@ -37,11 +39,13 @@ $this->params['breadcrumbs'][] = $model->name;
             echo ActionsDropdown::widget([
                 'items' => $items,
             ]);
-        ?>
-        <?= Html::submitButton(__('Update'), [
-            'form' => 'print_template_form',
-            'class' => 'btn btn-primary',
-        ]) ?>
+            echo '&nbsp;';
+            echo Html::submitButton(__('Update'), [
+                'form' => 'print_template_form',
+                'class' => 'btn btn-primary',
+            ]);
+        }
+    ?>
     </div>
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -32,4 +32,24 @@ class Setting extends AModel
         return (new SettingsForm)->attributes;
     }
 
+    public static function get($name)
+    {
+        if ($setting = self::find()->where(['name' => $name])->one()) {
+            return $setting->value;
+        }
+        return false;
+    }
+
+    public static function set($name, $value)
+    {
+        $setting = self::find()->where(['name' => $name])->one();
+        if (!$setting) {
+            $setting = new self;
+            $setting->name = $name;
+        }
+
+        $setting->value = $value;
+        $setting->save();
+    }
+
 }

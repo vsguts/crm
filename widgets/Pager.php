@@ -16,7 +16,7 @@ class Pager extends LinkPager
 
         // Enable ajax
         if ($this->resultIds) {
-            $this->linkOptions['class'] = 'c-ajax';
+            $this->linkOptions['class'] = 'app-ajax';
             $this->linkOptions['data-result-ids'] = $this->resultIds;
         }
     }

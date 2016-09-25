@@ -1,39 +1,43 @@
 <?php
 
+use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
 $form = ActiveForm::begin(['id' => 'user_form']);
 
-echo $form->field($model, 'username')->textInput(['maxlength' => 255]);
+$general_content = $this->render('form_general', [
+    'form' => $form,
+    'model' => $model,
+]);
 
-echo $form->field($model, 'email')->textInput(['maxlength' => 255]);
+if (empty($roles)) {
+    echo $general_content;
+} else {
+    $tab_items = [
+        [
+            'label' => __('General'),
+            'content' => $general_content,
+            'active' => true,
+        ],
+        [
+            'label' => __('Roles'),
+            'content' => $this->render('form_roles', [
+                'form' => $form,
+                'model' => $model,
+                'roles' => $roles,
+            ]),
+        ],
+    ];
 
-echo $form->field($model, 'password')->passwordInput();
-
-$user = \Yii::$app->user;
-if ($user->can('user_manage') && !$user->can('user_manage_own', ['user' => $model])) {
-    echo $form->field($model, 'role')->dropDownList($model->getLookupItems('role'));
-}
-
-echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));
-
-echo $form->field($model, 'fullname')->textInput(['maxlength' => 255]);
-
-echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control m-country']);
-
-echo $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-c-value' => $model->state_id]);
-
-echo $form->field($model, 'state')->textInput(['maxlength' => 255]);
-
-echo $form->field($model, 'city')->textInput();
-
-echo $form->field($model, 'address')->textInput(['maxlength' => 255]);
-
-if (!$model->isNewRecord) {
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo Tabs::widget([
+        'options' => [
+            'id' => 'user_form_tabs',
+            // 'class' => 'app-tabs-save'
+        ],
+        'items' => $tab_items,
+    ]);
 }
 
 ActiveForm::end();

@@ -39,11 +39,11 @@ class SearchForm extends ActiveForm
         echo Html::beginTag('div', ['class' => 'panel panel-info search-form']);
 
         echo Html::tag('div', __('Search'), [
-            'class' => 'panel-heading m-toggle m-toggle-save pointer',
+            'class' => 'panel-heading app-toggle app-toggle-save pointer',
             'data-target-class' => $this->targetClass,
         ]);
 
-        $this->extraClass = empty($_COOKIE['m-toggle-' . $this->targetClass]) ? 'h ' : '';
+        $this->extraClass = empty($_COOKIE['app-toggle-' . $this->targetClass]) ? 'h ' : '';
         echo Html::beginTag('div', ['class' => 'panel-body ' . $this->extraClass . $this->targetClass]);
     }
 

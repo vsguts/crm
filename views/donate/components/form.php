@@ -24,6 +24,7 @@ Modal::begin([
         'model' => $model,
         'footerWrapper' => false,
         'removeLink' => false,
+        'saveLink' => Yii::$app->user->can('donate_manage'),
         'form' => $form_id,
     ]),
 ]);

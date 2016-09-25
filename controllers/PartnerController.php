@@ -20,19 +20,32 @@ class PartnerController extends AController
     public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => 'yii\filters\VerbFilter',
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
             'access' => [
                 'class' => 'yii\filters\AccessControl',
                 'rules' => [
                     [
                         'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'list', 'update'],
+                        'roles' => ['partner_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
                         'roles' => ['partner_manage'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => 'yii\filters\VerbFilter',
-                'actions' => [
-                    'delete' => ['post'],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'verbs' => ['GET'],
+                        'roles' => ['partner_manage'],
+                    ],
                 ],
             ],
             'ajax' => [
@@ -107,7 +120,7 @@ class PartnerController extends AController
         $model = new Partner();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -127,7 +140,7 @@ class PartnerController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             $model->prepareTags();

@@ -54,7 +54,13 @@ DIRECTORY STRUCTURE
 REQUIREMENTS
 ------------
 
-The minimum requirement by this application that your Web server supports PHP 5.4.0.
+- PHP: The minimum requirement by this project template that your Web server supports PHP 5.4.0.
+- Node with less
+  ~~~
+  apt-get install nodejs npm
+  ln -s /usr/bin/nodejs /usr/bin/node
+  npm install -g less
+  ~~~
 
 
 INSTALLATION
@@ -128,7 +134,7 @@ CREATE DATABASE crm CHARACTER SET utf8;
 Use following to apply migrations:
 
 ```bash
-./yii migrate
+./app migrate
 ```
 
 Copy the file `config/params.php.example` into the `config/params.php` and edit them with real data. For example:

@@ -3,22 +3,22 @@
 use yii\helpers\Html;
 
 echo $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), [
-    'class' => 'm-dtoggle m-dtoggle-type form-control'
+    'class' => 'app-dtoggle app-dtoggle-type form-control'
 ]);
 
 $field = $form->field($model, 'name')->textInput(['maxlength' => 64]);
-echo Html::tag('div', $field, ['class' => 'm-dtoggle-type-n1 ' . ($model->type == 3 ? 'h' : '')]);
+echo Html::tag('div', $field, ['class' => 'app-dtoggle-type-n1 ' . ($model->type == 3 ? 'h' : '')]);
 
 $fields = [
     $form->field($model, 'firstname')->textInput(['maxlength' => 64]),
     $form->field($model, 'lastname')->textInput(['maxlength' => 64]),
 ];
 echo Html::tag('div', implode(' ', $fields), [
-    'class' => 'm-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
+    'class' => 'app-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
 ]);
 
 $field = $form->field($model, 'contact')->textInput(['maxlength' => 128]);
-echo Html::tag('div', $field, ['class' => 'm-dtoggle-type-n1 ' . ($model->type == 3 ? 'h' : '')]);
+echo Html::tag('div', $field, ['class' => 'app-dtoggle-type-n1 ' . ($model->type == 3 ? 'h' : '')]);
 
 echo $form->field($model, 'email')->textInput(['maxlength' => 64]);
 echo $form->field($model, 'phone')->textInput(['maxlength' => 32]);
@@ -33,7 +33,7 @@ $fields = [
     $form->field($model, 'candidate')->checkbox(['class' => 'checkboxfix'], false),
 ];
 echo Html::tag('div', implode(' ', $fields), [
-    'class' => 'm-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
+    'class' => 'app-dtoggle-type-1' . ($model->type != 3 ? ' h' : '')
 ]);
 
 echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));

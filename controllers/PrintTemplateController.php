@@ -18,19 +18,32 @@ class PrintTemplateController extends AController
     public function behaviors()
     {
         return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['newsletter_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
                         'roles' => ['newsletter_manage'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'verbs' => ['GET'],
+                        'roles' => ['newsletter_manage'],
+                    ],
                 ],
             ],
         ];
@@ -61,9 +74,10 @@ class PrintTemplateController extends AController
         $model = new PrintTemplate();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
+            $model->validate(['margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'wrapper']);
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -81,7 +95,7 @@ class PrintTemplateController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -97,17 +111,17 @@ class PrintTemplateController extends AController
         $this->layout = 'print';
         $html = $this->render('view', ['content' => $model->generate()]);
         
-        if (!$to_pdf) {
-            return $html;
+        if ($to_pdf) {
+            $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
+
+            return Yii::$app->response->sendContentAsFile(
+                $pdf,
+                $model->name . '_' . date('Y-m-d_H:i') . '.pdf',
+                ['mimeType' => 'application/pdf']
+            );
         }
         
-        $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
-
-        return Yii::$app->response->sendContentAsFile(
-            $pdf,
-            $model->name . '_' . date('Y-m-d_H:i') . '.pdf',
-            ['mimeType' => 'application/pdf']
-        );
+        return $html;
     }
 
     /**

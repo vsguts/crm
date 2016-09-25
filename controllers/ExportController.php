@@ -11,6 +11,24 @@ class ExportController extends AController
 
     protected $path = '@app/models/export';
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['partner_view'],
+                    ],
+                ],
+            ],
+            'ajax' => [
+                'class' => 'app\behaviors\AjaxFilter',
+            ],
+        ];
+    }
+
     public function actionIndex($object, array $ids = null)
     {
         $model = $this->getObject($object);
@@ -72,7 +90,7 @@ class ExportController extends AController
         $objects = $this->getObjects('/formatter');
         $formatters = [];
         foreach ($objects as $object) {
-            $name = getClassName($object);
+            $name = app_get_class_name($object);
             $formatters[strtolower($name)] = __($name);
         }
         return $formatters;

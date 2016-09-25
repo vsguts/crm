@@ -25,6 +25,7 @@ Modal::begin([
         'model' => $model,
         'footerWrapper' => false,
         'removeLink' => false,
+        'saveLink' => Yii::$app->user->can('visit_manage'),
         'form' => $form_id,
     ]),
 ]);
@@ -59,7 +60,7 @@ $tab_items = [
 echo Tabs::widget([
     'options' => [
         'id' => $form_id . '_tabs',
-        // 'class' => 'm-tabs-save'
+        // 'class' => 'app-tabs-save'
     ],
     'items' => $tab_items,
 ]);

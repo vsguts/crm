@@ -64,7 +64,7 @@ class UserController extends AController
         $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -92,7 +92,7 @@ class UserController extends AController
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+                Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
                 return $this->redirect(['update', 'id' => $model->id]);
             }
         }

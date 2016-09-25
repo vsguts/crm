@@ -69,7 +69,7 @@ class SelectAjax extends InputWidget
                         Html::activeHiddenInput($this->model, $this->attribute, ['value' => $item->id]),
                         $this->multipleButtons(),
                     ];
-                    echo Html::tag('div', implode(' ', $content), ['class' => 'row app-item app-item-text']);
+                    echo Html::tag('div', implode(' ', $content), ['class' => 'row app-item app-item-real']);
                 }
             }
 

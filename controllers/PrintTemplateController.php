@@ -74,7 +74,7 @@ class PrintTemplateController extends AController
         $model = new PrintTemplate();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             $model->validate(['margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'wrapper']);
@@ -95,7 +95,7 @@ class PrintTemplateController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [

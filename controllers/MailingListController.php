@@ -75,7 +75,7 @@ class MailingListController extends AController
         $model = new MailingList();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -95,7 +95,7 @@ class MailingListController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -140,7 +140,7 @@ class MailingListController extends AController
             && $model->validate()
         ) {
             if ($model->append()) {
-                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+                Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             }
             if ($request->isAjax) {
                 return;

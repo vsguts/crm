@@ -76,9 +76,9 @@ $(document).on('click', function(e) {
     var _jelm = jelm.closest('.app-item-remove');
     if (_jelm.length) {
         var item = _jelm.closest('.app-item'),
-            is_text = item.hasClass('app-item-text'),
+            is_text = item.hasClass('app-item-real'),
             items_count = item.parent().find('.app-item').length,
-            items_text_count = item.parent().find('.app-item.app-item-text').length,
+            items_text_count = item.parent().find('.app-item.app-item-real').length,
             items_form_count = items_count - items_text_count;
 
         if (is_text) {

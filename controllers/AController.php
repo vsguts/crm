@@ -15,7 +15,8 @@ class AController extends Controller
 
         Yii::$app->session->open();
 
-        if ($language = Yii::$app->request->cookies->getValue('language')) {
+        $language = Yii::$app->request->cookies->getValue('language');
+        if ($language && strlen($language) == 5) {
             Yii::$app->language = $language;
         } else {
             if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {

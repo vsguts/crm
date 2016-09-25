@@ -120,7 +120,7 @@ class PartnerController extends AController
         $model = new Partner();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -140,7 +140,7 @@ class PartnerController extends AController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             $model->prepareTags();

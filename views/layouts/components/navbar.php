@@ -12,6 +12,9 @@ NavBar::begin([
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
+    'innerContainerOptions' => [
+        'class' => 'container-fluid',
+    ]
 ]);
 
 $user = Yii::$app->user;
@@ -180,6 +183,9 @@ foreach ($languages as $language) {
         'url' => ['language/select', 'id' => $language->id, 'current_url' => Url::to()],
         'active' => $language == $select_language,
     ];
+}
+if (!$select_language) {
+    $select_language = Language::find()->where(['code' => 'en-US'])->one();
 }
 $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items];
 

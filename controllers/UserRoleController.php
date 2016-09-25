@@ -90,7 +90,7 @@ class UserRoleController extends AController
             $model->roles = [];
             $model->load(Yii::$app->request->post());
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', __('Your changes has been saved successfully.'));
+                Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
             }
             return $this->redirect(['index', 'name' => $model->name]);
         } else {

@@ -45,6 +45,7 @@
             };
             options.error = function(jqxhr, textStatus, errorThrown) {
                 console.error(errorThrown);
+                response(options, {});
             };
             
             $(spinnerSelector).show();

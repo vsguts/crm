@@ -20,7 +20,7 @@ class m160307_223742_Companies extends Migration
             'id'          => 'pk',
             'is_root'     => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'name'        => Schema::TYPE_STRING . ' NOT NULL',
-            'description' => Schema::TYPE_TEXT,
+            'description' => $this->text(),
         ], $tableOptions);
         $this->insert('company', ['id' => 1, 'name' => 'Root', 'is_root' => 1, 'description' => 'Main company']);
         $this->insert('company', ['id' => 2, 'name' => 'Demo Company', 'description' => 'First demo company']);

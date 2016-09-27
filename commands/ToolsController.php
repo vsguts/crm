@@ -10,9 +10,7 @@ use app\components\rbac\OwnerRule;
 use app\models\User;
 
 /**
- * CRM tools
- *
- * This command is provided as an example for you to learn how to create console commands.
+ * Application tools
  */
 class ToolsController extends Controller
 {
@@ -24,6 +22,8 @@ class ToolsController extends Controller
     public function actionRbac($reset = false)
     {
         $auth = Yii::$app->authManager;
+
+        $auth_data_objects = $auth->getDataObjects();
 
         if ($reset) {
             $auth->removeAll();
@@ -37,6 +37,9 @@ class ToolsController extends Controller
 
         $roles['root'] = $auth->createRole('root');
         $roles['root']->data['system'] = true;
+        foreach ($auth_data_objects as $object) {
+            $roles['root']->data[$object] = ['all'];
+        }
         $roles['root']->description = 'Root';
 
         $roles['guest'] = $auth->createRole('guest');
@@ -149,6 +152,14 @@ class ToolsController extends Controller
 
                 if (!$exists) {
                     $auth->add($item);
+                } else {
+                    $_item = $auth->getItem($item->name);
+                    foreach ($auth_data_objects as $object) {
+                        if (isset($_item->data[$object])) {
+                            $item->data[$object] = $_item->data[$object];
+                        }
+                    }
+                    $auth->updateItem($item->name, $item);
                 }
                 $added[$item->type][] = $item->name;
             }

@@ -21,10 +21,29 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
         
         <?php 
-            $items = [];
+            $items = [
+                [
+                    'label' => __('Export selected'),
+                    'url' => Url::to(['/export/export/', 'object' => 'donate']),
+                    'linkOptions' => [
+                        'class' => 'app-modal app-modal-force',
+                        'data-target-id' => 'export',
+                        'data-app-process-items' => 'ids',
+                    ],
+                ],
+                [
+                    'label' => __('Export all'),
+                    'url' => Url::to(['/export/export/', 'object' => 'donate', 'attributes' => ['queryParams' => Yii::$app->request->queryParams]]),
+                    'linkOptions' => [
+                        'class' => 'app-modal app-modal-force',
+                        'data-target-id' => 'export',
+                    ],
+                ],
+            ];
             if (Yii::$app->user->can('donate_manage')) {
+                $items[] = '<li role="presentation" class="divider"></li>';
                 $items[] = [
-                    'label' => __('Delete'),
+                    'label' => __('Delete selected'),
                     'url' => Url::to(['delete']),
                     'linkOptions' => [
                         'data-app-process-items' => 'ids',
@@ -33,13 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ];
             }
-            $items[] = [
-                'label' => __('Export'),
-                'url' => Url::to(['/export/index', 'object' => 'donates']),
-                'linkOptions' => [
-                    'data-app-process-items' => 'ids',
-                ]
-            ];
             echo ActionsDropdown::widget([
                 'layout' => 'info',
                 'items' => $items,

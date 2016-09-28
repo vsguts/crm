@@ -122,14 +122,6 @@ if ($can_upload) {
         'url' => ['/upload/index'],
     ];
 }
-if ($user->can('partner_view')) {
-    $items[] = [
-        'label' => __('Export'),
-        'visible' => $user->can('partner_view'),
-        'active' => $controller_id == 'export',
-        'url' => ['/export/partners'],
-    ];
-}
 if ($user->can('country_view')) {
     if ($items) {
         $items[] = '<li class="divider"></li>';

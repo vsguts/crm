@@ -3,53 +3,78 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
+use app\helpers\Tools;
+use app\models\export\PayrollEmployees;
 
 class ExportController extends AbstractController
 {
-
     protected $path = '@app/models/export';
 
+    public function init()
+    {
+        set_time_limit(0);
+        parent::init();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => 'yii\filters\AccessControl',
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['partner_view'],
+                        'actions' => ['export'],
+                        'matchCallback' => function($rule, $action) {
+                            return true;
+                        }
                     ],
                 ],
             ],
-            'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
-            ],
-        ];
+        ]);
     }
 
-    public function actionIndex($object, array $ids = null)
+    public function actionExport($object, array $ids = [], array $attributes = [])
     {
-        $model = $this->getObject($object);
+        $class = 'app\\models\\export\\' . Inflector::camelize($object);
 
-        if (!$model) {
+        if (!class_exists($class)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        if ($model->load(Yii::$app->request->post())) {
+        $model = new $class;
+
+        $model->ids = $ids;
+
+        if ($attributes) { // Extra params
+            $model->setAttributes($attributes, false);
+        }
+
+        if ($post = Yii::$app->request->post()) {
+            $model->load($post);
             $model->export();
         }
-        
-        if ($ids) {
-            $model->ids = implode(',', $ids);
-        }
-        
-        return $this->render('index', [
+
+        return $this->render('export', [
             'model' => $model,
-            'objects' => $this->getObjects(),
             'formatters' => $this->getFormatters(),
         ]);
+    }
+
+    protected function getFormatters()
+    {
+        $objects = $this->getObjects('/formatter');
+        $formatters = [];
+        foreach ($objects as $object) {
+            $name = Tools::className($object);
+            $formatters[strtolower($name)] = __($name);
+        }
+        return $formatters;
     }
 
     protected function getObjects($suffix = '')
@@ -83,25 +108,6 @@ class ExportController extends AbstractController
         }
 
         return $objects_sorted;
-    }
-
-    protected function getFormatters()
-    {
-        $objects = $this->getObjects('/formatter');
-        $formatters = [];
-        foreach ($objects as $object) {
-            $name = app_get_class_name($object);
-            $formatters[strtolower($name)] = __($name);
-        }
-        return $formatters;
-    }
-
-    protected function getObject($object)
-    {
-        $class = $this->getNamespace($this->path) . ucfirst($object);
-        if (class_exists($class)) {
-            return Yii::createObject($class);
-        }
     }
 
     protected function getNamespace($path)

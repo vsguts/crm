@@ -30,6 +30,7 @@ $config = [
             'class' => 'yii\swiftmailer\Mailer',
         ],
         'formatter' => [
+            'class' => 'app\components\app\Formatter',
             'dateFormat' => 'dd.MM.yyyy',
             'datetimeFormat' => 'dd.MM.yyyy HH:mm',
             'decimalSeparator' => ',',

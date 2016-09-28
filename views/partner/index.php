@@ -21,27 +21,28 @@ $this->params['breadcrumbs'][] = $this->title;
         
         <?php
 
-        $items = [];
-        if (Yii::$app->user->can('partner_manage')) {
-            $items[] = [
-                'label' => __('Delete'),
-                'url' => Url::to(['delete']),
+        $items = [
+            [
+                'label' => __('Export selected'),
+                'url' => Url::to(['/export/export/', 'object' => 'partner']),
                 'linkOptions' => [
+                    'class' => 'app-modal app-modal-force',
+                    'data-target-id' => 'export',
                     'data-app-process-items' => 'ids',
-                    'data-confirm' => __('Are you sure you want to delete this item?'),
-                    'data-method' => 'post',
-                ]
-            ];
-        }
-        $items[] = [
-            'label' => __('Export'), 'url' => Url::to(['/export/index', 'object' => 'partners']),
-            'linkOptions' => ['data-app-process-items' => 'ids']
+                ],
+            ],
+            [
+                'label' => __('Export all'),
+                'url' => Url::to(['/export/export/', 'object' => 'partner', 'attributes' => ['queryParams' => Yii::$app->request->queryParams]]),
+                'linkOptions' => [
+                    'class' => 'app-modal app-modal-force',
+                    'data-target-id' => 'export',
+                ],
+            ],
         ];
-        // $items[] = [
-        //     'label' => __('Show on map'), 'url' => Url::to(['map']),
-        //     'linkOptions' => ['data-app-process-items' => 'ids']
-        // ];
+
         if (Yii::$app->user->can('newsletter_manage')) {
+            $items[] = '<li role="presentation" class="divider"></li>';
             $items[] = [
                 'label' => __('Add to mailing list'),
                 'url' => Url::to(['/mailing-list/append-partners']),
@@ -52,6 +53,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ];
         }
+
+        if (Yii::$app->user->can('partner_manage')) {
+            $items[] = '<li role="presentation" class="divider"></li>';
+            $items[] = [
+                'label' => __('Delete selected'),
+                'url' => Url::to(['delete']),
+                'linkOptions' => [
+                    'data-app-process-items' => 'ids',
+                    'data-confirm' => __('Are you sure you want to delete this item?'),
+                    'data-method' => 'post',
+                ]
+            ];
+        }
+        // $items[] = [
+        //     'label' => __('Show on map'), 'url' => Url::to(['map']),
+        //     'linkOptions' => ['data-app-process-items' => 'ids']
+        // ];
 
         echo ActionsDropdown::widget([
             'layout' => 'info',

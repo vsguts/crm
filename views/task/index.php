@@ -20,10 +20,29 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
 
         <?php 
-            $items = [];
+            $items = [
+                [
+                    'label' => __('Export selected'),
+                    'url' => Url::to(['/export/export/', 'object' => 'task']),
+                    'linkOptions' => [
+                        'class' => 'app-modal app-modal-force',
+                        'data-target-id' => 'export',
+                        'data-app-process-items' => 'ids',
+                    ],
+                ],
+                [
+                    'label' => __('Export all'),
+                    'url' => Url::to(['/export/export/', 'object' => 'task', 'attributes' => ['queryParams' => Yii::$app->request->queryParams]]),
+                    'linkOptions' => [
+                        'class' => 'app-modal app-modal-force',
+                        'data-target-id' => 'export',
+                    ],
+                ],
+            ];
             if (Yii::$app->user->can('task_manage')) {
+                $items[] = '<li role="presentation" class="divider"></li>';
                 $items[] = [
-                    'label' => __('Delete'),
+                    'label' => __('Delete selected'),
                     'url' => Url::to(['delete']),
                     'linkOptions' => [
                         'data-app-process-items' => 'ids',
@@ -32,13 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ];
             }
-            $items[] = [
-                'label' => __('Export'),
-                'url' => Url::to(['/export/index', 'object' => 'tasks']),
-                'linkOptions' => [
-                    'data-app-process-items' => 'ids',
-                ]
-            ];
             echo ActionsDropdown::widget([
                 'layout' => 'info',
                 'items' => $items,

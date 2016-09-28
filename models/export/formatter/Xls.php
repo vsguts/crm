@@ -5,10 +5,10 @@ namespace app\models\export\formatter;
 use Yii;
 use moonland\phpexcel\Excel;
 
-class Xls extends AFormatter
+class Xls extends AbstractFormatter
 {
 
-    public function export()
+    public function export($file_path = null)
     {
         $filename = $this->owner->filename;
         if (strpos($filename, '.xls') === false) {
@@ -32,17 +32,21 @@ class Xls extends AFormatter
         foreach ($this->data as $data_row) {
             $row ++;
             $col = 0;
-            foreach ($this->columns as $column => $_column_name) {
+            foreach ($this->columns as $column) {
                 $sheet->setCellValueByColumnAndRow($col, $row, $data_row[$column]);
                 $col ++;
             }
         }
         
-        header('Content-type: application/vnd.ms-excel');
-        header('Content-disposition: attachment;filename=' . $filename);
-        
         $objWriter = new \PHPExcel_Writer_Excel5($xls);
-        $objWriter->save('php://output');
+        
+        if ($file_path) {
+            $objWriter->save($file_path);
+        } else {
+            header('Content-type: application/vnd.ms-excel');
+            header('Content-disposition: attachment;filename=' . $filename);
+            $objWriter->save('php://output');
+        }
     }
 
 }

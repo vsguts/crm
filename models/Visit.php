@@ -4,19 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "visit".
- *
- * @property integer $id
- * @property integer $partner_id
- * @property integer $user_id
- * @property integer $timestamp
- * @property string $notes
- *
- * @property Partner $partner
- * @property User $user
- */
-class Visit extends AModel
+class Visit extends AbstractModel
 {
     public static function tableName()
     {

@@ -11,7 +11,7 @@ use app\models\form\SettingsForm;
  * @property integer $name
  * @property string $value
  */
-class Setting extends AModel
+class Setting extends AbstractModel
 {
     public static function tableName()
     {

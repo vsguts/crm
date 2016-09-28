@@ -3,8 +3,9 @@
 namespace app\models;
 
 use Yii;
+use app\models\query\ActiveQuery;
 
-abstract class AModel extends \yii\db\ActiveRecord
+abstract class AbstractModel extends \yii\db\ActiveRecord
 {
     public function attributeLabels()
     {
@@ -27,4 +28,14 @@ abstract class AModel extends \yii\db\ActiveRecord
         }
         return $rules;
     }
+
+    /**
+     * @inheritdoc
+     * @return ActiveQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ActiveQuery(get_called_class());
+    }
+
 }

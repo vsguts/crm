@@ -10,7 +10,7 @@ use app\models\form\SettingsForm;
 /**
  * StateController implements the CRUD actions for State model.
  */
-class SettingController extends AController
+class SettingController extends AbstractController
 {
     public function behaviors()
     {

@@ -4,20 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "donate".
- *
- * @property integer $id
- * @property integer $partner_id
- * @property string $sum
- * @property integer $timestamp
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $notes
- *
- * @property Partner $partner
- */
-class Donate extends AModel
+class Donate extends AbstractModel
 {
     public static function tableName()
     {

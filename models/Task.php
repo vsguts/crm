@@ -17,7 +17,7 @@ use Yii;
  * @property TaskPartner[] $taskPartners
  * @property Partner[] $partners
  */
-class Task extends AModel
+class Task extends AbstractModel
 {
 
     public static function tableName()

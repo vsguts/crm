@@ -2,7 +2,6 @@
 
 namespace app\widgets\grid;
 
-use yii\helpers\Url;
 use yii\helpers\Html;
 
 class ImageColumn extends DataColumn
@@ -20,7 +19,13 @@ class ImageColumn extends DataColumn
     {
         $image_url = $model->getImage()->getUrl('50x50');
         $image = Html::img($image_url);
-        return Html::a($image, null, $this->grid->prepareDetailsLink($model));
+
+        if ($options = $this->getLinkOptions($model)) {
+            return Html::a($image, null, $options);
+        }
+
+        return $image;
+
     }
 
 }

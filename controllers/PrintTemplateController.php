@@ -13,7 +13,7 @@ use app\models\search\PrintTemplateSearch;
 /**
  * PrintTemplateController implements the CRUD actions for PrintTemplate model.
  */
-class PrintTemplateController extends AController
+class PrintTemplateController extends AbstractController
 {
     public function behaviors()
     {

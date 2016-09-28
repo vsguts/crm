@@ -13,7 +13,7 @@ use app\models\search\TaskSearch;
 /**
  * TaskController implements the CRUD actions for Task model.
  */
-class TaskController extends AController
+class TaskController extends AbstractController
 {
     public function behaviors()
     {

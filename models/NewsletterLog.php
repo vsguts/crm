@@ -16,7 +16,7 @@ use Yii;
  * @property Newsletter $newsletter
  * @property User $user
  */
-class NewsletterLog extends AModel
+class NewsletterLog extends AbstractModel
 {
     public static function tableName()
     {

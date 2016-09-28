@@ -16,7 +16,7 @@ use app\models\query\TagQuery;
  * @property Partner[] $partners
  * @property User $user
  */
-class Tag extends AModel
+class Tag extends AbstractModel
 {
     public static function tableName()
     {

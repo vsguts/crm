@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 /**
  * MailingListController implements the CRUD actions for MailingList model.
  */
-class MailingListController extends AController
+class MailingListController extends AbstractController
 {
     public function behaviors()
     {

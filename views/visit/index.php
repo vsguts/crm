@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('visit_manage')) : ?>
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', 'Create visit'), ['update', '_return_url' => Url::to()], [
-                    'class' => 'btn btn-success c-modal',
+                    'class' => 'btn btn-success app-modal',
                     'data-target-id' => 'visit_create',
                 ]) ?>
             </div>

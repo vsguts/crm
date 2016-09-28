@@ -5,12 +5,16 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\search\MailingListSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = Yii::t('app', 'Mailing lists');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'href' => Url::to(['/mailing-list/update', 'id' => $model->id, '_return_url' => Url::to()]),
+    ];
+};
+
 ?>
 <div class="mailing-list-index">
 
@@ -42,12 +46,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
-            // ['attribute' => 'id', 'label' => '#'],
-            'name',
+            [
+                'attribute' => 'name',
+                'link' => $detailsLink,
+            ],
             'from_email:email',
             [
                 'attribute' => 'status',
@@ -57,7 +62,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Partners'), 'countField' => 'partnersCount'],
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('newsletter_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['mailing-list/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

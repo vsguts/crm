@@ -13,7 +13,7 @@ use Yii;
  * @property MailingList $list
  * @property PrintTemplate $template
  */
-class PrintTemplateMailingList extends AModel
+class PrintTemplateMailingList extends AbstractModel
 {
     /**
      * @inheritdoc

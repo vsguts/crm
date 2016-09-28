@@ -4,15 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "language".
- *
- * @property integer $id
- * @property string $code
- * @property string $short_name
- * @property string $name
- */
-class Language extends AModel
+class Language extends AbstractModel
 {
     public static function tableName()
     {

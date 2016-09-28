@@ -14,40 +14,32 @@ class ActionColumn extends Column
     
     public $size;
 
-    public $extraItems = [];
+    public $items = [];
 
     protected function renderDataCellContent($model, $key, $index)
     {
-        $detailsLinkOptions = $this->grid->prepareDetailsLink($model);
-        $removeLinkOptions = $this->grid->prepareRemoveLink($model);
+        $action_items = [];
 
-        $items = [
-            [
-                'label' => __('Edit'),
-                'url' => $detailsLinkOptions['href'],
-                'linkOptions' => $detailsLinkOptions
-            ],
-        ];
-
-        foreach ($this->extraItems as $item) {
-            $idField = !empty($item['idField']) ? $item['idField'] : 'id';
-            $items[] = [
-                'label' => $item['label'],
-                'url' => $this->grid->prepareCustomLink($item['action'], [$idField => $id]),
-                'linkOptions' => !empty($item['linkOptions']) ? $item['linkOptions'] : [],
-            ];
+        foreach ($this->items as $item) {
+            if ($options = $item($model)) {
+                $label = $options['label'];
+                unset($options['label']);
+                $url = $options['href'];
+                unset($options['href']);
+                $action_items[] = [
+                    'label' => $label,
+                    'url' => $url,
+                    'linkOptions' => $options,
+                ];
+            }
         }
 
-        $items[] = [
-            'label' => __('Delete'),
-            'url' => $removeLinkOptions['href'],
-            'linkOptions' => $removeLinkOptions
-        ];
-
-        return ActionsDropdown::widget([
-            'size' => $this->size,
-            'items' => $items,
-        ]);
+        if ($action_items) {
+            return ActionsDropdown::widget([
+                'size' => $this->size,
+                'items' => $action_items,
+            ]);
+        }
     }
 
 }

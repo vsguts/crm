@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('donate_manage')) : ?>
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', 'Create donate'), ['update', '_return_url' => Url::to()], [
-                    'class' => 'btn btn-success c-modal',
+                    'class' => 'btn btn-success app-modal',
                     'data-target-id' => 'donate_create',
                 ]) ?>
             </div>

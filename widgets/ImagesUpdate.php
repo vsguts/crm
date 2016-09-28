@@ -30,7 +30,7 @@ class ImagesUpdate extends InputWidget
             ];
             if ($this->objectId) {
                 Html::addCssClass($options, 'app-ajax');
-                $options['data-result-ids'] = $this->objectId;
+                $options['data-target-id'] = $this->objectId;
             }
             $link = Html::a(__('View images'), $this->viewLink, $options);
             echo Html::tag('div', $link, ['class' => 'pull-right']);

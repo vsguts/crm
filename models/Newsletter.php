@@ -15,7 +15,7 @@ use Yii;
  * @property NewsletterMailingList[] $newsletterMailingLists
  * @property MailingList[] $mailingList
  */
-class Newsletter extends AModel
+class Newsletter extends AbstractModel
 {
     public static function tableName()
     {

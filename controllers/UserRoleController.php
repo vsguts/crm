@@ -12,30 +12,34 @@ use app\models\form\UserRoleForm;
 /**
  * UserRoleController implements the CRUD actions for UserRoleForm.
  */
-class UserRoleController extends AController
+class UserRoleController extends AbstractController
 {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => 'yii\filters\AccessControl',
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['newsletter_manage'],
-                    ],
-                ],
-            ],
+        return array_merge(parent::behaviors(), [
             'verbs' => [
                 'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
-            'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['user_role_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['user_role_manage'],
+                    ],
+                ],
             ],
-        ];
+        ]);
     }
 
     /**

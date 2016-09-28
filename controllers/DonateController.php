@@ -12,7 +12,7 @@ use app\models\search\DonateSearch;
 /**
  * DonateController implements the CRUD actions for Donate model.
  */
-class DonateController extends AController
+class DonateController extends AbstractController
 {
     public function behaviors()
     {

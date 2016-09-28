@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('task_manage')) : ?>
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', 'Create task'), ['update', '_return_url' => Url::to()], [
-                    'class' => 'btn btn-success c-modal',
+                    'class' => 'btn btn-success app-modal',
                     'data-target-id' => 'task_create',
                 ]) ?>
             </div>

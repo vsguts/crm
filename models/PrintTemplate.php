@@ -24,7 +24,7 @@ use app\models\query\PrintTemplateQuery;
  * @property PrintTemplateMailingList[] $printTemplateMailingLists
  * @property MailingList[] $lists
  */
-class PrintTemplate extends AModel
+class PrintTemplate extends AbstractModel
 {
     public static function tableName()
     {

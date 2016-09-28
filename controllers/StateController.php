@@ -4,38 +4,40 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use app\models\State;
 use app\models\search\StateSearch;
 
 /**
  * StateController implements the CRUD actions for State model.
  */
-class StateController extends AController
+class StateController extends AbstractController
 {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['state_manage'],
-                    ],
-                ],
-            ],
+        return array_merge(parent::behaviors(), [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
-            'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['state_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['state_manage'],
+                    ],
+                ],
             ],
-        ];
+        ]);
     }
 
     /**

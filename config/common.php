@@ -1,5 +1,8 @@
 <?php
 
+class_alias('\yii\helpers\Html', 'Html');
+class_alias('\yii\helpers\Url', 'Url');
+
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 

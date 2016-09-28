@@ -1,19 +1,19 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'User: {user}', [
+$this->title = __('User: {user}', [
     'user' => $model->name,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="user-update">
 
     <div class="pull-right buttons-container">
+        <?php if (Yii::$app->user->can('user_manage') || Yii::$app->user->can('user_manage_own', ['user' => $model])) : ?>
+
         <?php
             $items = [
                 [
@@ -24,16 +24,27 @@ $this->params['breadcrumbs'][] = $model->name;
                         'data-method' => 'post',
                     ]
                 ],
+                [
+                    'label' => __('Act on behalf of'),
+                    'url' => Url::to(['act-on-behalf', 'id' => $model->id]),
+                    'linkOptions' => [
+                        'data-method' => 'post',
+                    ]
+                ],
             ];
             echo ActionsDropdown::widget([
                 'items' => $items,
             ]);
         ?>
+
         <?= Html::submitButton(__('Update'), [
             'form' => 'user_form',
             'class' => 'btn btn-primary',
         ]) ?>
+
+        <?php endif; ?>
     </div>
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('components/form', [

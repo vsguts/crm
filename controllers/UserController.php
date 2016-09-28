@@ -11,11 +11,11 @@ use app\models\search\UserSearch;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends AController
+class UserController extends AbstractController
 {
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'verbs' => [
                 'class' => 'yii\filters\VerbFilter',
                 'actions' => [
@@ -24,19 +24,28 @@ class UserController extends AController
             ],
             'access' => [
                 'class' => 'yii\filters\AccessControl',
-                'only' => ['index', 'create', 'delete'],
+                'only' => ['index', 'create', 'delete', 'act_on_behalf'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'delete'],
                         'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index'],
+                        'roles' => ['user_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'actions' => ['act-on-behalf'],
+                        'roles' => ['user_act_on_behalf'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'delete'],
                         'roles' => ['user_manage'],
                     ],
                 ],
             ],
-            'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
-            ],
-        ];
+        ]);
     }
 
     /**
@@ -82,7 +91,7 @@ class UserController extends AController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(User::className(), $id);
 
         $user = Yii::$app->user;
 
@@ -124,41 +133,16 @@ class UserController extends AController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id = null, array $ids = null)
+    public function actionDelete(array $id)
     {
-        $ok_message = false;
-        
-        if (!$id && $ids) { // multiple
-            if (User::deleteAll(['id' => $ids])) {
-                $ok_message = __('Items have been deleted successfully.');
-            }
-        } elseif ($this->findModel($id)->delete()) { // single
-            $ok_message = __('Item has been deleted successfully.');
-        }
-
-        if ($ok_message) {
-            Yii::$app->session->setFlash('success', $ok_message);
-            // if ($referrer = Yii::$app->request->referrer) {
-            //     return $this->redirect($referrer);
-            // }
-        }
-
-        return $this->redirect(['index']);
+        return $this->delete(User::className(), $id);
     }
 
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
+    public function actionActOnBehalf($id)
     {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        $model = $this->findModel(User::className(), $id);
+        Yii::$app->user->switchIdentity($model);
+        return $this->goHome();
     }
+
 }

@@ -15,7 +15,7 @@ use app\models\search\TaskSearch;
 /**
  * PartnerController implements the CRUD actions for Partner model.
  */
-class PartnerController extends AController
+class PartnerController extends AbstractController
 {
     public function behaviors()
     {

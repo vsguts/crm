@@ -8,16 +8,16 @@ use yii\bootstrap\ButtonDropdown;
 
 class Pager extends LinkPager
 {
-    public $resultIds = '';
+    public $targetId = '';
 
     public function init()
     {
         parent::init();
 
         // Enable ajax
-        if ($this->resultIds) {
+        if ($this->targetId) {
             $this->linkOptions['class'] = 'app-ajax';
-            $this->linkOptions['data-result-ids'] = $this->resultIds;
+            $this->linkOptions['data-target-id'] = $this->targetId;
         }
     }
 
@@ -45,19 +45,24 @@ class Pager extends LinkPager
 
         $items = [];
 
-        $_max_page_size = ($max_page_size > 100) ? 100 : $max_page_size;
+        $_max_page_size = ($max_page_size > 50) ? 50 : $max_page_size;
         $per_page_items = range($min_page_size, $_max_page_size, 10);
         
-        if ($max_page_size > 100) {
-            $_per_page_items = range(100, $max_page_size, 100);
-            unset($_per_page_items[0]);
+        if ($max_page_size >= 100) {
+            $_max_page_size = ($max_page_size > 500) ? 500 : $max_page_size;
+            $_per_page_items = range(100, $_max_page_size, 100);
+            $per_page_items = array_merge($per_page_items, $_per_page_items);
+        }
+
+        if ($max_page_size >= 1000) {
+            $_per_page_items = range(1000, $max_page_size, 1000);
             $per_page_items = array_merge($per_page_items, $_per_page_items);
         }
 
         foreach ($per_page_items as $per_page_item) {
             $items[] = [
                 'label' => $per_page_item,
-                'url' => $this->pagination->createUrl(1, $per_page_item),
+                'url' => $this->pagination->createUrl(0, $per_page_item),
                 'active' => $per_page_item == $current_page_size,
                 'linkOptions' => $this->linkOptions,
             ];

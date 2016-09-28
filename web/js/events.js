@@ -27,25 +27,25 @@ $(document).on('click', function(e) {
     if (jelm.hasClass('app-ajax')) {
         $.appAjax('request', jelm.attr('href'), {
             data: {
-                result_ids: jelm.data('resultIds'),
+                target_id: jelm.data('targetId'),
             },
         });
         return false;
     }
 
-    var modal_elm = jelm.closest('.c-modal');
+    var modal_elm = jelm.closest('.app-modal');
     if (modal_elm.length) {
         var target_id = modal_elm.data('targetId'),
             target = $('#' + target_id);
         
-        if (target.length && !modal_elm.hasClass('c-modal-force')) {
+        if (target.length && !modal_elm.hasClass('app-modal-force')) {
             target.modal(modal_options);
         } else {
             var href = modal_elm.attr('href');
             if (href.length) {
                 $.appAjax('request', href, {
                     data: {
-                        result_ids: target_id,
+                        target_id: target_id,
                     },
                     callback: function(data){
                         if (data.html && data.html[target_id]) {

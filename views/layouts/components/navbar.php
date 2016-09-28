@@ -93,8 +93,28 @@ $menu_items[] = [
 
 // Administration
 $items = [];
+
+if ($user->can('user_view')) {
+    $items[] = [
+        'label' => __('Users'),
+        'url' => ['/user/index'],
+        'visible' => $user->can('user_view'),
+        'active' => $controller_id == 'user' && !$is_profile,
+    ];
+}
+if ($user->can('user_role_view')) {
+    $items[] = [
+        'label' => __('User roles'),
+        'url' => ['/user-role/index'],
+        'visible' => $user->can('user_role_view'),
+        'active' => $controller_id == 'user-role',
+    ];
+}
 $can_upload = $user->can('upload_images') || $user->can('upload_own_files') || $user->can('upload_common_files');
 if ($can_upload) {
+    if ($items) {
+        $items[] = '<li class="divider"></li>';
+    }
     $items[] = [
         'label' => __('Files'),
         'visible' => $can_upload,
@@ -103,9 +123,6 @@ if ($can_upload) {
     ];
 }
 if ($user->can('partner_view')) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
     $items[] = [
         'label' => __('Export'),
         'visible' => $user->can('partner_view'),
@@ -113,39 +130,22 @@ if ($user->can('partner_view')) {
         'url' => ['/export/partners'],
     ];
 }
-if ($user->can('user_manage')) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
-    $items[] = [
-        'label' => __('Users'),
-        'url' => ['/user/index'],
-        'visible' => $user->can('user_manage'),
-        'active' => $controller_id == 'user' && !$is_profile,
-    ];
-    $items[] = [
-        'label' => __('User roles'),
-        'url' => ['/user-role/index'],
-        'visible' => $user->can('user_manage'),
-        'active' => $controller_id == 'user-role',
-    ];
-}
-if ($user->can('country_manage')) {
+if ($user->can('country_view')) {
     if ($items) {
         $items[] = '<li class="divider"></li>';
     }
     $items[] = [
         'label' => __('Countries'),
         'url' => ['/country/index'],
-        'visible' => $user->can('country_manage'),
+        'visible' => $user->can('country_view'),
         'active' => $controller_id == 'country',
     ];
 }
-if ($user->can('state_manage')) {
+if ($user->can('state_view')) {
     $items[] = [
         'label' => __('States'),
         'url' => ['/state/index'],
-        'visible' => $user->can('state_manage'),
+        'visible' => $user->can('state_view'),
         'active' => $controller_id == 'state',
     ];
 }

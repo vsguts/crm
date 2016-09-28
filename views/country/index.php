@@ -7,13 +7,23 @@ use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'Countries');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'class' => 'app-modal',
+        'href' => Url::to(['/country/update', 'id' => $model->id, '_return_url' => Url::to()]),
+        'data-target-id' => 'country_' . $model->id,
+    ];
+};
+
 ?>
 <div class="country-index">
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create country'), ['update', '_return_url' => Url::to()], [
-                'class' => 'btn btn-success c-modal',
+                'class' => 'btn btn-success app-modal',
                 'data-target-id' => 'country_create',
             ]) ?>
         </div>
@@ -35,17 +45,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'controllerId' => 'country',
-        'detailsLinkPopup' => true,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
             // ['attribute' => 'id', 'label' => '#'],
-            'name',
+            [
+                'attribute' => 'name',
+                'link' => $detailsLink,
+            ],
             'code',
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('States'), 'modelClass' => 'app\models\State', 'modelField' => 'country_id'],
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('country_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['country/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

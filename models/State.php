@@ -16,7 +16,7 @@ use Yii;
  * @property Country $country
  * @property User[] $users
  */
-class State extends AModel
+class State extends AbstractModel
 {
     public static function tableName()
     {

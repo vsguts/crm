@@ -7,13 +7,23 @@ use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'States');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'class' => 'app-modal',
+        'href' => Url::to(['/state/update', 'id' => $model->id, '_return_url' => Url::to()]),
+        'data-target-id' => 'state_' . $model->id,
+    ];
+};
+
 ?>
 <div class="state-index">
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(Yii::t('app', 'Create state'), ['update', '_return_url' => Url::to()], [
-                'class' => 'btn btn-success c-modal',
+                'class' => 'btn btn-success app-modal',
                 'data-target-id' => 'state_create',
             ]) ?>
         </div>
@@ -35,17 +45,44 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'controllerId' => 'state',
-        'detailsLinkPopup' => true,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
             // ['attribute' => 'id', 'label' => '#'],
-            'name',
-            ['attribute' => 'country.name', 'label' => __('Country')],
+            [
+                'attribute' => 'name',
+                'link' => $detailsLink,
+            ],
+            [
+                'attribute' => 'country.name',
+                'label' => __('Country'),
+                'link' => function($model) {
+                    return [
+                        'class' => 'app-modal',
+                        'href' => Url::to(['/country/update', 'id' => $model->country_id, '_return_url' => Url::to()]),
+                        'data-target-id' => 'country_' . $model->country_id,
+                    ];
+                },
+            ],
             'code',
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('state_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['state/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

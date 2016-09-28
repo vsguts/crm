@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * NewsletterController implements the CRUD actions for Newsletter model.
  */
-class NewsletterController extends AController
+class NewsletterController extends AbstractController
 {
     public function behaviors()
     {

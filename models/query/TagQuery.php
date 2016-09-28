@@ -3,7 +3,6 @@
 namespace app\models\query;
 
 use Yii;
-use yii\db\ActiveQuery;
 
 class TagQuery extends ActiveQuery
 {

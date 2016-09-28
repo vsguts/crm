@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Cookie;
 use app\models\Language;
 
-class LanguageController extends AController
+class LanguageController extends AbstractController
 {
     public function actionSelect($id, $current_url = '')
     {

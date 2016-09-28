@@ -13,7 +13,7 @@ use app\models\search\VisitSearch;
 /**
  * VisitController implements the CRUD actions for Visit model.
  */
-class VisitController extends AController
+class VisitController extends AbstractController
 {
     public function behaviors()
     {

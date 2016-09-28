@@ -1,23 +1,31 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
 $this->title = __('Users');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'href' => Url::to(['/user/update', 'id' => $model->id]),
+    ];
+};
+
 ?>
 <div class="user-index">
 
+    <?php if (Yii::$app->user->can('user_manage')) : ?>
+
     <div class="pull-right buttons-container">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create user'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(__('Create user'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
-                ['label' => __('Delete'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
                     'data-app-process-items' => 'ids',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
@@ -28,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
 
+    <?php endif; ?>
+
     <h1><?= Html::encode($this->title) ?></h1>
     
     <?= $this->render('components/search', ['model' => $searchModel]); ?>
@@ -37,8 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
-            ['attribute' => 'id', 'label' => '#'],
-            'name',
+            // ['attribute' => 'id', 'label' => '#'],
+            [
+                'attribute' => 'name',
+                'link' => $detailsLink,
+            ],
             'email',
             [
                 'attribute' => 'status',
@@ -46,15 +59,35 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getLookupItem('status', $model->status);
                 }
             ],
-            // 'country_id',
-            // 'state_id',
-            // 'state',
-            // 'city',
-            // 'address',
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('user_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['user/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                    function($model) {
+                        if (Yii::$app->user->can('user_act_on_behalf')) {
+                            return [
+                                'label' => __('Act on behalf of'),
+                                'href' => Url::to(['user/act-on-behalf', 'id' => $model->id]),
+                                'data-method' => 'post',
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

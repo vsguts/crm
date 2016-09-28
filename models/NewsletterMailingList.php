@@ -13,7 +13,7 @@ use Yii;
  * @property MailingList $mailingList
  * @property Newsletter $newsletter
  */
-class NewsletterMailingList extends AModel
+class NewsletterMailingList extends AbstractModel
 {
     public static function tableName()
     {

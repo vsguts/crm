@@ -14,7 +14,7 @@ class AjaxFilter extends ActionFilter
 
     public function beforeAction($action)
     {
-        if (Yii::$app->getRequest()->getIsAjax()) {
+        if ($this->getIsAjax()) {
             $this->ajaxMode = true;
         }
         return parent::beforeAction($action);
@@ -31,10 +31,9 @@ class AjaxFilter extends ActionFilter
                     'html' => $res,
                 ]);
                 
-                $request = Yii::$app->getRequest();
-                if (!empty($request->queryParams['result_ids'])) {
-                    $result_ids = explode(',', $request->queryParams['result_ids']);
-                    $this->ajaxVars['html'] = $dom->getElementByIds($result_ids);
+                if (!empty($_REQUEST['target_id'])) {
+                    $target_id = explode(',', $_REQUEST['target_id']);
+                    $this->ajaxVars['html'] = $dom->getElementByIds($target_id);
                 }
 
                 list($scripts, $src) = $dom->getScripts();
@@ -48,7 +47,9 @@ class AjaxFilter extends ActionFilter
             }
 
             // Flashes
-            $this->ajaxVars['alerts'] = Yii::$app->session->getAllFlashes();
+            if (!isset($this->ajaxVars['alerts'])) {
+                $this->ajaxVars['alerts'] = Yii::$app->session->getAllFlashes();
+            }
 
             Yii::$app->response->format = 'json';
             return $this->ajaxVars;
@@ -69,6 +70,11 @@ class AjaxFilter extends ActionFilter
         if ($this->ajaxMode && isset($this->ajaxVars[$name])) {
             return $this->ajaxVars[$name];
         }
+    }
+
+    public function getIsAjax()
+    {
+        return Yii::$app->getRequest()->getIsAjax();
     }
 
 }

@@ -46,7 +46,7 @@ class ImagesGallery extends InputWidget
             ];
             if ($this->objectId) {
                 Html::addCssClass($options, 'app-ajax');
-                $options['data-result-ids'] = $this->objectId;
+                $options['data-target-id'] = $this->objectId;
             }
             $link = Html::a(__('Edit images'), $this->editLink, $options);
             echo Html::tag('div', $link, ['class' => 'pull-right']);

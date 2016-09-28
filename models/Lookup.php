@@ -4,17 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "lookup".
- *
- * @property integer $id
- * @property string $model_name
- * @property string $field
- * @property string $code
- * @property integer $position
- * @property string $name
- */
-class Lookup extends AModel
+class Lookup extends AbstractModel
 {
     public static function tableName()
     {

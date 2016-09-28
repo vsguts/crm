@@ -5,7 +5,7 @@ namespace app\controllers;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class UploadController extends AController
+class UploadController extends AbstractController
 {
     public function behaviors()
     {

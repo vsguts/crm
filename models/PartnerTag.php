@@ -13,7 +13,7 @@ use Yii;
  * @property Partner $partner
  * @property Tag $tag
  */
-class PartnerTag extends AModel
+class PartnerTag extends AbstractModel
 {
     public static function tableName()
     {

@@ -39,7 +39,7 @@ use app\models\query\PartnerQuery;
  * @property Task[] $tasks
  * @property Visit[] $visits
  */
-class Partner extends AModel
+class Partner extends AbstractModel
 {
     const TYPE_PEOPLE = 1;
     const TYPE_ORG = 2;

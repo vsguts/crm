@@ -5,12 +5,16 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\search\NewsletterSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = Yii::t('app', 'Newsletters');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'href' => Url::to(['/newsletter/update', 'id' => $model->id, '_return_url' => Url::to()]),
+    ];
+};
+
 ?>
 <div class="newsletter-index">
 
@@ -42,20 +46,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
-            // ['attribute' => 'id', 'label' => '#'],
-            'subject',
-            // 'body:ntext',
+            [
+                'attribute' => 'subject',
+                'link' => $detailsLink,
+            ],
             'created_at:date',
             'updated_at:date',
 
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Logs'), 'countField' => 'logsCount'],
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('newsletter_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['newsletter/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

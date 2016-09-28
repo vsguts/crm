@@ -4,38 +4,40 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use app\models\Country;
 use app\models\search\CountrySearch;
 
 /**
  * CountryController implements the CRUD actions for Country model.
  */
-class CountryController extends AController
+class CountryController extends AbstractController
 {
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['country_manage'],
-                    ],
-                ],
-            ],
+        return array_merge(parent::behaviors(), [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
-            'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'verbs' => ['GET'],
+                        'actions' => ['index', 'update'],
+                        'roles' => ['country_view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['country_manage'],
+                    ],
+                ],
             ],
-        ];
+        ]);
     }
 
     /**

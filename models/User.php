@@ -6,30 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use app\models\form\UserSignupForm;
 
-/**
- * This is the model class for table "user".
- *
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property string $auth_key
- * @property string $password_hash
- * @property string $password_reset_token
- * @property integer $status
- * @property integer $country_id
- * @property integer $state_id
- * @property string $state
- * @property integer $city
- * @property string $address
- *
- * @property Task[] $tasks
- * @property Template[] $templates
- * @property Country $country
- * @property State $state0
- * @property Visit[] $visits
- * @property NewsletterLog[] $newsletterLogs
- */
-class User extends AModel implements \yii\web\IdentityInterface
+class User extends AbstractModel implements \yii\web\IdentityInterface
 {
     const AUTH_ROLE_1 = 'user';
     const AUTH_ROLE_2 = 'root';

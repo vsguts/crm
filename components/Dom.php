@@ -21,23 +21,23 @@ class Dom extends Object
         }
     }
 
-    public function getElementByIds($result_ids)
+    public function getElementByIds($target_ids)
     {
-        if (empty($result_ids) || empty($this->html)) {
+        if (empty($target_ids) || empty($this->html)) {
             return [];
         }
 
-        if (is_string($result_ids)) {
-            $result_ids = explode(',', $result_ids);
+        if (is_string($target_ids)) {
+            $target_ids = explode(',', $target_ids);
         }
 
         $result = [];
-        foreach ($result_ids as $result_id) {
-            $result_id = trim($result_id);
-            if (!isset($result[$result_id])) {
-                // $elm = $xpath->query("//*[@id='" . $result_id . "']")->item(0); // several way
-                if ($elm = $this->dom->getElementById($result_id)) {
-                    $result[$result_id] = $this->dom->saveHTML($elm);
+        foreach ($target_ids as $target_id) {
+            $target_id = trim($target_id);
+            if (!isset($result[$target_id])) {
+                // $elm = $xpath->query("//*[@id='" . $target_id . "']")->item(0); // several way
+                if ($elm = $this->dom->getElementById($target_id)) {
+                    $result[$target_id] = $this->dom->saveHTML($elm);
                 }
             }
         }

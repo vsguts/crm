@@ -6,7 +6,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 
-class ExportController extends AController
+class ExportController extends AbstractController
 {
 
     protected $path = '@app/models/export';

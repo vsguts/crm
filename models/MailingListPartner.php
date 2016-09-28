@@ -4,16 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "mailing_list_partner".
- *
- * @property integer $list_id
- * @property integer $partner_id
- *
- * @property Partner $partner
- * @property MailingList $mailingList
- */
-class MailingListPartner extends AModel
+class MailingListPartner extends AbstractModel
 {
     public static function tableName()
     {

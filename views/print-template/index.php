@@ -7,6 +7,14 @@ use app\widgets\ActionsDropdown;
 
 $this->title = Yii::t('app', 'Printing templates');
 $this->params['breadcrumbs'][] = $this->title;
+
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'href' => Url::to(['/print-template/update', 'id' => $model->id, '_return_url' => Url::to()]),
+    ];
+};
+
 ?>
 <div class="template-index">
 
@@ -41,8 +49,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\CheckboxColumn'],
 
-            // ['attribute' => 'id', 'label' => '#'],
-            'name',
+            [
+                'attribute' => 'name',
+                'link' => $detailsLink,
+            ],
             [
                 'attribute' => 'format',
                 'value' => function($model, $key, $index, $column){
@@ -59,7 +69,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
 
-            ['class' => 'app\widgets\grid\ActionColumn', 'size' => 'xs'],
+            [
+                'class' => 'app\widgets\grid\ActionColumn',
+                'size' => 'xs',
+                'items' => [
+                    $detailsLink,
+                    function($model) {
+                        if (Yii::$app->user->can('newsletter_manage')) {
+                            return [
+                                'label' => __('Delete'),
+                                'href' => Url::to(['print-template/delete', 'id' => $model->id, '_return_url' => Url::to()]),
+                                'data-method' => 'post',
+                                'data-confirm' => __('Are you sure you want to delete this item?'),
+                            ];
+                        }
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

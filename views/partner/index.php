@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'url' => Url::to(['/mailing-list/append-partners']),
                 'linkOptions' => [
                     'data-app-process-items' => 'partner_ids',
-                    'class' => 'c-modal c-modal-force',
+                    'class' => 'app-modal app-modal-force',
                     'data-target-id' => 'append_partners',
                 ]
             ];

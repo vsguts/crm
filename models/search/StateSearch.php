@@ -32,6 +32,13 @@ class StateSearch extends State
         return Model::scenarios();
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -54,6 +61,8 @@ class StateSearch extends State
                 ],
             ],
         ]);
+
+        $params = $this->processParams($params);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

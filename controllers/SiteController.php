@@ -22,7 +22,7 @@ use app\models\form\UserSignupForm;
 use app\models\form\UserPasswordResetRequestForm;
 use app\models\form\UserResetPasswordForm;
 
-class SiteController extends AController
+class SiteController extends AbstractController
 {
     public function behaviors()
     {

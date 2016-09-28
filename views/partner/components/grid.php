@@ -2,6 +2,13 @@
 
 use app\widgets\grid\GridView;
 
+$detailsLink = function($model) {
+    return [
+        'label' => __('Edit'),
+        'href' => Url::to(['/partner/update', 'id' => $model->id]),
+    ];
+};
+
 $columns = [
     ['class' => 'yii\grid\CheckboxColumn'],
     
@@ -9,7 +16,10 @@ $columns = [
 
     ['class' => 'app\widgets\grid\ImageColumn'],
     
-    'name',
+    [
+        'attribute' => 'name',
+        'link' => $detailsLink,
+    ],
     'email:email',
     'city',
     [
@@ -25,22 +35,10 @@ $columns = [
         }
     ],
     'created_at:date',
-    // 'country_id',
-    // 'state_id',
-    // 'state',
-    // 'address',
-    // 'parent_id',
-    // 'volunteer',
-    // 'candidate',
-    // 'notes:ntext',
-    // 'updated_at',
-
-    // ['class' => 'app\widgets\grid\ActionColumn'],
 ];
 
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => $columns,
-    'controllerId' => 'partner',
 ]);

@@ -58,21 +58,36 @@ class ToolsController extends Controller
          */
         
         // Administration
+        $permissions['country_view'] = $auth->createPermission('country_view');
+        $permissions['country_view']->description = 'Administration::Countries view';
+
         $permissions['country_manage'] = $auth->createPermission('country_manage');
         $permissions['country_manage']->description = 'Administration::Countries manage';
-        
+
+        $permissions['state_view'] = $auth->createPermission('state_view');
+        $permissions['state_view']->description = 'Administration::States view';
+
         $permissions['state_manage'] = $auth->createPermission('state_manage');
         $permissions['state_manage']->description = 'Administration::States manage';
-        
+
+        $permissions['user_view'] = $auth->createPermission('user_view');
+        $permissions['user_view']->description = 'Administration::Users view';
+
         $permissions['user_manage'] = $auth->createPermission('user_manage');
         $permissions['user_manage']->description = 'Administration::Users manage';
-        
-        $permissions['user_role_manage'] = $auth->createPermission('user_role_manage');
-        $permissions['user_role_manage']->description = 'Administration::User roles manage';
+
+        $permissions['user_act_on_behalf'] = $auth->createPermission('user_act_on_behalf');
+        $permissions['user_act_on_behalf']->description = 'Administration::Users act on behalf';
 
         $permissions['user_manage_own'] = $auth->createPermission('user_manage_own');
         $permissions['user_manage_own']->description = 'Administration::Manage own user profile';
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
+
+        $permissions['user_role_view'] = $auth->createPermission('user_role_view');
+        $permissions['user_role_view']->description = 'Administration::User roles view';
+
+        $permissions['user_role_manage'] = $auth->createPermission('user_role_manage');
+        $permissions['user_role_manage']->description = 'Administration::User roles manage';
 
         $permissions['tools'] = $auth->createPermission('tools');
         $permissions['tools']->description = 'Administration::Tools';

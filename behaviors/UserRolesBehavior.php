@@ -10,14 +10,6 @@ class UserRolesBehavior extends Behavior
 {
     public $roles;
 
-    protected $auth;
-
-    public function init()
-    {
-        parent::init();
-        $this->auth = Yii::$app->authManager;
-    }
-
     public function events()
     {
         return [
@@ -32,7 +24,7 @@ class UserRolesBehavior extends Behavior
     {
         $model = $this->owner;
         if ($model->id) {
-            $roles = $this->auth->getRolesByUser($model->id);
+            $roles = Yii::$app->authManager->getRolesByUser($model->id);
             $this->roles = array_keys($roles);
         }
     }
@@ -40,18 +32,29 @@ class UserRolesBehavior extends Behavior
     public function deleteAuth($event)
     {
         $model = $this->owner;
-        $this->auth->revokeAll($model->id);
+        Yii::$app->authManager->revokeAll($model->id);
     }
 
     public function assignAuth($event)
     {
         $model = $this->owner;
-        $this->auth->revokeAll($model->id);
+
+        if (!Yii::$app->user->identity) { // User isn't logged in
+            return;
+        }
+
+        if ($model->id == Yii::$app->user->identity->id) { // User can't change own permissions
+            return;
+        }
+
+        $auth = Yii::$app->authManager;
+
+        $auth->revokeAll($model->id);
         if ($data = Yii::$app->request->post($model->formName())) { // FIXME
             if (!empty($data['roles'])) {
                 foreach ($data['roles'] as $role_name) {
-                    if ($role = $this->auth->getRole($role_name)) {
-                        $this->auth->assign($role, $model->id);
+                    if ($role = $auth->getRole($role_name)) {
+                        $auth->assign($role, $model->id);
                     }
                 }
             }

@@ -86,15 +86,23 @@ class UserController extends AController
 
         $user = Yii::$app->user;
 
-        if (!$user->can('user_manage') && !$user->can('user_manage_own', ['user' => $model])) {
+        $post = Yii::$app->request->post();
+
+        if ($user->can('user_manage_own', ['user' => $model])) {
+            $allowed = true;
+        } elseif ($post) {
+            $allowed = $user->can('user_manage');
+        } else {
+            $allowed = $user->can('user_view');
+        }
+
+        if (!$allowed) {
             throw new ForbiddenHttpException(Yii::t('yii', 'You are not allowed to perform this action.'));
         }
 
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
-                return $this->redirect(['update', 'id' => $model->id]);
-            }
+        if ($post && $model->load($post) && $model->save()) {
+            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         $auth = Yii::$app->authManager;

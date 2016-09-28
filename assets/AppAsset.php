@@ -69,4 +69,30 @@ class AppAsset extends AssetBundle
             'langs' => $translates,
         ]);
     }
+
+    public function publish($am)
+    {
+        parent::publish($am);
+        $this->css = $this->addLastModifiedParam($this->css);
+        $this->js = $this->addLastModifiedParam($this->js);
+    }
+
+    protected function addLastModifiedParam($assets){
+        foreach ($assets as $k => $asset) {
+            $file_path = sprintf(
+                '%s/%s',
+                $this->basePath,
+                $asset
+            );
+
+            $assets[$k] = sprintf(
+                '%s?t=%s',
+                $asset,
+                filemtime($file_path)
+            );
+        }
+
+        return $assets;
+    }
+
 }

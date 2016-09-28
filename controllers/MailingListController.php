@@ -33,13 +33,6 @@ class MailingListController extends AController
                     ],
                     [
                         'allow' => true,
-                        'verbs' => ['POST'],
-                        'roles' => ['newsletter_manage'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'verbs' => ['GET'],
                         'roles' => ['newsletter_manage'],
                     ],
                 ],

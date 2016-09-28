@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MailingList */
 
-$this->title = Yii::t('app', 'Create mailing list');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mailing lists'), 'url' => ['index']];
+$this->title = __('Create mailing list');
+$this->params['breadcrumbs'][] = ['label' => __('Mailing lists'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mailing-list-create">

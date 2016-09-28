@@ -2,13 +2,10 @@
 
 use yii\helpers\Html;
 
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Newsletter */
-
-$this->title = Yii::t('app', 'Create newsletter');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newsletters'), 'url' => ['index']];
+$this->title = __('Create newsletter');
+$this->params['breadcrumbs'][] = ['label' => __('Newsletters'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="newsletter-create">
 

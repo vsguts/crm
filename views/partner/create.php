@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Create partner');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Partners'), 'url' => ['index']];
+$this->title = __('Create partner');
+$this->params['breadcrumbs'][] = ['label' => __('Partners'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

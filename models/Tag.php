@@ -34,9 +34,9 @@ class Tag extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'name' => Yii::t('app', 'Name'),
+            'id' => __('ID'),
+            'user_id' => __('User'),
+            'name' => __('Name'),
         ];
     }
 

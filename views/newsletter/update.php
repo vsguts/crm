@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Newsletter: {newsletter}', [
+$this->title = __('Newsletter: {newsletter}', [
     'newsletter' => $model->subject,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Newsletters'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('Newsletters'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->subject;
 
 ?>

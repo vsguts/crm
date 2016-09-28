@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Printing template: {template}', [
+$this->title = __('Printing template: {template}', [
     'template' => $model->name,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Printing templates'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('Printing templates'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
 
 ?>

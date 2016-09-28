@@ -7,11 +7,11 @@ use app\widgets\ActionsDropdown;
 /* @var $this yii\web\View */
 /* @var $model app\models\MailingList */
 
-$this->title = Yii::t('app', 'Mailing list: {name}', [
+$this->title = __('Mailing list: {name}', [
     'name' => $model->name,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mailing lists'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('Mailing lists'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="mailing-list-update">

@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Printing templates');
+$this->title = __('Printing templates');
 $this->params['breadcrumbs'][] = $this->title;
 
 $detailsLink = function($model) {
@@ -22,7 +22,7 @@ $detailsLink = function($model) {
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create template'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(__('Create template'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',

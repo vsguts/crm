@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Donates');
+$this->title = __('Donates');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="pull-right buttons-container">
         <?php if (Yii::$app->user->can('donate_manage')) : ?>
             <div class="btn-group">
-                <?= Html::a(Yii::t('app', 'Create donate'), ['update', '_return_url' => Url::to()], [
+                <?= Html::a(__('Create donate'), ['update', '_return_url' => Url::to()], [
                     'class' => 'btn btn-success app-modal',
                     'data-target-id' => 'donate_create',
                 ]) ?>

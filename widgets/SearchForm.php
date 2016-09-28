@@ -52,8 +52,8 @@ class SearchForm extends ActiveForm
         echo Html::endTag('div');
         
         $buttons = Html::tag('div',
-            Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary'])
-            // .' '. Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default'])
+            Html::submitButton(__('Search'), ['class' => 'btn btn-primary'])
+            // .' '. Html::resetButton(__('Reset'), ['class' => 'btn btn-default'])
         );
         
         echo Html::tag('div', $buttons, ['class' => 'panel-footer ' . $this->extraClass . $this->targetClass]);

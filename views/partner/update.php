@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Partner: {partner}', [
+$this->title = __('Partner: {partner}', [
     'partner' => $model->name,
 ]);
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Partners'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('Partners'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
 ?>
 <div class="partner-update">

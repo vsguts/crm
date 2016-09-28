@@ -31,8 +31,8 @@ class PartnerTag extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'partner_id' => Yii::t('app', 'Partner ID'),
-            'tag_id' => Yii::t('app', 'Tag ID'),
+            'partner_id' => __('Partner'),
+            'tag_id' => __('Tag'),
         ];
     }
 

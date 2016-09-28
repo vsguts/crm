@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use app\widgets\ActiveForm;
 use app\widgets\Modal;
 
-$this->title = Yii::t('app', 'Add to mailing list');
+$this->title = __('Add to mailing list');
 
 Modal::begin([
     'size' => Modal::SIZE_LARGE,

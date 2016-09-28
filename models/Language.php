@@ -22,10 +22,10 @@ class Language extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'code' => Yii::t('app', 'Code'),
-            'short_name' => Yii::t('app', 'Short Name'),
-            'name' => Yii::t('app', 'Name'),
+            'id' => __('ID'),
+            'code' => __('Code'),
+            'short_name' => __('Short name'),
+            'name' => __('Name'),
         ];
     }
 }

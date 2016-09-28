@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Partners');
+$this->title = __('Partners');
 $this->params['breadcrumbs'][] = $this->title;
 // $this->params['sidebox_size'] = 3;
 // $this->params['sidebox_side'] = 'right';
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="pull-right buttons-container">
         <?php if (Yii::$app->user->can('partner_manage')) : ?>
             <div class="btn-group">
-                <?= Html::a(Yii::t('app', 'Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a(__('Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
         <?php endif; ?>
         

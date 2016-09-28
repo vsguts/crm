@@ -22,8 +22,8 @@ class TaskPartner extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'task_id' => Yii::t('app', 'Task ID'),
-            'partner_id' => Yii::t('app', 'Partner ID'),
+            'task_id' => __('Task'),
+            'partner_id' => __('Partner'),
         ];
     }
 

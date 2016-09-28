@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'States');
+$this->title = __('States');
 $this->params['breadcrumbs'][] = $this->title;
 
 $detailsLink = function($model) {
@@ -22,7 +22,7 @@ $detailsLink = function($model) {
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
-            <?= Html::a(Yii::t('app', 'Create state'), ['update', '_return_url' => Url::to()], [
+            <?= Html::a(__('Create state'), ['update', '_return_url' => Url::to()], [
                 'class' => 'btn btn-success app-modal',
                 'data-target-id' => 'state_create',
             ]) ?>

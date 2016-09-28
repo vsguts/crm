@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = Yii::t('app', 'Tasks');
+$this->title = __('Tasks');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="task-index">
@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="pull-right buttons-container">
         <?php if (Yii::$app->user->can('task_manage')) : ?>
             <div class="btn-group">
-                <?= Html::a(Yii::t('app', 'Create task'), ['update', '_return_url' => Url::to()], [
+                <?= Html::a(__('Create task'), ['update', '_return_url' => Url::to()], [
                     'class' => 'btn btn-success app-modal',
                     'data-target-id' => 'task_create',
                 ]) ?>

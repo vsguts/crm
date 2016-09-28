@@ -40,8 +40,8 @@ class PrintTemplateMailingList extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'template_id' => Yii::t('app', 'Template ID'),
-            'list_id' => Yii::t('app', 'List ID'),
+            'template_id' => __('Template'),
+            'list_id' => __('List'),
         ];
     }
 

@@ -44,10 +44,10 @@ class State extends AbstractModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'country_id' => Yii::t('app', 'Country'),
-            'name' => Yii::t('app', 'Name'),
-            'code' => Yii::t('app', 'Code'),
+            'id' => __('ID'),
+            'country_id' => __('Country'),
+            'name' => __('Name'),
+            'code' => __('Code'),
         ];
     }
 

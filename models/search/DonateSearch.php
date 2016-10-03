@@ -94,6 +94,7 @@ class DonateSearch extends Donate
         $query->andFilterWhere([
             'id' => $this->id,
             'partner_id' => $this->partner_id,
+            'user_id' => $this->user_id,
         ]);
 
         $query->andFilterWhere(['like', 'notes', $this->notes]);

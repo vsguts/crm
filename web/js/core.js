@@ -1,5 +1,7 @@
 (function($){
 
+window.yii.app = {}; // Common namespace
+
 var form_group_class = 'form-group';
 
 var select2 = {
@@ -170,8 +172,13 @@ $.fn.extend({
     },
 
     appSelect2: function() {
-        var params = select2.partners;
-        params.ajax.url = this.data('mUrl');
+        var params = {
+            width: 'resolve',
+        };
+        if (this.hasClass('app-select2-partner')) {
+            params = select2.partners;
+            params.ajax.url = this.data('mUrl');
+        }
         this.select2(params);
     },
 

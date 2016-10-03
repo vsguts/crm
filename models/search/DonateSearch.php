@@ -29,9 +29,7 @@ class DonateSearch extends Donate
     public function rules()
     {
         return [
-            [['id', 'partner_id'], 'integer'],
-            [['sum', 'sum_to'], 'number'],
-            [['timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 
@@ -62,6 +60,7 @@ class DonateSearch extends Donate
     {
         $query = Donate::find()
             ->joinWith('partner')
+            ->joinWith('user')
         ;
 
         $dataProvider = new ActiveDataProvider([
@@ -77,6 +76,14 @@ class DonateSearch extends Donate
                 ],
             ],
         ]);
+        $dataProvider->sort->attributes['partner'] = [
+            'asc' => ['partner.name' => SORT_ASC],
+            'desc' => ['partner.name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['user'] = [
+            'asc' => ['user.name' => SORT_ASC],
+            'desc' => ['user.name' => SORT_DESC],
+        ];
 
         $params = $this->processParams($params);
 

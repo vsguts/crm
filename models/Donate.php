@@ -24,7 +24,7 @@ class Donate extends AbstractModel
     {
         return [
             [['partner_id', 'sum', 'timestamp'], 'required'],
-            [['partner_id'], 'integer'],
+            [['partner_id', 'user_id'], 'integer'],
             [['sum'], 'number'],
             [['notes'], 'string']
         ];
@@ -35,6 +35,9 @@ class Donate extends AbstractModel
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'partner_id' => __('Partner'),
+            'partner' => __('Partner'),
+            'user_id' => __('User'),
+            'user' => __('User'),
             'sum' => __('Sum'),
             'timestamp' => __('Date'),
             'notes' => __('Notes'),
@@ -45,4 +48,10 @@ class Donate extends AbstractModel
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
 }

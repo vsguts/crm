@@ -24,8 +24,7 @@ class PrintTemplateSearch extends PrintTemplate
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'content', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'status'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

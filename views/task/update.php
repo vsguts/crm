@@ -46,9 +46,9 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
 
 echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty_field' => 'email']));
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', [
-    'form_id' => $form_id,
-]);
+echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+    'id' => $form_id . '-timestamp',
+]]);
 
 echo $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false);
 

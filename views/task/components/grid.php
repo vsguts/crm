@@ -24,6 +24,10 @@ if (!empty($partnerId)) {
 $columns = [
     ['class' => 'yii\grid\CheckboxColumn'],
     [
+        'attribute' => 'timestamp',
+        'format' => 'date',
+    ],
+    [
         'attribute' => 'name',
         'link' => $detailsLink,
     ],
@@ -37,17 +41,35 @@ $columns = [
             } else {
                 return '<span class="badge">' . $count . '</span>';
             }
-        }
+        },
+        'link' => function($model) {
+            if (Yii::$app->user->can('partner_view')) {
+                $count = count($model->partners);
+                if ($count == 1) {
+                    return Url::to(['partner/update', 'id' => $model->partners[0]->id]);
+                } else {
+                    $ids = [];
+                    foreach ($model->partners as $partner) {
+                        $ids[] = $partner->id;
+                    }
+                    return Url::to(['partner/index', 'id' => $ids]);
+                }
+            }
+        },
     ],
     [
-        'attribute' => 'user.name',
-        'label' => __('User')
+        'attribute' => 'user',
+        'value' => 'user.name',
+        'link' => function($model) {
+            if ($model->user_id && Yii::$app->user->can('user_view')) {
+                return Url::to(['user/update', 'id' => $model->user_id]);
+            }
+        },
     ],
     [
         'attribute' => 'done',
         'class' => 'app\widgets\grid\CheckboxColumn'
     ],
-    'timestamp',
     [
         'class' => 'app\widgets\grid\ActionColumn',
         'size' => 'xs',

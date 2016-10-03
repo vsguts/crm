@@ -28,8 +28,7 @@ class VisitSearch extends Visit
     public function rules()
     {
         return [
-            [['id', 'partner_id', 'user_id'], 'integer'],
-            [['timestamp', 'timestamp_to', 'created_at', 'created_at_to', 'updated_at', 'updated_at_to', 'notes'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 
@@ -76,6 +75,14 @@ class VisitSearch extends Visit
                 ],
             ],
         ]);
+        $dataProvider->sort->attributes['partner'] = [
+            'asc' => ['partner.name' => SORT_ASC],
+            'desc' => ['partner.name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['user'] = [
+            'asc' => ['user.name' => SORT_ASC],
+            'desc' => ['user.name' => SORT_DESC],
+        ];
 
         $params = $this->processParams($params);
 

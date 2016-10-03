@@ -24,8 +24,7 @@ class MailingListSearch extends MailingList
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'sender', 'status'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

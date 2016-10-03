@@ -18,8 +18,7 @@ class CountrySearch extends Country
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'code'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

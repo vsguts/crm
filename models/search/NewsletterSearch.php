@@ -24,8 +24,7 @@ class NewsletterSearch extends Newsletter
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['subject', 'body', 'created_at', 'updated_at', 'created_at_to', 'updated_at_to'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

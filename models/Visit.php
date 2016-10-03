@@ -36,7 +36,9 @@ class Visit extends AbstractModel
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'partner_id' => __('Partner'),
+            'partner' => __('Partner'),
             'user_id' => __('User'),
+            'user' => __('User'),
             'timestamp' => __('Date'),
             'notes' => __('Notes'),
         ]);

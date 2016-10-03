@@ -36,6 +36,7 @@ $config = [
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
             'currencyCode' => 'USD',
+            'nullDisplay' => '',
         ],
         'authManager' => [
             'class' => 'app\components\rbac\DbManager',

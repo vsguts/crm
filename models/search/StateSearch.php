@@ -18,8 +18,7 @@ class StateSearch extends State
     public function rules()
     {
         return [
-            [['id', 'country_id'], 'integer'],
-            [['name', 'code'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

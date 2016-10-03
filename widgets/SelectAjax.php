@@ -25,7 +25,7 @@ class SelectAjax extends InputWidget
     {
         if (!$this->options) {
             $this->options = [
-                'class' => 'form-control app-select2',
+                'class' => 'form-control app-select2 app-select2-partner',
                 'placeholder' => __('Partners search'),
                 'data-m-url' => Url::to(['partner/list']),
             ];

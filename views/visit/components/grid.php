@@ -25,16 +25,29 @@ $columns = [
     [
         'class' => 'yii\grid\CheckboxColumn'
     ],
-    'partner' => [
-        'attribute' => 'partner.extendedName',
-        'label' => __('Partner'),
+    [
+        'attribute' => 'timestamp',
+        'format' => 'date',
         'link' => $detailsLink,
     ],
-    'user' => [
-        'attribute' => 'user.name',
-        'label' => __('User')
+    'partner' => [
+        'attribute' => 'partner',
+        'value' => 'partner.extendedName',
+        'link' => function($model) {
+            if ($model->partner_id && Yii::$app->user->can('partner_view')) {
+                return Url::to(['partner/update', 'id' => $model->partner_id]);
+            }
+        },
     ],
-    'timestamp',
+    'user' => [
+        'attribute' => 'user',
+        'value' => 'user.name',
+        'link' => function($model) {
+            if ($model->user_id && Yii::$app->user->can('user_view')) {
+                return Url::to(['user/update', 'id' => $model->user_id]);
+            }
+        },
+    ],
 
     [
         'class' => 'app\widgets\grid\ActionColumn',
@@ -56,7 +69,6 @@ $columns = [
 ];
 
 if (!empty($partnerId)) {
-    $columns['user']['link'] = $columns['partner']['link']; // Move to user
     unset($columns['partner']);
 }
 

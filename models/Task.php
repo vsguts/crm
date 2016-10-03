@@ -36,6 +36,7 @@ class Task extends AbstractModel
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
             'user_id' => __('User'),
+            'user' => __('User'),
             'name' => __('Title'),
             'timestamp' => __('Due date'),
             'done' => __('Done'),

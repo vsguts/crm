@@ -18,8 +18,7 @@ class TagSearch extends Tag
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
-            [['name'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

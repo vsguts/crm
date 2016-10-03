@@ -15,7 +15,7 @@ class NewsletterLogSearch extends NewsletterLog
     public function rules()
     {
         return [
-            [['id', 'newsletter_id', 'user_id', 'timestamp'], 'integer'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

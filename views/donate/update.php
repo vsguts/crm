@@ -3,6 +3,7 @@
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
+use app\models\User;
 
 if ($model->isNewRecord) {
     $obj_id = 'donate_create';
@@ -40,11 +41,15 @@ echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
     'url' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
 ]);
 
+echo $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]), [
+    'class' => 'form-control app-select2',
+]);
+
 echo $form->field($model, 'sum')->textInput(['maxlength' => 19]);
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', [
-    'form_id' => $form_id,
-]);
+echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+    'id' => $form_id . '-timestamp',
+]]);
 
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 

@@ -17,8 +17,6 @@ class DatePickerRange extends DatePicker
             $this->attribute2 = $this->attribute . '_to';
         }
 
-        $this->separator = sprintf('← %s →', __('between'));
-
         if (empty($this->options)) {
             $this->options = [
                 'placeholder' => __('Start date'),
@@ -30,6 +28,18 @@ class DatePickerRange extends DatePicker
                 'placeholder' => __('End date'),
             ];
         }
+
+        $value = $this->model->{$this->attribute};
+        if (is_numeric($value)) {
+            $this->options['value'] = Yii::$app->formatter->asDate($value);
+        }
+
+        $value = $this->model->{$this->attribute2};
+        if (is_numeric($value)) {
+            $this->options2['value'] = Yii::$app->formatter->asDate($value);
+        }
+
+        $this->separator = sprintf('← %s →', __('between'));
 
         $this->pluginOptions['format'] = strtolower(Yii::$app->formatter->dateFormat);
 

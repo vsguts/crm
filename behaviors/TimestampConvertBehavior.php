@@ -3,36 +3,51 @@
 namespace app\behaviors;
 
 use Yii;
+use yii\base\Behavior;
 use yii\db\ActiveRecord;
-use yii\behaviors\AttributeBehavior;
+use yii\base\Model;
 
-class TimestampConvertBehavior extends AttributeBehavior
+class TimestampConvertBehavior extends Behavior
 {
-    public $field = 'timestamp';
+    public $fields = ['timestamp'];
 
-    public function init()
+    public $decodeFields = [];
+
+    public function events()
     {
-        parent::init();
-        
-        if (empty($this->attributes)) {
-            $this->attributes = [
-                ActiveRecord::EVENT_AFTER_FIND => $this->field,
-                ActiveRecord::EVENT_BEFORE_INSERT => $this->field,
-                ActiveRecord::EVENT_AFTER_INSERT => $this->field,
-                ActiveRecord::EVENT_BEFORE_UPDATE => $this->field,
-                ActiveRecord::EVENT_AFTER_UPDATE => $this->field,
-            ];
+        return [
+            Model::EVENT_AFTER_VALIDATE => 'encodeTimestamp',
+            ActiveRecord::EVENT_AFTER_FIND => 'decodeTimestamp',
+            ActiveRecord::EVENT_AFTER_INSERT => 'decodeTimestamp',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'decodeTimestamp',
+        ];
+    }
+
+    public function encodeTimestamp($event)
+    {
+        $model = $this->owner;
+        $formatter = Yii::$app->formatter;
+        foreach ((array)$this->fields as $field) {
+            if (isset($model->$field) && $model->$field) {
+                $model->$field = $formatter->asTimestamp($model->$field);
+            }
         }
     }
 
-    protected function getValue($event)
+    public function decodeTimestamp($event)
     {
-        $value = $this->owner->{$this->field};
+        $model = $this->owner;
         $formatter = Yii::$app->formatter;
-        if (strpos($event->name, 'before') === 0) { // encode
-            return $formatter->asTimestamp($value);
-        } else { // decode
-            return $formatter->asDate($value);
+        foreach ((array)$this->decodeFields as $key => $field) {
+            $format = 'date';
+            if (!is_numeric($key)) {
+                $format = $field;
+                $field = $key;
+            }
+            if (isset($model->$field) && $model->$field) {
+                $method = 'as' . ucfirst($format);
+                $model->$field = $formatter->$method($model->$field);
+            }
         }
     }
 

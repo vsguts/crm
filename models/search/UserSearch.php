@@ -18,8 +18,7 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'role', 'status', 'country_id', 'state_id', 'city', 'created_at', 'updated_at'], 'integer'],
-            [['email', 'name', 'auth_key', 'password_hash', 'password_reset_token', 'state', 'address'], 'safe'],
+            [$this->attributes(), 'safe'],
         ];
     }
 

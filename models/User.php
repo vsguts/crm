@@ -87,6 +87,11 @@ class User extends AbstractModel implements \yii\web\IdentityInterface
         return $this->hasOne(State::className(), ['id' => 'state_id']);
     }
 
+    public function getDonates()
+    {
+        return $this->hasMany(Donate::className(), ['user_id' => 'id']);
+    }
+
     public function getVisits()
     {
         return $this->hasMany(Visit::className(), ['user_id' => 'id']);

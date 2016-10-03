@@ -135,7 +135,8 @@ class m141031_200922_first extends Migration
 
         $this->createTable('donate', [
             'id'         => $this->primaryKey(),
-            'partner_id' => $this->integer(),
+            'partner_id' => $this->integer()->notNull(),
+            'user_id'    => $this->integer(),
             'sum'        => 'decimal(19,2)',
             'timestamp'  => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
@@ -143,6 +144,7 @@ class m141031_200922_first extends Migration
             'notes'      => $this->text(),
         ], $this->getTableOptions());
         $this->addForeignKey('donate_partner', 'donate', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('donate_user', 'donate', 'user_id', 'user', 'id', 'RESTRICT', 'RESTRICT');
 
         $this->createTable('task', [
             'id'         => $this->primaryKey(),
@@ -166,8 +168,8 @@ class m141031_200922_first extends Migration
 
         $this->createTable('visit', [
             'id'         => $this->primaryKey(),
-            'partner_id' => $this->integer(),
-            'user_id'    => $this->integer(),
+            'partner_id' => $this->integer()->notNull(),
+            'user_id'    => $this->integer()->notNull(),
             'timestamp'  => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

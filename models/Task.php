@@ -4,19 +4,6 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "task".
- *
- * @property integer $id
- * @property integer $user_id
- * @property integer $timestamp
- * @property integer $done
- * @property string $notes
- *
- * @property User $user
- * @property TaskPartner[] $taskPartners
- * @property Partner[] $partners
- */
 class Task extends AbstractModel
 {
 

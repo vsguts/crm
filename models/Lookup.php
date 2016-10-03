@@ -14,9 +14,9 @@ class Lookup extends AbstractModel
     public function rules()
     {
         return [
-            [['model_name', 'field', 'code', 'position', 'name'], 'required'],
+            [['table', 'field', 'code', 'position', 'name'], 'required'],
             [['position'], 'integer'],
-            [['model_name', 'field'], 'string', 'max' => 32],
+            [['table', 'field'], 'string', 'max' => 32],
             [['code'], 'string', 'max' => 64],
             [['name'], 'string', 'max' => 255]
         ];
@@ -26,7 +26,7 @@ class Lookup extends AbstractModel
     {
         return [
             'id' => __('ID'),
-            'model_name' => __('Model Name'),
+            'table' => __('Table'),
             'field' => __('Field'),
             'code' => __('Code'),
             'position' => __('Position'),

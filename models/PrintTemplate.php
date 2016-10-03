@@ -5,25 +5,6 @@ namespace app\models;
 use Yii;
 use app\models\query\PrintTemplateQuery;
 
-/**
- * This is the model class for table "print_template".
- *
- * @property integer $id
- * @property string $name
- * @property integer $status
- * @property string $format
- * @property integer $orientation_landscape
- * @property integer $margin_top
- * @property integer $margin_bottom
- * @property integer $margin_left
- * @property integer $margin_right
- * @property string $content
- * @property string $wrapper
- * @property integer $wrapper_enabled
- *
- * @property PrintTemplateMailingList[] $printTemplateMailingLists
- * @property MailingList[] $lists
- */
 class PrintTemplate extends AbstractModel
 {
     public static function tableName()

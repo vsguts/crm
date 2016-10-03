@@ -5,40 +5,6 @@ namespace app\models;
 use Yii;
 use app\models\query\PartnerQuery;
 
-/**
- * This is the model class for table "partner".
- *
- * @property integer $id
- * @property integer $type
- * @property integer $status
- * @property string $name
- * @property string $firstname
- * @property string $lastname
- * @property string $email
- * @property integer $country_id
- * @property integer $state_id
- * @property string $state
- * @property string $city
- * @property string $address
- * @property string $zipcode
- * @property integer $parent_id
- * @property integer $volunteer
- * @property integer $candidate
- * @property string $notes
- *
- * @property Country $country
- * @property Donate[] $donates
- * @property MailingList[] $mailingList
- * @property MailingListPartner[] $mailingListPartners
- * @property Partner $parent
- * @property Partner[] $partners
- * @property PartnerTag[] $partnerTags
- * @property State $state0
- * @property Tag[] $tags
- * @property TaskPartner[] $taskPartners
- * @property Task[] $tasks
- * @property Visit[] $visits
- */
 class Partner extends AbstractModel
 {
     const TYPE_PEOPLE = 1;

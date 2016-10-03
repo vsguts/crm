@@ -2,17 +2,22 @@
 
 namespace app\behaviors;
 
+use Yii;
 use app\models\Lookup;
 use yii\base\Behavior;
 
 class LookupBehavior extends Behavior
 {
 
-    public $modelName; // if empty will be set using owner name
+    public $table; // if empty will be set using owner name
 
-    public function getLookupItem($field, $code)
+    public function getLookupItem($field, $code = null)
     {
         $items = $this->getLookupItems($field);
+
+        if ($code == null) {
+            $code = $this->owner->$field;
+        }
         
         return isset($items[$code]) ? $items[$code] : false;
     }
@@ -23,7 +28,7 @@ class LookupBehavior extends Behavior
         
         if (!empty($options['empty'])) {
             $label = ' -- ';
-            if ($options['empty'] == 'label') {
+            if (strval($options['empty']) == 'label') {
                 $model_label = $this->owner->getAttributeLabel($field);
                 if ($model_label) {
                     $label = ' - ' . $model_label . ' - ';
@@ -39,6 +44,31 @@ class LookupBehavior extends Behavior
         return $items;
     }
 
+    public function getMonthItem($number)
+    {
+        $list = Yii::$app->params['months'];
+        return isset($list[$number]) ? $list[$number] : null;
+    }
+
+    public function getMonthList($options = [])
+    {
+        $options = array_merge([
+            'empty' => false,
+        ], $options);
+
+        $list = Yii::$app->params['months'];
+
+        if ($options['empty']) {
+            $label = ' -- ';
+            if (is_string($options['empty'])) {
+                $label = ' - ' . $options['empty'] . ' - ';
+            }
+            $list = ['' => $label] + $list;
+        }
+
+        return $list;
+    }
+
     protected static $models = [];
 
     protected function getModelsByField($field)
@@ -46,31 +76,26 @@ class LookupBehavior extends Behavior
         if (!isset(static::$models[$field])) {
             static::$models[$field] = Lookup::find()
                 ->where([
-                    'model_name' => $this->modelName(),
+                    'table' => $this->tableName(),
                     'field' => $field,
                 ])
-                ->orderBy('position')
+                ->orderBy([
+                    'position' => SORT_ASC,
+                    'name' => SORT_ASC,
+                ])
                 ->all();
         }
 
         return static::$models[$field];
     }
 
-    protected function modelName()
+    protected function tableName()
     {
-        if ($this->modelName) {
-            return $this->modelName;
+        if ($this->table) {
+            return $this->table;
         }
 
-        $reflector = new \ReflectionClass($this->owner);
-        $name = $reflector->getShortName();
-
-        $name = strtr($name, [
-            'Search' => '',
-            'Form' => '',
-        ]);
-
-        return $name;
+        return $this->owner->tableName();
     }
-    
+
 }

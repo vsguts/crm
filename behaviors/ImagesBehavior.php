@@ -21,8 +21,8 @@ class ImagesBehavior extends Behavior
     {
         $image = Image::find()
             ->where([
-                'model_name' => $this->owner->formName(),
-                'model_id' => $this->owner->id,
+                'table' => $this->owner->tableName(),
+                'object_id' => $this->owner->id,
                 'default' => 1,
             ])
             ->one();
@@ -38,8 +38,8 @@ class ImagesBehavior extends Behavior
     {
         return Image::find()
             ->where([
-                'model_name' => $this->owner->formName(),
-                'model_id' => $this->owner->id,
+                'table' => $this->owner->formName(),
+                'object_id' => $this->owner->id,
             ])
             ->orderBy(['default' => SORT_DESC, 'id' => SORT_ASC])
             ->all();
@@ -50,8 +50,8 @@ class ImagesBehavior extends Behavior
         $image = new Image;
         $image->attach = $attach;
         $image->related_model = $this->owner;
-        $image->model_name = $this->owner->formName();
-        $image->model_id = $this->owner->id;
+        $image->table = $this->owner->formName();
+        $image->object_id = $this->owner->id;
         $image->save();
         $image->default = $default;
         return $image;
@@ -80,7 +80,7 @@ class ImagesBehavior extends Behavior
 
     public function removeImage(Image $image)
     {
-        if ($image->model_name == $this->owner->formName()) {
+        if ($image->table == $this->owner->formName()) {
             $image->delete();
         }
     }

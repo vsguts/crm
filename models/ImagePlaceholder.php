@@ -8,8 +8,8 @@ class ImagePlaceholder extends Image
     public function init()
     {
         parent::init();
-        $this->model_name = false;
-        $this->model_id = false;
+        $this->table = false;
+        $this->object_id = false;
         $this->filename = 'placeholder.jpg';
     }
 

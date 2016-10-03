@@ -8,15 +8,7 @@ use yii\helpers\Url;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
-/**
- * This is the model class for table "image".
- *
- * @property integer $id
- * @property string  $model_name
- * @property integer $model_id
- * @property string  $filename
- */
-class Image extends ActiveRecord
+class Image extends AbstractModel
 {
     const QUALITY = 75;
 
@@ -46,8 +38,8 @@ class Image extends ActiveRecord
         // Upload
         if ($this->attach) {
             if (is_a($this->attach, 'yii\web\UploadedFile')) {
-                $this->model_name = $this->related_model->formName();
-                $this->model_id = $this->related_model->id;
+                $this->table = $this->related_model->tableName();
+                $this->object_id = $this->related_model->id;
                 $this->filename = $this->saveUploaded($this->attach);
             } elseif (is_string($this->attach)) {
                 //TODO
@@ -84,8 +76,8 @@ class Image extends ActiveRecord
     {
         $default_images = static::find()
             ->where([
-                'model_name' => $this->model_name,
-                'model_id' => $this->model_id,
+                'table' => $this->table,
+                'object_id' => $this->object_id,
                 'default' => 1,
             ])
             ->all();
@@ -129,11 +121,11 @@ class Image extends ActiveRecord
     public function getPath($size = '', $alias = false, $only_dir = false)
     {
         $subdir = '';
-        if ($this->model_name) {
-            $subdir .= $this->model_name . '/';
+        if ($this->table) {
+            $subdir .= $this->table . '/';
         }
-        if ($this->model_id) {
-            $subdir .= $this->model_id . '/';
+        if ($this->object_id) {
+            $subdir .= $this->object_id . '/';
         }
 
         $path = Yii::$app->params['dirs']['image_stored'] . $subdir;

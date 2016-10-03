@@ -4,18 +4,6 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "state".
- *
- * @property integer $id
- * @property integer $country_id
- * @property string $name
- * @property string $code
- *
- * @property Partner[] $partners
- * @property Country $country
- * @property User[] $users
- */
 class State extends AbstractModel
 {
     public static function tableName()

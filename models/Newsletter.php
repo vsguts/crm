@@ -4,17 +4,6 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "newsletter".
- *
- * @property integer $id
- * @property string $subject
- * @property string $body
- *
- * @property NewsletterLog[] $logs
- * @property NewsletterMailingList[] $newsletterMailingLists
- * @property MailingList[] $mailingList
- */
 class Newsletter extends AbstractModel
 {
     public static function tableName()

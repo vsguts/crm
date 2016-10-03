@@ -2,21 +2,13 @@
 
 namespace app\models;
 
+use app\helpers\FileHelper;
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\Url;
-use yii\helpers\FileHelper;
+use yii\base\Exception;
 use yii\web\UploadedFile;
 
-/**
- * This is the model class for table "attachment".
- *
- * @property integer $id
- * @property string  $model_name
- * @property integer $model_id
- * @property string  $filename
- */
-class Attachment extends ActiveRecord
+class Attachment extends AbstractModel
 {
     public $related_model;
     public $attach;
@@ -38,16 +30,17 @@ class Attachment extends ActiveRecord
         // Upload
         if ($this->attach) {
             if (is_a($this->attach, 'yii\web\UploadedFile')) {
-                $this->model_name = $this->related_model->formName();
-                $this->model_id = $this->related_model->id;
+                $this->table = $this->related_model->tableName();
+                $this->object_id = $this->related_model->id;
                 list($this->filename, $this->filesize) = $this->saveUploaded($this->attach);
             } elseif (is_string($this->attach)) {
-                //TODO
+                throw new Exception('TODO: Not implemented yet');
             }
         }
 
         if (!$this->filename) {
             $event->isValid = false;
+
             return false;
         }
     }
@@ -60,22 +53,14 @@ class Attachment extends ActiveRecord
         }
     }
 
-    public function getUrl()
-    {
-        $alias = $this->getPath(true);
-        $alias = str_replace('@webroot', '@web', $alias);
-        
-        return Url::to($alias);
-    }
-
     public function getPath($alias = false, $only_dir = false)
     {
         $subdir = '';
-        if ($this->model_name) {
-            $subdir .= $this->model_name . '/';
+        if ($this->table) {
+            $subdir .= $this->table . '/';
         }
-        if ($this->model_id) {
-            $subdir .= $this->model_id . '/';
+        if ($this->object_id) {
+            $subdir .= $this->object_id . '/';
         }
 
         $path = Yii::$app->params['dirs']['file_stored'] . $subdir;
@@ -86,6 +71,14 @@ class Attachment extends ActiveRecord
         return $alias ? $path : Yii::getAlias($path);
     }
 
+    public function getObject()
+    {
+        $class_name = 'app\models\\' . $this->table;
+        if (class_exists($class_name)) {
+            return $this->hasOne($class_name, ['id' => 'object_id']);
+        }
+    }
+
     protected function saveUploaded(UploadedFile $file)
     {
         $dir = $this->getPath(false, true);
@@ -93,20 +86,29 @@ class Attachment extends ActiveRecord
         $file_name = $file->getBaseName();
         $file_ext = $file->getExtension();
 
-        $filename = $file_name .'.'. $file_ext;
+        $filename = $file_name . '.' . $file_ext;
         $index = 0;
         while (file_exists($dir . $filename)) {
-            $index ++;
+            $index++;
             $filename = $file_name . '-' . $index . '.' . $file_ext;
         }
-        
+
         FileHelper::createDirectory($dir, 0777, true);
         $path = $dir . $filename;
         if ($file->saveAs($path)) {
             return [$filename, filesize($path)];
         }
 
-        return false;
+        return false;;
+    }
+
+    /**
+     * Check if file can be displayed in browser
+     * @return array
+     */
+    public function canShow()
+    {
+        return FileHelper::canShow($this->getPath());
     }
 
 }

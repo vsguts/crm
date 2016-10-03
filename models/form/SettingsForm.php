@@ -35,7 +35,7 @@ class SettingsForm extends Model
         return [
             [
                 'class' => 'app\behaviors\LookupBehavior',
-                'modelName' => 'Setting',
+                'table' => 'setting',
             ],
         ];
     }

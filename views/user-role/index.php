@@ -55,8 +55,14 @@ $detailsLink = function($model) {
                 'link' => $detailsLink,
             ],
             [
-                'attribute' => 'name',
-                'label' => __('Code')
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Users'),
+                'count' => function($model) {
+                    return count(Yii::$app->authManager->getUserIdsByRole($model['name']));
+                },
+                'link' => function($model) {
+                    return Url::to(['user/index', 'user_role_id' => $model['name']]);
+                },
             ],
             // 'name',
             [

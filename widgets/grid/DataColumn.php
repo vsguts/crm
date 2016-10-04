@@ -17,16 +17,21 @@ class DataColumn extends YDataColumn
     {
         $text = parent::renderDataCellContent($model, $key, $index);
 
+        return $this->dataCellContentWrapper($text, $model);
+    }
+
+    protected function dataCellContentWrapper($content, $model)
+    {
         if ($options = $this->getLinkOptions($model)) {
             $url = null;
             if (is_string($options)) {
                 $url = $options;
                 $options = [];
             }
-            return Html::a($text, $url, $options);
+            $content = Html::a($content, $url, $options);
         }
 
-        return $text;
+        return $content;
     }
 
     protected function getLinkOptions($model)
@@ -35,7 +40,11 @@ class DataColumn extends YDataColumn
             $this->link
             && is_callable($this->link)
         ) {
-            return call_user_func($this->link, $model);
+            $options = call_user_func($this->link, $model);
+            if (is_string($options)) {
+                $options = ['href' => $options];
+            }
+            return $options;
         }
     }
 

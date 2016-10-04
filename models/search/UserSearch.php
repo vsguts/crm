@@ -6,12 +6,25 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\User;
+use app\models\UserRole;
 
 /**
  * UserSearch represents the model behind the search form about `app\models\User`.
  */
 class UserSearch extends User
 {
+    /**
+     * @inheritdoc
+     */
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            // Range fields
+            'user_role_id',
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
@@ -32,6 +45,16 @@ class UserSearch extends User
     }
 
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = 'app\behaviors\SearchBehavior';
+        return $behaviors;
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -44,9 +67,7 @@ class UserSearch extends User
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 500],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'name' => SORT_ASC,
@@ -54,17 +75,17 @@ class UserSearch extends User
             ],
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
+        $params = $this->processParams($params);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'role' => $this->role,
             'status' => $this->status,
-            'country_id' => $this->country_id,
-            'state_id' => $this->state_id,
-            'city' => $this->city,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
@@ -74,8 +95,11 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
-            ->andFilterWhere(['like', 'state', $this->state])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        ;
+
+        if ($this->user_role_id) {
+            $query->andWhere(['user.id' => Yii::$app->authManager->getUserIdsByRole($this->user_role_id)]);
+        }
 
         return $dataProvider;
     }

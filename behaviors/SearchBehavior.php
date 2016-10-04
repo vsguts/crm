@@ -21,19 +21,53 @@ class SearchBehavior extends Behavior
         return $params;
     }
 
-    public function addRangeCondition($query, $field = 'timestamp', $to_suffix = '_to')
+    /**
+     * Build between query by two search fields
+     * @param ActiveQuery $query     Query object
+     * @param mixed       $field     Field name: string || array
+     * @param string      $format    Format name
+     * @param string      $to_suffix To field suffix
+     */
+    public function addRangeCondition($query, $field = 'timestamp', $format = 'timestamp', $to_suffix = '_to')
     {
         $model = $this->owner;
-        $formatter = Yii::$app->formatter;
 
-        if ($model->{$field}) {
-            $query->andWhere(['>=', $field, $formatter->asTimestamp($model->{$field})]);
+        $search = $field;
+        if (is_array($field)) {
+            $search = key($field);
+            $field = reset($field);
         }
 
-        $field_to = $field . $to_suffix;
-        if ($model->{$field_to}) {
-            $query->andWhere(['<=', $field, $formatter->asTimestamp($model->{$field_to})]);
+        if ($model->$search) {
+            $query->andWhere(['>=', $field, $this->formatField($model->$search, $format)]);
         }
+
+        $search_to = $search . $to_suffix;
+        if ($model->$search_to) {
+            $to = $this->formatField($model->$search_to, $format);
+            if ($format == 'timestamp') {
+                $to += SECONDS_IN_DAY - 1;
+            }
+            $query->andWhere(['<=', $field, $to]);
+        }
+    }
+
+    public function getPaginationDefaults()
+    {
+        return [
+            'pageSizeLimit' => [50, 500],
+            'defaultPageSize' => 100,
+        ];
+    }
+
+    protected function formatField($value, $format)
+    {
+        if (!$format) {
+            return $value;
+        }
+
+        $method = 'as' . $format;
+        return Yii::$app->formatter->$method($value);
     }
     
 }

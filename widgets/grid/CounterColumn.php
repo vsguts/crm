@@ -2,25 +2,28 @@
 
 namespace app\widgets\grid;
 
-use yii\grid\Column;
+use app\widgets\grid\Column;
+use yii\base\Exception;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
 
-class CounterColumn extends Column
+class CounterColumn extends DataColumn
 {
     public $label;
-    
+
+    public $count;
+
+    public $showEmpty = true;
+
+    // Deprecated:
+
     public $countField = null;
     
     public $modelClass = null;
     
     public $modelField;
     
-    /**
-     * controller/action
-     * @var [type]
-     */
     public $urlPath;
     
     public $searchFieldName = null;
@@ -36,17 +39,26 @@ class CounterColumn extends Column
 
     protected function renderDataCellContent($model, $key, $index)
     {
-        if ($this->countField) {
+        if ($this->count) {
+            $count = call_user_func($this->count, $model, $key, $index, $this);
+        
+        // Deprecated: use `self::$count`
+        } elseif ($this->countField) {
             $count = $model->{$this->countField};
         } elseif ($this->modelClass) {
             $childModelClass = $this->modelClass;
             $count = $childModelClass::find()->where([$this->modelField => $key])->permission()->count();
         } else {
-            throw new \Exception("Count is empty");
+            throw new Exception("Count is empty");
+        }
+
+        if (empty($count) && !$this->showEmpty) {
+            return '';
         }
 
         $content = Html::tag('span', $count, ['class' => 'badge']);
 
+        // Deprecated: Use `DataColumn::$link`
         if ($this->needUrl && $this->modelClass && $this->modelField) { // need url
             $childModel = new $childModelClass;
             if (empty($this->urlPath)) {
@@ -63,6 +75,6 @@ class CounterColumn extends Column
             return Html::a($content, $url);
         }
         
-        return $content;
+        return $this->dataCellContentWrapper($content, $model);
     }
 }

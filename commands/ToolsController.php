@@ -89,9 +89,6 @@ class ToolsController extends Controller
         $permissions['user_role_manage'] = $auth->createPermission('user_role_manage');
         $permissions['user_role_manage']->description = 'Administration::User roles manage';
 
-        $permissions['tools'] = $auth->createPermission('tools');
-        $permissions['tools']->description = 'Administration::Tools';
-        
         $permissions['setting_view'] = $auth->createPermission('setting_view');
         $permissions['setting_view']->description = 'Administration::Settings view';
 

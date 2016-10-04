@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 
 class ToolsController extends AbstractController
 {
@@ -11,11 +10,11 @@ class ToolsController extends AbstractController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => 'yii\filters\AccessControl',
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['tools'],
+                        'roles' => ['setting_view'],
                     ],
                 ],
             ],
@@ -24,6 +23,7 @@ class ToolsController extends AbstractController
 
     public function actionPhpinfo()
     {
-        phpinfo();
+        return phpinfo();
     }
+
 }

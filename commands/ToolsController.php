@@ -126,17 +126,6 @@ class ToolsController extends Controller
         
         $permissions['task_manage'] = $auth->createPermission('task_manage');
         $permissions['task_manage']->description = 'Partners::Tasks manage';
-        
-        // Files
-        $permissions['upload_images'] = $auth->createPermission('upload_images');
-        $permissions['upload_images']->description = 'Files::Upload images';
-        
-        $permissions['upload_own_files'] = $auth->createPermission('upload_own_files');
-        $permissions['upload_own_files']->description = 'Files::Upload own files';
-        
-        $permissions['upload_common_files'] = $auth->createPermission('upload_common_files');
-        $permissions['upload_common_files']->description = 'Files::Upload common files';
-
 
         /**
          * Saving

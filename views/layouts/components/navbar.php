@@ -110,18 +110,6 @@ if ($user->can('user_role_view')) {
         'active' => $controller_id == 'user-role',
     ];
 }
-$can_upload = $user->can('upload_images') || $user->can('upload_own_files') || $user->can('upload_common_files');
-if ($can_upload) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
-    $items[] = [
-        'label' => __('Files'),
-        'visible' => $can_upload,
-        'active' => $controller_id == 'upload',
-        'url' => ['/upload/index'],
-    ];
-}
 if ($user->can('country_view')) {
     if ($items) {
         $items[] = '<li class="divider"></li>';

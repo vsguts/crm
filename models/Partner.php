@@ -25,7 +25,6 @@ class Partner extends AbstractModel
             'app\behaviors\TimestampBehavior',
             'app\behaviors\ImageUploaderBehavior',
             'app\behaviors\ImagesBehavior',
-            'app\behaviors\ListBehavior',
             'app\behaviors\LookupBehavior',
         ];
     }

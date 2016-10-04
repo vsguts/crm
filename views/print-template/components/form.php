@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\MailingList;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 
@@ -38,7 +39,7 @@ $textarea = $form->field($model, 'wrapper')->textarea(['rows' => 6])->hint($this
 $css_class = 'app-dtoggle-wrapper-on ' . ($model->wrapper_enabled ? 'h' : '');
 echo Html::tag('div', $textarea, ['class' => $css_class]);
 
-echo $form->field($model, 'mailingListIds')->checkboxList($model->getList('MailingList', 'name', ['scope' => 'active']));
+echo $form->field($model, 'mailingListIds')->checkboxList(MailingList::find()->active()->scroll());
 
 if (!$model->isNewRecord) {
     echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);

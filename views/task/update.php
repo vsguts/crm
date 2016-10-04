@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
@@ -44,7 +45,7 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
     'url' => ['partner/update']
 ]);
 
-echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty_field' => 'email']));
+echo $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]));
 
 echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',

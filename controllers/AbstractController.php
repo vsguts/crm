@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\Cookie;
+use app\helpers\FileHelper;
 use app\models\Language;
 
 class AbstractController extends Controller

@@ -18,7 +18,6 @@ class PrintTemplate extends AbstractModel
             'app\behaviors\MailingListBehavior',
             'app\behaviors\TimestampBehavior',
             'app\behaviors\LookupBehavior',
-            'app\behaviors\ListBehavior',
         ];
     }
 

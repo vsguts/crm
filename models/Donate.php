@@ -16,7 +16,6 @@ class Donate extends AbstractModel
         return [
             'app\behaviors\TimestampBehavior',
             'app\behaviors\TimestampConvertBehavior',
-            'app\behaviors\ListBehavior',
         ];
     }
 

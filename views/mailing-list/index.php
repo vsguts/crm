@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $detailsLink = function($model) {
     return [
         'label' => __('Edit'),
-        'href' => Url::to(['/mailing-list/update', 'id' => $model->id, '_return_url' => Url::to()]),
+        'href' => Url::to(['/mailing-list/update', 'id' => $model->id]),
     ];
 };
 

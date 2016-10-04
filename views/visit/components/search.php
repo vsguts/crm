@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\User;
 use app\widgets\SearchForm;
 use app\widgets\DatePickerRange;
 
@@ -17,7 +18,7 @@ use app\widgets\DatePickerRange;
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty' => __('User'), 'empty_field' => 'email'])) ?>
+            <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true])) ?>
 
             <?= $form->field($model, 'notes') ?>
 

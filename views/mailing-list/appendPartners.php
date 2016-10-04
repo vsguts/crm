@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\widgets\ActiveForm;
 use app\widgets\Modal;
+use app\models\MailingList;
 
 $this->title = __('Add to mailing list');
 
@@ -26,7 +27,7 @@ $form = ActiveForm::begin(['id' => 'append_partners_form',
 ]);
 
 echo $form->field($model, 'partner_ids', ['template' => '{input}'])->hiddenInput();
-echo $form->field($model, 'mailing_list_id')->dropDownList($model->getList('MailingList', 'name', ['scope' => 'active']));
+echo $form->field($model, 'mailing_list_id')->dropDownList(MailingList::find()->active()->scroll());
 
 ActiveForm::end();
 

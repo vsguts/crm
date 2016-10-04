@@ -1,6 +1,10 @@
 <?php
 
-echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control app-country']);
+use app\models\Country;
+
+echo $form->field($model, 'country_id')->dropDownList(Country::find()->scroll(['empty' => true]), [
+    'class' => 'form-control app-country'
+]);
 
 echo $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-app-value' => $model->state_id]);
 

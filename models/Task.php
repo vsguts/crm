@@ -18,7 +18,6 @@ class Task extends AbstractModel
             'app\behaviors\TimestampBehavior',
             'app\behaviors\TimestampConvertBehavior',
             'app\behaviors\PartnersSelectBehavior',
-            'app\behaviors\ListBehavior',
         ];
     }
 

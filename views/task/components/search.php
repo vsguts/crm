@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\Partner;
+use app\models\User;
 use app\widgets\SearchForm;
 use app\widgets\DatePickerRange;
 
@@ -20,7 +21,7 @@ use app\widgets\DatePickerRange;
                 'initValueText' => $model->partner_id ? Partner::findOne($model->partner_id)->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty' => __('User'), 'empty_field' => 'email'])) ?>
+            <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true])) ?>
             
             <?= $form->field($model, 'done')->dropDownList([
                 '' => ' - ' . __('Done') . ' - ',

@@ -3,6 +3,7 @@
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
+use app\models\Country;
 
 if ($model->isNewRecord) {
     $obj_id = 'state_create';
@@ -33,7 +34,7 @@ $form = ActiveForm::begin([
     ]
 ]);
 
-echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name'));
+echo $form->field($model, 'country_id')->dropDownList(Country::find()->scroll());
 
 echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 

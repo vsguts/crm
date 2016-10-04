@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
+use app\models\MailingList;
 
 $form = ActiveForm::begin(['id' => 'newsletter_form', 'options' => ['enctype' => 'multipart/form-data']]);
 
@@ -21,9 +22,9 @@ if ($widget->parts['{input}']) {
     echo $widget;
 }
 
-echo $form->field($model, 'attachmentsUpload[]')->fileInput(['multiple' => true]);
+echo $form->field($model, 'attachmentsUpload[main][]')->fileInput(['multiple' => true]);
 
-echo $form->field($model, 'mailingListIds')->checkboxList($model->getList('MailingList', 'name', ['scope' => 'active']));
+echo $form->field($model, 'mailingListIds')->checkboxList(MailingList::find()->active()->scroll());
 
 if (!$model->isNewRecord) {
     echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);

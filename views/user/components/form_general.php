@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Country;
+
 echo $form->field($model, 'name')->textInput(['maxlength' => 255]);
 
 echo $form->field($model, 'email')->textInput(['maxlength' => 255]);
@@ -8,7 +10,9 @@ echo $form->field($model, 'password')->passwordInput();
 
 echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));
 
-echo $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => true]), ['class' => 'form-control app-country']);
+echo $form->field($model, 'country_id')->dropDownList(Country::find()->scroll(['empty' => true]), [
+    'class' => 'form-control app-country'
+]);
 
 echo $form->field($model, 'state_id')->dropDownList(['' => ' -- '], ['data-app-value' => $model->state_id]);
 

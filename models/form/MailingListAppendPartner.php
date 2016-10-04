@@ -12,13 +12,6 @@ class MailingListAppendPartner extends Model
     public $partner_ids;
     public $mailing_list_id;
 
-    public function behaviors()
-    {
-        return [
-            'app\behaviors\ListBehavior',
-        ];
-    }
-
     public function rules()
     {
         return [

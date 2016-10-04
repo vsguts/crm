@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\MailingList;
 use app\widgets\SearchForm;
 
 ?>
@@ -12,7 +13,7 @@ use app\widgets\SearchForm;
     <div class="row">
         <div class="col-md-6">
 
-            <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')])) ?>
+            <?= $form->field($model, 'country_id')->dropDownList(MailingList::find()->active()->scroll()) ?>
 
             <?= $form->field($model, 'name') ?>
         

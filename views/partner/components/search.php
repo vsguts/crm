@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Country;
 use app\widgets\SearchForm;
 
 ?>
@@ -30,7 +31,7 @@ use app\widgets\SearchForm;
 
                         <?= $form->field($model, 'publicTags')->label(__('Publ. tags'))->widget('app\widgets\Tags', ['placeholder_from_label' => 1]); ?>
 
-                        <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => 'label']), ['class' => 'app-dtoggle app-dtoggle-type form-control']) ?>
+                        <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => true]), ['class' => 'app-dtoggle app-dtoggle-type form-control']) ?>
 
                         <?= $form->field($model, 'name') ?>
 
@@ -56,11 +57,11 @@ use app\widgets\SearchForm;
                         
                         <?= $form->field($model, 'personalTags')->label(__('Pers. tags'))->widget('app\widgets\Tags', ['placeholder_from_label' => 1]); ?>
 
-                        <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
+                        <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
                         <?= $form->field($model, 'email') ?>
 
-                        <?= $form->field($model, 'country_id')->dropDownList($model->getList('Country', 'name', ['empty' => __('Country')]), ['class' => 'form-control app-country app-country-required']) ?>
+                        <?= $form->field($model, 'country_id')->dropDownList(Country::find()->scroll(['empty' => true]), ['class' => 'form-control app-country app-country-required']) ?>
 
                         <?= $form->field($model, 'state_id', ['options' => ['class' => 'form-group h']])->dropDownList(['' => ' -- '], ['data-app-value' => $model->state_id]) ?>
 

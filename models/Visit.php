@@ -18,7 +18,6 @@ class Visit extends AbstractModel
             'app\behaviors\TimestampConvertBehavior',
             'app\behaviors\ImageUploaderBehavior',
             'app\behaviors\ImagesBehavior',
-            'app\behaviors\ListBehavior',
         ];
     }
 

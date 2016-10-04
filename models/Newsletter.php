@@ -16,7 +16,6 @@ class Newsletter extends AbstractModel
         return [
             'app\behaviors\MailingListBehavior',
             'app\behaviors\TimestampBehavior',
-            'app\behaviors\ListBehavior',
             'app\behaviors\NewsletterBehavior',
             'app\behaviors\AttachmentsBehavior',
         ];

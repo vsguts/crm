@@ -10,15 +10,6 @@ class State extends AbstractModel
     {
         return 'state';
     }
-    
-    public function behaviors()
-    {
-        return [
-            'list' => [
-                'class' => 'app\behaviors\ListBehavior',
-            ],
-        ];
-    }
 
     public function rules()
     {

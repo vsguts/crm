@@ -1,11 +1,13 @@
 <?php
 
+use app\models\User;
+
 echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
     'initValueText' => $model->partner ? $model->partner->extendedName : '',
     'url' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
 ]);
 
-echo $form->field($model, 'user_id')->dropDownList($model->getList('User', 'name', ['empty_field' => 'email']));
+echo $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]));
 
 echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',

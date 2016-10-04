@@ -28,9 +28,8 @@ class User extends AbstractModel implements \yii\web\IdentityInterface
         return [
             'app\behaviors\UserPasswordBehavior',
             'app\behaviors\UserRolesBehavior',
-            'app\behaviors\LookupBehavior',
-            'app\behaviors\ListBehavior',
             'app\behaviors\TimestampBehavior',
+            'app\behaviors\LookupBehavior',
         ];
     }
 

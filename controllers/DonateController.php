@@ -30,7 +30,7 @@ class DonateController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['donate_view'],
+                        'roles' => ['donate_view', 'donate_view_all'],
                     ],
                     [
                         'allow' => true,

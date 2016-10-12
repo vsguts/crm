@@ -78,7 +78,7 @@ class SiteController extends AbstractController
             ];
         }
         
-        if ($user->can('visit_view')) {
+        if ($user->can('visit_view') || $user->can('visit_view_all')) {
             $dashboard[] = [
                 'name' => __('Visits'),
                 'link' => Url::to(['visit/index']),
@@ -86,7 +86,7 @@ class SiteController extends AbstractController
             ];
         }
         
-        if ($user->can('donate_view')) {
+        if ($user->can('donate_view') || $user->can('donate_view_all')) {
             $dashboard[] = [
                 'name' => __('Donates'),
                 'link' => Url::to(['donate/index']),
@@ -94,7 +94,7 @@ class SiteController extends AbstractController
             ];
         }
         
-        if ($user->can('task_view')) {
+        if ($user->can('task_view') || $user->can('task_view_all')) {
             $dashboard[] = [
                 'name' => __('Tasks'),
                 'link' => Url::to(['task/index']),

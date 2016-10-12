@@ -114,8 +114,9 @@ class ToolsController extends Controller
         $permissions['partner_view'] = $auth->createPermission('partner_view');
         $permissions['partner_view']->description = 'Partners::Partners view';
 
-        $permissions['partner_view_all'] = $auth->createPermission('partner_view_all');
-        $permissions['partner_view_all']->description = 'Partners::Partners view all';
+        // @TODO
+        // $permissions['partner_view_all'] = $auth->createPermission('partner_view_all');
+        // $permissions['partner_view_all']->description = 'Partners::Partners view all';
 
         $permissions['partner_manage'] = $auth->createPermission('partner_manage');
         $permissions['partner_manage']->description = 'Partners::Partners manage';

@@ -41,19 +41,19 @@ echo Nav::widget([
         [
             'label' => __('Donates'),
             'url' => ['/donate/index'],
-            'visible' => $user->can('donate_view'),
+            'visible' => $user->can('donate_view') || $user->can('donate_view_all'),
             'active' => $controller_id == 'donate',
         ],
         [
             'label' => __('Visits'),
             'url' => ['/visit/index'],
-            'visible' => $user->can('visit_view'),
+            'visible' => $user->can('visit_view') || $user->can('visit_view_all'),
             'active' => $controller_id == 'visit',
         ],
         [
             'label' => __('Tasks'),
             'url' => ['/task/index'],
-            'visible' => $user->can('task_view'),
+            'visible' => $user->can('task_view') || $user->can('task_view_all'),
             'active' => $controller_id == 'task',
         ],
     ],

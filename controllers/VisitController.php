@@ -31,7 +31,7 @@ class VisitController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['visit_view'],
+                        'roles' => ['visit_view', 'visit_view_all'],
                     ],
                     [
                         'allow' => true,

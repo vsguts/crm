@@ -31,7 +31,7 @@ class TaskController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['task_view'],
+                        'roles' => ['task_view', 'task_view_all'],
                     ],
                     [
                         'allow' => true,

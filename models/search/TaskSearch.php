@@ -68,7 +68,8 @@ class TaskSearch extends Task
     public function search($params)
     {
         $query = Task::find()
-            ->joinWith('partners')
+            ->permission()
+            ->dependent()
         ;
 
         $dataProvider = new ActiveDataProvider([

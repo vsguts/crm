@@ -51,7 +51,8 @@ class NewsletterBehavior extends Behavior
 
                 try {
                     $mail = $mailer
-                        ->compose('simple', ['content' => $content])
+                        ->compose()
+                        ->setHtmlBody($content)
                         ->setFrom($from_email, $from_name)
                         ->setTo($partner->email)
                         ->setSubject($newsletter->subject);

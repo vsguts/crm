@@ -151,6 +151,10 @@ class Partner extends AbstractModel
             ->viaTable('mailing_list_partner', ['partner_id' => 'id']);
     }
 
+    /**
+     * @inheritdoc
+     * @return PartnerQuery the active query used by this AR class.
+     */
     public static function find()
     {
         return new PartnerQuery(get_called_class());

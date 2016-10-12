@@ -58,9 +58,9 @@ class VisitSearch extends Visit
     public function search($params)
     {
         $query = Visit::find()
-            ->joinWith('partner')
-            ->joinWith('user')
-        ;;
+            ->permission()
+            ->dependent()
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

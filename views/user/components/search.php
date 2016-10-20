@@ -21,8 +21,6 @@ use app\widgets\SearchForm;
 
             <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
 
-            <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role', ['empty' => 'label'])) ?>
-
         </div>
     </div>
 

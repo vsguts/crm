@@ -45,8 +45,29 @@ class Partner extends AbstractExport
             'Member' => 'parent.name',
             'Volunteer' => 'Bool:volunteer',
             'Candidate' => 'Bool:candidate',
+            'Public tags' => 'Callback:publicTags',
+            'Personal tags' => 'Callback:personalTags',
             'Notes' => 'notes',
         ];
+    }
+
+    public function publicTags($model)
+    {
+        return $this->prepareTags($model->publicTags);
+    }
+
+    public function personalTags($model)
+    {
+        return $this->prepareTags($model->personalTags);
+    }
+
+    protected function prepareTags($tags)
+    {
+        $result = [];
+        foreach ($tags as $tag) {
+            $result[] = $tag->name;
+        }
+        return implode(',', $result);
     }
 
 }

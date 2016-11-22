@@ -30,7 +30,7 @@ class PrintTemplateController extends AbstractController
                     [
                         'allow' => true,
                         'verbs' => ['GET'],
-                        'actions' => ['index', 'update'],
+                        'actions' => ['index', 'update', 'view'],
                         'roles' => ['newsletter_view'],
                     ],
                     [

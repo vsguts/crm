@@ -1,9 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use app\models\MailingList;
 use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use yii\helpers\Html;
 
 
 $form = ActiveForm::begin(['id' => 'print_template_form']);
@@ -16,14 +15,24 @@ echo $form->field($model, 'format')->dropDownList($model->getLookupItems('format
 
 echo $form->field($model, 'orientation_landscape')->checkbox(['class' => 'checkboxfix'], false);
 
+echo $form->field($model, 'items_per_page')->textInput([
+    'maxlength' => true,
+]);
+
 // Margin fields
 Html::beginTag('div', ['class' => 'row']);
 foreach (['margin_top', 'margin_bottom', 'margin_left', 'margin_right'] as $field) {
-    $field = $form->field($model, $field, ['horizontalCssClasses' => [
-        'offset' => 'col-sm-offset-2',
-        'label' => 'col-sm-7',
-        'wrapper' => 'col-sm-5',
-    ]]);
+    $field = $form
+        ->field($model, $field, [
+            'horizontalCssClasses' => [
+                'offset' => 'col-sm-offset-2',
+                'label' => 'col-sm-7',
+                'wrapper' => 'col-sm-5',
+            ]
+        ])
+        ->textInput([
+            'maxlength' => true,
+        ]);
     echo Html::tag('div', $field, ['class' => 'col-sm-3']);
 }
 Html::endTag('div');

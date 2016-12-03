@@ -2,10 +2,10 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\query\ActiveQuery;
+use yii\db\ActiveRecord;
 
-abstract class AbstractModel extends \yii\db\ActiveRecord
+abstract class AbstractModel extends ActiveRecord
 {
     public function attributeLabels()
     {

@@ -1,16 +1,11 @@
 <?php
+use app\assets\PrintAsset;
 use yii\helpers\Html;
-use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-$asset = AppAsset::register($this);
-
-// remove JS
-foreach ($this->assetBundles as &$bundle) {
-    $bundle->js = [];
-}
+PrintAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -18,7 +13,6 @@ foreach ($this->assetBundles as &$bundle) {
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>

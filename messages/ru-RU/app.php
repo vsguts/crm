@@ -1,7 +1,6 @@
 <?php
 
 $messages = [
-    'Powered by' => 'Работает на',
     'General' => 'Основное',
     'Send' => 'Отправить',
     'Submit' => 'Отправить',
@@ -43,7 +42,6 @@ $messages = [
     'Sign up' => 'Регистрация',
     'Logout' => 'Выход',
     'Logs' => 'Журнал',
-    'Settings' => 'Настройки',
     'Administration' => 'Администрирование',
     'Tools' => 'Инструменты',
     'User' => 'Пользователь',
@@ -125,7 +123,6 @@ $messages = [
     'Updated At' => 'Обновлено',
     'Code' => 'Код',
     'Position' => 'Позиция',
-    'Field' => 'Поле',
     'Volunteer' => 'Волонтер',
     'Candidate' => 'Кандидат',
     'Notes' => 'Примечания',
@@ -141,8 +138,7 @@ $messages = [
     'Your changes have been saved successfully.' => 'Ваши изменения были успешно сохранены.',
     'This email address has already been taken.' => 'Этот адрес эл. почты уже занят.',
     'Item has been deleted successfully.' => 'Элемент был успешно удален.',
-    'Item has been deleted successfully.' => 'Элемент был успешно удален.',
-    'Items have been deleted successfully.' => 'Элементы были успешно удалены.',
+    'Items have been deleted success-fully.' => 'Элементы были успешно удалены.',
     'Cannot delete the item.' => 'Удалить элемент невозможно.',
     'User roles' => 'Роли пользователей',
     'User role: {role}' => 'Роль: {role}',
@@ -234,6 +230,7 @@ $messages = [
     'Update and send' => 'Обновить и отправить',
     'Sender' => 'Отправитель',
     'The newsletter have been sent successfully.' => 'Рассылка успешно отправлена.',
+    'Items per page' => 'Элементов на странице',
 
 ];
 

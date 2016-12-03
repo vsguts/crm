@@ -2,13 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use app\models\Partner;
 use app\models\PrintTemplate;
 use app\models\search\PrintTemplateSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * PrintTemplateController implements the CRUD actions for PrintTemplate model.
@@ -110,7 +109,7 @@ class PrintTemplateController extends AbstractController
 
         $this->layout = 'print';
         $html = $this->render('view', ['content' => $model->generate()]);
-        
+
         if ($to_pdf) {
             $pdf = Yii::$app->htmlToPdf->convert($html, $model->prepareOptions());
 

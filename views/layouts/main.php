@@ -1,8 +1,7 @@
 <?php
-use yii\helpers\Html;
-use yii\helpers\Url;
 use app\assets\AppAsset;
 use app\widgets\ImagesGallery;
+use yii\helpers\Html;
 
 AppAsset::register($this);
 $this->registerJs(AppAsset::customJs());

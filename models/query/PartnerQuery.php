@@ -20,12 +20,12 @@ class PartnerQuery extends ActiveQuery
             return [];
         }
 
-        $previos_select = $this->select;
+        $previous_select = $this->select;
         
         $this->select = ['partner.id'];
         $result = $this->createCommand()->queryAll();
         
-        $this->select = $previos_select;
+        $this->select = $previous_select;
 
         $ids = [];
         foreach ($result as $row) {

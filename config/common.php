@@ -72,7 +72,8 @@ $config = [
                 'no-outline',
                 'page-size' => 'letter',
                 'load-error-handling' => 'ignore',
-                'load-media-error-handling' => 'ignore'
+                'load-media-error-handling' => 'ignore',
+                'zoom' => 0.5,
             ],
         ],
         

@@ -130,13 +130,13 @@ class ToolsController extends Controller
         // Partners
 
         $permissions['partner_view'] = $auth->createPermission('partner_view');
-        $permissions['partner_view']->description = 'General::Partners::View';
+        $permissions['partner_view']->description = 'General::Partners::View all';
 
         $permissions['partner_view_own'] = $auth->createPermission('partner_view_own');
         $permissions['partner_view_own']->description = 'General::Partners::View own';
 
         $permissions['partner_manage'] = $auth->createPermission('partner_manage');
-        $permissions['partner_manage']->description = 'General::Partners::Manage';
+        $permissions['partner_manage']->description = 'General::Partners::Manage all';
 
         $permissions['partner_manage_own'] = $auth->createPermission('partner_manage_own');
         $permissions['partner_manage_own']->description = 'General::Partners::Manage own';
@@ -148,7 +148,7 @@ class ToolsController extends Controller
         // Visits
 
         $permissions['visit_view'] = $auth->createPermission('visit_view');
-        $permissions['visit_view']->description = 'General::Visits::View';
+        $permissions['visit_view']->description = 'General::Visits::View all';
 
         $permissions['visit_view_own'] = $auth->createPermission('visit_view_own');
         $permissions['visit_view_own']->description = 'General::Visits::View own';
@@ -156,15 +156,14 @@ class ToolsController extends Controller
         $permissions['visit_manage'] = $auth->createPermission('visit_manage');
         $permissions['visit_manage']->description = 'General::Visits::Manage';
 
-        // New
-        $permissions['visit_manage_own'] = $auth->createPermission('visit_manage_own');
-        $permissions['visit_manage_own']->description = 'General::Visits::Manage own';
+        // $permissions['visit_manage_own'] = $auth->createPermission('visit_manage_own');
+        // $permissions['visit_manage_own']->description = 'General::Visits::Manage own';
 
 
         // Donates
 
         $permissions['donate_view'] = $auth->createPermission('donate_view');
-        $permissions['donate_view']->description = 'General::Donates::View';
+        $permissions['donate_view']->description = 'General::Donates::View all';
 
         $permissions['donate_view_own'] = $auth->createPermission('donate_view_own');
         $permissions['donate_view_own']->description = 'General::Donates::View own';
@@ -172,15 +171,14 @@ class ToolsController extends Controller
         $permissions['donate_manage'] = $auth->createPermission('donate_manage');
         $permissions['donate_manage']->description = 'General::Donates::Manage';
 
-        // New
-        $permissions['donate_manage_own'] = $auth->createPermission('donate_manage_own');
-        $permissions['donate_manage_own']->description = 'General::Donates::Manage own';
+        // $permissions['donate_manage_own'] = $auth->createPermission('donate_manage_own');
+        // $permissions['donate_manage_own']->description = 'General::Donates::Manage own';
 
 
         // Tasks
 
         $permissions['task_view'] = $auth->createPermission('task_view');
-        $permissions['task_view']->description = 'General::Tasks::View';
+        $permissions['task_view']->description = 'General::Tasks::View all';
 
         $permissions['task_view_own'] = $auth->createPermission('task_view_own');
         $permissions['task_view_own']->description = 'General::Tasks::View own';
@@ -188,9 +186,8 @@ class ToolsController extends Controller
         $permissions['task_manage'] = $auth->createPermission('task_manage');
         $permissions['task_manage']->description = 'General::Tasks::Manage';
 
-        // New
-        $permissions['task_manage_own'] = $auth->createPermission('task_manage_own');
-        $permissions['task_manage_own']->description = 'General::Tasks::Manage own';
+        // $permissions['task_manage_own'] = $auth->createPermission('task_manage_own');
+        // $permissions['task_manage_own']->description = 'General::Tasks::Manage own';
 
 
 

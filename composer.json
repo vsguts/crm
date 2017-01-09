@@ -27,10 +27,10 @@
         "yurkinx/yii2-image": "1.*",
         "yiidoc/yii2-redactor": "*",
         "boundstate/yii2-htmlconverter": "*",
-        "phpoffice/phpexcel": "*"
+        "phpoffice/phpexcel": "*",
+        "bluezed/yii2-float-thead": "*"
     },
     "require-dev": {
-        "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"

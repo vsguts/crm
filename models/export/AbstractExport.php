@@ -4,6 +4,7 @@ namespace app\models\export;
 
 use Yii;
 use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\helpers\Inflector;
 use app\helpers\Tools;
 
@@ -73,7 +74,7 @@ abstract class AbstractExport extends Model
 
     /**
      * Gets result data
-     * @return ActiveQuery
+     * @return array
      */
     public function findData()
     {

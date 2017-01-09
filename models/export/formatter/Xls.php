@@ -2,9 +2,6 @@
 
 namespace app\models\export\formatter;
 
-use Yii;
-use moonland\phpexcel\Excel;
-
 class Xls extends AbstractFormatter
 {
 

@@ -2,7 +2,6 @@
 
 namespace app\models\export;
 
-use Yii;
 use app\models\Partner as PartnerModel;
 use app\models\search\PartnerSearch;
 

@@ -2,10 +2,9 @@
 
 namespace app\helpers;
 
-use yii\base\Object;
 use yii\helpers\Inflector;
 
-class Tools extends Object
+class Tools
 {
     public static function className($object)
     {

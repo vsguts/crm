@@ -78,6 +78,7 @@ $messages = [
     'Last name' => 'Фамилия',
     'Contact form' => 'Обратная связь',
     'About' => 'О программе',
+    'Main page' => 'Главная страница',
     'Role' => 'Роль',
     'Status' => 'Статус',
     'Username' => 'Логин',

@@ -2,7 +2,6 @@
 
 namespace app\models\export\formatter;
 
-use Yii;
 use yii\base\Object;
 
 abstract class AbstractFormatter extends Object
@@ -12,6 +11,7 @@ abstract class AbstractFormatter extends Object
     public $owner;
 
     public $columns = [];
+
     public $data = [];
 
     abstract public function export($file_path = null);

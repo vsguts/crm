@@ -2,19 +2,9 @@
 
 namespace app\models\export\formatter;
 
-use Yii;
-
 class Csv extends AbstractFormatter
 {
-
-    public function init()
-    {
-        foreach ($this->columns as &$column) {
-            if ($column == 'ID') {
-                $column = '#';
-            }
-        }
-    }
+    public $position = 20;
 
     public function export($file_path = null)
     {

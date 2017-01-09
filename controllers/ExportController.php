@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
 use app\helpers\Tools;
-use app\models\export\PayrollEmployees;
 
 class ExportController extends AbstractController
 {

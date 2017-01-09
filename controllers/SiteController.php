@@ -86,22 +86,14 @@ class SiteController extends AbstractController
         $user = Yii::$app->user;
         $dashboard = [];
         
-        if ($user->can('partner_view')) {
+        if ($user->can('partner_view') || $user->can('partner_view_own')) {
             $dashboard[] = [
                 'name' => Html::tag('b', __('Partners')),
                 'link' => Url::to(['partner/index']),
                 'count' => Partner::find()->count(),
             ];
         }
-        
-        if ($user->can('visit_view') || $user->can('visit_view_own')) {
-            $dashboard[] = [
-                'name' => __('Visits'),
-                'link' => Url::to(['visit/index']),
-                'count' => Visit::find()->count(),
-            ];
-        }
-        
+
         if ($user->can('donate_view') || $user->can('donate_view_own')) {
             $dashboard[] = [
                 'name' => __('Donates'),
@@ -109,7 +101,15 @@ class SiteController extends AbstractController
                 'count' => Donate::find()->count(),
             ];
         }
-        
+
+        if ($user->can('visit_view') || $user->can('visit_view_own')) {
+            $dashboard[] = [
+                'name' => __('Visits'),
+                'link' => Url::to(['visit/index']),
+                'count' => Visit::find()->count(),
+            ];
+        }
+
         if ($user->can('task_view') || $user->can('task_view_own')) {
             $dashboard[] = [
                 'name' => __('Tasks'),
@@ -120,12 +120,7 @@ class SiteController extends AbstractController
         
         if ($user->can('newsletter_view')) {
             $dashboard[] = [
-                'name' => __('Mailing lists'),
-                'link' => Url::to(['mailing-list/index']),
-                'count' => MailingList::find()->count(),
-            ];
-            $dashboard[] = [
-                'name' => __('Newsletters'),
+                'name' => __('E-mail newsletters'),
                 'link' => Url::to(['newsletter/index']),
                 'count' => Newsletter::find()->count(),
             ];
@@ -133,6 +128,11 @@ class SiteController extends AbstractController
                 'name' => __('Printing templates'),
                 'link' => Url::to(['print-template/index']),
                 'count' => PrintTemplate::find()->count(),
+            ];
+            $dashboard[] = [
+                'name' => __('Mailing lists'),
+                'link' => Url::to(['mailing-list/index']),
+                'count' => MailingList::find()->count(),
             ];
         }
         

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\base\InvalidParamException;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
@@ -26,20 +27,35 @@ class SiteController extends AbstractController
 {
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['signup', 'login', 'logout', 'contact', 'about', 'faq'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
                         'allow' => true,
+                        'actions' => ['signup', 'login'],
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
+                        'actions' => ['logout'],
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['contact'],
+                        'roles' => ['contact_form'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['about'],
+                        'roles' => ['about_page'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['faq'],
+                        'roles' => ['faq_page'],
                     ],
                 ],
             ],
@@ -49,7 +65,7 @@ class SiteController extends AbstractController
                     'logout' => ['post'],
                 ],
             ],
-        ];
+        ]);
     }
 
     public function actions()
@@ -177,6 +193,11 @@ class SiteController extends AbstractController
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionFaq()
+    {
+        return $this->render('faq');
     }
 
     public function actionSignup()

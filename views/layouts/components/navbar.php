@@ -193,22 +193,22 @@ $menu_items = [
     $proccess_menu_item([
         'label' => __('Help'),
         'items' => [
-            // [
-            //     'label'   => __('FAQ'),
-            //     'url'     => ['/site/faq'],
-            //     'visible' => $user->can('faq_page'),
-            //     'active'  => $controller_id == 'site' && $action_id == 'faq',
-            // ],
             [
-                'label' => __('Contact'),
+                'label'   => __('FAQ'),
+                'url'     => ['/site/faq'],
+                'visible' => $user->can('faq_page'),
+                'active'  => $controller_id == 'site' && $action_id == 'faq',
+            ],
+            [
+                'label' => __('Contact form'),
                 'url' => ['/site/contact'],
-                // 'visible' => $user->can('contact_form'),
+                'visible' => $user->can('contact_form'),
                 'active'  => $controller_id == 'site' && $action_id == 'contact',
             ],
             [
                 'label' => __('About'),
                 'url' => ['/site/about'],
-                // 'visible' => $user->can('about_page'),
+                'visible' => $user->can('about_page'),
                 'active'  => $controller_id == 'site' && $action_id == 'about',
             ],
         ],

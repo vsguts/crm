@@ -54,7 +54,18 @@ class ToolsController extends Controller
         /**
          * Permissions
          */
-        
+
+        // Help
+
+        $permissions['about_page'] = $auth->createPermission('about_page');
+        $permissions['about_page']->description = 'Administration::Site::About';
+
+        $permissions['faq_page'] = $auth->createPermission('faq_page');
+        $permissions['faq_page']->description = 'Administration::Site::FAQ';
+
+        $permissions['contact_form'] = $auth->createPermission('contact_form');
+        $permissions['contact_form']->description = 'Administration::Site::Contact form';
+
         // Administration
 
         $permissions['setting_view'] = $auth->createPermission('setting_view');
@@ -121,7 +132,6 @@ class ToolsController extends Controller
         $permissions['partner_view'] = $auth->createPermission('partner_view');
         $permissions['partner_view']->description = 'General::Partners::View';
 
-        // New
         $permissions['partner_view_own'] = $auth->createPermission('partner_view_own');
         $permissions['partner_view_own']->description = 'General::Partners::View own';
 
@@ -156,7 +166,6 @@ class ToolsController extends Controller
         $permissions['donate_view'] = $auth->createPermission('donate_view');
         $permissions['donate_view']->description = 'General::Donates::View';
 
-        // New
         $permissions['donate_view_own'] = $auth->createPermission('donate_view_own');
         $permissions['donate_view_own']->description = 'General::Donates::View own';
 
@@ -202,8 +211,6 @@ class ToolsController extends Controller
         $added = [];
         foreach ([$roles, $permissions] as $items) {
             foreach ($items as $item) {
-                $table = 'auth_item';
-
                 $exists = (new Query)->select('name')->from('auth_item')->where([
                     'name' => $item->name,
                     'type' => $item->type,
@@ -242,9 +249,9 @@ class ToolsController extends Controller
                 $auth->addChild($roles['root'], $permission);
             }
             // Own permissions to guest
-            if (strpos($permission->name, '_own') && !$auth->hasChild($roles['guest'], $permission)) {
-                $auth->addChild($roles['guest'], $permission);
-            }
+            // if (strpos($permission->name, '_own') && !$auth->hasChild($roles['guest'], $permission)) {
+            //     $auth->addChild($roles['guest'], $permission);
+            // }
         }
         
         // Assign root to user.id=1

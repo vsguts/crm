@@ -2,6 +2,7 @@
 
 namespace app\models\form;
 
+use app\behaviors\LookupBehavior;
 use Yii;
 use yii\base\Model;
 use app\models\Setting;
@@ -21,8 +22,7 @@ class SettingsForm extends Model
     public $poweredBy;
     public $adminEmail;
     public $supportEmail;
-    public $about;
-    
+
     // Email
     public $mailSendMethod;
     public $smtpHost;
@@ -30,11 +30,16 @@ class SettingsForm extends Model
     public $smtpPassword;
     public $smtpEncrypt;
 
+    // Descriptions
+    public $mainpage_description;
+    public $aboutpage_description;
+    public $faqpage_description;
+
     public function behaviors()
     {
         return [
             [
-                'class' => 'app\behaviors\LookupBehavior',
+                'class' => LookupBehavior::class,
                 'table' => 'setting',
             ],
         ];
@@ -57,19 +62,25 @@ class SettingsForm extends Model
     public function attributeLabels()
     {
         return [
+            // General
             'brandName' => __('Brand name'),
             'applicationName' => __('Application name'),
             'companyName' => __('Company name'),
             'poweredBy' => __('Powered by'),
             'adminEmail' => __('Admin email'),
             'supportEmail' => __('Support email'),
-            'about' => __('About text'),
-            
+
+            // Email
             'mailSendMethod' => __('Method of sending emails'),
             'smtpHost' => __('SMTP host'),
             'smtpUsername' => __('SMTP username'),
             'smtpPassword' => __('SMTP password'),
             'smtpEncrypt' => __('SMTP encrypted connection'),
+
+            // Descriptions
+            'mainpage_description' => __('Main page'),
+            'aboutpage_description' => __('About'),
+            'faqpage_description' => __('FAQ'),
         ];
     }
 

@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 $this->title = \Yii::$app->params['applicationName'];
@@ -14,7 +13,7 @@ $user = Yii::$app->user;
         <h1><?= __('Welcome') ?></h1>
 
         <p class="lead">
-            <?= nl2br(Yii::$app->params['about']) ?>
+            <?= Yii::$app->params['mainpage_description'] ?>
         </p>
 
     </div>

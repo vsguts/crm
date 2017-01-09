@@ -21,6 +21,10 @@ $tab_items = [
         'label' => __('E-mails'),
         'content' => $this->render('form_emails', ['form' => $form, 'model' => $model]),
     ],
+    [
+        'label' => __('Descriptions'),
+        'content' => $this->render('form_description', ['form' => $form, 'model' => $model]),
+    ],
 
 ];
 

@@ -54,14 +54,18 @@ class PartnerController extends AbstractController
         $searchModel = new PartnerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        // $this->ajaxAssign('tags', Tag::find()->asArray()->publicTags()->all());
+        $tags = [];
+        if ($public_tags = Tag::find()->publicTags()->permission()->all()) {
+            $tags[__('Public tags')] = $public_tags;
+        }
+        if ($personal_tags = Tag::find()->personalTags()->all()) {
+            $tags[__('Personal tags')] = $personal_tags;
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'tags' => [
-                __('Public tags') => Tag::find()->publicTags()->all(),
-                __('Personal tags') => Tag::find()->personalTags()->all(),
-            ],
+            'tags' => $tags,
         ]);
     }
 
@@ -163,16 +167,34 @@ class PartnerController extends AbstractController
     {
         $models = Partner::find()->where(['partner.id' => $id])->permission()->all();
         if ($models) {
+            $status = true;
             foreach ($models as $model) {
                 if ($model->canManage()) {
-                    $model->delete();
+                    if (!$model->delete()) {
+                        $status = false;
+                    }
+                } else {
+                    $status = false;
                 }
             }
 
-            if (count($models) > 1) {
-                $this->notice(__('Items have been deleted successfully.'));
+            if ($status) {
+                if (count($models) > 1) {
+                    $this->notice(__('Items have been deleted successfully.'));
+                } else {
+                    $this->notice(__('Item has been deleted successfully.'));
+                }
             } else {
-                $this->notice(__('Item has been deleted successfully.'));
+                $model = reset($models);
+                if ($model->errors) {
+                    $this->notice($model->errors, 'danger');
+                } else {
+                    if (count($models) > 1) {
+                        $this->notice(__("Items can't be deleted."), 'danger');
+                    } else {
+                        $this->notice(__("Item can't be deleted."), 'danger');
+                    }
+                }
             }
         }
 

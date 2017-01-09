@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ];
         }
 
-        if (Yii::$app->user->can('partner_manage')) {
+        if (Yii::$app->user->can('partner_manage') || Yii::$app->user->can('partner_manage_own')) {
             $items[] = '<li role="presentation" class="divider"></li>';
             $items[] = [
                 'label' => __('Delete selected'),
@@ -88,33 +88,35 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<?php $this->beginBlock('sidebox'); ?>
+<?php if ($tags) : ?>
+    <?php $this->beginBlock('sidebox'); ?>
 
-    <div class="tags-sidebox">
-    
-    <?php foreach ($tags as $list_name => $tag_list) : ?>
-        <?= Html::tag('h4', $list_name) ?>
-        <ul class="nav nav-pills nav-stacked">
-            <?php foreach ($tag_list as $tag) : ?>
-                <?php $class = (isset($_REQUEST['PartnerSearch']['tag_id']) && $_REQUEST['PartnerSearch']['tag_id'] == $tag->id) ? 'active' : '' ?>
-                <li role="presentation" class="<?= $class ?>">
-                    <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>">
-                        <span class="badge pull-right"><?= $tag->getPartnersCount() ?></span>
-                        <?= $tag->name ?>
-                    </a>
-                </li>
+        <div class="tags-sidebox">
+
+            <?php foreach ($tags as $list_name => $tag_list) : ?>
+                <?= Html::tag('h4', $list_name) ?>
+                <ul class="nav nav-pills nav-stacked">
+                    <?php foreach ($tag_list as $tag) : ?>
+                        <?php $class = (isset($_REQUEST['PartnerSearch']['tag_id']) && $_REQUEST['PartnerSearch']['tag_id'] == $tag->id) ? 'active' : '' ?>
+                        <li role="presentation" class="<?= $class ?>">
+                            <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>">
+                                <span class="badge pull-right"><?= $tag->getPartnersCount() ?></span>
+                                <?= $tag->name ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             <?php endforeach; ?>
-        </ul>
-    <?php endforeach; ?>
 
 
-    <br/>
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="pull-right">
-            <a href="<?= Url::to(['partner/index']) ?>"><?= __('Reset') ?></a>
-        </li>
-    </ul>
+            <br/>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="pull-right">
+                    <a href="<?= Url::to(['partner/index']) ?>"><?= __('Reset') ?></a>
+                </li>
+            </ul>
 
-    </div>
-    
-<?php $this->endBlock(); ?>
+        </div>
+
+    <?php $this->endBlock(); ?>
+<?php endif; ?>

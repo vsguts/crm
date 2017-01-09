@@ -23,9 +23,9 @@ class Tags extends Select2
         ];
 
         $attribute = $this->attribute;
-        $this->attribute = $attribute . 'Str';
+        $this->attribute = $attribute . 'Str'; // FIXME
         
-        $models = Tag::find()->$attribute()->all();
+        $models = Tag::find()->permission()->$attribute()->all();
         $tags = [];
         foreach ($models as $model) {
             $tags[] = $model->name;

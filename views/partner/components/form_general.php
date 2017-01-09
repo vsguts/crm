@@ -38,7 +38,9 @@ echo Html::tag('div', implode(' ', $fields), [
 
 echo $form->field($model, 'status')->dropDownList($model->getLookupItems('status'));
 
-echo $form->field($model, 'publicTags')->widget('app\widgets\Tags', []);
+echo $form->field($model, 'publicTags')->widget('app\widgets\Tags', [
+    'readonly' => !Yii::$app->user->can('public_tags_manage'),
+]);
 
 echo $form->field($model, 'personalTags')->widget('app\widgets\Tags', []);
 

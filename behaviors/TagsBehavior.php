@@ -40,10 +40,8 @@ class TagsBehavior extends Behavior
 
     public function prepareTags()
     {
-        $partner = $this->owner;
-
         foreach ($this->tagTypes as $type) {
-            $partner_tags = $partner->$type;
+            $partner_tags = $this->getTagsByType($type);
             $key = $type . 'Str';
             
             $tags = [];
@@ -60,12 +58,15 @@ class TagsBehavior extends Behavior
 
         if ($data = Yii::$app->request->post($partner->formName())) { // FIXME
             foreach ($this->tagTypes as $type) {
+                if ($type == 'publicTags' && !Yii::$app->user->can('public_tags_manage')) {
+                    continue;
+                }
                 $key = $type . 'Str';
                 if (isset($data[$key])) {
                     $tags = $this->parseTagsStr($data[$key]);
-                    
-                    $partner_tags = $partner->$type;
-                    
+
+                    $partner_tags = $this->getTagsByType($type);
+
                     // Remove
                     foreach ($partner_tags as $partner_tag) {
                         if (!in_array($partner_tag->name, $tags)) {
@@ -84,14 +85,16 @@ class TagsBehavior extends Behavior
                     }
 
                     // Add new
-                    foreach ($tags as $tag) {
-                        $mtag = new Tag;
-                        $mtag->name = $tag;
-                        if ($type == 'personalTags') {
-                            $mtag->setToPersonal();
+                    if ($type != 'publicTags' || Yii::$app->authManager->getUserObjects('public_tags') == 'all') {
+                        foreach ($tags as $tag) {
+                            $mtag = new Tag;
+                            $mtag->name = $tag;
+                            if ($type == 'personalTags') {
+                                $mtag->setToPersonal();
+                            }
+                            $mtag->save();
+                            $partner->link('tags', $mtag);
                         }
-                        $mtag->save();
-                        $partner->link('tags', $mtag);
                     }
                 }
             }
@@ -120,6 +123,13 @@ class TagsBehavior extends Behavior
             }
         }
         return array_filter(array_unique($tags));
+    }
+
+    protected function getTagsByType($type)
+    {
+        $model = $this->owner;
+        $method = 'get' . ucfirst($type);
+        return $model->$method()->permission()->all();
     }
 
 }

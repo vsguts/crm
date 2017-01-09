@@ -203,6 +203,7 @@ $messages = [
     'Sender' => 'Отправитель',
     'The newsletter have been sent successfully.' => 'Рассылка успешно отправлена.',
     'Items per page' => 'Элементов на странице',
+    'Manage public tags' => 'Управление общими тэгами',
 
     // Settings
     'Brand name' => 'Название брэнда',

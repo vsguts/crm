@@ -128,13 +128,11 @@ class ToolsController extends Controller
         $permissions['partner_manage'] = $auth->createPermission('partner_manage');
         $permissions['partner_manage']->description = 'General::Partners::Manage';
 
-        // New
         $permissions['partner_manage_own'] = $auth->createPermission('partner_manage_own');
         $permissions['partner_manage_own']->description = 'General::Partners::Manage own';
 
-        // New
-        $permissions['global_tags_manage'] = $auth->createPermission('global_tags_manage');
-        $permissions['global_tags_manage']->description = 'General::Global tags::Manage';
+        $permissions['public_tags_manage'] = $auth->createPermission('public_tags_manage');
+        $permissions['public_tags_manage']->description = 'General::Partners::Manage public tags';
 
 
         // Visits

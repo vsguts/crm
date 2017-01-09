@@ -99,6 +99,7 @@ $messages = [
     'Volunteer' => 'Волонтер',
     'Candidate' => 'Кандидат',
     'Notes' => 'Примечания',
+    'Communication method' => 'Способ связи',
     'Sum' => 'Сумма',
     'Already registered? Sign in!' => 'Уже зарегистрированы? Авторизуйтесь!',
     "Don't have an account? Sign up!" => 'Нет аккаунта? Зарегистрируйтесь!',
@@ -206,6 +207,7 @@ $messages = [
     'The newsletter have been sent successfully.' => 'Рассылка успешно отправлена.',
     'Items per page' => 'Элементов на странице',
     'Manage public tags' => 'Управление общими тэгами',
+    'E-mail existence' => 'Наличие E-mail',
 
     // Settings
     'Brand name' => 'Название брэнда',
@@ -241,6 +243,7 @@ $messages = [
     'Knows' => 'Знает',
     'Interested' => 'Интересуется',
     'Financial partner' => 'Финансовый партнер',
+    'Postmail' => 'Почта',
     // \Lookup
 
 ];

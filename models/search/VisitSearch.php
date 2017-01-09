@@ -2,17 +2,17 @@
 
 namespace app\models\search;
 
-use app\behaviors\SearchBehavior;
-use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use app\models\components\SearchTrait;
 use app\models\Visit;
+use yii\data\ActiveDataProvider;
 
 /**
  * VisitSearch represents the model behind the search form about `app\models\Visit`.
  */
 class VisitSearch extends Visit
 {
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -21,35 +21,6 @@ class VisitSearch extends Visit
             'created_at_to',
             'updated_at_to',
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-        ];
     }
 
     /**

@@ -32,6 +32,14 @@ class m160000_000001_common extends Migration
         $this->insert('lookup', ['table'=>'partner', 'field'=>'status', 'position'=>30, 'code'=>3, 'name'=>'Interested']);
         $this->insert('lookup', ['table'=>'partner', 'field'=>'status', 'position'=>40, 'code'=>4, 'name'=>'Prays']);
         $this->insert('lookup', ['table'=>'partner', 'field'=>'status', 'position'=>50, 'code'=>5, 'name'=>'Financial partner']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'email', 'name'=>'E-mail']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'postmail', 'name'=>'Postmail']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'phone', 'name'=>'Phone']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'vk', 'name'=>'VK']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'facebook', 'name'=>'Facebook']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'skype', 'name'=>'Skype']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'viber', 'name'=>'Viber']);
+        $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'telegram', 'name'=>'Telegram']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'status', 'position'=>10, 'code'=>1, 'name'=>'Active']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'status', 'position'=>20, 'code'=>2, 'name'=>'Disabled']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'format', 'position'=>10, 'code'=>'A4', 'name'=>'A4']);

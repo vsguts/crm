@@ -2,9 +2,8 @@
 
 namespace app\models\search;
 
-use app\behaviors\SearchBehavior;
+use app\models\components\SearchTrait;
 use app\models\Donate;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -12,6 +11,8 @@ use yii\data\ActiveDataProvider;
  */
 class DonateSearch extends Donate
 {
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -21,32 +22,6 @@ class DonateSearch extends Donate
             'created_at_to',
             'updated_at_to',
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-        ];
     }
 
     /**

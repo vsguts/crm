@@ -2,11 +2,9 @@
 
 namespace app\models\search;
 
-use app\behaviors\LookupBehavior;
-use app\behaviors\SearchBehavior;
+use app\models\components\SearchTrait;
 use app\models\User;
 use Yii;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -14,6 +12,8 @@ use yii\data\ActiveDataProvider;
  */
 class UserSearch extends User
 {
+    use SearchTrait;
+
     /**
      * @inheritdoc
      */
@@ -25,36 +25,6 @@ class UserSearch extends User
             'user_role_id',
             'permission',
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-            LookupBehavior::className(),
-        ];
     }
 
     /**

@@ -1,8 +1,11 @@
 <?php
 
+use app\models\search\PartnerSearch;
 use yii\helpers\Html;
 use app\models\Country;
 use app\widgets\SearchForm;
+
+/* @var $model PartnerSearch */
 
 ?>
 
@@ -31,35 +34,22 @@ use app\widgets\SearchForm;
 
                         <?= $form->field($model, 'publicTags')->label(__('Publ. tags'))->widget('app\widgets\Tags', ['placeholder_from_label' => 1]); ?>
 
-                        <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => true]), ['class' => 'app-dtoggle app-dtoggle-type form-control']) ?>
+                        <?= $form->field($model, 'personalTags')->label(__('Pers. tags'))->widget('app\widgets\Tags', ['placeholder_from_label' => 1]); ?>
+
+                        <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => true])) ?>
 
                         <?= $form->field($model, 'name') ?>
 
-                        <div class="app-dtoggle-type-3">
-                            <?=
-                                $form->field($model, 'parent_id')->widget('app\widgets\SelectAjax', [
-                                    'organizations' => true,
-                                    'initValueText' => $model->parent ? $model->parent->extendedName : '',
-                                ])
-                            ?>
-
-                            <?= $form->field($model, 'volunteer')->checkbox(['uncheck' => ''], false) ?>
-
-                            <?= $form->field($model, 'candidate')->checkbox(['uncheck' => ''], false) ?>
-                        </div>
-
-                        <?= $form->field($model, 'created_at')->widget('app\widgets\DatePickerRange') ?>
-
-                        <?= $form->field($model, 'updated_at')->widget('app\widgets\DatePickerRange') ?>
+                        <?= $form->field($model, 'communication_method')->dropDownList($model->getLookupItems('communication_method', ['empty' => true])) ?>
 
                     </div>
                     <div class="col-md-6">
-                        
-                        <?= $form->field($model, 'personalTags')->label(__('Pers. tags'))->widget('app\widgets\Tags', ['placeholder_from_label' => 1]); ?>
 
                         <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
                         <?= $form->field($model, 'email') ?>
+
+                        <?= $form->field($model, 'email_existence')->dropdownList($model->getBoolItems()) ?>
 
                         <?= $form->field($model, 'country_id')->dropDownList(Country::find()->scroll(['empty' => true]), ['class' => 'form-control app-country app-country-required']) ?>
 

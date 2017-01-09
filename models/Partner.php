@@ -45,8 +45,8 @@ class Partner extends AbstractModel
             [['user_id', 'country_id', 'state_id', 'parent_id', 'type', 'status', 'volunteer', 'candidate'], 'integer'],
             [['notes'], 'string'],
             [['user_id', 'name', 'firstname', 'lastname'], 'required'],
-            [['name', 'firstname', 'lastname', 'email', 'state', 'city'], 'string', 'max' => 64],
             [['email'], 'email'],
+            [['name', 'firstname', 'lastname', 'email', 'state', 'city', 'communication_method'], 'string', 'max' => 64],
             [['contact'], 'string', 'max' => 128],
             [['phone'], 'string', 'max' => 32],
             [['address'], 'string', 'max' => 255],
@@ -83,6 +83,7 @@ class Partner extends AbstractModel
             'volunteer' => __('Volunteer'),
             'candidate' => __('Candidate'),
             'notes' => __('Notes'),
+            'communication_method' => __('Communication method'),
         ]);
     }
 

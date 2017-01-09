@@ -2,18 +2,17 @@
 
 namespace app\models\search;
 
-use app\behaviors\LookupBehavior;
-use app\behaviors\SearchBehavior;
-use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use app\models\components\SearchTrait;
 use app\models\PrintTemplate;
+use yii\data\ActiveDataProvider;
 
 /**
  * TemplateSearch represents the model behind the search form about `app\models\PrintTemplate`.
  */
 class PrintTemplateSearch extends PrintTemplate
 {
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -21,30 +20,6 @@ class PrintTemplateSearch extends PrintTemplate
             'created_at_to',
             'updated_at_to',
         ]);
-    }
-
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::class,
-            LookupBehavior::class,
-        ];
     }
 
     /**

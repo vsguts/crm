@@ -19,7 +19,7 @@ class LookupBehavior extends Behavior
             $code = $this->owner->$field;
         }
         
-        return isset($items[$code]) ? $items[$code] : false;
+        return isset($items[$code]) ? $items[$code] : null;
     }
 
     public function getLookupItems($field, $options = [])

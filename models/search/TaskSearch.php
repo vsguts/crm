@@ -2,9 +2,8 @@
 
 namespace app\models\search;
 
-use app\behaviors\SearchBehavior;
+use app\models\components\SearchTrait;
 use app\models\Task;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -12,6 +11,8 @@ use yii\data\ActiveDataProvider;
  */
 class TaskSearch extends Task
 {
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -23,41 +24,10 @@ class TaskSearch extends Task
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-        ];
-    }
-
     public function attributeLabels()
     {
         $labels = parent::attributeLabels();
-
         $labels['partner_id'] = __('Partner');
-
         return $labels;
     }
 

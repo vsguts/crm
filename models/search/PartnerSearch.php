@@ -3,19 +3,18 @@
 namespace app\models\search;
 
 use app\behaviors\LookupBehavior;
-use app\behaviors\SearchBehavior;
 use app\behaviors\TagsBehavior;
-use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use app\models\components\SearchTrait;
 use app\models\Partner;
+use yii\data\ActiveDataProvider;
 
 /**
  * PartnerSearch represents the model behind the search form about `app\models\Partner`.
  */
 class PartnerSearch extends Partner
 {
-    
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -24,6 +23,7 @@ class PartnerSearch extends Partner
             'tag_id',
             'publicTagsStr',
             'personalTagsStr',
+            'email_existence',
             'created_at_to',
             'updated_at_to',
         ]);
@@ -49,22 +49,22 @@ class PartnerSearch extends Partner
     /**
      * @inheritdoc
      */
-    public function scenarios()
+    public function behaviors()
     {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        return [
+            TagsBehavior::class,
+            LookupBehavior::class,
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function attributeLabels()
     {
-        return [
-            SearchBehavior::class,
-            TagsBehavior::class,
-            LookupBehavior::class,
-        ];
+        return array_merge(parent::attributeLabels(), [
+            'email_existence' => __('E-mail existence'),
+        ]);
     }
 
     /**
@@ -108,6 +108,7 @@ class PartnerSearch extends Partner
             'parent_id' => $this->parent_id,
             'volunteer' => $this->volunteer,
             'candidate' => $this->candidate,
+            'communication_method' => $this->communication_method,
             'partner_tag.tag_id' => $this->tag_id,
         ]);
 
@@ -133,7 +134,9 @@ class PartnerSearch extends Partner
             $query->orFilterWhere(['like', 'email', $this->q]);
             $query->orFilterWhere(['like', 'notes', $this->q]);
         }
-        
+
+        $this->addExistsCondition($query, 'email', $this->email_existence);
+
         $this->addRangeCondition($query, 'created_at');
         $this->addRangeCondition($query, 'updated_at');
 

@@ -2,17 +2,17 @@
 
 namespace app\models\search;
 
-use app\behaviors\SearchBehavior;
-use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use app\models\components\SearchTrait;
 use app\models\Newsletter;
+use yii\data\ActiveDataProvider;
 
 /**
  * NewsletterSearch represents the model behind the search form about `app\models\Newsletter`.
  */
 class NewsletterSearch extends Newsletter
 {
+    use SearchTrait;
+
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -20,29 +20,6 @@ class NewsletterSearch extends Newsletter
             'created_at_to',
             'updated_at_to',
         ]);
-    }
-
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-        ];
-    }
-
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
     }
 
     /**

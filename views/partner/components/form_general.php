@@ -46,6 +46,9 @@ echo $form->field($model, 'personalTags')->widget('app\widgets\Tags', []);
 
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
+echo $form->field($model, 'communication_method')->dropDownList($model->getLookupItems('communication_method', ['empty' => true]));
+
+
 if (!$model->isNewRecord) {
     if ($model->user_id) {
         $user_text = $model->user->name;

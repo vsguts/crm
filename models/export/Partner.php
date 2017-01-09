@@ -47,6 +47,7 @@ class Partner extends AbstractExport
             'Public tags' => 'Callback:publicTags',
             'Personal tags' => 'Callback:personalTags',
             'Notes' => 'notes',
+            'Communication method' => 'Lookup:communication_method',
         ];
     }
 

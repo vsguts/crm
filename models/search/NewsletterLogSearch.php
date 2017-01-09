@@ -2,9 +2,8 @@
 
 namespace app\models\search;
 
-use app\behaviors\SearchBehavior;
+use app\models\components\SearchTrait;
 use app\models\NewsletterLog;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -12,28 +11,7 @@ use yii\data\ActiveDataProvider;
  */
 class NewsletterLogSearch extends NewsletterLog
 {
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::className(),
-        ];
-    }
+    use SearchTrait;
 
     /**
      * Creates data provider instance with search query applied

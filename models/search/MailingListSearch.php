@@ -2,10 +2,8 @@
 
 namespace app\models\search;
 
-use app\behaviors\LookupBehavior;
-use app\behaviors\SearchBehavior;
+use app\models\components\SearchTrait;
 use app\models\MailingList;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -14,6 +12,11 @@ use yii\data\ActiveDataProvider;
 class MailingListSearch extends MailingList
 {
 
+    use SearchTrait;
+
+    /**
+     * @inheritdoc
+     */
     public function attributes()
     {
         // add related fields to searchable attributes
@@ -22,38 +25,11 @@ class MailingListSearch extends MailingList
         ]);
     }
 
-    public function rules()
-    {
-        return [
-            [$this->attributes(), 'safe'],
-        ];
-    }
-
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
             'sender' => __('Sender')
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            SearchBehavior::class,
-            LookupBehavior::class,
-        ];
     }
 
     /**

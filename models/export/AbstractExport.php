@@ -2,6 +2,7 @@
 
 namespace app\models\export;
 
+use Closure;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveQuery;
@@ -159,33 +160,36 @@ abstract class AbstractExport extends Model
         foreach ($models as $model) {
             $row = [];
             foreach ($this->columns as $column => $field) {
-                @list($field, $format) = explode('|', $field, 2);
                 $value = '';
-                if (strpos($field, 'Callback:') === 0) { // Callback
-                    list(, $method) = explode(':', $field, 2);
-                    $value = call_user_func([$this, $method], $model);
-                } elseif (strpos($field, 'Lookup:') === 0) { // Lookup
-                    list(, $field) = explode(':', $field, 2);
-                    $variants = $this->getLookupItems($model, $field);
-                    $value = $variants[$model->$field];
-                } elseif (strpos($field, 'Bool:') === 0) { // Boolean
-                    list(, $field) = explode(':', $field, 2);
-                    $value = $model->$field ? 'Yes' : 'No';
-                } elseif (strpos($field, '.') && strpos($field, ':')) { // relation
-                    list($field, $relation_data) = explode(':', $field, 2);
-                    list($entity, $entity_field) = explode('.', $relation_data, 2);
-                    $variants = $this->getList($model, $entity, $entity_field);
-                    $value = $variants[$this->getModelValue($model, $field)];
-                } else { // just field
-                    $value = $this->getModelValue($model, $field);
+                if ($field instanceof Closure) {
+                    $value = $field($model);
+                } else {
+                    @list($field, $format) = explode('|', $field, 2);
+                    if (strpos($field, 'Callback:') === 0) { // Callback
+                        list(, $method) = explode(':', $field, 2);
+                        $value = call_user_func([$this, $method], $model);
+                    } elseif (strpos($field, 'Lookup:') === 0) { // Lookup
+                        list(, $field) = explode(':', $field, 2);
+                        $value = $this->getLookupItem($model, $field);
+                    } elseif (strpos($field, 'Bool:') === 0) { // Boolean
+                        list(, $field) = explode(':', $field, 2);
+                        $value = $model->$field ? 'Yes' : 'No';
+                    } elseif (strpos($field, '.') && strpos($field, ':')) { // relation
+                        list($field, $relation_data) = explode(':', $field, 2);
+                        list($entity) = explode('.', $relation_data, 2);
+                        $variants = $this->getList($entity);
+                        $value = $variants[$this->getModelValue($model, $field)];
+                    } else { // just field
+                        $value = $this->getModelValue($model, $field);
+                    }
+
+                    // Formatter
+                    if ($format) {
+                        $method = 'as' . ucfirst($format);
+                        $value = Yii::$app->formatter->$method($value);
+                    }
                 }
-                
-                // Formatter
-                if ($format) {
-                    $method = 'as' . ucfirst($format);
-                    $value = Yii::$app->formatter->$method($value);
-                }
-                
+
                 $row[$column] = $value;
             }
             $data[] = $row;
@@ -212,7 +216,28 @@ abstract class AbstractExport extends Model
         return $result;
     }
 
-    protected function getList($model, $entity, $entity_field)
+    protected function getModelField($model, $field)
+    {
+        $parts = explode('.', $field);
+        $object = null;
+        $field = null;
+        $result = $model;
+        foreach ($parts as $part) {
+            $object = $result;
+            $field = $part;
+            if (is_object($result) && isset($result->$part)) {
+                $result = $result->$part;
+            } elseif (is_array($result) && isset($result[$part])) {
+                $result = $result[$part];
+            } else {
+                break;
+            }
+        }
+
+        return [$object, $field];
+    }
+
+    protected function getList($entity)
     {
         static $cache = [];
 
@@ -224,15 +249,10 @@ abstract class AbstractExport extends Model
         return $cache[$entity];
     }
 
-    protected function getLookupItems($model, $field)
+    protected function getLookupItem($model, $field)
     {
-        static $cache = [];
-
-        if (!isset($cache[$field])) {
-            $cache[$field] = $model->getLookupItems($field);
-        }
-
-        return $cache[$field];
+        list($object, $field) = $this->getModelField($model, $field);
+        return $object->getLookupItem($field);
     }
 
 }

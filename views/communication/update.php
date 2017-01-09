@@ -6,12 +6,12 @@ use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
 
 if ($model->isNewRecord) {
-    $obj_id = 'visit_create';
-    $header = __('Create visit');
+    $obj_id = 'communication_create';
+    $header = __('Create communication');
 } else {
-    $obj_id = 'visit_' . $model->id;
-    $header = __('Bisit: {visit}', [
-        'visit' => $model->id,
+    $obj_id = 'communication_' . $model->id;
+    $header = __('Bisit: {communication}', [
+        'communication' => $model->id,
     ]);
 }
 
@@ -25,7 +25,7 @@ Modal::begin([
         'model' => $model,
         'footerWrapper' => false,
         'removeLink' => false,
-        'saveLink' => Yii::$app->user->can('visit_manage'),
+        'saveLink' => Yii::$app->user->can('communication_manage'),
         'form' => $form_id,
     ]),
 ]);

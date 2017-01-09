@@ -7,7 +7,7 @@ use app\widgets\DatePickerRange;
 
 ?>
 
-<div class="visit-search">
+<div class="communication-search">
 
     <?php $form = SearchForm::begin(); ?>
 
@@ -20,17 +20,15 @@ use app\widgets\DatePickerRange;
 
             <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true])) ?>
 
-            <?= $form->field($model, 'notes') ?>
+            <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'type')->dropDownList($model->getLookupItems('type', ['empty' => true])) ?>
 
-            <?= $form->field($model, 'created_at')->widget(DatePickerRange::className()) ?>
+            <?= $form->field($model, 'notes') ?>
 
-            <?= $form->field($model, 'updated_at')->widget(DatePickerRange::className()) ?>
-        
         </div>
     </div>
 

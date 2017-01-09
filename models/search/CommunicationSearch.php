@@ -3,13 +3,13 @@
 namespace app\models\search;
 
 use app\models\components\SearchTrait;
-use app\models\Visit;
+use app\models\Communication;
 use yii\data\ActiveDataProvider;
 
 /**
- * VisitSearch represents the model behind the search form about `app\models\Visit`.
+ * CommunicationSearch represents the model behind the search form about `app\models\Communication`.
  */
-class VisitSearch extends Visit
+class CommunicationSearch extends Communication
 {
     use SearchTrait;
 
@@ -18,8 +18,6 @@ class VisitSearch extends Visit
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
             'timestamp_to',
-            'created_at_to',
-            'updated_at_to',
         ]);
     }
 
@@ -32,7 +30,7 @@ class VisitSearch extends Visit
      */
     public function search($params)
     {
-        $query = Visit::find()
+        $query = Communication::find()
             ->permission()
             ->dependent()
         ;
@@ -42,8 +40,8 @@ class VisitSearch extends Visit
             'pagination' => [
                 'pageSizeLimit' => $this->getPaginationDefaults()['pageSizeLimit'],
                 'defaultPageSize' => $this->getPaginationDefaults()['defaultPageSize'],
-                'pageParam' => 'visit-page',
-                'pageSizeParam' => 'visit-per-page',
+                'pageParam' => 'communication-page',
+                'pageSizeParam' => 'communication-per-page',
             ],
             'sort' => [
                 'defaultOrder' => [
@@ -70,13 +68,12 @@ class VisitSearch extends Visit
             'id' => $this->id,
             'partner_id' => $this->partner_id,
             'user_id' => $this->user_id,
+            'communication.type' => $this->type,
         ]);
 
-        $query->andFilterWhere(['like', 'visit.notes', $this->notes]);
+        $query->andFilterWhere(['like', 'communication.notes', $this->notes]);
         
         $this->addRangeCondition($query, 'timestamp');
-        $this->addRangeCondition($query, 'created_at');
-        $this->addRangeCondition($query, 'updated_at');
 
         return $dataProvider;
     }

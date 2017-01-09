@@ -42,10 +42,9 @@ $messages = [
     'Tasks' => 'Задачи',
     'Task: {task}' => 'Задача: {task}',
     'Create task' => 'Создать задачу',
-    'Visit' => 'Посещение',
-    'Visits' => 'Посещения',
-    'Visit: {visit}' => 'Посещение: {visit}',
-    'Create visit' => 'Создать посещение',
+    'Communication' => 'Коммуникация',
+    'Communication: {communication}' => 'Коммуникация: {communication}',
+    'Create communication' => 'Создать коммуникацию',
     'Profile' => 'Профиль',
     'Sign in' => 'Авторизация',
     'Sign up' => 'Регистрация',
@@ -246,6 +245,8 @@ $messages = [
     'Interested' => 'Интересуется',
     'Financial partner' => 'Финансовый партнер',
     'Postmail' => 'Почта',
+    'Call' => 'Звонок',
+    'Visit' => 'Встреча',
     // \Lookup
 
 ];

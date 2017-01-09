@@ -2,17 +2,20 @@
 
 namespace app\models;
 
-use Yii;
-use app\models\query\VisitQuery;
+use app\behaviors\ImagesBehavior;
+use app\behaviors\ImageUploaderBehavior;
+use app\behaviors\LookupBehavior;
+use app\behaviors\TimestampConvertBehavior;
+use app\models\query\CommunicationQuery;
 
-class Visit extends AbstractModel
+class Communication extends AbstractModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'visit';
+        return 'communication';
     }
 
     /**
@@ -21,10 +24,10 @@ class Visit extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\TimestampConvertBehavior',
-            'app\behaviors\ImageUploaderBehavior',
-            'app\behaviors\ImagesBehavior',
+            TimestampConvertBehavior::class,
+            ImageUploaderBehavior::class,
+            ImagesBehavior::class,
+            LookupBehavior::class,
         ];
     }
 
@@ -34,8 +37,9 @@ class Visit extends AbstractModel
     public function rules()
     {
         return [
-            [['timestamp', 'partner_id', 'user_id'], 'required'],
+            [['partner_id', 'user_id', 'timestamp', 'type'], 'required'],
             [['partner_id', 'user_id'], 'integer'],
+            [['type'], 'string', 'max' => 32],
             [['notes'], 'string'],
         ];
     }
@@ -52,6 +56,7 @@ class Visit extends AbstractModel
             'user_id' => __('User'),
             'user' => __('User'),
             'timestamp' => __('Date'),
+            'type' => __('Type'),
             'notes' => __('Notes'),
         ]);
     }
@@ -75,11 +80,11 @@ class Visit extends AbstractModel
 
     /**
      * @inheritdoc
-     * @return VisitQuery the active query used by this AR class.
+     * @return CommunicationQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new VisitQuery(get_called_class());
+        return new CommunicationQuery(get_called_class());
     }
 
 }

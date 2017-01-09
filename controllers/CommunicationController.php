@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
+use app\behaviors\AjaxFilter;
+use app\models\Communication;
+use app\models\search\CommunicationSearch;
 use Yii;
-use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\behaviors\AjaxFilter;
-use app\models\Visit;
-use app\models\search\VisitSearch;
 
 /**
- * VisitController implements the CRUD actions for Visit model.
+ * CommunicationController implements the CRUD actions for Communication model.
  */
-class VisitController extends AbstractController
+class CommunicationController extends AbstractController
 {
     public function behaviors()
     {
@@ -31,12 +30,12 @@ class VisitController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['visit_view', 'visit_view_own'],
+                        'roles' => ['communication_view', 'communication_view_own'],
                     ],
                     [
                         'allow' => true,
                         'verbs' => ['POST'],
-                        'roles' => ['visit_manage'],
+                        'roles' => ['communication_manage'],
                     ],
                 ],
             ],
@@ -47,12 +46,12 @@ class VisitController extends AbstractController
     }
 
     /**
-     * Lists all Visit models.
+     * Lists all Communication models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new VisitSearch();
+        $searchModel = new CommunicationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +61,7 @@ class VisitController extends AbstractController
     }
 
     /**
-     * Updates an existing Visit model.
+     * Updates an existing Communication model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
@@ -70,9 +69,9 @@ class VisitController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id, Visit::className());
+            $model = $this->findModel($id, Communication::className());
         } else {
-            $model = new Visit();
+            $model = new Communication();
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -95,7 +94,7 @@ class VisitController extends AbstractController
     }
 
     /**
-     * Deletes an existing Visit model.
+     * Deletes an existing Communication model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -105,10 +104,10 @@ class VisitController extends AbstractController
         $ok_message = false;
 
         if (!$id && $ids) { // multiple
-            if (Visit::deleteAll(['id' => $ids])) {
+            if (Communication::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, Visit::className())->delete()) { // single
+        } elseif ($this->findModel($id, Communication::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

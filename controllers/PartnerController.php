@@ -6,7 +6,7 @@ use app\models\Partner;
 use app\models\search\DonateSearch;
 use app\models\search\PartnerSearch;
 use app\models\search\TaskSearch;
-use app\models\search\VisitSearch;
+use app\models\search\CommunicationSearch;
 use app\models\Tag;
 use Yii;
 
@@ -140,7 +140,7 @@ class PartnerController extends AbstractController
         } else {
             $model->prepareTags();
 
-            $visitsDataProvider = (new VisitSearch())->search(['partner_id' => $id]);
+            $communicationsDataProvider = (new CommunicationSearch())->search(['partner_id' => $id]);
             $donatesDataProvider = (new DonateSearch())->search(['partner_id' => $id]);
             $tasksDataProvider = (new TaskSearch())->search(['partner_id' => $id]);
             $contactsDataProvider = (new PartnerSearch())->search(['parent_id' => $id]);
@@ -148,7 +148,7 @@ class PartnerController extends AbstractController
             return $this->render('update', [
                 'model' => $model,
                 'extra' => [
-                    'visitsDataProvider'   => $visitsDataProvider,
+                    'communicationsDataProvider'   => $communicationsDataProvider,
                     'donatesDataProvider'  => $donatesDataProvider,
                     'tasksDataProvider'    => $tasksDataProvider,
                     'contactsDataProvider' => $contactsDataProvider,

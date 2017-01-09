@@ -2,22 +2,24 @@
 
 namespace app\models\export;
 
-use Yii;
-use app\models\Visit as VisitModel;
-use app\models\search\VisitSearch;
+use app\models\Communication as CommunicationModel;
+use app\models\search\CommunicationSearch;
 
-class Visit extends AbstractExport
+class Communication extends AbstractExport
 {
 
     public function find()
     {
         if ($this->ids) {
-            return VisitModel::find()
+            return CommunicationModel::find()
                 ->where(['id' => $this->ids])
-                ->orderBy(['created_at' => SORT_DESC])
+                ->orderBy([
+                    'timestamp' => SORT_DESC,
+                    'id' => SORT_DESC,
+                ])
             ;
         } else {
-            $search = new VisitSearch();
+            $search = new CommunicationSearch();
             $dataProvider = $search->search($this->queryParams);
             $dataProvider->pagination = false;
             return $dataProvider->query;
@@ -28,9 +30,10 @@ class Visit extends AbstractExport
     {
         return [
             'ID' => 'id',
+            'Date' => 'timestamp|date',
             'Partner' => 'partner.name',
             'User' => 'user.name',
-            'Date' => 'timestamp|date',
+            'Type' => 'Lookup:type',
             'Notes' => 'notes',
         ];
     }

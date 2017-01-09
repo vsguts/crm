@@ -92,10 +92,10 @@ echo Nav::widget([
             'active' => $controller_id == 'donate',
         ],
         [
-            'label' => __('Visits'),
-            'url' => ['/visit/index'],
-            'visible' => $user->can('visit_view') || $user->can('visit_view_own'),
-            'active' => $controller_id == 'visit',
+            'label' => __('Communication'),
+            'url' => ['/communication/index'],
+            'visible' => $user->can('communication_view') || $user->can('communication_view_own'),
+            'active' => $controller_id == 'communication',
         ],
         [
             'label' => __('Tasks'),

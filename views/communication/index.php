@@ -4,18 +4,18 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
-$this->title = __('Visits');
+$this->title = __('Communication');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="visit-index">
+<div class="communication-index">
 
     <div class="pull-right buttons-container">
-        <?php if (Yii::$app->user->can('visit_manage')) : ?>
+        <?php if (Yii::$app->user->can('communication_manage')) : ?>
             <div class="btn-group">
-                <?= Html::a(__('Create visit'), ['update', '_return_url' => Url::to()], [
+                <?= Html::a(__('Create communication'), ['update', '_return_url' => Url::to()], [
                     'class' => 'btn btn-success app-modal',
-                    'data-target-id' => 'visit_create',
+                    'data-target-id' => 'communication_create',
                 ]) ?>
             </div>
         <?php endif; ?>
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $items = [
                 [
                     'label' => __('Export selected'),
-                    'url' => Url::to(['/export/export/', 'object' => 'visit']),
+                    'url' => Url::to(['/export/export/', 'object' => 'communication']),
                     'linkOptions' => [
                         'class' => 'app-modal app-modal-force',
                         'data-target-id' => 'export',
@@ -33,14 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'label' => __('Export all'),
-                    'url' => Url::to(['/export/export/', 'object' => 'visit', 'attributes' => ['queryParams' => Yii::$app->request->queryParams]]),
+                    'url' => Url::to(['/export/export/', 'object' => 'communication', 'attributes' => ['queryParams' => Yii::$app->request->queryParams]]),
                     'linkOptions' => [
                         'class' => 'app-modal app-modal-force',
                         'data-target-id' => 'export',
                     ],
                 ],
             ];
-            if (Yii::$app->user->can('visit_manage')) {
+            if (Yii::$app->user->can('communication_manage')) {
                 $items[] = '<li role="presentation" class="divider"></li>';
                 $items[] = [
                     'label' => __('Delete selected'),

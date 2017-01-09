@@ -25,9 +25,9 @@ $tab_items = [
 if (!$model->isNewRecord) {
     
     $tab_items[] = [
-        'label' => __('Visits'),
-        'content' => $this->render('/visit/components/grid', [
-            'dataProvider' => $extra['visitsDataProvider'],
+        'label' => __('Communication'),
+        'content' => $this->render('/communication/components/grid', [
+            'dataProvider' => $extra['communicationsDataProvider'],
             'partnerId' => $model->id,
         ]),
     ];

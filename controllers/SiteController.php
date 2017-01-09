@@ -15,7 +15,7 @@ use app\models\MailingList;
 use app\models\Partner;
 use app\models\PrintTemplate;
 use app\models\Task;
-use app\models\Visit;
+use app\models\Communication;
 use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\UserLoginForm;
@@ -102,11 +102,11 @@ class SiteController extends AbstractController
             ];
         }
 
-        if ($user->can('visit_view') || $user->can('visit_view_own')) {
+        if ($user->can('communication_view') || $user->can('communication_view_own')) {
             $dashboard[] = [
-                'name' => __('Visits'),
-                'link' => Url::to(['visit/index']),
-                'count' => Visit::find()->count(),
+                'name' => __('Communications'),
+                'link' => Url::to(['communication/index']),
+                'count' => Communication::find()->count(),
             ];
         }
 

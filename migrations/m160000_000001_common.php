@@ -40,6 +40,9 @@ class m160000_000001_common extends Migration
         $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'skype', 'name'=>'Skype']);
         $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'viber', 'name'=>'Viber']);
         $this->insert('lookup', ['table'=>'partner', 'field'=>'communication_method', 'code'=>'telegram', 'name'=>'Telegram']);
+        $this->insert('lookup', ['table'=>'communication', 'field'=>'type', 'code'=>'email', 'name'=>'E-mail']);
+        $this->insert('lookup', ['table'=>'communication', 'field'=>'type', 'code'=>'visit', 'name'=>'Visit']);
+        $this->insert('lookup', ['table'=>'communication', 'field'=>'type', 'code'=>'call', 'name'=>'Call']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'status', 'position'=>10, 'code'=>1, 'name'=>'Active']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'status', 'position'=>20, 'code'=>2, 'name'=>'Disabled']);
         $this->insert('lookup', ['table'=>'print_template', 'field'=>'format', 'position'=>10, 'code'=>'A4', 'name'=>'A4']);

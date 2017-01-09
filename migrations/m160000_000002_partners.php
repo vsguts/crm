@@ -91,23 +91,24 @@ class m160000_000002_partners extends Migration
         $this->addForeignKey('task_partner_partner', 'task_partner', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
 
 
-        $this->createTable('visit', [
+        $this->createTable('communication', [
             'id'         => $this->primaryKey(),
             'partner_id' => $this->integer()->notNull(),
             'user_id'    => $this->integer()->notNull(),
             'timestamp'  => $this->integer()->notNull(),
+            'type'       => $this->string(32)->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
             'notes'      => $this->text(),
         ], $this->getTableOptions());
-        $this->addForeignKey('visit_partner', 'visit', 'partner_id', 'partner', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('visit_user', 'visit', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('communication_partner', 'communication', 'partner_id', 'partner', 'id', 'RESTRICT', 'RESTRICT');
+        $this->addForeignKey('communication_user', 'communication', 'user_id', 'user', 'id', 'RESTRICT', 'RESTRICT');
 
     }
 
     public function down()
     {
-        $this->dropTable('visit');
+        $this->dropTable('communication');
         $this->dropTable('task_partner');
         $this->dropTable('task');
         $this->dropTable('donate');

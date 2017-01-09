@@ -73,8 +73,9 @@ class LookupBehavior extends Behavior
 
     protected function getModelsByField($field)
     {
-        if (!isset(static::$models[$field])) {
-            static::$models[$field] = Lookup::find()
+        $model_name = $this->owner->className();
+        if (!isset(static::$models[$model_name][$field])) {
+            static::$models[$model_name][$field] = Lookup::find()
                 ->where([
                     'table' => $this->tableName(),
                     'field' => $field,
@@ -86,7 +87,7 @@ class LookupBehavior extends Behavior
                 ->all();
         }
 
-        return static::$models[$field];
+        return static::$models[$model_name][$field];
     }
 
     protected function tableName()

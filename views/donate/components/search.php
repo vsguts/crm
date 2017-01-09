@@ -6,7 +6,7 @@ use app\models\User;
 
 ?>
 
-<div class="visit-search">
+<div class="communication-search">
 
     <?php $form = SearchForm::begin(); ?>
 

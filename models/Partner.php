@@ -196,9 +196,9 @@ class Partner extends AbstractModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVisits()
+    public function getCommunications()
     {
-        return $this->hasMany(Visit::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(Communication::className(), ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**

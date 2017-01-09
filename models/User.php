@@ -121,9 +121,9 @@ class User extends AbstractModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVisits()
+    public function getCommunications()
     {
-        return $this->hasMany(Visit::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Communication::className(), ['user_id' => 'id'])->inverseOf('user');
     }
 
 

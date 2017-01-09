@@ -9,8 +9,8 @@ System allows you to manage partners and relationships with them.
   - Partner photos management (with gallery widget to view)
   - Tag system allows you to conveniently search for partners. Public and personal tags are available.
   - Child partners: Organization -> People
-- Partner visits management
-  - Visit photos
+- Partner communications management
+  - Communication photos
 - Partner donates management
 - Tasks system (many-to-many relation with partners)
 - Users management
@@ -20,7 +20,7 @@ System allows you to manage partners and relationships with them.
 - File storage (common and personal)
 - Export to CSV
   - Partners
-  - Visits
+  - Communications
   - Donates
   - Tasks
 - Multi Language support (currently English and Russian languages are available)

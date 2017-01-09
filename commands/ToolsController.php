@@ -145,19 +145,19 @@ class ToolsController extends Controller
         $permissions['public_tags_manage']->description = 'General::Partners::Manage public tags';
 
 
-        // Visits
+        // Communications
 
-        $permissions['visit_view'] = $auth->createPermission('visit_view');
-        $permissions['visit_view']->description = 'General::Visits::View all';
+        $permissions['communication_view'] = $auth->createPermission('communication_view');
+        $permissions['communication_view']->description = 'General::Communications::View all';
 
-        $permissions['visit_view_own'] = $auth->createPermission('visit_view_own');
-        $permissions['visit_view_own']->description = 'General::Visits::View own';
+        $permissions['communication_view_own'] = $auth->createPermission('communication_view_own');
+        $permissions['communication_view_own']->description = 'General::Communications::View own';
 
-        $permissions['visit_manage'] = $auth->createPermission('visit_manage');
-        $permissions['visit_manage']->description = 'General::Visits::Manage';
+        $permissions['communication_manage'] = $auth->createPermission('communication_manage');
+        $permissions['communication_manage']->description = 'General::Communications::Manage';
 
-        // $permissions['visit_manage_own'] = $auth->createPermission('visit_manage_own');
-        // $permissions['visit_manage_own']->description = 'General::Visits::Manage own';
+        // $permissions['communication_manage_own'] = $auth->createPermission('communication_manage_own');
+        // $permissions['communication_manage_own']->description = 'General::Communications::Manage own';
 
 
         // Donates

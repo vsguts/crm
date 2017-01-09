@@ -4,13 +4,13 @@ namespace app\models\query;
 
 use Yii;
 
-class VisitQuery extends ActiveQuery
+class CommunicationQuery extends ActiveQuery
 {
     public function permission()
     {
-        if (!Yii::$app->user->can('visit_view')) {
-            if (Yii::$app->user->can('visit_view_own')) {
-                $this->andWhere(['visit.user_id' => Yii::$app->user->identity->id]);
+        if (!Yii::$app->user->can('communication_view')) {
+            if (Yii::$app->user->can('communication_view_own')) {
+                $this->andWhere(['communication.user_id' => Yii::$app->user->identity->id]);
             } else {
                 $this->andWhere('1=0');
             }

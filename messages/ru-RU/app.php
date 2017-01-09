@@ -160,6 +160,7 @@ $messages = [
     'Content' => 'Содержимое',
     'Advanced search' => 'Расширенный поиск',
     'Newsletters' => 'Рассылки',
+    'E-mail newsletters' => 'E-mail рассылки',
     'Newsletter: {newsletter}' => 'Рассылка: {newsletter}',
     'Subscribers' => 'Подписчики',
     'Create newsletter' => 'Создать рассылку',

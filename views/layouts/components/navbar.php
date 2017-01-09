@@ -118,24 +118,30 @@ $menu_items = [
     $proccess_menu_item([
         // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
         'label' => __('Newsletters'),
-        'items' => [
+        'sections' => [
             [
-                'label' => __('Mailing lists'),
-                'url' => ['/mailing-list/index'],
-                'visible' => $user->can('newsletter_view'),
-                'active' => $controller_id == 'mailing-list',
+                [
+                    'label'   => __('E-mail newsletters'),
+                    'url'     => ['/newsletter/index'],
+                    'visible' => $user->can('newsletter_view'),
+                    'active'  => $controller_id == 'newsletter',
+                ],
             ],
             [
-                'label' => __('Newsletters'),
-                'url' => ['/newsletter/index'],
-                'visible' => $user->can('newsletter_view'),
-                'active' => $controller_id == 'newsletter',
+                [
+                    'label'   => __('Printing templates'),
+                    'url'     => ['/print-template/index'],
+                    'visible' => $user->can('newsletter_view'),
+                    'active'  => $controller_id == 'print-template',
+                ],
             ],
             [
-                'label' => __('Printing templates'),
-                'url' => ['/print-template/index'],
-                'visible' => $user->can('newsletter_view'),
-                'active' => $controller_id == 'print-template',
+                [
+                    'label'   => __('Mailing lists'),
+                    'url'     => ['/mailing-list/index'],
+                    'visible' => $user->can('newsletter_view'),
+                    'active'  => $controller_id == 'mailing-list',
+                ],
             ],
         ],
     ]),

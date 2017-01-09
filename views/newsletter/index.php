@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
-$this->title = __('Newsletters');
+$this->title = __('E-mail newsletters');
 $this->params['breadcrumbs'][] = $this->title;
 
 $detailsLink = function($model) {
@@ -53,8 +53,8 @@ $detailsLink = function($model) {
                 'attribute' => 'subject',
                 'link' => $detailsLink,
             ],
-            'created_at:date',
-            'updated_at:date',
+            // 'created_at:date',
+            // 'updated_at:date',
 
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
             ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Logs'), 'countField' => 'logsCount'],

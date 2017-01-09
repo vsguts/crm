@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = __('Create newsletter');
-$this->params['breadcrumbs'][] = ['label' => __('Newsletters'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => __('E-mail newsletters'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

@@ -13,7 +13,7 @@ use app\widgets\SearchForm;
         <div class="col-md-6">
 
             <?= $form->field($model, 'name') ?>
-            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
         </div>
         <div class="col-md-6">

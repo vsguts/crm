@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\Tag;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Tag;
 
 /**
  * TagSearch represents the model behind the search form about `app\models\Tag`.
@@ -32,6 +32,16 @@ class TagSearch extends Tag
     }
 
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            SearchBehavior::className(),
+        ];
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -44,9 +54,7 @@ class TagSearch extends Tag
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
         ]);
 
         if (!($this->load($params) && $this->validate())) {

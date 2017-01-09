@@ -2,12 +2,10 @@
 
 namespace app\commands;
 
+use app\components\rbac\OwnerRule;
 use Yii;
 use yii\console\Controller;
-use yii\rbac\Permission;
 use yii\db\Query;
-use app\components\rbac\OwnerRule;
-use app\models\User;
 
 /**
  * Application tools
@@ -59,94 +57,133 @@ class ToolsController extends Controller
         
         // Administration
 
-        $permissions['country_view'] = $auth->createPermission('country_view');
-        $permissions['country_view']->description = 'Administration::Countries view';
-
-        $permissions['country_manage'] = $auth->createPermission('country_manage');
-        $permissions['country_manage']->description = 'Administration::Countries manage';
-
-        $permissions['state_view'] = $auth->createPermission('state_view');
-        $permissions['state_view']->description = 'Administration::States view';
-
-        $permissions['state_manage'] = $auth->createPermission('state_manage');
-        $permissions['state_manage']->description = 'Administration::States manage';
-
         $permissions['setting_view'] = $auth->createPermission('setting_view');
-        $permissions['setting_view']->description = 'Administration::Settings view';
+        $permissions['setting_view']->description = 'Administration::Settings::View';
 
         $permissions['setting_manage'] = $auth->createPermission('setting_manage');
-        $permissions['setting_manage']->description = 'Administration::Settings manage';
+        $permissions['setting_manage']->description = 'Administration::Settings::Manage';
 
+        $permissions['country_view'] = $auth->createPermission('country_view');
+        $permissions['country_view']->description = 'Administration::Countries::View';
 
-        // Users
-        
+        $permissions['country_manage'] = $auth->createPermission('country_manage');
+        $permissions['country_manage']->description = 'Administration::Countries::Manage';
+
+        $permissions['state_view'] = $auth->createPermission('state_view');
+        $permissions['state_view']->description = 'Administration::States::View';
+
+        $permissions['state_manage'] = $auth->createPermission('state_manage');
+        $permissions['state_manage']->description = 'Administration::States::Manage';
+
         $permissions['user_view'] = $auth->createPermission('user_view');
-        $permissions['user_view']->description = 'Users::Users view';
+        $permissions['user_view']->description = 'Administration::Users::View';
 
         $permissions['user_manage'] = $auth->createPermission('user_manage');
-        $permissions['user_manage']->description = 'Users::Users manage';
+        $permissions['user_manage']->description = 'Administration::Users::Manage';
 
         $permissions['user_act_on_behalf'] = $auth->createPermission('user_act_on_behalf');
-        $permissions['user_act_on_behalf']->description = 'Users::Users act on behalf';
+        $permissions['user_act_on_behalf']->description = 'Administration::Users::Act on behalf';
 
         $permissions['user_manage_own'] = $auth->createPermission('user_manage_own');
-        $permissions['user_manage_own']->description = 'Users::Manage own user profile';
+        $permissions['user_manage_own']->description = 'Administration::Users::Manage own profile';
         $permissions['user_manage_own']->ruleName = $rules['owner']->name;
 
         $permissions['user_role_view'] = $auth->createPermission('user_role_view');
-        $permissions['user_role_view']->description = 'Users::User roles view';
+        $permissions['user_role_view']->description = 'Administration::User roles::View';
 
         $permissions['user_role_manage'] = $auth->createPermission('user_role_manage');
-        $permissions['user_role_manage']->description = 'Users::User roles manage';
+        $permissions['user_role_manage']->description = 'Administration::User roles::Manage';
 
 
         // Newsletters
 
+        $permissions['mailing_list_view'] = $auth->createPermission('mailing_list_view');
+        $permissions['mailing_list_view']->description = 'Newsletters::Mailing lists::View';
+
+        $permissions['mailing_list_manage'] = $auth->createPermission('mailing_list_manage');
+        $permissions['mailing_list_manage']->description = 'Newsletters::Mailing lists::Manage';
+
         $permissions['newsletter_view'] = $auth->createPermission('newsletter_view');
-        $permissions['newsletter_view']->description = 'Newsletters::Newsletters view';
+        $permissions['newsletter_view']->description = 'Newsletters::Newsletters::View';
 
         $permissions['newsletter_manage'] = $auth->createPermission('newsletter_manage');
-        $permissions['newsletter_manage']->description = 'Newsletters::Newsletters manage';
+        $permissions['newsletter_manage']->description = 'Newsletters::Newsletters::Manage';
+
+        $permissions['print_template_view'] = $auth->createPermission('print_template_view');
+        $permissions['print_template_view']->description = 'Newsletters::Print templates::View';
+
+        $permissions['print_template_manage'] = $auth->createPermission('print_template_manage');
+        $permissions['print_template_manage']->description = 'Newsletters::Print templates::Manage';
 
 
         // Partners
 
         $permissions['partner_view'] = $auth->createPermission('partner_view');
-        $permissions['partner_view']->description = 'Partners::Partners view';
+        $permissions['partner_view']->description = 'General::Partners::View';
 
-        // @TODO
-        // $permissions['partner_view_all'] = $auth->createPermission('partner_view_all');
-        // $permissions['partner_view_all']->description = 'Partners::Partners view all';
+        // New
+        $permissions['partner_view_own'] = $auth->createPermission('partner_view_own');
+        $permissions['partner_view_own']->description = 'General::Partners::View own';
 
         $permissions['partner_manage'] = $auth->createPermission('partner_manage');
-        $permissions['partner_manage']->description = 'Partners::Partners manage';
+        $permissions['partner_manage']->description = 'General::Partners::Manage';
+
+        // New
+        $permissions['partner_manage_own'] = $auth->createPermission('partner_manage_own');
+        $permissions['partner_manage_own']->description = 'General::Partners::Manage own';
+
+        // New
+        $permissions['global_tags_manage'] = $auth->createPermission('global_tags_manage');
+        $permissions['global_tags_manage']->description = 'General::Global tags::Manage';
+
+
+        // Visits
 
         $permissions['visit_view'] = $auth->createPermission('visit_view');
-        $permissions['visit_view']->description = 'Partners::Visits view';
+        $permissions['visit_view']->description = 'General::Visits::View';
 
-        $permissions['visit_view_all'] = $auth->createPermission('visit_view_all');
-        $permissions['visit_view_all']->description = 'Partners::Visits view all';
+        $permissions['visit_view_own'] = $auth->createPermission('visit_view_own');
+        $permissions['visit_view_own']->description = 'General::Visits::View own';
 
         $permissions['visit_manage'] = $auth->createPermission('visit_manage');
-        $permissions['visit_manage']->description = 'Partners::Visits manage';
+        $permissions['visit_manage']->description = 'General::Visits::Manage';
+
+        // New
+        $permissions['visit_manage_own'] = $auth->createPermission('visit_manage_own');
+        $permissions['visit_manage_own']->description = 'General::Visits::Manage own';
+
+
+        // Donates
 
         $permissions['donate_view'] = $auth->createPermission('donate_view');
-        $permissions['donate_view']->description = 'Partners::Donates view';
+        $permissions['donate_view']->description = 'General::Donates::View';
 
-        $permissions['donate_view_all'] = $auth->createPermission('donate_view_all');
-        $permissions['donate_view_all']->description = 'Partners::Donates view all';
+        // New
+        $permissions['donate_view_own'] = $auth->createPermission('donate_view_own');
+        $permissions['donate_view_own']->description = 'General::Donates::View own';
 
         $permissions['donate_manage'] = $auth->createPermission('donate_manage');
-        $permissions['donate_manage']->description = 'Partners::Donates manage';
+        $permissions['donate_manage']->description = 'General::Donates::Manage';
+
+        // New
+        $permissions['donate_manage_own'] = $auth->createPermission('donate_manage_own');
+        $permissions['donate_manage_own']->description = 'General::Donates::Manage own';
+
+
+        // Tasks
 
         $permissions['task_view'] = $auth->createPermission('task_view');
-        $permissions['task_view']->description = 'Partners::Tasks view';
+        $permissions['task_view']->description = 'General::Tasks::View';
 
-        $permissions['task_view_all'] = $auth->createPermission('task_view_all');
-        $permissions['task_view_all']->description = 'Partners::Tasks view all';
-        
+        $permissions['task_view_own'] = $auth->createPermission('task_view_own');
+        $permissions['task_view_own']->description = 'General::Tasks::View own';
+
         $permissions['task_manage'] = $auth->createPermission('task_manage');
-        $permissions['task_manage']->description = 'Partners::Tasks manage';
+        $permissions['task_manage']->description = 'General::Tasks::Manage';
+
+        // New
+        $permissions['task_manage_own'] = $auth->createPermission('task_manage_own');
+        $permissions['task_manage_own']->description = 'General::Tasks::Manage own';
 
 
 

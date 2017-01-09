@@ -51,11 +51,17 @@ class NewsletterLog extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletter()
     {
         return $this->hasOne(Newsletter::className(), ['id' => 'newsletter_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);

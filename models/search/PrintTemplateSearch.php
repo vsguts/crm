@@ -2,6 +2,8 @@
 
 namespace app\models\search;
 
+use app\behaviors\LookupBehavior;
+use app\behaviors\SearchBehavior;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -34,11 +36,15 @@ class PrintTemplateSearch extends PrintTemplate
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::class,
+            LookupBehavior::class,
+        ];
     }
 
     /**
@@ -54,9 +60,7 @@ class PrintTemplateSearch extends PrintTemplate
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'name' => SORT_ASC,

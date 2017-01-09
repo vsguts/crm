@@ -28,11 +28,14 @@ class AppAsset extends AssetBundle
         'yii\validators\ValidationAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'yii\redactor\widgets\RedactorAsset',
         'app\assets\BowerAsset',
+        'kartik\base\WidgetAsset',
+        'kartik\select2\Select2Asset',
         'kartik\date\DatePickerAsset',
         'kartik\file\FileInputAsset',
-        'kartik\select2\Select2Asset',
         'dosamigos\gallery\GalleryAsset',
+        'bluezed\floatThead\FloatTheadAsset',
     ];
 
     public static function customJs()

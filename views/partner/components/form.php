@@ -1,9 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use yii\bootstrap\Tabs;
 
 
 $form = ActiveForm::begin(['id' => 'partner_form', 'options' => ['enctype' => 'multipart/form-data']]);

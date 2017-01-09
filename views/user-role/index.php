@@ -1,5 +1,7 @@
 <?php
 
+use app\widgets\grid\ActionColumn;
+use app\widgets\grid\CounterColumn;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
 
@@ -15,29 +17,40 @@ $detailsLink = function($model) {
     ];
 };
 
+$showObjectsCount = function ($model, $object, $type = 'primary') {
+    $text = false;
+    if (!empty($model['data'][$object])) {
+        if (in_array('all', $model['data'][$object])) {
+            return Html::tag('span', __('All'), ['class' => 'label label-success']);
+        } else {
+            return Html::tag('span', count($model['data'][$object]), ['class' => 'label label-' . $type]);
+        }
+    }
+};
+
 ?>
 <div class="user-index">
 
     <?php if (Yii::$app->user->can('user_role_manage')) : ?>
 
-    <div class="pull-right buttons-container">
-        <div class="btn-group">
-            <?= Html::a(__('Create user role'), ['update', '_return_url' => Url::to()], [
-                'class' => 'btn btn-success app-modal',
-                'data-target-id' => 'user-role_create',
+        <div class="pull-right buttons-container">
+            <div class="btn-group">
+                <?= Html::a(__('Create user role'), ['update', '_return_url' => Url::to()], [
+                    'class' => 'btn btn-success app-modal',
+                    'data-target-id' => 'user-role_create',
+                ]) ?>
+            </div>
+            <?= ActionsDropdown::widget([
+                'layout' => 'info',
+                'items' => [
+                    ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
+                        'data-app-process-items' => 'id',
+                        'data-confirm' => __('Are you sure you want to delete this item?'),
+                        'data-method' => 'post',
+                    ]],
+                ],
             ]) ?>
         </div>
-        <?= ActionsDropdown::widget([
-            'layout' => 'info',
-            'items' => [
-                ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-app-process-items' => 'id',
-                    'data-confirm' => __('Are you sure you want to delete this item?'),
-                    'data-method' => 'post',
-                ]],
-            ],
-        ]) ?>
-    </div>
 
     <?php endif; ?>
 
@@ -45,6 +58,8 @@ $detailsLink = function($model) {
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'tableOptions' => ['class' => 'table table-striped table-hover table-highlighted app-float-thead'],
+        // 'tableOptions' => ['class' => 'table table-condensed table-bordered table-striped table-hover table-highlighted app-float-thead'],
         'columns' => [
             [
                 'class' => 'yii\grid\CheckboxColumn'
@@ -55,7 +70,34 @@ $detailsLink = function($model) {
                 'link' => $detailsLink,
             ],
             [
-                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Permissions'),
+                'value' => function ($model) use ($showObjectsCount) {
+                    return $showObjectsCount($model, 'permissions');
+                },
+                'format' => 'raw',
+                'headerOptions' => ['align' => 'center'],
+                'contentOptions' => ['align' => 'center'],
+            ],
+            [
+                'label' => __('Inherited roles'),
+                'value' => function ($model) use ($showObjectsCount) {
+                    return $showObjectsCount($model, 'roles', 'info');
+                },
+                'format' => 'raw',
+                'headerOptions' => ['align' => 'center'],
+                'contentOptions' => ['align' => 'center'],
+            ],
+            [
+                'label' => __('Public tags'),
+                'value' => function ($model) use ($showObjectsCount) {
+                    return $showObjectsCount($model, 'public_tags');
+                },
+                'format' => 'raw',
+                'headerOptions' => ['align' => 'center'],
+                'contentOptions' => ['align' => 'center'],
+            ],
+            [
+                'class' => CounterColumn::className(),
                 'label' => __('Users'),
                 'count' => function($model) {
                     return count(Yii::$app->authManager->getUserIdsByRole($model['name']));
@@ -63,10 +105,12 @@ $detailsLink = function($model) {
                 'link' => function($model) {
                     return Url::to(['user/index', 'user_role_id' => $model['name']]);
                 },
+                'headerOptions' => ['align' => 'center'],
+                'contentOptions' => ['align' => 'center'],
             ],
             // 'name',
             [
-                'class' => 'app\widgets\grid\ActionColumn',
+                'class' => ActionColumn::className(),
                 'size' => 'xs',
                 'items' => [
                     $detailsLink,

@@ -27,13 +27,20 @@ class PartnerTag extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartner()
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTag()
     {
         return $this->hasOne(Tag::className(), ['id' => 'tag_id']);
     }
+
 }

@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\behaviors\SearchBehavior;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -28,11 +29,14 @@ class NewsletterSearch extends Newsletter
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     public function scenarios()
@@ -54,9 +58,7 @@ class NewsletterSearch extends Newsletter
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'subject' => SORT_ASC,

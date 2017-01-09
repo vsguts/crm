@@ -93,7 +93,7 @@ class NewsletterController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, Newsletter::className());
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -123,7 +123,7 @@ class NewsletterController extends AbstractController
             if (Newsletter::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, Newsletter::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -145,7 +145,7 @@ class NewsletterController extends AbstractController
 
     public function actionSend($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, Newsletter::className());
         $errors = $model->send(true);
         if (empty($errors)) {
             Yii::$app->session->setFlash('success', __('The newsletter have been sent successfully.'));
@@ -155,19 +155,4 @@ class NewsletterController extends AbstractController
         return $this->redirect(['update', 'id' => $id]);
     }
 
-    /**
-     * Finds the Newsletter model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Newsletter the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Newsletter::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

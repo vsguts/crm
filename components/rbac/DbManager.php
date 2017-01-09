@@ -4,10 +4,15 @@ namespace app\components\rbac;
 
 use Yii;
 use yii\db\Query;
-use yii\rbac\Rule;
+use yii\rbac\DbManager as YiiDbManager;
+use yii\rbac\Item;
 
-class DbManager extends \yii\rbac\DbManager
+class DbManager extends YiiDbManager
 {
+    const ALL_OBJECTS = 'all';
+
+    protected static $userObjects = [];
+
     /**
      * Getting roles list. Applying for checkboxes
      * 
@@ -74,32 +79,62 @@ class DbManager extends \yii\rbac\DbManager
     public function getDataObjects()
     {
         return [
+            'public_tags',
         ];
     }
 
     public function getUserObjects($object_name)
     {
-        $role_names = $this->getAllUserItemNames(Yii::$app->user->id);
+        if (!self::$userObjects) {
+            $data = array_fill_keys($this->getDataObjects(), []);
+            $role_names = $this->getAllUserItemNames(Yii::$app->user->id);
+            $query = (new Query)
+                ->from($this->itemTable)
+                ->where([
+                    'name' => $role_names,
+                    'type' => Item::TYPE_ROLE,
+                ]);
 
-        $query = (new Query)
-            ->from($this->itemTable)
-            ->where([
-                'name' => $role_names,
-                'type' => Item::TYPE_ROLE,
-            ]);
-
-        $object_ids = [];
-        foreach ($query->all($this->db) as $row) {
-            $role = $this->populateItem($row);
-            if (!empty($role->data[$object_name])) {
-                $object_ids = $object_ids + (array)$role->data[$object_name];
+            foreach ($query->all($this->db) as $row) {
+                $role = $this->populateItem($row);
+                if ($role->data) {
+                    foreach ($role->data as $name => $object) {
+                        if (is_array($object)) {
+                            if (isset($data[$name])) {
+                                $data[$name] = array_merge($data[$name], $object);
+                            } else {
+                                $data[$name] = $object;
+                            }
+                        }
+                    }
+                }
             }
+            self::$userObjects = $data;
         }
 
-        if (array_search('all', $object_ids) !== false) {
+        if (array_search('all', self::$userObjects[$object_name]) !== false) {
             return self::ALL_OBJECTS;
         }
 
-        return $object_ids;
+        return self::$userObjects[$object_name];
+    }
+
+    public function getRolesByPermission($permission)
+    {
+        return  (new Query)->from($this->itemChildTable)
+            ->select('parent')
+            ->where(['child' => $permission])
+            ->column();
+    }
+
+    public function getSubRolesByRoles($roles)
+    {
+        $items = [];
+        $children = $this->getChildrenList();
+        foreach ($roles as $role) {
+            $items = array_merge($items, $this->getItemsRecursive($role, $children));
+        }
+
+        return array_intersect(array_keys($children), $items);
     }
 }

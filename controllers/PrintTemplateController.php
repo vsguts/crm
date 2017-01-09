@@ -30,18 +30,11 @@ class PrintTemplateController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update', 'view'],
-                        'roles' => ['newsletter_view'],
+                        'roles' => ['print_template_view'],
                     ],
                     [
                         'allow' => true,
-                        'verbs' => ['POST'],
-                        'roles' => ['newsletter_manage'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'verbs' => ['GET'],
-                        'roles' => ['newsletter_manage'],
+                        'roles' => ['print_template_manage'],
                     ],
                 ],
             ],
@@ -91,7 +84,7 @@ class PrintTemplateController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, PrintTemplate::className());
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -105,7 +98,7 @@ class PrintTemplateController extends AbstractController
 
     public function actionView($id, $to_pdf = false)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, PrintTemplate::className());
 
         $this->layout = 'print';
         $html = $this->render('view', ['content' => $model->generate()]);
@@ -137,7 +130,7 @@ class PrintTemplateController extends AbstractController
             if (PrintTemplate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, PrintTemplate::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -151,19 +144,4 @@ class PrintTemplateController extends AbstractController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the PrintTemplate model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return PrintTemplate the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = PrintTemplate::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

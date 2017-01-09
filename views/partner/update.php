@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $model->name;
 
     <div class="pull-right buttons-container">
         <?php
-            if (Yii::$app->user->can('partner_manage')) {
+            if ($model->canManage()) {
                 $items = [
                     [
                         'label' => __('Delete'),

@@ -30,7 +30,7 @@ class DonateController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['donate_view', 'donate_view_all'],
+                        'roles' => ['donate_view', 'donate_view_own'],
                     ],
                     [
                         'allow' => true,
@@ -69,7 +69,7 @@ class DonateController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id);
+            $model = $this->findModel($id, Donate::className());
         } else {
             $model = new Donate();
         }
@@ -106,7 +106,7 @@ class DonateController extends AbstractController
             if (Donate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, Donate::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -120,19 +120,4 @@ class DonateController extends AbstractController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Donate model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Donate the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Donate::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

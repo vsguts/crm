@@ -29,11 +29,11 @@ class MailingListController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['newsletter_view'],
+                        'roles' => ['mailing_list_view'],
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['newsletter_manage'],
+                        'roles' => ['mailing_list_manage'],
                     ],
                 ],
             ],
@@ -85,7 +85,7 @@ class MailingListController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, MailingList::className());
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -112,7 +112,7 @@ class MailingListController extends AbstractController
             if (MailingList::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, MailingList::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -147,19 +147,4 @@ class MailingListController extends AbstractController
         }
     }
 
-    /**
-     * Finds the MailingList model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return MailingList the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = MailingList::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\Donate;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Donate;
 
 /**
  * DonateSearch represents the model behind the search form about `app\models\Donate`.
@@ -44,9 +44,9 @@ class DonateSearch extends Donate
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     /**
@@ -66,7 +66,8 @@ class DonateSearch extends Donate
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSizeLimit' => [10, 100],
+                'pageSizeLimit' => $this->getPaginationDefaults()['pageSizeLimit'],
+                'defaultPageSize' => $this->getPaginationDefaults()['defaultPageSize'],
                 'pageParam' => 'donate-page',
                 'pageSizeParam' => 'donate-per-page',
             ],

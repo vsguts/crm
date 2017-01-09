@@ -22,7 +22,54 @@ $controller_id = Yii::$app->controller->id;
 $action_id = Yii::$app->controller->action->id;
 $action_params = Yii::$app->controller->actionParams;
 
-$is_profile = $controller_id == 'user' && $action_id == 'update' && $user->identity->id == $action_params['id'];
+
+$proccess_menu_item = function ($menu_item) {
+    $items = isset($menu_item['items']) ? $menu_item['items'] : [];
+    $sections = isset($menu_item['sections']) ? $menu_item['sections'] : [];
+
+    if ($sections) {
+        foreach ($sections as $key => $section) {
+            $section = array_filter(
+                $section,
+                function ($item) {
+                    return isset($item['visible']) && $item['visible'];
+                }
+            );
+
+            if (!$section) {
+                unset($sections[$key]);
+            }
+        }
+        $is_first = true;
+        foreach ($sections as $section) {
+            if (!$is_first) {
+                array_unshift($section, '<li class="divider"></li>');
+            }
+            $is_first = false;
+            $items = array_merge($items, $section);
+        }
+    }
+
+    $menu_item['active'] = false;
+    $menu_item['visible'] = false;
+
+    if ($items) {
+        foreach ($items as $item) {
+            if (isset($item['active']) && $item['active']) {
+                $menu_item['active'] = true;
+            }
+            if (isset($item['visible'])) {
+                $menu_item['visible'] = $item['visible'];
+            } else {
+                $menu_item['visible'] = true;
+            }
+        }
+    }
+    $menu_item['items'] = $items;
+
+    return $menu_item;
+};
+
 
 /**
  * Left nav
@@ -35,125 +82,137 @@ echo Nav::widget([
         [
             'label' => Html::tag('b', __('Partners')),
             'url' => ['/partner/index'],
-            'visible' => $user->can('partner_view'),
+            'visible' => $user->can('partner_view') || $user->can('partner_view_own'),
             'active' => $controller_id == 'partner',
         ],
         [
             'label' => __('Donates'),
             'url' => ['/donate/index'],
-            'visible' => $user->can('donate_view') || $user->can('donate_view_all'),
+            'visible' => $user->can('donate_view') || $user->can('donate_view_own'),
             'active' => $controller_id == 'donate',
         ],
         [
             'label' => __('Visits'),
             'url' => ['/visit/index'],
-            'visible' => $user->can('visit_view') || $user->can('visit_view_all'),
+            'visible' => $user->can('visit_view') || $user->can('visit_view_own'),
             'active' => $controller_id == 'visit',
         ],
         [
             'label' => __('Tasks'),
             'url' => ['/task/index'],
-            'visible' => $user->can('task_view') || $user->can('task_view_all'),
+            'visible' => $user->can('task_view') || $user->can('task_view_own'),
             'active' => $controller_id == 'task',
         ],
     ],
 ]);
+
 
 /**
  * Right nav
  */
 
 // Tools
-$menu_items[] = [
-    // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
-    'label' => __('Newsletters'),
-    'visible' => $user->can('newsletter_view'),
-    'active' => in_array($controller_id, ['newsletter', 'mailing-list', 'print-template']),
-    'items' => [
-        [
-            'label' => __('Mailing lists'),
-            'url' => ['/mailing-list/index'],
-            'visible' => $user->can('newsletter_view'),
-            'active' => $controller_id == 'mailing-list',
-        ],
-        [
-            'label' => __('Newsletters'),
-            'url' => ['/newsletter/index'],
-            'visible' => $user->can('newsletter_view'),
-            'active' => $controller_id == 'newsletter',
-        ],
-        [
-            'label' => __('Printing templates'),
-            'url' => ['/print-template/index'],
-            'visible' => $user->can('newsletter_view'),
-            'active' => $controller_id == 'print-template',
-        ],
-    ],
-];
+$menu_items = [
 
-// Administration
-$items = [];
+    // Newsletters
+    $proccess_menu_item([
+        // 'label' => '<i class="glyphicon glyphicon-envelope"></i> ',
+        'label' => __('Newsletters'),
+        'items' => [
+            [
+                'label' => __('Mailing lists'),
+                'url' => ['/mailing-list/index'],
+                'visible' => $user->can('newsletter_view'),
+                'active' => $controller_id == 'mailing-list',
+            ],
+            [
+                'label' => __('Newsletters'),
+                'url' => ['/newsletter/index'],
+                'visible' => $user->can('newsletter_view'),
+                'active' => $controller_id == 'newsletter',
+            ],
+            [
+                'label' => __('Printing templates'),
+                'url' => ['/print-template/index'],
+                'visible' => $user->can('newsletter_view'),
+                'active' => $controller_id == 'print-template',
+            ],
+        ],
+    ]),
 
-if ($user->can('user_view')) {
-    $items[] = [
-        'label' => __('Users'),
-        'url' => ['/user/index'],
-        'visible' => $user->can('user_view'),
-        'active' => $controller_id == 'user' && !$is_profile,
-    ];
-}
-if ($user->can('user_role_view')) {
-    $items[] = [
-        'label' => __('User roles'),
-        'url' => ['/user-role/index'],
-        'visible' => $user->can('user_role_view'),
-        'active' => $controller_id == 'user-role',
-    ];
-}
-if ($user->can('country_view')) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
-    $items[] = [
-        'label' => __('Countries'),
-        'url' => ['/country/index'],
-        'visible' => $user->can('country_view'),
-        'active' => $controller_id == 'country',
-    ];
-}
-if ($user->can('state_view')) {
-    $items[] = [
-        'label' => __('States'),
-        'url' => ['/state/index'],
-        'visible' => $user->can('state_view'),
-        'active' => $controller_id == 'state',
-    ];
-}
-if ($user->can('setting_manage')) {
-    if ($items) {
-        $items[] = '<li class="divider"></li>';
-    }
-    $items[] = [
-        'label' => __('Settings'),
-        'visible' => $user->can('setting_manage'),
-        'active' => $controller_id == 'setting',
-        'url' => ['/setting/index'],
-    ];
-}
+    // Administration
+    $proccess_menu_item([
+        'label' => __('Administration'),
+        'sections' => [
+            [
+                [
+                    'label' => __('Users'),
+                    'url' => ['/user/index'],
+                    'visible' => $user->can('user_view'),
+                    'active' => $controller_id == 'user',
+                ],
+                [
+                    'label' => __('User roles'),
+                    'url' => ['/user-role/index'],
+                    'visible' => $user->can('user_role_view'),
+                    'active' => $controller_id == 'user-role',
+                ],
+            ],
+            [
+                [
+                    'label' => __('Countries'),
+                    'url' => ['/country/index'],
+                    'visible' => $user->can('country_view'),
+                    'active' => $controller_id == 'country',
+                ],
+                [
+                    'label' => __('States'),
+                    'url' => ['/state/index'],
+                    'visible' => $user->can('state_view'),
+                    'active' => $controller_id == 'state',
+                ],
+            ],
+            [
+                [
+                    'label' => __('Settings'),
+                    'visible' => $user->can('setting_manage'),
+                    'active' => $controller_id == 'setting',
+                    'url' => ['/setting/index'],
+                ],
+            ],
+        ],
+    ]),
 
-$menu_items[] = [
-    // 'label' => '<i class="glyphicon glyphicon-cog"></i> ',
-    'label' => __('Administration'),
-    'visible' => !!$items,
-    'active' => in_array($controller_id, ['upload', 'export', 'user', 'user-role', 'country', 'state', 'setting']) && !$is_profile,
-    'items' => $items
+    // Help
+    $proccess_menu_item([
+        'label' => __('Help'),
+        'items' => [
+            // [
+            //     'label'   => __('FAQ'),
+            //     'url'     => ['/site/faq'],
+            //     'visible' => $user->can('faq_page'),
+            //     'active'  => $controller_id == 'site' && $action_id == 'faq',
+            // ],
+            [
+                'label' => __('Contact'),
+                'url' => ['/site/contact'],
+                // 'visible' => $user->can('contact_form'),
+                'active'  => $controller_id == 'site' && $action_id == 'contact',
+            ],
+            [
+                'label' => __('About'),
+                'url' => ['/site/about'],
+                // 'visible' => $user->can('about_page'),
+                'active'  => $controller_id == 'site' && $action_id == 'about',
+            ],
+        ],
+    ]),
 ];
 
 // Languages
-$languages = Language::find()->orderBy(['name' => SORT_ASC])->all();
 $select_language = false;
 $lang_items = [];
-foreach ($languages as $language) {
+foreach (Language::find()->orderBy(['name' => SORT_ASC])->all() as $language) {
     if ($language->code == Yii::$app->language) {
         $select_language = $language;
         // break;
@@ -170,59 +229,41 @@ if (!$select_language) {
 $menu_items[] = ['label' => $select_language->short_name, 'items' => $lang_items];
 
 // Account
-$help_menu = [
-    'items' => [
-        'contact' => [
-            'label' => __('Contact'),
-            'url' => ['/site/contact']
-        ],
-        'about' => [
-            'label' => __('About'),
-            'url' => ['/site/about']
-        ],
-    ],
-    'active' => $controller_id == 'site' && in_array($action_id, ['contact', 'about']),
-];
 
 if (Yii::$app->user->isGuest) {
-
-    $menu_items[] = ['label' => __('Sign up'), 'url' => ['/site/signup']];
-    $menu_items[] = ['label' => __('Sign in'), 'url' => ['/site/login']];
-
-    $menu_items[] = [
-        'label' => __('Help'),
-        'active' => $help_menu['active'],
-        'items' => $help_menu['items']
-    ];
-
+    $menu_items[] = ['label' => __('Signup'), 'url' => ['/site/signup']];
+    $menu_items[] = ['label' => __('Login'), 'url' => ['/site/login']];
 } else {
-
     $name = trim($user->identity->name);
     if (empty($name)) {
         $name = $user->identity->email;
     }
     $menu_items[] = [
         'label' => '<i class="glyphicon glyphicon-user"></i>',
-        'active' => $is_profile || $help_menu['active'],
         'items' => [
-            Html::tag('li', Html::a(__('Signed in as <br><b>{name}</b>', ['name' => $name])), ['class'=>'disabled']),
+            Html::tag(
+                'li',
+                Html::a(__('Signed in as <br><b>{name}</b>', ['name' => $name])),
+                ['class'=>'disabled']
+            ),
             '<li class="divider"></li>',
             [
                 'label' => __('Profile'),
                 'url' => ['/user/update', 'id' => $user->identity->id],
-                'active' => $is_profile,
+                'visible' => true,
+                'linkOptions' => [
+                    'class' => 'app-modal',
+                    'data-target-id' => 'user_' . $user->identity->id,
+                ],
             ],
             [
                 'label' => __('Logout'),
                 'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
+                'linkOptions' => ['data-method' => 'post'],
+                'visible'     => true,
             ],
-            '<li class="divider"></li>',
-            $help_menu['items']['contact'],
-            $help_menu['items']['about'],
         ]
     ];
-
 }
 
 echo Nav::widget([

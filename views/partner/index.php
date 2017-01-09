@@ -1,8 +1,8 @@
 <?php
 
+use app\widgets\ActionsDropdown;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use app\widgets\ActionsDropdown;
 
 $this->title = __('Partners');
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="partner-index">
 
     <div class="pull-right buttons-container">
-        <?php if (Yii::$app->user->can('partner_manage')) : ?>
+        <?php if (Yii::$app->user->can('partner_manage') || Yii::$app->user->can('partner_manage_own')) : ?>
             <div class="btn-group">
                 <?= Html::a(__('Create partner'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => __('Delete selected'),
                 'url' => Url::to(['delete']),
                 'linkOptions' => [
-                    'data-app-process-items' => 'ids',
+                    'data-app-process-items' => 'id',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]
@@ -99,13 +99,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $class = (isset($_REQUEST['PartnerSearch']['tag_id']) && $_REQUEST['PartnerSearch']['tag_id'] == $tag->id) ? 'active' : '' ?>
                 <li role="presentation" class="<?= $class ?>">
                     <a href="<?= Url::to(['partner/index', 'PartnerSearch[tag_id]' => $tag->id]) ?>">
-                        <span class="badge pull-right"><?= $tag->partnersCount ?></span>
+                        <span class="badge pull-right"><?= $tag->getPartnersCount() ?></span>
                         <?= $tag->name ?>
                     </a>
                 </li>
             <?php endforeach; ?>
         </ul>
     <?php endforeach; ?>
+
 
     <br/>
     <ul class="nav nav-pills nav-stacked">

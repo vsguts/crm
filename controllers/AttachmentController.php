@@ -25,7 +25,7 @@ class AttachmentController extends AbstractController
 
     public function actionDelete($id, $_return_url = null)
     {
-        $model = $this->findModel(Attachment::className(), $id);
+        $model = $this->findModel($id, Attachment::className());
         $this->checkPermission($model, true);
         if ($model->delete()) {
             if ($model->object) {
@@ -38,7 +38,7 @@ class AttachmentController extends AbstractController
 
     public function actionDownload($id)
     {
-        $model = $this->findModel(Attachment::className(), $id);
+        $model = $this->findModel($id, Attachment::className());
         $this->checkPermission($model);
         return $this->download($model->getPath());
     }

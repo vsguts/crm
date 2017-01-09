@@ -56,11 +56,17 @@ class PrintTemplate extends AbstractModel
         ]);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPrintTemplateMailingLists()
     {
         return $this->hasMany(PrintTemplateMailingList::className(), ['template_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingLists()
     {
         return $this
@@ -87,6 +93,7 @@ class PrintTemplate extends AbstractModel
     /**
      * Print
      */
+
     public function generate()
     {
         $content = [];

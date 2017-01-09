@@ -31,7 +31,7 @@ class VisitController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['visit_view', 'visit_view_all'],
+                        'roles' => ['visit_view', 'visit_view_own'],
                     ],
                     [
                         'allow' => true,
@@ -70,7 +70,7 @@ class VisitController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id);
+            $model = $this->findModel($id, Visit::className());
         } else {
             $model = new Visit();
         }
@@ -108,7 +108,7 @@ class VisitController extends AbstractController
             if (Visit::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, Visit::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -122,19 +122,4 @@ class VisitController extends AbstractController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Visit model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Visit the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Visit::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

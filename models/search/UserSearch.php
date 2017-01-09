@@ -2,11 +2,12 @@
 
 namespace app\models\search;
 
+use app\behaviors\LookupBehavior;
+use app\behaviors\SearchBehavior;
+use app\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\User;
-use app\models\UserRole;
 
 /**
  * UserSearch represents the model behind the search form about `app\models\User`.
@@ -22,6 +23,7 @@ class UserSearch extends User
         return array_merge(parent::attributes(), [
             // Range fields
             'user_role_id',
+            'permission',
         ]);
     }
 
@@ -49,9 +51,10 @@ class UserSearch extends User
      */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+            LookupBehavior::className(),
+        ];
     }
 
     /**
@@ -99,6 +102,13 @@ class UserSearch extends User
 
         if ($this->user_role_id) {
             $query->andWhere(['user.id' => Yii::$app->authManager->getUserIdsByRole($this->user_role_id)]);
+        }
+
+        if ($this->permission) {
+            $authManager = Yii::$app->authManager;
+            $permission_roles = $authManager->getRolesByPermission($this->permission);
+            $roles = $authManager->getSubRolesByRoles($permission_roles);
+            $query->andWhere(['user.id' => $authManager->getUserIdsByRole($roles)]);
         }
 
         return $dataProvider;

@@ -31,7 +31,7 @@ class TaskController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
-                        'roles' => ['task_view', 'task_view_all'],
+                        'roles' => ['task_view', 'task_view_own'],
                     ],
                     [
                         'allow' => true,
@@ -70,7 +70,7 @@ class TaskController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id);
+            $model = $this->findModel($id, Task::className());
         } else {
             $model = new Task();
         }
@@ -108,7 +108,7 @@ class TaskController extends AbstractController
             if (Task::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, Task::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -122,19 +122,4 @@ class TaskController extends AbstractController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Task model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Task the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Task::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

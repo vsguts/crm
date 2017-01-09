@@ -9,7 +9,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $detailsLink = function($model) {
     return [
         'label' => __('Edit'),
-        'href' => Url::to(['/user/update', 'id' => $model->id]),
+        'href' => Url::to(['/user/update', 'id' => $model->id, '_return_url' => Url::to()]),
+        'class' => 'app-modal',
+        'data-target-id' => 'user_' . $model->id,
     ];
 };
 
@@ -20,13 +22,16 @@ $detailsLink = function($model) {
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
-            <?= Html::a(__('Create user'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(__('Create user'), ['update', '_return_url' => Url::to()], [
+                'class' => 'btn btn-success app-modal',
+                'data-target-id' => 'user_create',
+            ]) ?>
         </div>
         <?= ActionsDropdown::widget([
             'layout' => 'info',
             'items' => [
                 ['label' => __('Delete selected'), 'url' => Url::to(['delete']), 'linkOptions' => [
-                    'data-app-process-items' => 'ids',
+                    'data-app-process-items' => 'id',
                     'data-confirm' => __('Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                 ]],
@@ -40,7 +45,7 @@ $detailsLink = function($model) {
 
     <h1><?= Html::encode($this->title) ?></h1>
     
-    <?= $this->render('components/search', ['model' => $searchModel]); ?>
+    <?= $this->render('components/search', ['model' => $searchModel, 'permissions' => $permissions]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -86,9 +91,22 @@ $detailsLink = function($model) {
                             ];
                         }
                     },
+                    '<li role="presentation" class="divider"></li>',
+                    function($model) {
+                        return [
+                            'label' => __('Direct link'),
+                            'href' => Url::to(['/user/index', 'id' => $model->id, '#' => 'user_' . $model->id]),
+                            'target' => '_blank',
+                        ];
+                    },
                 ],
             ],
         ],
+        'rowOptions' => function($model) {
+            return [
+                'class' => 'status-' . $model->status,
+            ];
+        },
     ]); ?>
 
 </div>

@@ -2,15 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\NotFoundHttpException;
 use app\models\Partner;
-use app\models\search\PartnerSearch;
-use app\models\Tag;
-use app\models\PrintTemplate;
-use app\models\search\VisitSearch;
 use app\models\search\DonateSearch;
+use app\models\search\PartnerSearch;
 use app\models\search\TaskSearch;
+use app\models\search\VisitSearch;
+use app\models\Tag;
+use Yii;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -33,18 +31,11 @@ class PartnerController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'list', 'update'],
-                        'roles' => ['partner_view'],
+                        'roles' => ['partner_view', 'partner_view_own'],
                     ],
                     [
                         'allow' => true,
-                        'verbs' => ['POST'],
-                        'roles' => ['partner_manage'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'verbs' => ['GET'],
-                        'roles' => ['partner_manage'],
+                        'roles' => ['partner_manage', 'partner_manage_own'],
                     ],
                 ],
             ],
@@ -137,7 +128,7 @@ class PartnerController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, Partner::className());
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -165,26 +156,24 @@ class PartnerController extends AbstractController
     /**
      * Deletes an existing Partner model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param array|int $id
      * @return mixed
      */
-    public function actionDelete($id = null, array $ids = null)
+    public function actionDelete(array $id)
     {
-        $ok_message = false;
-        
-        if (!$id && $ids) { // multiple
-            if (Partner::deleteAll(['id' => $ids])) {
-                $ok_message = __('Items have been deleted successfully.');
+        $models = Partner::find()->where(['partner.id' => $id])->permission()->all();
+        if ($models) {
+            foreach ($models as $model) {
+                if ($model->canManage()) {
+                    $model->delete();
+                }
             }
-        } elseif ($this->findModel($id)->delete()) { // single
-            $ok_message = __('Item has been deleted successfully.');
-        }
 
-        if ($ok_message) {
-            Yii::$app->session->setFlash('success', $ok_message);
-            // if ($referrer = Yii::$app->request->referrer) {
-            //     return $this->redirect($referrer);
-            // }
+            if (count($models) > 1) {
+                $this->notice(__('Items have been deleted successfully.'));
+            } else {
+                $this->notice(__('Item has been deleted successfully.'));
+            }
         }
 
         return $this->redirect(['index']);
@@ -199,19 +188,4 @@ class PartnerController extends AbstractController
         ]);
     }
 
-    /**
-     * Finds the Partner model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Partner the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Partner::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

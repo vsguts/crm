@@ -2,6 +2,12 @@
 
 namespace app\models;
 
+use app\behaviors\ImagesBehavior;
+use app\behaviors\ImageUploaderBehavior;
+use app\behaviors\LookupBehavior;
+use app\behaviors\PartnerNameBehavior;
+use app\behaviors\TagsBehavior;
+use app\behaviors\TimestampBehavior;
 use Yii;
 use app\models\query\PartnerQuery;
 
@@ -20,27 +26,37 @@ class Partner extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\PartnerNameBehavior',
-            'app\behaviors\TagsBehavior',
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\ImageUploaderBehavior',
-            'app\behaviors\ImagesBehavior',
-            'app\behaviors\LookupBehavior',
+            PartnerNameBehavior::class,
+            TagsBehavior::class,
+            TimestampBehavior::class,
+            ImageUploaderBehavior::class,
+            ImagesBehavior::class,
+            LookupBehavior::class,
         ];
     }
 
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['name', 'firstname', 'lastname'], 'required'],
-            [['email'], 'email'],
-            [['zipcode'], 'string', 'max' => 16],
-            [['phone'], 'string', 'max' => 32],
+            // Defaults
+            [['user_id'], 'default', 'value' => Yii::$app->user->identity->id],
+
+            // Common
+            [['user_id', 'country_id', 'state_id', 'parent_id', 'type', 'status', 'volunteer', 'candidate'], 'integer'],
+            [['notes'], 'string'],
+            [['user_id', 'name', 'firstname', 'lastname'], 'required'],
             [['name', 'firstname', 'lastname', 'email', 'state', 'city'], 'string', 'max' => 64],
+            [['email'], 'email'],
             [['contact'], 'string', 'max' => 128],
+            [['phone'], 'string', 'max' => 32],
             [['address'], 'string', 'max' => 255],
-            [['type', 'status', 'country_id', 'state_id', 'parent_id', 'volunteer', 'candidate'], 'integer'],
-            [['notes'], 'safe'],
+            [['zipcode'], 'string', 'max' => 16],
+
+            // Relations
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['parent_id' => 'id']],
+            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ]);
     }
 
@@ -48,6 +64,9 @@ class Partner extends AbstractModel
     {
         return array_merge(parent::attributeLabels(), [
             'id' => __('ID'),
+            'user_id' => __('User'),
+            'country_id' => __('Country'),
+            'state_id' => __('State'),
             'type' => __('Type'),
             'status' => __('Status'),
             'name' => __('Name'),
@@ -56,8 +75,6 @@ class Partner extends AbstractModel
             'contact' => __('Contact person'),
             'email' => __('Email'),
             'phone' => __('Phone'),
-            'country_id' => __('Country'),
-            'state_id' => __('State'),
             'state' => __('State'),
             'city' => __('City'),
             'address' => __('Address'),
@@ -69,36 +86,65 @@ class Partner extends AbstractModel
         ]);
     }
 
-    public function getDonates()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
     {
-        return $this->hasMany(Donate::className(), ['partner_id' => 'id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id'])->inverseOf('partners');
     }
 
-    public function getParent()
-    {
-        return $this->hasOne(Partner::className(), ['id' => 'parent_id']);
-    }
-
-    public function getPartners()
-    {
-        return $this->hasMany(Partner::className(), ['parent_id' => 'id']);
-    }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCountry()
     {
-        return $this->hasOne(Country::className(), ['id' => 'country_id']);
+        return $this->hasOne(Country::className(), ['id' => 'country_id'])->inverseOf('partners');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getState0()
     {
-        return $this->hasOne(State::className(), ['id' => 'state_id']);
+        return $this->hasOne(State::className(), ['id' => 'state_id'])->inverseOf('partners');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(Partner::className(), ['id' => 'parent_id'])->inverseOf('partners');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDonates()
+    {
+        return $this->hasMany(Donate::className(), ['partner_id' => 'id'])->inverseOf('partner');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartners()
+    {
+        return $this->hasMany(Partner::className(), ['parent_id' => 'id'])->inverseOf('parent');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartnerTags()
     {
-        return $this->hasMany(PartnerTag::className(), ['partner_id' => 'id']);
+        return $this->hasMany(PartnerTag::className(), ['partner_id' => 'id'])->inverseOf('partner');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTags()
     {
         return $this
@@ -106,6 +152,9 @@ class Partner extends AbstractModel
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPublicTags()
     {
         return $this
@@ -114,6 +163,9 @@ class Partner extends AbstractModel
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPersonalTags()
     {
         return $this
@@ -122,11 +174,17 @@ class Partner extends AbstractModel
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTaskPartners()
     {
-        return $this->hasMany(TaskPartner::className(), ['partner_id' => 'id']);
+        return $this->hasMany(TaskPartner::className(), ['partner_id' => 'id'])->inverseOf('partner');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTasks()
     {
         return $this
@@ -134,22 +192,32 @@ class Partner extends AbstractModel
             ->viaTable('task_partner', ['partner_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getVisits()
     {
-        return $this->hasMany(Visit::className(), ['partner_id' => 'id']);
+        return $this->hasMany(Visit::className(), ['partner_id' => 'id'])->inverseOf('partner');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingListPartners()
     {
-        return $this->hasMany(MailingListPartner::className(), ['partner_id' => 'id']);
+        return $this->hasMany(MailingListPartner::className(), ['partner_id' => 'id'])->inverseOf('partner');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingLists()
     {
         return $this
             ->hasMany(MailingList::className(), ['id' => 'list_id'])
             ->viaTable('mailing_list_partner', ['partner_id' => 'id']);
     }
+
 
     /**
      * @inheritdoc
@@ -158,6 +226,26 @@ class Partner extends AbstractModel
     public static function find()
     {
         return new PartnerQuery(get_called_class());
+    }
+
+
+    /**
+     * Extra
+     */
+
+    public function getIsOwn()
+    {
+        return $this->getIsNewRecord() || Yii::$app->user->id == $this->user_id;
+    }
+
+    public function canManage()
+    {
+        $user = Yii::$app->user;
+        if ($this->getIsOwn()) {
+            return $user->can('partner_manage_own');
+        } else {
+            return $user->can('partner_manage');
+        }
     }
 
 }

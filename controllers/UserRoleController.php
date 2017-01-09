@@ -2,12 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\form\UserRoleForm;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use yii\web\ForbiddenHttpException;
-use app\models\form\UserRoleForm;
 
 /**
  * UserRoleController implements the CRUD actions for UserRoleForm.
@@ -48,7 +47,7 @@ class UserRoleController extends AbstractController
      */
     public function actionIndex()
     {
-        $roles = UserRoleForm::getAllRoles();
+        $roles = UserRoleForm::getAllRoles(['get_links' => true]);
 
         $roles = ArrayHelper::toArray($roles);
         foreach ($roles as &$role) {
@@ -68,8 +67,8 @@ class UserRoleController extends AbstractController
                     ],
                 ],
                 'pagination' => [
-                    'pageSize' => 10,
-                    'pageSizeLimit' => [10, 100],
+                    'pageSizeLimit' => [50, 500],
+                    'defaultPageSize' => 100,
                 ],
             ]),
         ]);
@@ -89,32 +88,28 @@ class UserRoleController extends AbstractController
             $model = new UserRoleForm;
         }
 
-        if (Yii::$app->request->post()) {
+        if ($post = Yii::$app->request->post()) {
             $model->permissions = [];
             $model->roles = [];
-            $model->load(Yii::$app->request->post());
+            $model->load($post);
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
+                $this->notice(__('Your changes have been saved successfully.'));
             }
             return $this->redirect(['index', 'name' => $model->name]);
-        } else {
-            return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
-    public function actionDelete($id = null, array $ids = null)
+    public function actionDelete(array $id)
     {
-        if ($id) {
-            $ids[] = $id;
-        }
-
         $deleted = [];
-        foreach ($ids as $id) {
-            if ($model = $this->findModel($id)) {
+        foreach ($id as $_id) {
+            if ($model = $this->findModel($_id)) {
                 if (!empty($model->data['system'])) {
-                    Yii::$app->session->setFlash('error', __('Cannot delete the item.'));
+                    $this->notice(__('Cannot delete the item.'), 'error');
                 } else {
                     $deleted[] = $model->name;
                     $model->delete();
@@ -124,9 +119,12 @@ class UserRoleController extends AbstractController
 
         if ($deleted) {
             if (count($deleted) > 1) {
-                Yii::$app->session->setFlash('success', __('Items have been deleted successfully.'));
+                $this->notice(__('Items have been deleted successfully.'));
             } else {
-                Yii::$app->session->setFlash('success', __('Item has been deleted successfully.'));
+                $this->notice(__('Item has been deleted successfully.'));
+            }
+            if ($referrer = Yii::$app->request->referrer) {
+                return $this->redirect($referrer);
             }
         }
 
@@ -140,12 +138,13 @@ class UserRoleController extends AbstractController
      * @return UserRoleForm the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $object = null)
     {
-        if (($model = UserRoleForm::findOne($id)) !== null) {
+        if ($model = UserRoleForm::findOne($id)) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

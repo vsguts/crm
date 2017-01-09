@@ -19,7 +19,8 @@ use app\widgets\SearchForm;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
+            <?= $form->field($model, 'permission')->dropDownList($permissions, ['prompt' => '--']) ?>
 
         </div>
     </div>

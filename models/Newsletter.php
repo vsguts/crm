@@ -39,16 +39,25 @@ class Newsletter extends AbstractModel
         ]);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getLogs()
     {
-        return $this->hasMany(NewsletterLog::className(), ['newsletter_id' => 'id']);
+        return $this->hasMany(NewsletterLog::className(), ['newsletter_id' => 'id'])->inverseOf('newsletter');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletterMailingLists()
     {
-        return $this->hasMany(NewsletterMailingList::className(), ['newsletter_id' => 'id']);
+        return $this->hasMany(NewsletterMailingList::className(), ['newsletter_id' => 'id'])->inverseOf('newsletter');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingLists()
     {
         return $this

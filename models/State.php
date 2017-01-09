@@ -30,16 +30,25 @@ class State extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartners()
     {
         return $this->hasMany(Partner::className(), ['state_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCountry()
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUsers()
     {
         return $this->hasMany(User::className(), ['state_id' => 'id']);

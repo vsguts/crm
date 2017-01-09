@@ -1,10 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\bootstrap\Tabs;
 use app\widgets\ActiveForm;
 use app\widgets\ButtonsContatiner;
 use app\widgets\Modal;
+use yii\bootstrap\Tabs;
 
 if ($model->isNewRecord) {
     $obj_id = 'user-role_create';
@@ -56,6 +55,18 @@ echo Tabs::widget([
                 'model' => $model,
             ]),
         ],
+
+        // Application
+        [
+            'label' => __('Public tags'),
+            'content' => $this->render('components/form_public_tags', [
+                'form' => $form,
+                'form_id' => $form_id,
+                'model' => $model,
+            ]),
+        ],
+
+        // Inheritance
         [
             'label' => __('Inherited roles'),
             'content' => $this->render('components/form_inherit', [

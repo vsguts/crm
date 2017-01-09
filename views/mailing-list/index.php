@@ -18,7 +18,7 @@ $detailsLink = function($model) {
 ?>
 <div class="mailing-list-index">
 
-    <?php if (Yii::$app->user->can('newsletter_manage')) : ?>
+    <?php if (Yii::$app->user->can('mailing_list_manage')) : ?>
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
@@ -68,7 +68,7 @@ $detailsLink = function($model) {
                 'items' => [
                     $detailsLink,
                     function($model) {
-                        if (Yii::$app->user->can('newsletter_manage')) {
+                        if (Yii::$app->user->can('mailing_list_manage')) {
                             return [
                                 'label' => __('Delete'),
                                 'href' => Url::to(['mailing-list/delete', 'id' => $model->id, '_return_url' => Url::to()]),

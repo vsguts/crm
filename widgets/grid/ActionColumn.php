@@ -2,16 +2,14 @@
 
 namespace app\widgets\grid;
 
-use Yii;
-use yii\grid\Column;
-use yii\helpers\Html;
-use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
+use Closure;
+use yii\grid\Column;
 
 class ActionColumn extends Column
 {
     public $attribute;
-    
+
     public $size;
 
     public $items = [];
@@ -21,16 +19,20 @@ class ActionColumn extends Column
         $action_items = [];
 
         foreach ($this->items as $item) {
-            if ($options = $item($model)) {
-                $label = $options['label'];
-                unset($options['label']);
-                $url = $options['href'];
-                unset($options['href']);
-                $action_items[] = [
-                    'label' => $label,
-                    'url' => $url,
-                    'linkOptions' => $options,
-                ];
+            if ($item instanceof Closure) {
+                if ($options = $item($model)) {
+                    $label = $options['label'];
+                    unset($options['label']);
+                    $url = $options['href'];
+                    unset($options['href']);
+                    $action_items[] = [
+                        'label' => $label,
+                        'url' => $url,
+                        'linkOptions' => $options,
+                    ];
+                }
+            } elseif (is_string($item)) {
+                $action_items[] = $item;
             }
         }
 

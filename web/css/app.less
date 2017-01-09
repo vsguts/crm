@@ -52,6 +52,25 @@ a, .pointer {
 .strong {
     font-weight: bold;
 }
+.nostrong {
+    font-weight: normal;
+}
+.text-help {
+    color: #737373;
+}
+.app-float-thead > thead > tr > th {
+    background-color: #fcf8e3;
+}
+.status-disabled {
+    color: #aaa;
+    input {
+        color: #aaa;
+        border-color: #ddd;
+    }
+    a {
+        color: #aaa;
+    }
+}
 /* \Common classes */
 
 /* Fluid mode */
@@ -158,3 +177,59 @@ a, .pointer {
     }
 }
 /* \Search form */
+
+/* Tables */
+th[align="right"] {
+    text-align: right;
+}
+th[align="center"] {
+    text-align: center;
+}
+.table .app-table-totals, .table-striped > tbody > tr.app-table-totals:nth-of-type(odd) {
+    background-color: #dff0d8;
+    td {
+        padding-top: 13px;
+        padding-bottom: 13px;
+        font-weight: bold;
+    }
+}
+.table > tbody > tr.app-danger > td {
+    background-color: #ffdddd;
+}
+.table > tbody > tr.app-success > td {
+    background-color: #c1e9c1;
+}
+.table-hover > tbody > tr:hover {
+    background-color: #e7e9f9;
+}
+.table {
+    .table-section {
+        background-color: #f3f3f3;
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+    }
+    .va-middle {
+        th, td {
+            vertical-align: middle;
+            &.narrow {
+                padding-top: 3px;
+                padding-bottom: 3px;
+            }
+        }
+    }
+    &.table-highlighted {
+        tr.highlighted {
+            background-color: #d6e9f8;
+        }
+    }
+    .long-header {
+        max-width: 120px;
+        white-space: pre-line!important;
+        text-align: right;
+    }
+
+}
+/* \Tables */

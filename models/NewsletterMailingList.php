@@ -27,13 +27,20 @@ class NewsletterMailingList extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingList()
     {
         return $this->hasOne(MailingList::className(), ['id' => 'list_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletter()
     {
         return $this->hasOne(Newsletter::className(), ['id' => 'newsletter_id']);
     }
+
 }

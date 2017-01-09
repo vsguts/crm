@@ -64,7 +64,7 @@ class StateController extends AbstractController
     public function actionUpdate($id = null)
     {
         if ($id) {
-            $model = $this->findModel($id);
+            $model = $this->findModel($id, State::className());
         } else {
             $model = new State();
         }
@@ -93,7 +93,7 @@ class StateController extends AbstractController
             if (State::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id)->delete()) { // single
+        } elseif ($this->findModel($id, State::className())->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 
@@ -107,19 +107,4 @@ class StateController extends AbstractController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the State model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return State the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = State::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

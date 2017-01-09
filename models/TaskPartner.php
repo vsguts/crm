@@ -27,11 +27,17 @@ class TaskPartner extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartner()
     {
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTask()
     {
         return $this->hasOne(Task::className(), ['id' => 'task_id']);

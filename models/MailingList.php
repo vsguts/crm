@@ -42,11 +42,17 @@ class MailingList extends AbstractModel
         ]);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMailingListPartners()
     {
-        return $this->hasMany(MailingListPartner::className(), ['list_id' => 'id']);
+        return $this->hasMany(MailingListPartner::className(), ['list_id' => 'id'])->inverseOf('list');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartners()
     {
         return $this
@@ -59,11 +65,17 @@ class MailingList extends AbstractModel
         return Partner::find()->joinWith('mailingListPartners')->where(['list_id' => $this->id])->count();
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletterMailingLists()
     {
-        return $this->hasMany(NewsletterMailingList::className(), ['list_id' => 'id']);
+        return $this->hasMany(NewsletterMailingList::className(), ['list_id' => 'id'])->inverseOf('list');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletters()
     {
         return $this
@@ -71,11 +83,17 @@ class MailingList extends AbstractModel
             ->viaTable('newsletter_mailing_list', ['list_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPrintTemplateMailingLists()
     {
-        return $this->hasMany(PrintTemplateMailingList::className(), ['list_id' => 'id']);
+        return $this->hasMany(PrintTemplateMailingList::className(), ['list_id' => 'id'])->inverseOf('list');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTemplates()
     {
         return $this
@@ -83,6 +101,10 @@ class MailingList extends AbstractModel
             ->viaTable('print_template_mailing_list', ['list_id' => 'id']);
     }
 
+    /**
+     * @inheritdoc
+     * @return MailingListQuery the active query used by this AR class.
+     */
     public static function find()
     {
         return new MailingListQuery(get_called_class());

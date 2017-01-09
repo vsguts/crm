@@ -28,18 +28,28 @@ class Country extends AbstractModel
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPartners()
     {
-        return $this->hasMany(Partner::className(), ['country_id' => 'id']);
+        return $this->hasMany(Partner::className(), ['country_id' => 'id'])->inverseOf('country');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getStates()
     {
-        return $this->hasMany(State::className(), ['country_id' => 'id']);
+        return $this->hasMany(State::className(), ['country_id' => 'id'])->inverseOf('country');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUsers()
     {
-        return $this->hasMany(User::className(), ['country_id' => 'id']);
+        return $this->hasMany(User::className(), ['country_id' => 'id'])->inverseOf('country');
     }
+
 }

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $model->name;
 
     <div class="pull-right buttons-container">
     <?php
-        if (Yii::$app->user->can('newsletter_manage')) {
+        if (Yii::$app->user->can('mailing_list_manage')) {
             $items = [
                 [
                     'label' => __('Delete'),

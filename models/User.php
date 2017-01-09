@@ -2,18 +2,13 @@
 
 namespace app\models;
 
+use app\models\form\UserSignupForm;
 use Yii;
 use yii\base\NotSupportedException;
-use app\models\form\UserSignupForm;
+use yii\web\IdentityInterface;
 
-class User extends AbstractModel implements \yii\web\IdentityInterface
+class User extends AbstractModel implements IdentityInterface
 {
-    const AUTH_ROLE_1 = 'user';
-    const AUTH_ROLE_2 = 'root';
-    const AUTH_ROLE_3 = 'missionary';
-    const AUTH_ROLE_4 = 'accountant';
-    const AUTH_ROLE_5 = 'manager';
-
     const STATUS_ACTIVE = 1;
 
     public $password;
@@ -62,45 +57,79 @@ class User extends AbstractModel implements \yii\web\IdentityInterface
         ]);
     }
 
+
     /**
      * Relations
      */
 
-    public function getTasks()
-    {
-        return $this->hasMany(Task::className(), ['user_id' => 'id']);
-    }
-
-    public function getTemplates()
-    {
-        return $this->hasMany(Template::className(), ['user_id' => 'id']);
-    }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCountry()
     {
-        return $this->hasOne(Country::className(), ['id' => 'country_id']);
+        return $this->hasOne(Country::className(), ['id' => 'country_id'])->inverseOf('users');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getState0()
     {
-        return $this->hasOne(State::className(), ['id' => 'state_id']);
+        return $this->hasOne(State::className(), ['id' => 'state_id'])->inverseOf('users');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getDonates()
     {
-        return $this->hasMany(Donate::className(), ['user_id' => 'id']);
+        return $this->hasMany(Donate::className(), ['user_id' => 'id'])->inverseOf('user');
     }
 
-    public function getVisits()
-    {
-        return $this->hasMany(Visit::className(), ['user_id' => 'id']);
-    }
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getNewsletterLogs()
     {
-        return $this->hasMany(NewsletterLog::className(), ['user_id' => 'id']);
+        return $this->hasMany(NewsletterLog::className(), ['user_id' => 'id'])->inverseOf('user');
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartners()
+    {
+        return $this->hasMany(Partner::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(Task::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVisits()
+    {
+        return $this->hasMany(Visit::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
+
+
+    /**
+     * IdentityInterface
+     */
 
     public static function findIdentity($id)
     {
@@ -204,5 +233,13 @@ class User extends AbstractModel implements \yii\web\IdentityInterface
     {
         $this->password_reset_token = null;
     }
-    
+
+    public function canManage()
+    {
+        if (Yii::$app->user->can('user_manage_own', ['user' => $this])) {
+            return true;
+        }
+        return Yii::$app->user->can('user_manage');
+    }
+
 }

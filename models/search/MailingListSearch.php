@@ -2,10 +2,11 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\LookupBehavior;
+use app\behaviors\SearchBehavior;
+use app\models\MailingList;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\MailingList;
 
 /**
  * MailingListSearch represents the model behind the search form about `app\models\MailingList`.
@@ -45,6 +46,17 @@ class MailingListSearch extends MailingList
     }
 
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            SearchBehavior::class,
+            LookupBehavior::class,
+        ];
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -57,9 +69,7 @@ class MailingListSearch extends MailingList
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'name' => SORT_ASC,

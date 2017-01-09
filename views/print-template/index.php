@@ -18,7 +18,7 @@ $detailsLink = function($model) {
 ?>
 <div class="template-index">
 
-    <?php if (Yii::$app->user->can('newsletter_manage')) : ?>
+    <?php if (Yii::$app->user->can('print_template_manage')) : ?>
 
     <div class="pull-right buttons-container">
         <div class="btn-group">
@@ -75,7 +75,7 @@ $detailsLink = function($model) {
                 'items' => [
                     $detailsLink,
                     function($model) {
-                        if (Yii::$app->user->can('newsletter_manage')) {
+                        if (Yii::$app->user->can('print_template_manage')) {
                             return [
                                 'label' => __('Delete'),
                                 'href' => Url::to(['print-template/delete', 'id' => $model->id, '_return_url' => Url::to()]),

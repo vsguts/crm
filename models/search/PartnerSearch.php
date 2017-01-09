@@ -2,6 +2,9 @@
 
 namespace app\models\search;
 
+use app\behaviors\LookupBehavior;
+use app\behaviors\SearchBehavior;
+use app\behaviors\TagsBehavior;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -52,11 +55,16 @@ class PartnerSearch extends Partner
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::class,
+            TagsBehavior::class,
+            LookupBehavior::class,
+        ];
     }
 
     /**
@@ -69,6 +77,7 @@ class PartnerSearch extends Partner
     public function search($params)
     {
         $query = Partner::find()
+            ->permission()
             // ->joinWith('partnerTags')
             ->joinWith('tags')
             ->groupBy('partner.id')
@@ -76,9 +85,7 @@ class PartnerSearch extends Partner
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 500],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,

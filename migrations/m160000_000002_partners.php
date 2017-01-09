@@ -10,6 +10,10 @@ class m160000_000002_partners extends Migration
         
         $this->createTable('partner', [
             'id'         => $this->primaryKey(),
+            'user_id'    => $this->integer(),
+            'country_id' => $this->integer(),
+            'state_id'   => $this->integer(),
+            'parent_id'  => $this->integer(),
             'type'       => $this->integer()->defaultValue(1),
             'status'     => $this->integer()->defaultValue(1),
             'name'       => $this->string(64),
@@ -18,19 +22,17 @@ class m160000_000002_partners extends Migration
             'contact'    => $this->string(128),
             'email'      => $this->string(64),
             'phone'      => $this->string(32),
-            'country_id' => $this->integer(),
-            'state_id'   => $this->integer(),
             'state'      => $this->string(64),
             'city'       => $this->string(64),
             'address'    => $this->string(),
             'zipcode'    => $this->string(16),
-            'parent_id'  => $this->integer(),
             'volunteer'  => $this->smallInteger()->notNull()->defaultValue(0),
             'candidate'  => $this->smallInteger()->notNull()->defaultValue(0),
             'notes'      => $this->text(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $this->getTableOptions());
+        $this->addForeignKey('partner_user', 'partner', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('partner_country', 'partner', 'country_id', 'country', 'id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('partner_state', 'partner', 'state_id', 'state', 'id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('partner_parent', 'partner', 'parent_id', 'partner', 'id', 'RESTRICT', 'RESTRICT');

@@ -37,16 +37,6 @@ var select2 = {
     },
 };
 
-function hide(elm) {
-    elm.hide();
-    elm.find('input, textarea, select').attr('disabled', 'disabled');
-};
-
-function show(elm) {
-    elm.show();
-    elm.find('input, textarea, select').removeAttr('disabled');
-};
-
 function matchClass(elem, str) {
     var jelm = $(elem),
         cls = jelm.attr('class');
@@ -59,6 +49,7 @@ function matchClass(elem, str) {
 };
 
 $.extend({
+
     appCommonInit: function(context) {
         context = $(context || document);
 
@@ -91,10 +82,54 @@ $.extend({
         $('.app-select2', context).each(function(){
             $(this).appSelect2();
         });
+
+        var elms = $('.app-float-thead', context);
+        if (elms.length) {
+            elms.floatThead({
+                position: 'fixed',
+                top: 51,
+                zIndex: 500,
+            });
+        }
     },
+
+    appReflowFloatThead: function() {
+        var elms = $('.app-float-thead:not(".floatThead-table")');
+        if (elms.length) {
+            elms.floatThead('reflow');
+        }
+    },
+
 });
 
 $.fn.extend({
+
+    appHide: function() {
+        this.hide();
+        this.find('input, textarea, select').attr('disabled', 'disabled');
+    },
+
+    appShow: function() {
+        this.show();
+        this.find('input, textarea, select').removeAttr('disabled');
+    },
+
+    serializeObject: function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (typeof(o[this.name]) !== 'undefined' && this.name.indexOf('[]') > 0) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    },
 
     appToggle: function(force_status_init) {
         var target_class = this.data('targetClass'),
@@ -129,10 +164,10 @@ $.fn.extend({
         });
         
         if (!value && !sel_dep.length) {
-            show($(sel_dep_all));
+            $(sel_dep_all).appShow();
         } else {
-            hide($(sel_dep_all));
-            show($(sel_dep));
+            $(sel_dep_all).appHide();
+            $(sel_dep).appShow();
         }
     },
 
@@ -147,8 +182,8 @@ $.fn.extend({
         if (country_id || !is_required) {
             var states = yii.app.states[country_id];
             if (states) {
-                show(state_dropdown);
-                hide(state_text);
+                state_dropdown.appShow();
+                state_text.appHide();
                 
                 var select = state_dropdown.find('select');
                 select.find('option').remove();
@@ -162,12 +197,12 @@ $.fn.extend({
                     select.val(select_value);
                 }
             } else {
-                hide(state_dropdown);
-                show(state_text);
+                state_dropdown.appHide();
+                state_text.appShow();
             }
         } else {
-            hide(state_dropdown);
-            hide(state_text);
+            state_dropdown.appHide();
+            state_text.appHide();
         }
     },
 
@@ -180,6 +215,9 @@ $.fn.extend({
             params.ajax.url = this.data('mUrl');
         }
         this.select2(params);
+        this.on('change', function(e){
+            $.appReflowFloatThead();
+        });
     },
 
     appClone: function() {

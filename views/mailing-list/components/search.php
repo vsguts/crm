@@ -1,8 +1,6 @@
 <?php
 
-use yii\helpers\Html;
 use app\widgets\SearchForm;
-use app\widgets\DatePickerRange;
 
 ?>
 
@@ -14,7 +12,7 @@ use app\widgets\DatePickerRange;
         <div class="col-md-6">
 
             <?= $form->field($model, 'name') ?>
-            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
         </div>
         <div class="col-md-6">

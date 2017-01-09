@@ -2,11 +2,16 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\Controller;
-use yii\web\Cookie;
+use app\behaviors\AjaxFilter;
 use app\helpers\FileHelper;
 use app\models\Language;
+use Yii;
+use yii\db\ActiveQueryInterface;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\Controller;
+use yii\web\Cookie;
+use yii\web\NotFoundHttpException;
 
 class AbstractController extends Controller
 {
@@ -43,14 +48,14 @@ class AbstractController extends Controller
     {
         return [
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::className(),
             ],
         ];
     }
 
     public function redirect($url, $force = false, $statusCode = 302)
     {
-        $params = Yii::$app->request->queryParams;
+        $params = $_REQUEST;
 
         // Meta redirect
         if (headers_sent() || ob_get_contents()) {
@@ -100,17 +105,29 @@ class AbstractController extends Controller
 
     protected function delete($object, array $id, $redirect_to_referrer = true)
     {
-        $ok_message = false;
-        if ($object::deleteAll(['id' => $id])) {
-            if (count($id) > 1) {
-                $ok_message = __('Items have been deleted successfully.');
-            } else {
-                $ok_message = __('Item has been deleted successfully.');
+        $status = true;
+
+        $primaryKey = $object::primaryKey();
+        $objects = $object::find()->where([$primaryKey[0] => $id])->all();
+        foreach ($objects as $object) {
+            if (!$object->delete()) {
+                $status = false;
+                break;
             }
         }
 
-        if ($ok_message) {
-            Yii::$app->session->setFlash('success', $ok_message);
+        if ($status) {
+            if (count($objects) > 1) {
+                $this->notice(__('Items have been deleted successfully.'));
+            } else {
+                $this->notice(__('Item has been deleted successfully.'));
+            }
+        } else {
+            if (count($objects) > 1) {
+                $this->notice(__("Items can't be deleted."), 'error');
+            } else {
+                $this->notice(__("Item can't be deleted."), 'error');
+            }
         }
 
         if (
@@ -135,26 +152,31 @@ class AbstractController extends Controller
         return Yii::$app->response->sendFile($path, $filename);
     }
 
-
     /**
      * Finds a model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $class Model class
-     * @param integer $id Primary key
+     * @param integer $id     Primary key
+     * @param string  $object Model class
      * @return mixed the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($class, $id)
+    protected function findModel($id, $object = null)
     {
-        if ($primaryKey = $class::primaryKey()) {
-            $tableName = $class::tableName();
-            $field = $tableName . '.' . $primaryKey[0];
-            $model = $class::find()->where([$field => $id])->permission()->one();
+        if ($object instanceof ActiveQueryInterface) {
+            $query = $object;
+            $object = $object->modelClass;
+        } else {
+            $query = $object::find();
+        }
+
+        if ($pks = $object::primaryKey()) {
+            $tableName = $object::tableName();
+            $field = $tableName . '.' . $pks[0];
+            $model = $query->andWhere([$field => $id])->permission()->one();
             if ($model) {
                 return $model;
             }
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
 }

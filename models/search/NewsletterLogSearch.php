@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\NewsletterLog;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\NewsletterLog;
 
 /**
  * NewsletterLogSearch represents the model behind the search form about `app\models\NewsletterLog`.
@@ -25,11 +25,14 @@ class NewsletterLogSearch extends NewsletterLog
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     /**
@@ -45,9 +48,7 @@ class NewsletterLogSearch extends NewsletterLog
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'timestamp' => SORT_DESC,

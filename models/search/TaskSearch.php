@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\Task;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Task;
 
 /**
  * TaskSearch represents the model behind the search form about `app\models\Task`.
@@ -42,11 +42,14 @@ class TaskSearch extends Task
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     public function attributeLabels()
@@ -75,7 +78,8 @@ class TaskSearch extends Task
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSizeLimit' => [10, 100],
+                'pageSizeLimit' => $this->getPaginationDefaults()['pageSizeLimit'],
+                'defaultPageSize' => $this->getPaginationDefaults()['defaultPageSize'],
                 'pageParam' => 'task-page',
                 'pageSizeParam' => 'task-per-page',
             ],

@@ -27,13 +27,20 @@ class MailingListPartner extends AbstractModel
         ];
     }
 
-    public function getPartner()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getList()
     {
-        return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
+        return $this->hasOne(MailingList::className(), ['id' => 'list_id'])->inverseOf('mailingListPartners');
     }
 
-    public function getMailingList()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartner()
     {
-        return $this->hasOne(MailingList::className(), ['id' => 'list_id']);
+        return $this->hasOne(Partner::className(), ['id' => 'partner_id'])->inverseOf('mailingListPartners');
     }
+
 }

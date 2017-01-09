@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\Country;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Country;
 
 /**
  * CountrySearch represents the model behind the search form about `app\models\Country`.
@@ -33,9 +33,9 @@ class CountrySearch extends Country
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     /**
@@ -51,9 +51,7 @@ class CountrySearch extends Country
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'name' => SORT_ASC,

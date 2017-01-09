@@ -6,6 +6,14 @@ use Yii;
 
 class TagQuery extends ActiveQuery
 {
+    public function permission()
+    {
+        $public_tag_ids = Yii::$app->authManager->getUserObjects('public_tags');
+        if ($public_tag_ids != 'all') {
+            $this->andWhere(['tag.id' => $public_tag_ids ?: 0]);
+        }
+        return $this;
+    }
 
     public function publicTags()
     {

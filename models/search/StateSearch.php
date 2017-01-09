@@ -2,10 +2,10 @@
 
 namespace app\models\search;
 
-use Yii;
+use app\behaviors\SearchBehavior;
+use app\models\State;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\State;
 
 /**
  * StateSearch represents the model behind the search form about `app\models\State`.
@@ -31,11 +31,14 @@ class StateSearch extends State
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     /**
@@ -51,9 +54,7 @@ class StateSearch extends State
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSizeLimit' => [10, 100],
-            ],
+            'pagination' => $this->getPaginationDefaults(),
             'sort' => [
                 'defaultOrder' => [
                     'name' => SORT_ASC,

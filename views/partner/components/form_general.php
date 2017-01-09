@@ -45,6 +45,18 @@ echo $form->field($model, 'personalTags')->widget('app\widgets\Tags', []);
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
 if (!$model->isNewRecord) {
+    if ($model->user_id) {
+        $user_text = $model->user->name;
+        if (Yii::$app->user->can('user_view')) {
+            $user_text = Html::a($user_text, null, [
+                'href' => Url::to(['user/update', 'id' => $model->user_id, '_return_url' => Url::to()]),
+                'class' => 'app-modal',
+                'data-target-id' => 'user_' . $model->user_id,
+            ]);
+        }
+        echo $form->field($model, 'user_id')->widget('app\widgets\Text', ['value' => $user_text]);
+    }
+
     echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
 
     echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);

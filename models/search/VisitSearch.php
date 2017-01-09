@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\behaviors\SearchBehavior;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -41,11 +42,14 @@ class VisitSearch extends Visit
         return Model::scenarios();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors[] = 'app\behaviors\SearchBehavior';
-        return $behaviors;
+        return [
+            SearchBehavior::className(),
+        ];
     }
 
     /**
@@ -65,7 +69,8 @@ class VisitSearch extends Visit
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSizeLimit' => [10, 500],
+                'pageSizeLimit' => $this->getPaginationDefaults()['pageSizeLimit'],
+                'defaultPageSize' => $this->getPaginationDefaults()['defaultPageSize'],
                 'pageParam' => 'visit-page',
                 'pageSizeParam' => 'visit-per-page',
             ],

@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use app\widgets\SearchForm;
 
 ?>
@@ -19,9 +18,9 @@ use app\widgets\SearchForm;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => 'label'])) ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
-            <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role', ['empty' => 'label'])) ?>
+            <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role', ['empty' => true])) ?>
 
         </div>
     </div>

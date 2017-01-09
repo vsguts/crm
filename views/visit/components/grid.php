@@ -44,7 +44,11 @@ $columns = [
         'value' => 'user.name',
         'link' => function($model) {
             if ($model->user_id && Yii::$app->user->can('user_view')) {
-                return Url::to(['user/update', 'id' => $model->user_id]);
+                return [
+                    'href' => Url::to(['user/update', 'id' => $model->user_id, '_return_url' => Url::to()]),
+                    'class' => 'app-modal',
+                    'data-target-id' => 'user_' . $model->user_id,
+                ];
             }
         },
     ],

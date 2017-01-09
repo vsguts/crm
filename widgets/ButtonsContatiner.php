@@ -9,47 +9,58 @@ use yii\db\ActiveRecord;
 class ButtonsContatiner extends Widget
 {
     public $model;
-    
-    public $footerWrapper = true;
-    
+
+    public $footerWrapper = false;
+
     public $form = '';
-    
-    public $removeLink = true;
+
+    public $removeLink = false;
 
     public $saveLink = true;
 
-    public $extraBtns = [];
+    public $create = null;
+
+    // Extras
+
+    public $beforeBtn = [];
+
+    public $afterBtn = [];
 
     public function run()
     {
         if ($this->footerWrapper) {
             echo Html::beginTag('div', ['class' => 'form-group panel-footer']);
         }
-        
+
         $submit_options = [];
         if ($this->form) {
             $submit_options['form'] = $this->form;
         }
 
-        $extra = '';
-        if ($this->extraBtns) {
-            $extra = '&nbsp;' . implode(' ', (array)$this->extraBtns);
+        echo $this->displayPart($this->beforeBtn) . '&nbsp;';
+
+        $afterBtn = '';
+        if ($this->afterBtn) {
+            $afterBtn = '&nbsp;' . $this->displayPart($this->afterBtn);
         }
 
-        if (isset($this->model->isNewRecord) && $this->model->isNewRecord) {
+        if (
+            $this->create === true
+            || $this->model instanceof ActiveRecord && $this->model->isNewRecord
+        ) {
             if ($this->saveLink) {
                 $submit_options['class'] = 'btn btn-success';
                 echo Html::submitButton(__('Create'), $submit_options);
             }
-            
-            echo $extra;
+
+            echo $afterBtn;
         } else {
             if ($this->saveLink) {
                 $submit_options['class'] = 'btn btn-primary';
                 echo Html::submitButton(__('Update'), $submit_options);
             }
 
-            echo $extra;
+            echo $afterBtn;
 
             if ($this->removeLink) {
                 echo ' ';
@@ -64,5 +75,10 @@ class ButtonsContatiner extends Widget
         if ($this->footerWrapper) {
             echo Html::endTag('div');
         }
+    }
+
+    protected function displayPart($part)
+    {
+        return implode(' ', (array)$part);
     }
 }

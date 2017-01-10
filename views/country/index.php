@@ -20,6 +20,8 @@ $detailsLink = function($model) {
 ?>
 <div class="country-index">
 
+    <?php if (Yii::$app->user->can('country_manage')) : ?>
+
     <div class="pull-right buttons-container">
         <div class="btn-group">
             <?= Html::a(__('Create country'), ['update', '_return_url' => Url::to()], [
@@ -38,6 +40,8 @@ $detailsLink = function($model) {
             ],
         ]) ?>
     </div>
+
+    <?php endif; ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 

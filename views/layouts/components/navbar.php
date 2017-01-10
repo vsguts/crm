@@ -29,14 +29,14 @@ $proccess_menu_item = function ($menu_item) {
 
     if ($sections) {
         foreach ($sections as $key => $section) {
-            $section = array_filter(
+            $sections[$key] = array_filter(
                 $section,
                 function ($item) {
-                    return isset($item['visible']) && $item['visible'];
+                    return !isset($item['visible']) || $item['visible'];
                 }
             );
 
-            if (!$section) {
+            if (!$sections[$key]) {
                 unset($sections[$key]);
             }
         }
@@ -58,9 +58,7 @@ $proccess_menu_item = function ($menu_item) {
             if (isset($item['active']) && $item['active']) {
                 $menu_item['active'] = true;
             }
-            if (isset($item['visible'])) {
-                $menu_item['visible'] = $item['visible'];
-            } else {
+            if (isset($item['visible']) && $item['visible']) {
                 $menu_item['visible'] = true;
             }
         }

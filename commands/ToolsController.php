@@ -2,6 +2,8 @@
 
 namespace app\commands;
 
+use app\components\rbac\LoggedInRule;
+use app\components\rbac\LoggedOutRule;
 use app\components\rbac\OwnerRule;
 use Yii;
 use yii\console\Controller;
@@ -29,26 +31,37 @@ class ToolsController extends Controller
 
         $roles = $rules = $permissions = [];
 
-        /**
-         * Roles
-         */
-
-        $roles['root'] = $auth->createRole('root');
-        $roles['root']->data['system'] = true;
-        foreach ($auth_data_objects as $object) {
-            $roles['root']->data[$object] = ['all'];
-        }
-        $roles['root']->description = 'Root';
-
-        $roles['guest'] = $auth->createRole('guest');
-        $roles['guest']->data['system'] = true;
-        $roles['guest']->description = 'Guest';
 
         /**
          * Rules
          */
 
         $rules['owner'] = new OwnerRule;
+
+        $rules['logged_in'] = new LoggedInRule;
+
+        $rules['logged_out'] = new LoggedOutRule;
+
+
+        /**
+         * Roles
+         */
+
+        $roles['guest'] = $auth->createRole('guest');
+        $roles['guest']->data['system'] = true;
+        $roles['guest']->description = 'Guest';
+        $roles['guest']->ruleName = $rules['logged_out']->name;
+
+        $roles['authorized'] = $auth->createRole('authorized');
+        $roles['authorized']->data['system'] = true;
+        $roles['authorized']->description = 'Authorized';
+        $roles['authorized']->ruleName = $rules['logged_in']->name;
+
+        $roles['root'] = $auth->createRole('root');
+        foreach ($auth_data_objects as $object) {
+            $roles['root']->data[$object] = ['all'];
+        }
+        $roles['root']->description = 'Root';
 
 
         /**
@@ -245,9 +258,9 @@ class ToolsController extends Controller
             if (!$auth->hasChild($roles['root'], $permission)) {
                 $auth->addChild($roles['root'], $permission);
             }
-            // Own permissions to guest
-            // if (strpos($permission->name, '_own') && !$auth->hasChild($roles['guest'], $permission)) {
-            //     $auth->addChild($roles['guest'], $permission);
+            // Own permissions to authorized
+            // if (strpos($permission->name, '_own') && !$auth->hasChild($roles['authorized'], $permission)) {
+            //     $auth->addChild($roles['authorized'], $permission);
             // }
         }
         

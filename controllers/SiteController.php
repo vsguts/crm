@@ -85,7 +85,7 @@ class SiteController extends AbstractController
     {
         $user = Yii::$app->user;
         $dashboard = [];
-        
+
         if ($user->can('partner_view') || $user->can('partner_view_own')) {
             $dashboard[] = [
                 'name' => Html::tag('b', __('Partners')),

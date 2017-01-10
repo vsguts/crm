@@ -11,20 +11,21 @@ class DbManager extends YiiDbManager
 {
     const ALL_OBJECTS = 'all';
 
-    protected static $userObjects = [];
+    protected $assignments = [];
+
+    protected $userObjects = [];
 
     /**
      * Getting roles list. Applying for checkboxes
-     * 
-     * @param  str|array $skip_role_names Skip roles list
+     *
+     * @param  bool  $skip_system Skip roles list
      * @return array
      */
-    public function getRolesList($skip_role_names = [])
+    public function getRolesList($skip_system = false)
     {
         $roles = [];
-        $skip_role_names = (array)$skip_role_names;
         foreach ($this->getRoles() as $role) {
-            if (in_array($role->name, $skip_role_names)) {
+            if ($skip_system && !empty($role->data['system'])) {
                 continue;
             }
             $roles[$role->name] = $role->description;
@@ -34,14 +35,31 @@ class DbManager extends YiiDbManager
         return $roles;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function updateItem($name, $item)
     {
         return parent::updateItem($name, $item);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getItem($name)
     {
         return parent::getItem($name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAssignments($userId)
+    {
+        if (!isset($this->assignments[$userId])) {
+            $this->assignments[$userId] = parent::getAssignments($userId);
+        }
+        return $this->assignments[$userId];
     }
 
     /**
@@ -85,7 +103,7 @@ class DbManager extends YiiDbManager
 
     public function getUserObjects($object_name)
     {
-        if (!self::$userObjects) {
+        if (!$this->userObjects) {
             $data = array_fill_keys($this->getDataObjects(), []);
             $role_names = $this->getAllUserItemNames(Yii::$app->user->id);
             $query = (new Query)
@@ -109,14 +127,14 @@ class DbManager extends YiiDbManager
                     }
                 }
             }
-            self::$userObjects = $data;
+            $this->userObjects = $data;
         }
 
-        if (array_search('all', self::$userObjects[$object_name]) !== false) {
+        if (array_search('all', $this->userObjects[$object_name]) !== false) {
             return self::ALL_OBJECTS;
         }
 
-        return self::$userObjects[$object_name];
+        return $this->userObjects[$object_name];
     }
 
     public function getRolesByPermission($permission)

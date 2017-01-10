@@ -115,7 +115,7 @@ class UserController extends AbstractController
         ];
 
         if ($user->id != $model->id) { // Restrict user to manage own roles
-            $data['roles'] = $auth->getRolesList('guest');
+            $data['roles'] = $auth->getRolesList(true);
         }
 
         return $this->render('update', $data);

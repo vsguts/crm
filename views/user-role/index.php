@@ -58,8 +58,7 @@ $showObjectsCount = function ($model, $object, $type = 'primary') {
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'tableOptions' => ['class' => 'table table-striped table-hover table-highlighted app-float-thead'],
-        // 'tableOptions' => ['class' => 'table table-condensed table-bordered table-striped table-hover table-highlighted app-float-thead'],
+        'tableOptions' => ['class' => 'table table-hover table-highlighted app-float-thead'],
         'columns' => [
             [
                 'class' => 'yii\grid\CheckboxColumn'
@@ -100,7 +99,9 @@ $showObjectsCount = function ($model, $object, $type = 'primary') {
                 'class' => CounterColumn::className(),
                 'label' => __('Users'),
                 'count' => function($model) {
-                    return count(Yii::$app->authManager->getUserIdsByRole($model['name']));
+                    if (empty($model['data']['system'])) {
+                        return count(Yii::$app->authManager->getUserIdsByRole($model['name']));
+                    }
                 },
                 'link' => function($model) {
                     return Url::to(['user/index', 'user_role_id' => $model['name']]);
@@ -115,7 +116,7 @@ $showObjectsCount = function ($model, $object, $type = 'primary') {
                 'items' => [
                     $detailsLink,
                     function($model) {
-                        if (Yii::$app->user->can('user_manage')) {
+                        if (Yii::$app->user->can('user_manage') && empty($model['data']['system'])) {
                             return [
                                 'label' => __('Delete'),
                                 'href' => Url::to(['user-role/delete', 'id' => $model['id'], '_return_url' => Url::to()]),
@@ -127,6 +128,12 @@ $showObjectsCount = function ($model, $object, $type = 'primary') {
                 ],
             ],
         ],
+        'rowOptions'   => function ($model) {
+            if (!empty($model['data']['system'])) {
+                return ['class' => 'bg-success'];
+            }
+            return [];
+        },
     ]); ?>
 
 </div>

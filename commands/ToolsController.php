@@ -134,10 +134,10 @@ class ToolsController extends Controller
         $permissions['newsletter_manage']->description = 'Newsletters::Newsletters::Manage';
 
         $permissions['print_template_view'] = $auth->createPermission('print_template_view');
-        $permissions['print_template_view']->description = 'Newsletters::Print templates::View';
+        $permissions['print_template_view']->description = 'Newsletters::Printing templates::View';
 
         $permissions['print_template_manage'] = $auth->createPermission('print_template_manage');
-        $permissions['print_template_manage']->description = 'Newsletters::Print templates::Manage';
+        $permissions['print_template_manage']->description = 'Newsletters::Printing templates::Manage';
 
 
         // Partners
@@ -158,19 +158,19 @@ class ToolsController extends Controller
         $permissions['public_tags_manage']->description = 'General::Partners::Manage public tags';
 
 
-        // Communications
+        // Communication
 
         $permissions['communication_view'] = $auth->createPermission('communication_view');
-        $permissions['communication_view']->description = 'General::Communications::View all';
+        $permissions['communication_view']->description = 'General::Communication::View all';
 
         $permissions['communication_view_own'] = $auth->createPermission('communication_view_own');
-        $permissions['communication_view_own']->description = 'General::Communications::View own';
+        $permissions['communication_view_own']->description = 'General::Communication::View own';
 
         $permissions['communication_manage'] = $auth->createPermission('communication_manage');
-        $permissions['communication_manage']->description = 'General::Communications::Manage';
+        $permissions['communication_manage']->description = 'General::Communication::Manage';
 
         // $permissions['communication_manage_own'] = $auth->createPermission('communication_manage_own');
-        // $permissions['communication_manage_own']->description = 'General::Communications::Manage own';
+        // $permissions['communication_manage_own']->description = 'General::Communication::Manage own';
 
 
         // Donates

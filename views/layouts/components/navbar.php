@@ -216,7 +216,7 @@ $menu_items = [
 // Languages
 $select_language = false;
 $lang_items = [];
-foreach (Language::find()->orderBy(['name' => SORT_ASC])->all() as $language) {
+foreach (Language::find()->sorted()->all() as $language) {
     if ($language->code == Yii::$app->language) {
         $select_language = $language;
         // break;

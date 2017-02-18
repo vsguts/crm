@@ -26,7 +26,7 @@ class AbstractController extends Controller
             Yii::$app->language = $language;
         } else {
             if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                $languages = Language::find()->orderBy(['name' => SORT_ASC])->all();
+                $languages = Language::find()->sorted()->all();
                 $codes = [];
                 foreach ($languages as $language) {
                     $codes[] = $language->code;

@@ -2,8 +2,16 @@
 
 namespace app\models;
 
-use Yii;
+use app\models\query\LanguageQuery;
 
+/**
+ * This is the model class for table "language".
+
+ * @property integer $id
+ * @property string $code
+ * @property string $short_name
+ * @property string $name
+ */
 class Language extends AbstractModel
 {
     public static function tableName()
@@ -28,4 +36,15 @@ class Language extends AbstractModel
             'name' => __('Name'),
         ];
     }
+
+
+    /**
+     * @inheritdoc
+     * @return LanguageQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new LanguageQuery(get_called_class());
+    }
+
 }

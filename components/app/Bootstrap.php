@@ -14,6 +14,14 @@ class Bootstrap extends ServiceLocator
         $settings = Setting::settings();
         Yii::$app->params = array_merge(Yii::$app->params, $settings);
 
+        // Base Url
+        $request = Yii::$app->getRequest();
+        if (!($request instanceof \yii\web\Request)) {
+            $urlManager = Yii::$app->components['urlManager'];
+            $urlManager['baseUrl'] = Yii::$app->params['baseUrl'];
+            Yii::$app->set('urlManager', $urlManager);
+        }
+
         // Mailer
         $mailer = Yii::$app->components['mailer'];
         if ($settings['mailSendMethod'] == 'file') {

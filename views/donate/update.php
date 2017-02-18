@@ -41,7 +41,7 @@ echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
     'url' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
 ]);
 
-echo $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]), [
+echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]), [
     'class' => 'form-control app-select2',
 ]);
 

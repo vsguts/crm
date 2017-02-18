@@ -21,7 +21,7 @@ use app\widgets\DatePickerRange;
                 'initValueText' => $model->partner_id ? Partner::findOne($model->partner_id)->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true])) ?>
+            <?= $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true])) ?>
             
             <?= $form->field($model, 'done')->dropDownList([
                 '' => ' - ' . __('Done') . ' - ',

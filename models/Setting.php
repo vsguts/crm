@@ -2,9 +2,14 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\form\SettingsForm;
 
+/**
+ * This is the model class for table "setting".
+ *
+ * @property string $name
+ * @property string $value
+ */
 class Setting extends AbstractModel
 {
     public static function tableName()

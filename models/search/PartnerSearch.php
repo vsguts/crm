@@ -101,24 +101,24 @@ class PartnerSearch extends Partner
         
         $query->andFilterWhere([
             'partner.id' => $this->id,
-            'type' => $this->type,
-            'status' => $this->status,
-            'country_id' => $this->country_id,
-            'state_id' => $this->state_id,
-            'parent_id' => $this->parent_id,
-            'volunteer' => $this->volunteer,
-            'candidate' => $this->candidate,
-            'communication_method' => $this->communication_method,
+            'partner.type' => $this->type,
+            'partner.status' => $this->status,
+            'partner.country_id' => $this->country_id,
+            'partner.state_id' => $this->state_id,
+            'partner.parent_id' => $this->parent_id,
+            'partner.volunteer' => $this->volunteer,
+            'partner.candidate' => $this->candidate,
+            'partner.communication_method' => $this->communication_method,
             'partner_tag.tag_id' => $this->tag_id,
         ]);
 
         $query
             ->andFilterWhere(['like', 'partner.name', $this->name])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'state', $this->state])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'notes', $this->notes]);
+            ->andFilterWhere(['like', 'partner.email', $this->email])
+            ->andFilterWhere(['like', 'partner.state', $this->state])
+            ->andFilterWhere(['like', 'partner.address', $this->address])
+            ->andFilterWhere(['like', 'partner.city', $this->city])
+            ->andFilterWhere(['like', 'partner.notes', $this->notes]);
 
         $tags = $this->parseTagsStr([$this->publicTagsStr, $this->personalTagsStr]);
         if (true) { // AND

@@ -8,6 +8,28 @@ use app\behaviors\TimestampBehavior;
 use app\models\query\PrintTemplateQuery;
 use yii\helpers\Html;
 
+/**
+ * This is the model class for table "print_template".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property integer $status
+ * @property string $format
+ * @property integer $orientation_landscape
+ * @property integer $margin_top
+ * @property integer $margin_bottom
+ * @property integer $margin_left
+ * @property integer $margin_right
+ * @property integer $items_per_page
+ * @property string $content
+ * @property integer $wrapper_enabled
+ * @property string $wrapper
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property PrintTemplateMailingList[] $printTemplateMailingLists
+ * @property MailingList[] $lists
+ */
 class PrintTemplate extends AbstractModel
 {
     public static function tableName()

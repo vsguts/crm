@@ -2,9 +2,25 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\query\MailingListQuery;
 
+/**
+ * This is the model class for table "mailing_list".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $from_name
+ * @property string $from_email
+ * @property string $reply_to
+ * @property integer $status
+ *
+ * @property MailingListPartner[] $mailingListPartners
+ * @property Partner[] $partners
+ * @property NewsletterMailingList[] $newsletterMailingLists
+ * @property Newsletter[] $newsletters
+ * @property PrintTemplateMailingList[] $printTemplateMailingLists
+ * @property PrintTemplate[] $templates
+ */
 class MailingList extends AbstractModel
 {
     public static function tableName()

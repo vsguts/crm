@@ -72,6 +72,7 @@ class DonateController extends AbstractController
             $model = $this->findModel($id, Donate::className());
         } else {
             $model = new Donate();
+            $model->user_id = Yii::$app->user->id;
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

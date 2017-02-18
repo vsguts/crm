@@ -105,7 +105,10 @@ class DbManager extends YiiDbManager
     {
         if (!$this->userObjects) {
             $data = array_fill_keys($this->getDataObjects(), []);
-            $role_names = $this->getAllUserItemNames(Yii::$app->user->id);
+            $role_names = array_merge(
+                $this->getAllUserItemNames(Yii::$app->user->id),
+                $this->defaultRoles
+            );
             $query = (new Query)
                 ->from($this->itemTable)
                 ->where([

@@ -3,10 +3,38 @@
 namespace app\models;
 
 use app\models\form\UserSignupForm;
+use app\models\query\UserQuery;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
 
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $email
+ * @property string $name
+ * @property string $auth_key
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property integer $status
+ * @property integer $country_id
+ * @property integer $state_id
+ * @property string $state
+ * @property string $city
+ * @property string $address
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property Communication[] $communications
+ * @property Donate[] $donates
+ * @property NewsletterLog[] $newsletterLogs
+ * @property Partner[] $partners
+ * @property Tag[] $tags
+ * @property Task[] $tasks
+ * @property Country $country
+ * @property State $state0
+ */
 class User extends AbstractModel implements IdentityInterface
 {
     const STATUS_ACTIVE = 1;
@@ -124,6 +152,16 @@ class User extends AbstractModel implements IdentityInterface
     public function getCommunications()
     {
         return $this->hasMany(Communication::className(), ['user_id' => 'id'])->inverseOf('user');
+    }
+
+
+    /**
+     * @inheritdoc
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 
 

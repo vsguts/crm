@@ -8,6 +8,16 @@ use yii\helpers\Url;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
+/**
+ * This is the model class for table "image".
+ *
+ * @property integer $id
+ * @property string $table
+ * @property integer $object_id
+ * @property string $object_type
+ * @property string $filename
+ * @property integer $default
+ */
 class Image extends AbstractModel
 {
     const QUALITY = 75;

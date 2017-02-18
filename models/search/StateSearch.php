@@ -41,7 +41,7 @@ class StateSearch extends State
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'state.id' => $this->id,
             'country_id' => $this->country_id,
         ]);
 

@@ -2,13 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use app\models\Task;
 use app\models\Partner;
 use app\models\search\TaskSearch;
+use app\models\Task;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -76,7 +75,7 @@ class TaskController extends AbstractController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
+            $this->notice(__('Your changes have been saved successfully.'));
             return $this->redirect(['index']);
         } else {
 

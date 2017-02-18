@@ -2,9 +2,24 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\query\DonateQuery;
 
+
+/**
+ * This is the model class for table "donate".
+ *
+ * @property integer $id
+ * @property integer $partner_id
+ * @property integer $user_id
+ * @property string $sum
+ * @property integer $timestamp
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property string $notes
+ *
+ * @property Partner $partner
+ * @property User $user
+ */
 class Donate extends AbstractModel
 {
     /**

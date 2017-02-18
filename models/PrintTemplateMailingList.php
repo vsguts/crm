@@ -2,8 +2,15 @@
 
 namespace app\models;
 
-use Yii;
-
+/**
+ * This is the model class for table "print_template_mailing_list".
+ *
+ * @property integer $template_id
+ * @property integer $list_id
+ *
+ * @property MailingList $list
+ * @property PrintTemplate $template
+ */
 class PrintTemplateMailingList extends AbstractModel
 {
     /**

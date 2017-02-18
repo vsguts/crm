@@ -34,11 +34,11 @@ class TagSearch extends Tag
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
+            'tag.id' => $this->id,
+            'tag.user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'tag.name', $this->name]);
 
         return $dataProvider;
     }

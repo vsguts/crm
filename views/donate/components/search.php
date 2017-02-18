@@ -17,7 +17,7 @@ use app\models\User;
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]), [
+            <?= $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]), [
                 'class' => 'form-control app-select2',
             ]) ?>
 

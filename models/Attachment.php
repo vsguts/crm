@@ -6,8 +6,19 @@ use app\helpers\FileHelper;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\base\Exception;
+use yii\helpers\Inflector;
 use yii\web\UploadedFile;
 
+/**
+ * This is the model class for table "attachment".
+ *
+ * @property integer $id
+ * @property string $table
+ * @property integer $object_id
+ * @property string $object_type
+ * @property string $filename
+ * @property integer $filesize
+ */
 class Attachment extends AbstractModel
 {
     public $related_model;
@@ -73,7 +84,7 @@ class Attachment extends AbstractModel
 
     public function getObject()
     {
-        $class_name = 'app\models\\' . $this->table;
+        $class_name = 'app\models\\' . Inflector::id2camel($this->table, '_');
         if (class_exists($class_name)) {
             return $this->hasOne($class_name, ['id' => 'object_id']);
         }

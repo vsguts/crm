@@ -2,8 +2,17 @@
 
 namespace app\models;
 
-use Yii;
-
+/**
+ * This is the model class for table "country".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $code
+ *
+ * @property Partner[] $partners
+ * @property State[] $states
+ * @property User[] $users
+ */
 class Country extends AbstractModel
 {
     public static function tableName()

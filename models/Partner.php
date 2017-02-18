@@ -11,6 +11,47 @@ use app\behaviors\TimestampBehavior;
 use Yii;
 use app\models\query\PartnerQuery;
 
+/**
+ * This is the model class for table "partner".
+ *
+ * @property integer $id
+ * @property integer $user_id
+ * @property integer $country_id
+ * @property integer $state_id
+ * @property integer $parent_id
+ * @property integer $type
+ * @property integer $status
+ * @property string $name
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $contact
+ * @property string $email
+ * @property string $phone
+ * @property string $state
+ * @property string $city
+ * @property string $address
+ * @property string $zipcode
+ * @property integer $volunteer
+ * @property integer $candidate
+ * @property string $notes
+ * @property string $communication_method
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property Communication[] $communications
+ * @property Donate[] $donates
+ * @property MailingListPartner[] $mailingListPartners
+ * @property MailingList[] $lists
+ * @property Country $country
+ * @property Partner $parent
+ * @property Partner[] $partners
+ * @property State $state0
+ * @property User $user
+ * @property PartnerTag[] $partnerTags
+ * @property Tag[] $tags
+ * @property TaskPartner[] $taskPartners
+ * @property Task[] $tasks
+ */
 class Partner extends AbstractModel
 {
     const TYPE_PEOPLE = 1;

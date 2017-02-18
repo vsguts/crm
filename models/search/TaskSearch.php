@@ -67,14 +67,14 @@ class TaskSearch extends Task
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'done' => $this->done,
+            'task.id' => $this->id,
+            'task.user_id' => $this->user_id,
+            'task.done' => $this->done,
             'task_partner.partner_id' => $this->partner_id,
         ]);
 
         $query->andFilterWhere(['like', 'task.name', $this->name]);
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
+        $query->andFilterWhere(['like', 'task.notes', $this->notes]);
         
         $this->addRangeCondition($query, 'timestamp');
         $this->addRangeCondition($query, 'created_at');

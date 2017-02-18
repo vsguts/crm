@@ -8,6 +8,19 @@ use app\behaviors\LookupBehavior;
 use app\behaviors\TimestampConvertBehavior;
 use app\models\query\CommunicationQuery;
 
+/**
+ * This is the model class for table "communication".
+ *
+ * @property integer $id
+ * @property integer $partner_id
+ * @property integer $user_id
+ * @property integer $timestamp
+ * @property string $type
+ * @property string $notes
+ *
+ * @property Partner $partner
+ * @property User $user
+ */
 class Communication extends AbstractModel
 {
     /**

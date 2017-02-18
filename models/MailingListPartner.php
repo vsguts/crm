@@ -2,8 +2,15 @@
 
 namespace app\models;
 
-use Yii;
-
+/**
+ * This is the model class for table "mailing_list_partner".
+ *
+ * @property integer $list_id
+ * @property integer $partner_id
+ *
+ * @property MailingList $list
+ * @property Partner $partner
+ */
 class MailingListPartner extends AbstractModel
 {
     public static function tableName()

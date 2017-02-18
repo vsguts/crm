@@ -18,7 +18,7 @@ use app\widgets\DatePickerRange;
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
             ]); ?>
 
-            <?= $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true])) ?>
+            <?= $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true])) ?>
 
             <?= $form->field($model, 'timestamp')->widget(DatePickerRange::className()) ?>
 

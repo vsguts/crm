@@ -2,9 +2,24 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\query\TaskQuery;
 
+/**
+ * This is the model class for table "task".
+ *
+ * @property integer $id
+ * @property integer $user_id
+ * @property string $name
+ * @property integer $timestamp
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $done
+ * @property string $notes
+ *
+ * @property User $user
+ * @property TaskPartner[] $taskPartners
+ * @property Partner[] $partners
+ */
 class Task extends AbstractModel
 {
 

@@ -6,7 +6,9 @@ use app\behaviors\AjaxFilter;
 use app\helpers\FileHelper;
 use app\models\Language;
 use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQueryInterface;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -15,6 +17,8 @@ use yii\web\NotFoundHttpException;
 
 class AbstractController extends Controller
 {
+    protected $notices = [];
+
     public function init()
     {
         parent::init();
@@ -87,7 +91,7 @@ class AbstractController extends Controller
     /**
      * Send notice
      * @param  mixed $text Text
-     * @param  string $type text|error|info|warning
+     * @param  string $type text|danger|info|warning
      */
     protected function notice($text, $type = 'success')
     {
@@ -96,39 +100,76 @@ class AbstractController extends Controller
                 $this->notice($_text, $type);
             }
         } else {
+            $cash_key = md5($type . '_' . $text);
+            if (isset($this->notices[$cash_key])) {
+                return;
+            }
+            $this->notices[$cash_key] = true;
+
             Yii::$app->session->addFlash($type, $text);
+
+            // Ajax workaround
             if ($this->getIsAjax()) {
                 $this->ajaxAssign('alerts', Yii::$app->session->getAllFlashes());
             }
         }
     }
 
-    protected function delete($object, array $id, $redirect_to_referrer = true)
+    /**
+     * @param object|string $object Object or class name
+     * @param array|int $id
+     * @param bool $redirect_to_referrer
+     * @return \yii\web\Response
+     * @throws Exception
+     */
+    protected function delete($object, $id, $redirect_to_referrer = true)
     {
-        $status = true;
+        // Select
 
-        $primaryKey = $object::primaryKey();
-        $objects = $object::find()->where([$primaryKey[0] => $id])->all();
-        foreach ($objects as $object) {
-            if (!$object->delete()) {
-                $status = false;
-                break;
+        if ($object instanceof ActiveRecordInterface && !$object->getIsNewRecord()) {
+            $objects = [$object];
+        } else {
+            if (!$id) {
+                throw new Exception('ID is empty');
             }
+            $id_field = $object::tableName() . '.' . $object::primaryKey()[0];
+            $objects = $object::find()->permission()->andWhere([$id_field => $id])->all();
         }
 
-        if ($status) {
-            if (count($objects) > 1) {
-                $this->notice(__('Items have been deleted successfully.'));
+        // Remove and show notice or error
+
+        if ($objects) {
+            $status = true;
+            foreach ($objects as $object) {
+                if (!$object->delete()) {
+                    $status = false;
+                    break;
+                }
+            }
+
+            if ($status) {
+                if (count($objects) > 1) {
+                    $this->notice(__('Items have been deleted successfully.'));
+                } else {
+                    $this->notice(__('Item has been deleted successfully.'));
+                }
             } else {
-                $this->notice(__('Item has been deleted successfully.'));
+                $object = reset($objects);
+                if ($object->errors) {
+                    $this->notice($object->errors, 'danger');
+                } else {
+                    if (count($objects) > 1) {
+                        $this->notice(__("Items can't be deleted."), 'danger');
+                    } else {
+                        $this->notice(__("Item can't be deleted."), 'danger');
+                    }
+                }
             }
         } else {
-            if (count($objects) > 1) {
-                $this->notice(__("Items can't be deleted."), 'error');
-            } else {
-                $this->notice(__("Item can't be deleted."), 'error');
-            }
+            $this->notice(__("Not found."), 'danger');
         }
+
+        // Redirect
 
         if (
             $redirect_to_referrer
@@ -178,5 +219,14 @@ class AbstractController extends Controller
             }
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * @param string $param
+     * @return array|mixed
+     */
+    protected function getRequest($param = 'id')
+    {
+        return Yii::$app->request->post($param, Yii::$app->request->get($param));
     }
 }

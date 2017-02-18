@@ -5,6 +5,17 @@ namespace app\models;
 use Yii;
 use app\models\query\TagQuery;
 
+/**
+ * This is the model class for table "tag".
+ *
+ * @property integer $id
+ * @property integer $user_id
+ * @property string $name
+ *
+ * @property PartnerTag[] $partnerTags
+ * @property Partner[] $partners
+ * @property User $user
+ */
 class Tag extends AbstractModel
 {
     public static function tableName()

@@ -45,7 +45,7 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
     'url' => ['partner/update']
 ]);
 
-echo $form->field($model, 'user_id')->dropDownList(User::find()->scroll(['empty' => true]));
+echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]));
 
 echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',

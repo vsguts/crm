@@ -2,8 +2,15 @@
 
 namespace app\models;
 
-use Yii;
-
+/**
+ * This is the model class for table "partner_tag".
+ *
+ * @property integer $partner_id
+ * @property integer $tag_id
+ *
+ * @property Partner $partner
+ * @property Tag $tag
+ */
 class PartnerTag extends AbstractModel
 {
     public static function tableName()

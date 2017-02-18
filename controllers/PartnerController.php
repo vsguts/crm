@@ -81,7 +81,7 @@ class PartnerController extends AbstractController
         $partners = [];
             
         if ($q) {
-            $query = Partner::find();
+            $query = Partner::find()->permission();
             
             if ($organizations) {
                 $query->organizations();

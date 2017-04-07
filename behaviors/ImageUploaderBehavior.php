@@ -45,7 +45,7 @@ class ImageUploaderBehavior extends Behavior
         $form_name = $model->formName();
         if (isset($post[$form_name][static::UPDATE_IMAGES_FIELD])) {
             $images = $post[$form_name][static::UPDATE_IMAGES_FIELD];
-            
+
             if (!empty($images['default'])) {
                 $image = Image::findOne($images['default']);
                 $image->default = true;

@@ -80,7 +80,10 @@ class ImagesBehavior extends Behavior
 
     public function removeImage(Image $image)
     {
-        if ($image->table == $this->owner->formName()) {
+        if (
+            $image->table == $this->owner->tableName()
+            && $image->object_id == $this->owner->id
+        ) {
             $image->delete();
         }
     }

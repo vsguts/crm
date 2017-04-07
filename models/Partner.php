@@ -51,6 +51,9 @@ use app\models\query\PartnerQuery;
  * @property Tag[] $tags
  * @property TaskPartner[] $taskPartners
  * @property Task[] $tasks
+ *
+ * @mixin ImageUploaderBehavior
+ * @mixin ImagesBehavior
  */
 class Partner extends AbstractModel
 {

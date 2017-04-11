@@ -8,7 +8,7 @@ use Yii;
 
 class PartnerQuery extends ActiveQuery
 {
-    public function permission()
+    public function permission($permission = null)
     {
         if (!Yii::$app->user->can('partner_view')) {
             $public_tag_ids = Yii::$app->authManager->getUserObjects('public_tags');
@@ -45,7 +45,7 @@ class PartnerQuery extends ActiveQuery
         return $this;
     }
 
-    public function ids()
+    public function ids($field = 'id')
     {
         if ($this->count() > 1000) {
             return [];

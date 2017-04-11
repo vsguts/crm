@@ -6,7 +6,7 @@ use Yii;
 
 class CommunicationQuery extends ActiveQuery
 {
-    public function permission()
+    public function permission($permission = null)
     {
         if (!Yii::$app->user->can('communication_view')) {
             if (Yii::$app->user->can('communication_view_own')) {

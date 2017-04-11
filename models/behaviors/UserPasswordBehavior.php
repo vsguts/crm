@@ -1,6 +1,6 @@
 <?php
 
-namespace app\behaviors;
+namespace app\models\behaviors;
 
 use yii\base\Behavior;
 use yii\db\ActiveRecord;

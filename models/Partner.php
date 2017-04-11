@@ -2,14 +2,14 @@
 
 namespace app\models;
 
-use app\behaviors\ImagesBehavior;
-use app\behaviors\ImageUploaderBehavior;
-use app\behaviors\LookupBehavior;
-use app\behaviors\PartnerNameBehavior;
-use app\behaviors\TagsBehavior;
-use app\behaviors\TimestampBehavior;
-use Yii;
+use app\models\behaviors\ImagesBehavior;
+use app\models\behaviors\ImageUploaderBehavior;
+use app\models\behaviors\PartnerBehavior;
+use app\models\behaviors\TagsBehavior;
+use app\models\behaviors\TimestampBehavior;
+use app\models\components\LookupTrait;
 use app\models\query\PartnerQuery;
+use Yii;
 
 /**
  * This is the model class for table "partner".
@@ -57,6 +57,8 @@ use app\models\query\PartnerQuery;
  */
 class Partner extends AbstractModel
 {
+    use LookupTrait;
+
     const TYPE_PEOPLE = 1;
     const TYPE_ORG = 2;
     const TYPE_NPO = 3;
@@ -70,12 +72,11 @@ class Partner extends AbstractModel
     public function behaviors()
     {
         return [
-            PartnerNameBehavior::class,
+            PartnerBehavior::class,
             TagsBehavior::class,
             TimestampBehavior::class,
             ImageUploaderBehavior::class,
             ImagesBehavior::class,
-            LookupBehavior::class,
         ];
     }
 
@@ -97,10 +98,10 @@ class Partner extends AbstractModel
             [['zipcode'], 'string', 'max' => 16],
 
             // Relations
-            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['parent_id' => 'id']],
-            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::className(), 'targetAttribute' => ['state_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::class, 'targetAttribute' => ['country_id' => 'id']],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::class, 'targetAttribute' => ['parent_id' => 'id']],
+            [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => State::class, 'targetAttribute' => ['state_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ]);
     }
 
@@ -136,7 +137,7 @@ class Partner extends AbstractModel
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id'])->inverseOf('partners');
+        return $this->hasOne(User::class, ['id' => 'user_id'])->inverseOf('partners');
     }
 
     /**
@@ -144,7 +145,7 @@ class Partner extends AbstractModel
      */
     public function getCountry()
     {
-        return $this->hasOne(Country::className(), ['id' => 'country_id'])->inverseOf('partners');
+        return $this->hasOne(Country::class, ['id' => 'country_id'])->inverseOf('partners');
     }
 
     /**
@@ -152,7 +153,7 @@ class Partner extends AbstractModel
      */
     public function getState0()
     {
-        return $this->hasOne(State::className(), ['id' => 'state_id'])->inverseOf('partners');
+        return $this->hasOne(State::class, ['id' => 'state_id'])->inverseOf('partners');
     }
 
     /**
@@ -160,7 +161,7 @@ class Partner extends AbstractModel
      */
     public function getParent()
     {
-        return $this->hasOne(Partner::className(), ['id' => 'parent_id'])->inverseOf('partners');
+        return $this->hasOne(Partner::class, ['id' => 'parent_id'])->inverseOf('partners');
     }
 
     /**
@@ -168,7 +169,7 @@ class Partner extends AbstractModel
      */
     public function getDonates()
     {
-        return $this->hasMany(Donate::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(Donate::class, ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**
@@ -176,7 +177,7 @@ class Partner extends AbstractModel
      */
     public function getPartners()
     {
-        return $this->hasMany(Partner::className(), ['parent_id' => 'id'])->inverseOf('parent');
+        return $this->hasMany(Partner::class, ['parent_id' => 'id'])->inverseOf('parent');
     }
 
     /**
@@ -184,7 +185,7 @@ class Partner extends AbstractModel
      */
     public function getPartnerTags()
     {
-        return $this->hasMany(PartnerTag::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(PartnerTag::class, ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**
@@ -193,7 +194,7 @@ class Partner extends AbstractModel
     public function getTags()
     {
         return $this
-            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
 
@@ -203,7 +204,7 @@ class Partner extends AbstractModel
     public function getPublicTags()
     {
         return $this
-            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->hasMany(Tag::class, ['id' => 'tag_id'])
             ->publicTags()
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
@@ -214,7 +215,7 @@ class Partner extends AbstractModel
     public function getPersonalTags()
     {
         return $this
-            ->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->hasMany(Tag::class, ['id' => 'tag_id'])
             ->personalTags()
             ->viaTable('partner_tag', ['partner_id' => 'id']);
     }
@@ -224,7 +225,7 @@ class Partner extends AbstractModel
      */
     public function getTaskPartners()
     {
-        return $this->hasMany(TaskPartner::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(TaskPartner::class, ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**
@@ -233,7 +234,7 @@ class Partner extends AbstractModel
     public function getTasks()
     {
         return $this
-            ->hasMany(Task::className(), ['id' => 'task_id'])
+            ->hasMany(Task::class, ['id' => 'task_id'])
             ->viaTable('task_partner', ['partner_id' => 'id']);
     }
 
@@ -242,7 +243,7 @@ class Partner extends AbstractModel
      */
     public function getCommunications()
     {
-        return $this->hasMany(Communication::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(Communication::class, ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**
@@ -250,7 +251,7 @@ class Partner extends AbstractModel
      */
     public function getMailingListPartners()
     {
-        return $this->hasMany(MailingListPartner::className(), ['partner_id' => 'id'])->inverseOf('partner');
+        return $this->hasMany(MailingListPartner::class, ['partner_id' => 'id'])->inverseOf('partner');
     }
 
     /**
@@ -259,7 +260,7 @@ class Partner extends AbstractModel
     public function getMailingLists()
     {
         return $this
-            ->hasMany(MailingList::className(), ['id' => 'list_id'])
+            ->hasMany(MailingList::class, ['id' => 'list_id'])
             ->viaTable('mailing_list_partner', ['partner_id' => 'id']);
     }
 

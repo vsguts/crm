@@ -2,9 +2,9 @@
 
 namespace app\models;
 
-use app\behaviors\LookupBehavior;
-use app\behaviors\MailingListBehavior;
-use app\behaviors\TimestampBehavior;
+use app\models\behaviors\MailingListBehavior;
+use app\models\behaviors\TimestampBehavior;
+use app\models\components\LookupTrait;
 use app\models\query\PrintTemplateQuery;
 use yii\helpers\Html;
 
@@ -32,6 +32,8 @@ use yii\helpers\Html;
  */
 class PrintTemplate extends AbstractModel
 {
+    use LookupTrait;
+
     public static function tableName()
     {
         return 'print_template';
@@ -40,9 +42,8 @@ class PrintTemplate extends AbstractModel
     public function behaviors()
     {
         return [
-            MailingListBehavior::className(),
-            TimestampBehavior::className(),
-            LookupBehavior::className(),
+            MailingListBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
@@ -83,7 +84,7 @@ class PrintTemplate extends AbstractModel
      */
     public function getPrintTemplateMailingLists()
     {
-        return $this->hasMany(PrintTemplateMailingList::className(), ['template_id' => 'id']);
+        return $this->hasMany(PrintTemplateMailingList::class, ['template_id' => 'id']);
     }
 
     /**
@@ -92,7 +93,7 @@ class PrintTemplate extends AbstractModel
     public function getMailingLists()
     {
         return $this
-            ->hasMany(MailingList::className(), ['id' => 'list_id'])
+            ->hasMany(MailingList::class, ['id' => 'list_id'])
             ->viaTable('print_template_mailing_list', ['template_id' => 'id']);
     }
 

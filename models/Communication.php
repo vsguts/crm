@@ -2,10 +2,10 @@
 
 namespace app\models;
 
-use app\behaviors\ImagesBehavior;
-use app\behaviors\ImageUploaderBehavior;
-use app\behaviors\LookupBehavior;
-use app\behaviors\TimestampConvertBehavior;
+use app\models\behaviors\ImagesBehavior;
+use app\models\behaviors\ImageUploaderBehavior;
+use app\models\behaviors\TimestampConvertBehavior;
+use app\models\components\LookupTrait;
 use app\models\query\CommunicationQuery;
 
 /**
@@ -23,6 +23,8 @@ use app\models\query\CommunicationQuery;
  */
 class Communication extends AbstractModel
 {
+    use LookupTrait;
+
     /**
      * @inheritdoc
      */
@@ -40,7 +42,6 @@ class Communication extends AbstractModel
             TimestampConvertBehavior::class,
             ImageUploaderBehavior::class,
             ImagesBehavior::class,
-            LookupBehavior::class,
         ];
     }
 

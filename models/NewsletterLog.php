@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\models\behaviors\TimestampBehavior;
 use Yii;
+use yii\behaviors\AttributeBehavior;
 
 /**
  * This is the model class for table "newsletter_log".
@@ -27,7 +29,7 @@ class NewsletterLog extends AbstractModel
     {
         return [
             [
-                'class' => 'yii\behaviors\AttributeBehavior',
+                'class' => AttributeBehavior::class,
                 'attributes' => [
                     self::EVENT_BEFORE_INSERT => 'user_id',
                 ],
@@ -36,7 +38,7 @@ class NewsletterLog extends AbstractModel
                 },
             ],
             [
-                'class' => 'app\behaviors\TimestampBehavior',
+                'class' => TimestampBehavior::class,
                 'attributes' => [
                     self::EVENT_BEFORE_INSERT => ['timestamp'],
                 ],

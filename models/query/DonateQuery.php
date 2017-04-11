@@ -6,7 +6,7 @@ use Yii;
 
 class DonateQuery extends ActiveQuery
 {
-    public function permission()
+    public function permission($permission = null)
     {
         if (!Yii::$app->user->can('donate_view')) {
             if (Yii::$app->user->can('donate_view_own')) {

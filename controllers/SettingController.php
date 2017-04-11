@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
+use app\controllers\behaviors\AjaxFilter;
+use app\models\form\SettingsForm;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use app\models\form\SettingsForm;
 
 /**
  * StateController implements the CRUD actions for State model.
@@ -16,7 +16,7 @@ class SettingController extends AbstractController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -25,7 +25,7 @@ class SettingController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::class,
             ],
         ];
     }

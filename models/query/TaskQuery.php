@@ -6,7 +6,7 @@ use Yii;
 
 class TaskQuery extends ActiveQuery
 {
-    public function permission()
+    public function permission($permission = null)
     {
         if (!Yii::$app->user->can('task_view')) {
             if (Yii::$app->user->can('task_view_own')) {

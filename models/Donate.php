@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\behaviors\TimestampBehavior;
+use app\models\behaviors\TimestampConvertBehavior;
 use app\models\query\DonateQuery;
 
 
@@ -36,8 +38,8 @@ class Donate extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\TimestampConvertBehavior',
+            TimestampBehavior::class,
+            TimestampConvertBehavior::class,
         ];
     }
 

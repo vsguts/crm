@@ -1,35 +1,42 @@
 <?php
 
-namespace app\behaviors;
+namespace app\models\components;
 
-use Yii;
+use app\models\AbstractModel;
 use app\models\Lookup;
-use yii\base\Behavior;
+use Yii;
 
-class LookupBehavior extends Behavior
+/**
+ * Class LookupTrait
+ * @mixin AbstractModel
+ */
+trait LookupTrait
 {
-
-    public $table; // if empty will be set using owner name
 
     public function getLookupItem($field, $code = null)
     {
         $items = $this->getLookupItems($field);
 
         if ($code == null) {
-            $code = $this->owner->$field;
+            $code = $this->$field;
         }
-        
+
         return isset($items[$code]) ? $items[$code] : null;
     }
 
     public function getLookupItems($field, $options = [])
     {
+        $options = array_merge([
+            'group' => false,
+            'skip' => [],
+        ], $options);
+
         $items = [];
-        
+
         if (!empty($options['empty'])) {
             $label = ' -- ';
             if (strval($options['empty']) == 'label') {
-                $model_label = $this->owner->getAttributeLabel($field);
+                $model_label = $this->getAttributeLabel($field);
                 if ($model_label) {
                     $label = ' - ' . $model_label . ' - ';
                 }
@@ -38,7 +45,19 @@ class LookupBehavior extends Behavior
         }
 
         foreach ($this->getModelsByField($field) as $model) {
-            $items[$model->code] = __($model->name);
+            if (!empty($options['group'])) {
+                foreach (explode(',', $model->groups) as $group) {
+                    $items[$group][$model->code] = __($model->name);
+                }
+            } else {
+                $items[$model->code] = __($model->name);
+            }
+        }
+
+        if (!empty($options['skip'])) {
+            foreach ((array)$options['skip'] as $key) {
+                unset($items[$key]);
+            }
         }
 
         return $items;
@@ -69,34 +88,31 @@ class LookupBehavior extends Behavior
         return $list;
     }
 
-    protected static $models = [];
+    private static $models = [];
 
-    protected function getModelsByField($field)
+    private function getModelsByField($field)
     {
-        $model_name = $this->owner->className();
-        if (!isset(static::$models[$model_name][$field])) {
-            static::$models[$model_name][$field] = Lookup::find()
+        $model_name = $this->className();
+        if (!isset(self::$models[$model_name][$field])) {
+            self::$models[$model_name][$field] = Lookup::find()
                 ->where([
-                    'table' => $this->tableName(),
+                    'table' => $this->getLookupTable(),
                     'field' => $field,
                 ])
-                ->orderBy([
-                    'position' => SORT_ASC,
-                    'name' => SORT_ASC,
-                ])
+                ->sorted(SORT_ASC)
                 ->all();
         }
 
-        return static::$models[$model_name][$field];
+        return self::$models[$model_name][$field];
     }
 
-    protected function tableName()
+    /**
+     * Override if need
+     * @return string
+     */
+    protected function getLookupTable()
     {
-        if ($this->table) {
-            return $this->table;
-        }
-
-        return $this->owner->tableName();
+        return $this->tableName();
     }
 
 }

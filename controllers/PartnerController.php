@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\behaviors\AjaxFilter;
 use app\models\Partner;
 use app\models\search\DonateSearch;
 use app\models\search\PartnerSearch;
@@ -9,6 +10,8 @@ use app\models\search\TaskSearch;
 use app\models\search\CommunicationSearch;
 use app\models\Tag;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * PartnerController implements the CRUD actions for Partner model.
@@ -19,13 +22,13 @@ class PartnerController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => 'yii\filters\VerbFilter',
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => 'yii\filters\AccessControl',
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,7 +43,7 @@ class PartnerController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::class,
             ],
         ];
     }
@@ -132,7 +135,7 @@ class PartnerController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id, Partner::className());
+        $model = $this->findModel($id, Partner::class);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));

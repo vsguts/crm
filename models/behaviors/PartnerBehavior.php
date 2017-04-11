@@ -1,14 +1,18 @@
 <?php
 
-namespace app\behaviors;
+namespace app\models\behaviors;
 
-use Yii;
+use app\models\Partner;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
-use app\models\Partner;
 
-class PartnerNameBehavior extends Behavior
+class PartnerBehavior extends Behavior
 {
+    /**
+     * @var Partner
+     */
+    public $owner;
+
     public function events()
     {
         return [
@@ -35,6 +39,12 @@ class PartnerNameBehavior extends Behavior
         if ($partner->type != Partner::TYPE_PEOPLE) {
             $partner->firstname = null;
             $partner->lastname = null;
+        }
+
+        if ($partner->state_id && $partner->state_id != $partner->getOldAttribute('state_id')) {
+            $partner->state = null;
+        } elseif ($partner->state && $partner->state != $partner->getOldAttribute('state')) {
+            $partner->state_id = null;
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\behaviors\AjaxFilter;
 use app\models\Partner;
 use app\models\search\TaskSearch;
 use app\models\Task;
@@ -18,13 +19,13 @@ class TaskController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,7 +41,7 @@ class TaskController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::class,
             ],
         ];
     }
@@ -64,12 +65,13 @@ class TaskController extends AbstractController
      * Updates an existing Task model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
+     * @param null    $partner_id
      * @return mixed
      */
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id, Task::className());
+            $model = $this->findModel($id, Task::class);
         } else {
             $model = new Task();
         }
@@ -107,7 +109,7 @@ class TaskController extends AbstractController
             if (Task::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, Task::className())->delete()) { // single
+        } elseif ($this->findModel($id, Task::class)->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

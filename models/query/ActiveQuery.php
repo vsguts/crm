@@ -2,16 +2,30 @@
 
 namespace app\models\query;
 
+use yii\base\Exception;
+use yii\base\UnknownMethodException;
+
 class ActiveQuery extends \yii\db\ActiveQuery
 {
-    public function ids()
+    /**
+     * @param string $field
+     * @return array
+     */
+    public function ids($field = 'id')
     {
+        $modelClass = $this->modelClass;
+        $tableName = $modelClass::tableName();
         return $this
-            ->select('id')
+            ->select($tableName . '.' . $field)
             ->column();
     }
 
-    public function scroll($params = [], $data = null)
+    /**
+     * Gets simple list of elements
+     * @param array $params
+     * @return array
+     */
+    public function scroll($params = [])
     {
         $params = array_merge([
             'field' => 'name',
@@ -20,7 +34,10 @@ class ActiveQuery extends \yii\db\ActiveQuery
             'without_key' => '0',
             'all' => false,
             'all_key' => '0',
+            'data' => null,
         ], $params);
+
+        $data = $params['data'];
 
         if (is_null($data)) {
             $data = $this
@@ -57,11 +74,51 @@ class ActiveQuery extends \yii\db\ActiveQuery
 
     /**
      * Override this if need
-     * @return self
+     * @param string $permission
+     * @return $this
+     * @throws Exception
      */
-    public function permission()
+    public function permission($permission = null)
     {
+        if ($permission) {
+            throw new Exception('Permission is not applicable');
+        }
+
         return $this;
     }
 
+    /**
+     * Override this if need
+     * Default sorting by name field
+     * @param int $sort
+     * @return ActiveQuery
+     */
+    public function sorted($sort = SORT_ASC)
+    {
+        return $this->orderBy(['name' => $sort]);
+    }
+
+    /**
+     * Add scopes to condition
+     *
+     * @param null $scope
+     * @return $this
+     */
+    public function scope($scope = null)
+    {
+        if (isset($scope)) {
+            foreach ((array) $scope as $scope_item) {
+                if (!method_exists($this, $scope_item)) {
+                    throw new UnknownMethodException(__("Method {method} doesn't exist in {class}", [
+                        'method' => $scope_item,
+                        'class' => $this->modelClass
+                    ]));
+                }
+
+                $this->$scope_item();
+            }
+        }
+
+        return $this;
+    }
 }

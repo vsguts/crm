@@ -2,6 +2,9 @@
 
 namespace app\models;
 
+use app\models\behaviors\PartnersSelectBehavior;
+use app\models\behaviors\TimestampBehavior;
+use app\models\behaviors\TimestampConvertBehavior;
 use app\models\query\TaskQuery;
 
 /**
@@ -37,9 +40,9 @@ class Task extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\TimestampConvertBehavior',
-            'app\behaviors\PartnersSelectBehavior',
+            TimestampBehavior::class,
+            TimestampConvertBehavior::class,
+            PartnersSelectBehavior::class,
         ];
     }
 
@@ -77,7 +80,7 @@ class Task extends AbstractModel
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     /**
@@ -85,7 +88,7 @@ class Task extends AbstractModel
      */
     public function getTaskPartners()
     {
-        return $this->hasMany(TaskPartner::className(), ['task_id' => 'id']);
+        return $this->hasMany(TaskPartner::class, ['task_id' => 'id']);
     }
 
     /**
@@ -94,7 +97,7 @@ class Task extends AbstractModel
     public function getPartners()
     {
         return $this
-            ->hasMany(Partner::className(), ['id' => 'partner_id'])
+            ->hasMany(Partner::class, ['id' => 'partner_id'])
             ->viaTable('task_partner', ['task_id' => 'id']);
     }
 

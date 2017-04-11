@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\behaviors\PartnersSelectBehavior;
+use app\models\components\LookupTrait;
 use app\models\query\MailingListQuery;
 
 /**
@@ -23,6 +25,8 @@ use app\models\query\MailingListQuery;
  */
 class MailingList extends AbstractModel
 {
+    use LookupTrait;
+
     public static function tableName()
     {
         return 'mailing_list';
@@ -31,8 +35,7 @@ class MailingList extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\PartnersSelectBehavior',
-            'app\behaviors\LookupBehavior',
+            PartnersSelectBehavior::class,
         ];
     }
 

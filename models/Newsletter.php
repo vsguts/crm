@@ -2,6 +2,11 @@
 
 namespace app\models;
 
+use app\models\behaviors\AttachmentsBehavior;
+use app\models\behaviors\MailingListBehavior;
+use app\models\behaviors\NewsletterBehavior;
+use app\models\behaviors\TimestampBehavior;
+
 /**
  * This is the model class for table "newsletter".
  *
@@ -25,10 +30,10 @@ class Newsletter extends AbstractModel
     public function behaviors()
     {
         return [
-            'app\behaviors\MailingListBehavior',
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\NewsletterBehavior',
-            'app\behaviors\AttachmentsBehavior',
+            MailingListBehavior::class,
+            TimestampBehavior::class,
+            NewsletterBehavior::class,
+            AttachmentsBehavior::class,
         ];
     }
 

@@ -2,8 +2,7 @@
 
 namespace app\models\search;
 
-use app\behaviors\LookupBehavior;
-use app\behaviors\TagsBehavior;
+use app\models\behaviors\TagsBehavior;
 use app\models\components\SearchTrait;
 use app\models\Partner;
 use yii\data\ActiveDataProvider;
@@ -53,7 +52,6 @@ class PartnerSearch extends Partner
     {
         return [
             TagsBehavior::class,
-            LookupBehavior::class,
         ];
     }
 

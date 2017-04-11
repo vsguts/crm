@@ -2,16 +2,17 @@
 
 namespace app\models\form;
 
-use app\behaviors\LookupBehavior;
-use Yii;
-use yii\base\Model;
+use app\models\components\LookupTrait;
 use app\models\Setting;
+use yii\base\Model;
 
 /**
  * SettingsForm is the model behind the contact form.
  */
 class SettingsForm extends Model
 {
+    use LookupTrait;
+
     /**
      * Settings
      */
@@ -34,16 +35,6 @@ class SettingsForm extends Model
     public $mainpage_description;
     public $aboutpage_description;
     public $faqpage_description;
-
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => LookupBehavior::class,
-                'table' => 'setting',
-            ],
-        ];
-    }
 
     /**
      * @return array the validation rules.
@@ -118,5 +109,10 @@ class SettingsForm extends Model
             $setting->delete();
         }
     }
-    
+
+    protected function getLookupTable()
+    {
+        return 'setting';
+    }
+
 }

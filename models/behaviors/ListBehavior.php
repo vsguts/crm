@@ -1,11 +1,9 @@
 <?php
 
-namespace app\behaviors;
+namespace app\models\behaviors;
 
-use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
-use yii\helpers\Json;
 
 class ListBehavior extends Behavior
 {

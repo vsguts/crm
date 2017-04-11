@@ -2,7 +2,6 @@
 
 namespace app\models\components;
 
-use app\behaviors\LookupBehavior;
 use app\helpers\Tools;
 use Yii;
 use yii\base\InvalidParamException;
@@ -11,6 +10,7 @@ use yii\db\ActiveQuery;
 
 trait SearchTrait
 {
+    use LookupTrait;
 
     /**
      * @inheritdoc
@@ -36,9 +36,7 @@ trait SearchTrait
      */
     public function behaviors()
     {
-        return [
-            LookupBehavior::class,
-        ];
+        return [];
     }
 
     public function processParams($params)

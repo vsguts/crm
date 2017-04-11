@@ -1,6 +1,6 @@
 <?php
 
-namespace app\behaviors;
+namespace app\controllers\behaviors;
 
 use Yii;
 use yii\base\ActionFilter;

@@ -2,11 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
+use app\controllers\behaviors\AjaxFilter;
+use app\models\form\MailingListAppendPartner;
 use app\models\MailingList;
 use app\models\search\MailingListSearch;
-use app\models\form\MailingListAppendPartner;
-use yii\web\NotFoundHttpException;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * MailingListController implements the CRUD actions for MailingList model.
@@ -17,13 +19,13 @@ class MailingListController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => 'yii\filters\VerbFilter',
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => 'yii\filters\AccessControl',
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -38,7 +40,7 @@ class MailingListController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::class,
             ],
         ];
     }
@@ -85,7 +87,7 @@ class MailingListController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id, MailingList::className());
+        $model = $this->findModel($id, MailingList::class);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -112,7 +114,7 @@ class MailingListController extends AbstractController
             if (MailingList::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, MailingList::className())->delete()) { // single
+        } elseif ($this->findModel($id, MailingList::class)->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
+use app\controllers\behaviors\AjaxFilter;
 use app\models\Donate;
 use app\models\search\DonateSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * DonateController implements the CRUD actions for Donate model.
@@ -18,13 +18,13 @@ class DonateController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,7 +40,7 @@ class DonateController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => 'app\behaviors\AjaxFilter',
+                'class' => AjaxFilter::class,
             ],
         ];
     }
@@ -69,7 +69,7 @@ class DonateController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id, Donate::className());
+            $model = $this->findModel($id, Donate::class);
         } else {
             $model = new Donate();
             $model->user_id = Yii::$app->user->id;
@@ -107,7 +107,7 @@ class DonateController extends AbstractController
             if (Donate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, Donate::className())->delete()) { // single
+        } elseif ($this->findModel($id, Donate::class)->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

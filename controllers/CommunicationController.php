@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\behaviors\AjaxFilter;
+use app\controllers\behaviors\AjaxFilter;
 use app\models\Communication;
 use app\models\search\CommunicationSearch;
 use Yii;
@@ -18,13 +18,13 @@ class CommunicationController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -40,7 +40,7 @@ class CommunicationController extends AbstractController
                 ],
             ],
             'ajax' => [
-                'class' => AjaxFilter::className(),
+                'class' => AjaxFilter::class,
             ],
         ];
     }
@@ -69,7 +69,7 @@ class CommunicationController extends AbstractController
     public function actionUpdate($id = null, $partner_id = null)
     {
         if ($id) {
-            $model = $this->findModel($id, Communication::className());
+            $model = $this->findModel($id, Communication::class);
         } else {
             $model = new Communication();
         }
@@ -107,7 +107,7 @@ class CommunicationController extends AbstractController
             if (Communication::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, Communication::className())->delete()) { // single
+        } elseif ($this->findModel($id, Communication::class)->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

@@ -2,6 +2,10 @@
 
 namespace app\models;
 
+use app\models\behaviors\TimestampBehavior;
+use app\models\behaviors\UserPasswordBehavior;
+use app\models\behaviors\UserRolesBehavior;
+use app\models\components\LookupTrait;
 use app\models\form\UserSignupForm;
 use app\models\query\UserQuery;
 use Yii;
@@ -37,6 +41,8 @@ use yii\web\IdentityInterface;
  */
 class User extends AbstractModel implements IdentityInterface
 {
+    use LookupTrait;
+
     const STATUS_ACTIVE = 1;
 
     public $password;
@@ -49,10 +55,9 @@ class User extends AbstractModel implements IdentityInterface
     public function behaviors()
     {
         return [
-            'app\behaviors\UserPasswordBehavior',
-            'app\behaviors\UserRolesBehavior',
-            'app\behaviors\TimestampBehavior',
-            'app\behaviors\LookupBehavior',
+            UserPasswordBehavior::class,
+            UserRolesBehavior::class,
+            TimestampBehavior::class,
         ];
     }
 
@@ -95,7 +100,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getCountry()
     {
-        return $this->hasOne(Country::className(), ['id' => 'country_id'])->inverseOf('users');
+        return $this->hasOne(Country::class, ['id' => 'country_id'])->inverseOf('users');
     }
 
     /**
@@ -103,7 +108,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getState0()
     {
-        return $this->hasOne(State::className(), ['id' => 'state_id'])->inverseOf('users');
+        return $this->hasOne(State::class, ['id' => 'state_id'])->inverseOf('users');
     }
 
     /**
@@ -111,7 +116,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getDonates()
     {
-        return $this->hasMany(Donate::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Donate::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
     /**
@@ -119,7 +124,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getNewsletterLogs()
     {
-        return $this->hasMany(NewsletterLog::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(NewsletterLog::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
     /**
@@ -127,7 +132,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getPartners()
     {
-        return $this->hasMany(Partner::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Partner::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
     /**
@@ -135,7 +140,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getTags()
     {
-        return $this->hasMany(Tag::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Tag::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
     /**
@@ -143,7 +148,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getTasks()
     {
-        return $this->hasMany(Task::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Task::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
     /**
@@ -151,7 +156,7 @@ class User extends AbstractModel implements IdentityInterface
      */
     public function getCommunications()
     {
-        return $this->hasMany(Communication::className(), ['user_id' => 'id'])->inverseOf('user');
+        return $this->hasMany(Communication::class, ['user_id' => 'id'])->inverseOf('user');
     }
 
 

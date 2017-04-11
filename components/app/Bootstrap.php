@@ -2,28 +2,41 @@
 
 namespace app\components\app;
 
+use app\models\Setting;
 use Yii;
 use yii\di\ServiceLocator;
-use app\models\Setting;
+use yii\web\Request;
 
 class Bootstrap extends ServiceLocator
 {
     public function init()
     {
-        // Settings
+        $this->settings();
+        // $this->baseUrl();
+        $this->mailer();
+        $this->events();
+    }
+
+    protected function settings()
+    {
         $settings = Setting::settings();
         Yii::$app->params = array_merge(Yii::$app->params, $settings);
+    }
 
-        // Base Url
+    protected function baseUrl()
+    {
         $request = Yii::$app->getRequest();
-        if (!($request instanceof \yii\web\Request)) {
+        if (!($request instanceof Request)) {
             $urlManager = Yii::$app->components['urlManager'];
             $urlManager['baseUrl'] = Yii::$app->params['baseUrl'];
             Yii::$app->set('urlManager', $urlManager);
         }
+    }
 
-        // Mailer
+    protected function mailer()
+    {
         $mailer = Yii::$app->components['mailer'];
+        $settings = Yii::$app->params;
         if ($settings['mailSendMethod'] == 'file') {
             $mailer['useFileTransport'] = true;
         } elseif ($settings['mailSendMethod'] == 'smtp') {
@@ -47,6 +60,13 @@ class Bootstrap extends ServiceLocator
             ];
         }
         Yii::$app->set('mailer', $mailer);
+    }
+
+    protected function events()
+    {
+        // Yii::$app->user->on(User::EVENT_AFTER_LOGIN, function($event) {
+        //     Log::log(Yii::$app->user->identity, 'login');
+        // });
     }
 
 }

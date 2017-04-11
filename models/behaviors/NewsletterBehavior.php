@@ -2,10 +2,9 @@
 
 namespace app\models\behaviors;
 
+use app\models\NewsletterLog;
 use Yii;
 use yii\base\Behavior;
-use app\models\NewsletterLog;
-use app\models\Partner;
 
 class NewsletterBehavior extends Behavior
 {
@@ -44,8 +43,6 @@ class NewsletterBehavior extends Behavior
                 }
 
                 $appendToLog($partner->email . ': ', true);
-
-                $error = '';
 
                 $content = $newsletter->processContent($newsletter->body, $partner);
 

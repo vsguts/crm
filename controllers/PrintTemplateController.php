@@ -7,7 +7,6 @@ use app\models\search\PrintTemplateSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
 
 /**
  * PrintTemplateController implements the CRUD actions for PrintTemplate model.
@@ -18,13 +17,13 @@ class PrintTemplateController extends AbstractController
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -84,7 +83,7 @@ class PrintTemplateController extends AbstractController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id, PrintTemplate::className());
+        $model = $this->findModel($id, PrintTemplate::class);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', __('Your changes have been saved successfully.'));
@@ -98,7 +97,7 @@ class PrintTemplateController extends AbstractController
 
     public function actionView($id, $to_pdf = false)
     {
-        $model = $this->findModel($id, PrintTemplate::className());
+        $model = $this->findModel($id, PrintTemplate::class);
 
         $this->layout = 'print';
         $html = $this->render('view', ['content' => $model->generate()]);
@@ -130,7 +129,7 @@ class PrintTemplateController extends AbstractController
             if (PrintTemplate::deleteAll(['id' => $ids])) {
                 $ok_message = __('Items have been deleted successfully.');
             }
-        } elseif ($this->findModel($id, PrintTemplate::className())->delete()) { // single
+        } elseif ($this->findModel($id, PrintTemplate::class)->delete()) { // single
             $ok_message = __('Item has been deleted successfully.');
         }
 

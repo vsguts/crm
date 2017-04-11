@@ -62,6 +62,11 @@ class MailingListBehavior extends Behavior
             foreach ($parts as $part) {
                 if (is_object($result) && isset($result->$part)) {
                     $result = $result->$part;
+                } elseif (is_array($result) && isset($result[$part])) {
+                    $result = $result[$part];
+                } else {
+                    $result = null;
+                    break;
                 }
             }
 

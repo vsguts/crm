@@ -29,6 +29,8 @@ use yii\helpers\Html;
  *
  * @property PrintTemplateMailingList[] $printTemplateMailingLists
  * @property MailingList[] $lists
+ *
+ * @mixin MailingListBehavior
  */
 class PrintTemplate extends AbstractModel
 {

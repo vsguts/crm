@@ -13,6 +13,8 @@ $(document).on('ready', function() {
 $(document).on('click', function(e) {
     var jelm = $(e.target);
 
+    $.lastClickedElement = jelm;
+
     if (jelm.hasClass('app-toggle') || jelm.parents('.app-toggle').length) {
         var elm = jelm.hasClass('app-toggle') ? jelm : jelm.parents('.app-toggle');
         elm.appToggle();
@@ -142,6 +144,19 @@ $(document).on('submit', function(e) {
             },
         });
         return false;
+    }
+});
+
+$(window).on('beforeunload', function(e) {
+    var celm = $.lastClickedElement;
+    if (
+        $('form.app-check-changes').appFormIsChanged()
+        && (
+            celm === null
+            || (celm && !celm.is('[type=submit]'))
+        )
+    ) {
+        return yii.app.langs['Your changes have not been saved.'];
     }
 });
 

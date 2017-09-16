@@ -50,6 +50,8 @@ function matchClass(elem, str) {
 
 $.extend({
 
+    lastClickedElement: null,
+
     appCommonInit: function(context) {
         context = $(context || document);
 
@@ -233,6 +235,48 @@ $.fn.extend({
         item.find('.app-select2').show();
         
         $.appCommonInit(item);
+    },
+
+    appFormIsChanged: function() {
+        var changed = false;
+        if ($(this).hasClass('app-skip-check-items')) {
+            return false;
+        }
+        $(':input:visible', this).each(function() {
+            changed = $(this).appFieldIsChanged();
+
+            return !changed;
+        });
+
+        return changed;
+    },
+
+    appFieldIsChanged: function() {
+        var changed = false;
+        var self = $(this);
+        var dom_elm = self.get(0);
+        if (!self.hasClass('cm-item') && !self.hasClass('cm-check-items')) {
+            if (self.is('select')) {
+                var defaultValue = self.data('appValue') || self.find('option[selected]').val() || '';
+                if (defaultValue != self.val()) {
+                    changed = true;
+                }
+            } else if (self.is('input[type=radio], input[type=checkbox]')) {
+                if (dom_elm.checked != dom_elm.defaultChecked) {
+                    changed = true;
+                }
+            } else if (self.is('input,textarea')) {
+                if (dom_elm.type == 'file' && dom_elm.value == '') {
+                    return false;
+                }
+
+                if (dom_elm.value != dom_elm.defaultValue) {
+                    changed = true;
+                }
+            }
+        }
+
+        return changed;
     },
 
 });

@@ -44,6 +44,7 @@ class AppAsset extends AssetBundle
         
         $langs = [
             'No items selected',
+            'Your changes have not been saved.',
         ];
         foreach ($langs as $lang) {
             $translates[$lang] = __($lang);

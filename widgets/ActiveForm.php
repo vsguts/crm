@@ -30,6 +30,11 @@ class ActiveForm extends YActiveForm
         $this->fieldConfig['horizontalCssClasses']['label'] = 'col-sm-' . $this->labelCols;
         $this->fieldConfig['horizontalCssClasses']['wrapper'] = 'col-sm-' . (self::COLS_TOTAL - $this->labelCols);
 
+        if (!isset($this->options['class'])) {
+            $this->options['class'] = [];
+        }
+        Html::addCssClass($this->options['class'], 'app-check-changes');
+
         parent::init();
         
         $params = Yii::$app->request->queryParams;

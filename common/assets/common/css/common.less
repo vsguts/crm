@@ -1,0 +1,245 @@
+/* Common classes */
+.h, .app-item-template {
+    display: none;
+}
+
+a, .pointer {
+    cursor: pointer;
+}
+
+.form-horizontal .checkboxfix {
+    margin-top: 10px;
+}
+
+.app-ajax-overlay {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 10000;
+    display: none;
+}
+.app-ajax-spinner {
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    left: 50%;
+    z-index: 100001;
+    display: none;
+    overflow: visible;
+    margin-top: -27px;
+    margin-left: -27px;
+    padding: 0px;
+    min-height: 56px;
+    width: 56px;
+    background:url('../images/ajax_spinner.gif') no-repeat 12px 12px #0d0d0d;
+    opacity: 0.7;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.center {
+    text-align: center;
+}
+.strong {
+    font-weight: bold;
+}
+.nostrong {
+    font-weight: normal;
+}
+.text-help {
+    color: #737373;
+}
+.app-float-thead > thead > tr > th {
+    background-color: #ffe9d5;
+}
+.status-disabled, .status-hidden {
+    color: #aaa;
+    input {
+        color: #aaa;
+        border-color: #ddd;
+    }
+    a {
+        color: #aaa;
+    }
+}
+/* \Common classes */
+
+/* Fluid mode */
+.wrap > .container-fluid {
+    padding-top: 70px;
+}
+/* \Fluid mode */
+
+/* Active form */
+.required label {
+    background: url('../images/required_mark.png') no-repeat right 10px;
+}
+/* \Active form */
+
+/* Bootstrap fixes */
+.tooltip-inner {
+    white-space: pre-wrap;
+}
+.tab-content { /* Tabs content*/
+    margin-top: 20px;
+}
+
+.pagination { /* Pagination fixes */
+    margin: 10px 0;
+}
+.pagination-per-page {
+    display: inline-block;
+    margin: 10px 20px;
+}
+.pagination-per-page > div {
+    float: left;
+}
+
+.form-horizontal .form-group input[type="file"] {
+    margin-top: 5px;
+}
+.form-control-static {
+    min-height: 0px;
+    padding-bottom: 0px;
+}
+/* \Bootstrap fixes */
+
+/* Select2 */
+.app-select2[multiple] {
+    /* Loading workaround */
+    height: 34px;
+    option {
+        display: none;
+    }
+}
+/* \Select2 */
+
+
+/* Search form */
+.search-form {
+    &.panel, .panel {
+        margin-bottom: 5px;
+    }
+    .panel-heading {
+        padding: 5px 12px;
+    }
+    .panel-footer {
+        padding: 2px 10px;
+    }
+    .panel-body {
+        padding: 5px;
+        padding-bottom: 0px;
+    }
+    .form-group {
+        margin-bottom: 5px;
+    }
+}
+/* \Search form */
+
+/* Grid */
+.app-tool-links {
+    float: right;
+    padding-right: 5px;
+    li > a {
+        padding: 7px 12px;
+    }
+}
+li.disabled {
+    cursor: not-allowed;
+    a {
+        pointer-events: none;
+    }
+}
+/* \Grid */
+
+/* Tables */
+th[align="right"] {
+    text-align: right;
+}
+th[align="center"] {
+    text-align: center;
+}
+.table .app-table-totals, .table-striped > tbody > tr.app-table-totals:nth-of-type(odd) {
+    background-color: #dff0d8;
+    td {
+        padding-top: 13px;
+        padding-bottom: 13px;
+        font-weight: bold;
+    }
+}
+.table > tbody > tr.app-danger > td {
+    background-color: #ffdddd;
+}
+.table > tbody > tr.app-success > td {
+    background-color: #c1e9c1;
+}
+.table-hover > tbody > tr:hover {
+    background-color: #e7e9f9;
+}
+.table {
+    .table-section {
+        background-color: #f3f3f3;
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+    }
+    .va-middle {
+        th, td {
+            vertical-align: middle;
+            &.narrow {
+                padding-top: 3px;
+                padding-bottom: 3px;
+            }
+        }
+    }
+    &.table-highlighted {
+        tr.highlighted {
+            background-color: #d6e9f8;
+        }
+    }
+    .long-header {
+        max-width: 120px;
+        white-space: pre-line!important;
+        text-align: right;
+    }
+    .long-text {
+        max-width: 250px;
+        word-wrap: break-word;
+    }
+    .pre-connected-column {
+        border-right: 0px;
+    }
+    .connected-column {
+        border-left: 0px;
+    }
+    &.attachments-table {
+        margin-bottom: 0px;
+    }
+
+    .row-status-modified {
+        background-color: #d0d4ff;
+    }
+    .row-status-agreed {
+        background-color: #d9edf7;
+    }
+    .row-status-approved {
+        background-color: #dff0d8;
+    }
+    .row-status-declined {
+        background-color: #f2dede;
+    }
+    .row-status-posted, .row-status-sent, .row-status-delivered {
+        background-color: #fcf8e3;
+    }
+    .row-status-suspended, .row-status-paid {
+        background-color: #dfdfdf;
+    }
+}
+/* \Tables */

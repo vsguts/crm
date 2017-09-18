@@ -144,7 +144,6 @@ return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'admin@example.com',
     'user.passwordResetTokenExpire' => 3600,
-    'brandName' => 'CRM',
     'applicationName' => 'My CRM',
     'companyName' => 'My Company',
 ];

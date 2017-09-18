@@ -40,7 +40,7 @@ class ExportController extends AbstractController
 
     public function actionExport($object, array $ids = [], array $attributes = [])
     {
-        $class = 'app\\models\\export\\' . Inflector::camelize($object);
+        $class = 'common\\models\\export\\' . Inflector::camelize($object);
 
         if (!class_exists($class)) {
             throw new NotFoundHttpException('The requested page does not exist.');

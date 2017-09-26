@@ -14,7 +14,7 @@ class Task extends AbstractExport
         if ($this->ids) {
             return TaskModel::find()
                 ->where(['id' => $this->ids])
-                ->orderBy(['created_at' => SORT_DESC])
+                ->orderBy(['id' => SORT_DESC])
             ;
         } else {
             $search = new TaskSearch();

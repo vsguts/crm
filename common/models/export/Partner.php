@@ -13,7 +13,7 @@ class Partner extends AbstractExport
         if ($this->ids) {
             return PartnerModel::find()
                 ->where(['id' => $this->ids])
-                ->orderBy(['created_at' => SORT_DESC])
+                ->orderBy(['id' => SORT_DESC])
             ;
         } else {
             $search = new PartnerSearch();
@@ -61,7 +61,7 @@ class Partner extends AbstractExport
         return $this->prepareTags($model->personalTags);
     }
 
-    protected function prepareTags($tags)
+    private function prepareTags($tags)
     {
         $result = [];
         foreach ($tags as $tag) {

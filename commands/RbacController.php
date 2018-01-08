@@ -2,71 +2,134 @@
 
 namespace app\commands;
 
+use app\components\rbac\DbManager;
 use app\components\rbac\LoggedInRule;
 use app\components\rbac\LoggedOutRule;
 use app\components\rbac\OwnerRule;
+use app\models\AuthItem;
 use Yii;
 use yii\console\Controller;
 use yii\db\Query;
+use yii\rbac\Item;
+use yii\rbac\ManagerInterface;
 
 /**
- * Application tools
+ * RBAC application tools
  */
-class ToolsController extends Controller
+class RbacController extends Controller
 {
-    /**
-     * Сreate(recreate) RBAC items
-     *
-     * @param bool $reset Reset all existing roles, permissions and links
-     */
-    public function actionRbac($reset = false)
-    {
-        $auth = Yii::$app->authManager;
+    private $rules = [];
 
+    private $permissions = [];
+
+    private $systemRoles = [];
+
+    private $roles = [];
+
+    /**
+     * Upgrade/Сreate RBAC items
+     */
+    public function actionInit()
+    {
+        $auth = new DbManager;
+        $auth->defaultRoles = ['role-guest', 'role-authorized'];
+        $auth->cache = 'cache';
+        $auth->cacheKey = 'rbac';
+        $auth->init();
+
+        $this->rules = $this->getRules($auth);
+        $this->permissions = $this->getPermissions($auth, $this->rules);
+        $this->systemRoles = $this->getSystemRoles($auth, $this->rules);
+        $this->roles = $this->getRoles($auth, $this->rules);
+
+        $this->save($auth);
+    }
+
+    private function save(ManagerInterface $auth)
+    {
         $auth_data_objects = $auth->getDataObjects();
 
-        if ($reset) {
-            $auth->removeAll();
+        // Save rules
+        Yii::$app->db->createCommand()->delete($auth->ruleTable)->execute();
+        foreach ($this->rules as $item) {
+            $auth->add($item);
         }
 
-        $roles = $rules = $permissions = [];
+        // Save permissions and roles
+        $added = [];
+        foreach ([$this->permissions, $this->systemRoles, $this->roles] as $items) {
+            foreach ($items as $item) {
+                $exists = (new Query)->select('name')->from($auth->itemTable)->where([
+                    'name' => $item->name,
+                    'type' => $item->type,
+                ])->one();
 
-
-        /**
-         * Rules
-         */
-
-        $rules['owner'] = new OwnerRule;
-
-        $rules['logged_in'] = new LoggedInRule;
-
-        $rules['logged_out'] = new LoggedOutRule;
-
-
-        /**
-         * Roles
-         */
-
-        $roles['guest'] = $auth->createRole('guest');
-        $roles['guest']->data['system'] = true;
-        $roles['guest']->description = 'Guest';
-        $roles['guest']->ruleName = $rules['logged_out']->name;
-
-        $roles['authorized'] = $auth->createRole('authorized');
-        $roles['authorized']->data['system'] = true;
-        $roles['authorized']->description = 'Authorized';
-        $roles['authorized']->ruleName = $rules['logged_in']->name;
-
-        $roles['root'] = $auth->createRole('root');
-        foreach ($auth_data_objects as $object) {
-            $roles['root']->data[$object] = ['all'];
+                if (!$exists) {
+                    $auth->add($item);
+                } else {
+                    $_item = $auth->getItem($item->name);
+                    foreach ($auth_data_objects as $object) {
+                        if (!empty($_item->data[$object])) {
+                            $item->data[$object] = $_item->data[$object];
+                        }
+                    }
+                    $auth->updateItem($item->name, $item);
+                }
+                $added[$item->type][] = $item->name;
+            }
         }
-        $roles['root']->description = 'Root';
+        foreach ($this->systemRoles as $role) {
+            $this->db()
+                ->update($auth->itemTable, ['status' => AuthItem::STATUS_SYSTEM], ['name' => $role->name])
+                ->execute();
+        }
 
+        $this->db()->delete($auth->itemTable, ['not in', 'type', array_keys($added)])->execute();
 
-        /**
-         * Permissions
-         */
+        // Remove old Permissions
+        foreach ($added as $type => $item_names) {
+            if ($type == Item::TYPE_PERMISSION) { // Permission
+                $this->db()
+                    ->delete($auth->itemTable, ['and', ['type' => $type], ['not in', 'name', $item_names]])
+                    ->execute();
+            }
+        }
+
+        foreach ($this->permissions as $permission) {
+            // All permissions to root
+            if (!$auth->hasChild($this->roles['root'], $permission)) {
+                $auth->addChild($this->roles['root'], $permission);
+            }
+        }
+
+        // Assign root to user.id=1
+        if (!$auth->getAssignment($this->roles['root']->name, 1)) {
+            $auth->assign($this->roles['root'], 1);
+        }
+
+        $auth->invalidateCache();
+    }
+
+    /**
+     * @return \yii\db\Command
+     */
+    private function db()
+    {
+        return Yii::$app->db->createCommand();
+    }
+
+    private function getRules(ManagerInterface $auth)
+    {
+        return [
+            'owner' => new OwnerRule,
+            'loggedIn' => new LoggedInRule,
+            'loggedOut' => new LoggedOutRule,
+        ];
+    }
+
+    private function getPermissions(ManagerInterface $auth, $rules)
+    {
+        $permissions = [];
 
         // Help
 
@@ -203,71 +266,36 @@ class ToolsController extends Controller
         // $permissions['task_manage_own']->description = 'General::Tasks::Manage own';
 
 
-
-        /**
-         * Saving
-         */
-
-        $added = [];
-        foreach ($rules as $item) {
-            $exists = (new Query)->select('name')->from('auth_rule')->where(['name' => $item->name])->one();
-            if (!$exists) {
-                $auth->add($item);
-            }
-            $added[] = $item->name;
-        }
-        Yii::$app->db->createCommand()->delete('auth_rule', ['not in', 'name', $added])->execute();
-
-        $added = [];
-        foreach ([$roles, $permissions] as $items) {
-            foreach ($items as $item) {
-                $exists = (new Query)->select('name')->from('auth_item')->where([
-                    'name' => $item->name,
-                    'type' => $item->type,
-                ])->one();
-
-                if (!$exists) {
-                    $auth->add($item);
-                } else {
-                    $_item = $auth->getItem($item->name);
-                    foreach ($auth_data_objects as $object) {
-                        if (isset($_item->data[$object])) {
-                            $item->data[$object] = $_item->data[$object];
-                        }
-                    }
-                    $auth->updateItem($item->name, $item);
-                }
-                $added[$item->type][] = $item->name;
-            }
-        }
-        Yii::$app->db->createCommand()->delete('auth_item', ['not in', 'type', array_keys($added)])->execute();
-        foreach ($added as $type => $item_names) {
-            if ($type != 1) { // Not role
-                Yii::$app->db->createCommand()
-                    ->delete('auth_item', ['and', ['type' => $type], ['not in', 'name', $item_names]])
-                    ->execute();
-            }
-        }
-
-        /**
-         * Root relations
-         */
-
-        foreach ($permissions as $permission) {
-            // All permissions to root
-            if (!$auth->hasChild($roles['root'], $permission)) {
-                $auth->addChild($roles['root'], $permission);
-            }
-            // Own permissions to authorized
-            // if (strpos($permission->name, '_own') && !$auth->hasChild($roles['authorized'], $permission)) {
-            //     $auth->addChild($roles['authorized'], $permission);
-            // }
-        }
-        
-        // Assign root to user.id=1
-        if (!$auth->getAssignment($roles['root']->name, 1)) {
-            $auth->assign($roles['root'], 1);
-        }
+        return $permissions;
     }
 
+    private function getSystemRoles(ManagerInterface $auth, $rules)
+    {
+        $roles = [];
+
+        $roles['guest'] = $auth->createRole('role-guest');
+        $roles['guest']->description = 'Guest';
+        $roles['guest']->ruleName = $rules['loggedOut']->name;
+
+        $roles['authorized'] = $auth->createRole('role-authorized');
+        $roles['authorized']->description = 'Authorized';
+        $roles['authorized']->ruleName = $rules['loggedIn']->name;
+
+        return $roles;
+    }
+
+    private function getRoles(ManagerInterface $auth, $rules)
+    {
+        $auth_data_objects = $auth->getDataObjects();
+
+        $roles = [];
+
+        $roles['root'] = $auth->createRole('role-root');
+        foreach ($auth_data_objects as $object) {
+            $roles['root']->data[$object] = ['all'];
+        }
+        $roles['root']->description = 'Root';
+
+        return $roles;
+    }
 }

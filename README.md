@@ -78,7 +78,7 @@ at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 Install composer plugin using the following command:
 
 ~~~
-composer global require "fxp/composer-asset-plugin:~1.1.1"
+composer global require "fxp/composer-asset-plugin:^1.3.1"
 ~~~
 
 Install composer dependencies

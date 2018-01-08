@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\query;
+namespace app\models\query;
 
 use yii\base\UnknownMethodException;
 use yii\db\ActiveRecord;

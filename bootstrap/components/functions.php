@@ -9,10 +9,49 @@ function __()
     return call_user_func_array(['Yii', 't'], $args);
 }
 
-function app_get_class_name($object)
+// Using in cycles
+function app_in_range($max, &$from, &$to, $iteration_items = 100)
 {
-    $name = get_class($object);
-    return substr($name, strrpos($name, '\\') + 1);
+    if (empty($from)) {
+        $from = 0;
+    }
+    if (empty($to)) {
+        $to = 0;
+    }
+
+    if ($to > $max) {
+        return false;
+    }
+
+    if ($from != $to && !empty($to)) {
+        $from = $to;
+    }
+
+    $to = $from + $iteration_items;
+
+    return true;
+}
+
+function log_echo($string, $filename = null)
+{
+    if (!$string) {
+        return false;
+    }
+
+    $log_dir = DIR_ROOT . VAR_PATH . '/var/log/';
+    fn_mkdir($log_dir);
+    
+    if (empty($filename)) {
+        $filename = CONTROLLER . '.' . MODE;
+    }
+
+    $fd = fopen($log_dir . $filename . '.log', 'ab');
+    if ($fd) {
+        fwrite($fd, $string);
+        fclose($fd);
+    }
+
+    fn_echo($string);
 }
 
 /**
@@ -60,18 +99,19 @@ function p()
         echo('</ol><div style="clear:left;"></div>');
 
     }
-
-    // Flush
-    if (function_exists('ob_flush')) {
-        @ob_flush();
-    }
-    flush();
 }
 
 function pd()
 {
     $args = func_get_args();
     call_user_func_array('p', $args);
+
+    // Flush
+    if (function_exists('ob_flush')) {
+        @ob_flush();
+    }
+    flush();
+
     die();
 }
 
@@ -89,3 +129,14 @@ function plog()
     fclose($resource);
 }
 
+function plog_simple($item)
+{
+    $file = __DIR__ . '/../plog_simple.log';
+    
+    $resource = fopen($file, 'a');
+    if ($resource) {
+        $content = PHP_EOL . print_r($item, 1);
+        fwrite($resource, $content);
+    }
+    fclose($resource);
+}

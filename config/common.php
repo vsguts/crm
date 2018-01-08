@@ -1,11 +1,5 @@
 <?php
 
-class_alias('\yii\helpers\Html', 'Html');
-class_alias('\yii\helpers\Url', 'Url');
-
-$params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
-
 $config = [
     'id' => 'app',
     'basePath' => dirname(__DIR__),
@@ -14,7 +8,23 @@ $config = [
         'appBootstrap'
     ],
     'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'charset' => 'utf8',
+
+            // Need to set DSN
+
+            // Cache
+            'enableSchemaCache' => true,
+            'schemaCacheDuration' => 3600,
+            'schemaCache' => 'cache',
+        ],
+        // 'redis' => [
+        //     'class' => 'yii\redis\Connection',
+        //     'port' => defined('REDIS_PORT') ? REDIS_PORT : 6379,
+        // ],
         'cache' => [
+            // 'class' => 'yii\redis\Cache',
             'class' => 'yii\caching\FileCache',
         ],
         'log' => [
@@ -25,22 +35,31 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'session' => [
+            // 'class' => 'yii\redis\Session',
+            'class' => 'yii\web\Session',
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
         ],
         'formatter' => [
             'class' => 'app\components\app\Formatter',
+            'locale' => 'en_US',
+            'defaultTimeZone' => 'Europe/Minsk',
             'dateFormat' => 'dd.MM.yyyy',
             'datetimeFormat' => 'dd.MM.yyyy HH:mm',
-            'decimalSeparator' => ',',
-            'thousandSeparator' => ' ',
+            'decimalSeparator' => '.',
+            'thousandSeparator' => ',',
             'currencyCode' => 'USD',
             'nullDisplay' => '',
         ],
+        'security' => [
+            'class' => 'app\components\app\Security',
+            'derivationIterations' => 10,
+        ],
         'authManager' => [
             'class' => 'app\components\rbac\DbManager',
-            'defaultRoles' => ['guest', 'authorized'],
+            'defaultRoles' => ['role-guest', 'role-authorized'],
             'cache' => 'cache',
         ],
         'image' => [
@@ -56,6 +75,16 @@ $config = [
                     //     'app/error' => 'error.php',
                     // ],
                 ],
+            ],
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                // Common
+                '<controlletBase:[\w\-]+>ies' => '<controlletBase>y/index',
+                '<controller:[\w\-]+>s' => '<controller>/index',
+                '<controller:[\w\-]+>/<id:\d+>' => '<controller>/update',
             ],
         ],
 
@@ -74,7 +103,7 @@ $config = [
                 'zoom' => 0.5,
             ],
         ],
-        
+
         // Application components
         'appBootstrap' => [
             'class' => 'app\components\app\Bootstrap',
@@ -86,7 +115,6 @@ $config = [
             'class' => 'app\components\app\Currency',
         ],
     ],
-    'params' => $params,
     'timeZone' => 'Europe/Minsk',
 ];
 

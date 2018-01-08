@@ -8,8 +8,7 @@ use app\models\State;
 
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/assets/app';
     
     public $css = [
         'css/site.less',
@@ -17,9 +16,10 @@ class AppAsset extends AssetBundle
     ];
     
     public $js = [
-        'js/ajax.js',
-        'js/core.js',
+        'js/jq-extend.js',
+        'js/jq-fn-extend.js',
         'js/events.js',
+        'js/ajax.js',
     ];
     
     public $depends = [

@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\helpers\FileHelper;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\base\Exception;
 use yii\helpers\Inflector;
@@ -74,7 +75,7 @@ class Attachment extends AbstractModel
             $subdir .= $this->object_id . '/';
         }
 
-        $path = Yii::$app->params['dirs']['file_stored'] . $subdir;
+        $path = '@storage/' . $subdir;
         if (!$only_dir) {
             $path .= $this->filename;
         }
@@ -82,6 +83,9 @@ class Attachment extends AbstractModel
         return $alias ? $path : Yii::getAlias($path);
     }
 
+    /**
+     * @return ActiveQuery
+     */
     public function getObject()
     {
         $class_name = 'app\models\\' . Inflector::id2camel($this->table, '_');

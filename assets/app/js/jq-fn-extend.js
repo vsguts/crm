@@ -48,62 +48,6 @@ function matchClass(elem, str) {
     }
 };
 
-$.extend({
-
-    lastClickedElement: null,
-
-    appCommonInit: function(context) {
-        context = $(context || document);
-
-        $('.app-toggle-save', context).each(function(){
-            var elm = $(this),
-                target_class = elm.data('targetClass'),
-                status = $.cookie('app-toggle-' + target_class);
-            
-            elm.appToggle(!!status);
-        });
-
-        $('.app-tabs-save', context).each(function(){
-            var elm = $(this),
-                selected_href = $.cookie('app-tabs-' + elm.attr('id'));
-            
-            var href = elm.find('[href="' + selected_href + '"]');
-            if (href.is(':visible')) {
-                href.click();
-            }
-        });
-
-        $('.app-dtoggle', context).each(function(){
-            $(this).appDToggle();
-        });
-
-        $('.app-country', context).each(function(){
-            $(this).appCountrySelect();
-        });
-
-        $('.app-select2', context).each(function(){
-            $(this).appSelect2();
-        });
-
-        var elms = $('.app-float-thead', context);
-        if (elms.length) {
-            elms.floatThead({
-                position: 'fixed',
-                top: 51,
-                zIndex: 500,
-            });
-        }
-    },
-
-    appReflowFloatThead: function() {
-        var elms = $('.app-float-thead:not(".floatThead-table")');
-        if (elms.length) {
-            elms.floatThead('reflow');
-        }
-    },
-
-});
-
 $.fn.extend({
 
     appHide: function() {
@@ -164,7 +108,7 @@ $.fn.extend({
                 sel_dep = sel_dep + ', .app-dtoggle-' + name + '-n' + val;
             }
         });
-        
+
         if (!value && !sel_dep.length) {
             $(sel_dep_all).appShow();
         } else {
@@ -186,14 +130,14 @@ $.fn.extend({
             if (states) {
                 state_dropdown.appShow();
                 state_text.appHide();
-                
+
                 var select = state_dropdown.find('select');
                 select.find('option').remove();
                 select.append('<option value=""> -- </option>');
                 for (var i in states) {
                     select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
                 }
-                
+
                 var select_value = select.data('appValue');
                 if (select.find('option[value="' + select_value + '"]').length) {
                     select.val(select_value);
@@ -233,7 +177,7 @@ $.fn.extend({
         //FIXME
         item.find('.select2-container').remove();
         item.find('.app-select2').show();
-        
+
         $.appCommonInit(item);
     },
 

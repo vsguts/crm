@@ -1,8 +1,10 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
-class Wysiwyg extends \yii\redactor\widgets\Redactor
+use yii\redactor\widgets\Redactor;
+
+class Wysiwyg extends Redactor
 {
     public $clientOptions = [
         'plugins' => [

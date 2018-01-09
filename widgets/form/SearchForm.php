@@ -1,40 +1,49 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
-use Yii;
+use yii\bootstrap\ActiveForm as BActiveForm;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 
-class SearchForm extends ActiveForm
+class SearchForm extends BActiveForm
 {
+    const COLS_TOTAL = 12;
+
     public $action = ['index'];
-    
+
     public $method = 'get';
-    
+
     public $layout = 'horizontal';
+
+    public $labelCols = 3;
 
     public $fieldConfig = [
         'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{endWrapper}",
         'horizontalCssClasses' => [
             'label' => 'col-sm-3',
-            'offset' => 'col-sm-offset-4',
-            'wrapper' => 'col-sm-9',
+            'offset' => '',
+            'wrapper' => '',
             'error' => '',
             'hint' => '',
         ],
     ];
 
-    public $targetClass = 'search_form';
+    public $targetClass;
 
     protected $extraClass;
 
     public function init()
     {
+        $this->fieldConfig['horizontalCssClasses']['label'] = 'col-sm-' . $this->labelCols;
+        $this->fieldConfig['horizontalCssClasses']['wrapper'] = 'col-sm-' . (self::COLS_TOTAL - $this->labelCols);
+
         parent::init();
 
-        $controller = $this->getView()->context;
-        $this->targetClass = $controller->id . '_' . $controller->action->id . '_' . $this->targetClass;
+        if (!$this->targetClass) {
+            $controller = $this->getView()->context;
+            $this->targetClass = $controller->id . '_' . $controller->action->id . '_search_form';
+            $this->targetClass = preg_replace('/[^a-zA-Z0-9_-]+/Sui', '-', $this->targetClass);
+        }
 
         echo Html::beginTag('div', ['class' => 'panel panel-info search-form']);
 
@@ -50,14 +59,14 @@ class SearchForm extends ActiveForm
     public function run()
     {
         echo Html::endTag('div');
-        
+
         $buttons = Html::tag('div',
             Html::submitButton(__('Search'), ['class' => 'btn btn-primary'])
             // .' '. Html::resetButton(__('Reset'), ['class' => 'btn btn-default'])
         );
-        
+
         echo Html::tag('div', $buttons, ['class' => 'panel-footer ' . $this->extraClass . $this->targetClass]);
-        
+
         echo Html::endTag('div');
 
         parent::run();

@@ -114,10 +114,9 @@ class ActiveQuery extends \yii\db\ActiveQuery
 
     /**
      * Override this if need
-     * @param string $permission
      * @return $this
      */
-    public function permission($permission = null)
+    public function permission()
     {
         return $this;
     }

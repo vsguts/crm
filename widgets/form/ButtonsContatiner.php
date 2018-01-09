@@ -1,6 +1,6 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
 use yii\base\Widget;
 use yii\helpers\Html;

@@ -59,10 +59,10 @@ if (!$model->isNewRecord) {
                 'data-target-id' => 'user_' . $model->user_id,
             ]);
         }
-        echo $form->field($model, 'user_id')->widget('app\widgets\Text', ['value' => $user_text]);
+        echo $form->field($model, 'user_id')->text(['value' => $user_text]);
     }
 
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
 
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }

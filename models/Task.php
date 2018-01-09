@@ -22,6 +22,8 @@ use app\models\query\TaskQuery;
  * @property User $user
  * @property TaskPartner[] $taskPartners
  * @property Partner[] $partners
+ *
+ * @mixin PartnersSelectBehavior
  */
 class Task extends AbstractModel
 {

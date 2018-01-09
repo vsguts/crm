@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 
 
 $form = ActiveForm::begin([

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use app\widgets\SearchForm;
+use app\widgets\form\SearchForm;
 use app\models\User;
 
 ?>

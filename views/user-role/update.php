@@ -1,9 +1,9 @@
 <?php
 
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
-use app\widgets\Modal;
 use yii\bootstrap\Tabs;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
+use app\widgets\Modal;
 
 if ($model->isNewRecord) {
     $obj_id = 'user-role_create';
@@ -23,8 +23,7 @@ Modal::begin([
     'id' => $obj_id,
     'footer' => ButtonsContatiner::widget([
         'model' => $model,
-        'footerWrapper' => false,
-        'removeLink' => false,
+        'saveLink' => Yii::$app->user->can('user_role_manage'),
         'form' => $form_id,
     ]),
 ]);
@@ -38,13 +37,13 @@ $form = ActiveForm::begin([
 echo Tabs::widget([
     'options' => [
         'id' => $form_id . '_tabs',
-        'class' => 'app-tabs-save'
     ],
     'items' => [
         [
             'label' => __('General'),
             'content' => $this->render('components/form_general', [
                 'form' => $form,
+                'form_id' => $form_id,
                 'model' => $model,
             ]),
         ],
@@ -52,14 +51,15 @@ echo Tabs::widget([
             'label' => __('Permissions'),
             'content' => $this->render('components/form_permissions', [
                 'form' => $form,
+                'form_id' => $form_id,
                 'model' => $model,
             ]),
         ],
 
         // Application
         [
-            'label' => __('Public tags'),
-            'content' => $this->render('components/form_public_tags', [
+            'label' => __('Objects'),
+            'content' => $this->render('components/form_app_objects', [
                 'form' => $form,
                 'form_id' => $form_id,
                 'model' => $model,
@@ -71,6 +71,7 @@ echo Tabs::widget([
             'label' => __('Inherited roles'),
             'content' => $this->render('components/form_inherit', [
                 'form' => $form,
+                'form_id' => $form_id,
                 'model' => $model,
             ]),
         ],

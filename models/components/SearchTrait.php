@@ -2,7 +2,7 @@
 
 namespace app\models\components;
 
-use app\helpers\Tools;
+use app\helpers\StringHelper;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
@@ -122,7 +122,7 @@ trait SearchTrait
             $flag = $this->$field;
         }
 
-        if (Tools::stringNotEmpty($flag)) {
+        if (StringHelper::stringNotEmpty($flag)) {
             if ($flag) {
                 $query->andWhere([
                     'and',

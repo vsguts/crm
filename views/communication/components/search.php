@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\User;
-use app\widgets\SearchForm;
+use app\widgets\form\SearchForm;
 use app\widgets\DatePickerRange;
 
 ?>

@@ -1,12 +1,17 @@
 (function($){
 
-var modal_options = {
-    backdrop: true,
-};
-
 // Document ready
-$(document).on('ready', function() {
+$(document).ready(function() {
     $.appCommonInit();
+
+    // Open modal
+    var hash = window.location.hash.replace('#', '');
+    if (hash.length) {
+        var elm = $('[data-target-id="'+hash+'"]');
+        if (elm.length) {
+            elm.first().click();
+        }
+    }
 });
 
 // Events
@@ -37,27 +42,7 @@ $(document).on('click', function(e) {
 
     var modal_elm = jelm.closest('.app-modal');
     if (modal_elm.length) {
-        var target_id = modal_elm.data('targetId'),
-            target = $('#' + target_id);
-        
-        if (target.length && !modal_elm.hasClass('app-modal-force')) {
-            target.modal(modal_options);
-        } else {
-            var href = modal_elm.attr('href');
-            if (href.length) {
-                $.appAjax('request', href, {
-                    data: {
-                        target_id: target_id,
-                    },
-                    callback: function(data){
-                        if (data.html && data.html[target_id]) {
-                            $(data.html[target_id]).modal(modal_options);
-                            $.appCommonInit($('#' + target_id));
-                        }
-                    },
-                });
-            }
-        }
+        $.modalOpen(modal_elm, {target_id: modal_elm.data('targetId')});
         return false;
     }
 

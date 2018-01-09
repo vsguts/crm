@@ -1,9 +1,11 @@
 <?php
 
 use app\models\User;
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
+
+/** @var \app\models\Task $model */
 
 if ($model->isNewRecord) {
     $obj_id = 'task_create';
@@ -56,9 +58,9 @@ echo $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false);
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
 if (!$model->isNewRecord) {
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
 
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }
 
 ActiveForm::end();

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use app\widgets\ActiveForm;
+use app\widgets\form\ActiveForm;
 use app\widgets\Modal;
 use app\models\MailingList;
 

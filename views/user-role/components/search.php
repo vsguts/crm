@@ -1,26 +1,32 @@
 <?php
 
-use app\widgets\SearchForm;
+use app\models\AuthItem;
+use app\widgets\form\SearchForm;
+
+/** @var \app\models\search\AuthItemSearch $model */
 
 ?>
 
-<div class="user-search">
+<div class="user-role-search">
 
     <?php $form = SearchForm::begin(); ?>
 
     <div class="row">
         <div class="col-md-6">
 
+            <?= $form->field($model, 'description') ?>
+
             <?= $form->field($model, 'name') ?>
 
-            <?= $form->field($model, 'email') ?>
-        
         </div>
         <div class="col-md-6">
 
             <?= $form->field($model, 'status')->dropDownList($model->getLookupItems('status', ['empty' => true])) ?>
 
-            <?= $form->field($model, 'role')->dropDownList($model->getLookupItems('role', ['empty' => true])) ?>
+            <?= $form->field($model, 'permission')->dropDownList(AuthItem::find()->getPermissionsGrouped(false), [
+                'prompt' => '--',
+                'class' => ['form-control', 'app-select2']
+            ]) ?>
 
         </div>
     </div>

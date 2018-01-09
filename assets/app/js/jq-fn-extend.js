@@ -152,6 +152,28 @@ $.fn.extend({
         }
     },
 
+    appAttrToggle: function() {
+        var name = matchClass(this, /app-attr-toggle-([-\w]+)?/gi).replace('app-attr-toggle-', ''),
+            value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
+            sel_dep_all = '[class*="app-attr-toggle-' + name + '-"]',
+            sel_dep = '.app-attr-toggle-' + name + '-' + value,
+            attribute = this.data('appAttrToggle');
+
+        if (value.length) {
+            sel_dep = sel_dep + ', .app-attr-toggle-' + name + '-all';
+        }
+
+        this.find('option').each(function(i, elm){
+            var val = $(elm).val();
+            if (val.length && val != value) {
+                sel_dep = sel_dep + ', .app-attr-toggle-' + name + '-n-' + val;
+            }
+        });
+
+        $(sel_dep_all).attr(attribute, 1);
+        $(sel_dep).removeAttr(attribute);
+    },
+
     appSelect2: function() {
         var params = {
             width: 'resolve',

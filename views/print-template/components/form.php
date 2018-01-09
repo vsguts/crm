@@ -1,7 +1,7 @@
 <?php
 
 use app\models\MailingList;
-use app\widgets\ActiveForm;
+use app\widgets\form\ActiveForm;
 use yii\helpers\Html;
 
 
@@ -40,7 +40,7 @@ Html::endTag('div');
 echo $form->field($model, 'content')
     ->hint($this->render('hint_content'))
     ->textarea(['rows' => 6]);
-    // ->widget('app\widgets\Wysiwyg');
+    // ->widget('app\widgets\form\Wysiwyg');
 
 echo $form->field($model, 'wrapper_enabled')->checkbox(['class' => 'checkboxfix app-dtoggle app-dtoggle-wrapper'], false);
 
@@ -51,8 +51,8 @@ echo Html::tag('div', $textarea, ['class' => $css_class]);
 echo $form->field($model, 'mailingListIds')->checkboxList(MailingList::find()->active()->scroll());
 
 if (!$model->isNewRecord) {
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }
 
 ActiveForm::end();

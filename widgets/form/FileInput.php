@@ -1,6 +1,6 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
 use kartik\widgets\FileInput as KFileInput;
 

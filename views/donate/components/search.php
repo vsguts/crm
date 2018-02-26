@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use app\widgets\SearchForm;
+use app\widgets\form\SearchForm;
 use app\models\User;
 
 ?>
@@ -26,9 +26,9 @@ use app\models\User;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'sum')->widget('app\widgets\Range') ?>
+            <?= $form->field($model, 'sum')->widget('app\widgets\form\Range') ?>
 
-            <?= $form->field($model, 'timestamp')->widget('app\widgets\DatePickerRange') ?>
+            <?= $form->field($model, 'timestamp')->widget('app\widgets\form\DatePickerRange') ?>
 
         </div>
     </div>

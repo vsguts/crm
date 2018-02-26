@@ -1,10 +1,11 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
+use kartik\date\DatePicker as KDatePicker;
 use Yii;
 
-class DatePicker extends \kartik\date\DatePicker
+class DatePicker extends KDatePicker
 {
     // public $form_id;
 

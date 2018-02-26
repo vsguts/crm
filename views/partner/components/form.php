@@ -1,6 +1,6 @@
 <?php
 
-use app\widgets\ActiveForm;
+use app\widgets\form\ActiveForm;
 use yii\bootstrap\Tabs;
 
 

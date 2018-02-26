@@ -1,7 +1,7 @@
 <?php
 
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
 use app\models\User;
 
@@ -47,7 +47,7 @@ echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->s
 
 echo $form->field($model, 'sum')->textInput(['maxlength' => 19]);
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+echo $form->field($model, 'timestamp')->widget('app\widgets\form\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',
 ]]);
 

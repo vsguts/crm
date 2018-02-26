@@ -1,6 +1,6 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
 use Yii;
 use yii\helpers\Html;
@@ -9,6 +9,8 @@ use yii\bootstrap\ActiveForm as YActiveForm;
 class ActiveForm extends YActiveForm
 {
     const COLS_TOTAL = 12;
+
+    public $fieldClass = 'app\widgets\form\ActiveField';
 
     public $layout = 'horizontal';
 
@@ -42,4 +44,14 @@ class ActiveForm extends YActiveForm
             echo Html::hiddenInput('_return_url', $params['_return_url']);
         }
     }
+
+    /**
+     * @inheritdoc
+     * @return ActiveField the created ActiveField object
+     */
+    public function field($model, $attribute, $options = [])
+    {
+        return parent::field($model, $attribute, $options);
+    }
+
 }

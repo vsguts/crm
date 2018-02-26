@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\export\formatter;
+namespace app\models\export2\formatter;
 
 use yii\base\Object;
 

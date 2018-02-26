@@ -1,15 +1,14 @@
 <?php
 
-namespace app\models\export\formatter;
+namespace app\components\export\formatter;
 
-class Xls extends AbstractFormatter
+class Xlsx extends AbstractFormatter
 {
-
-    public function export($file_path = null)
+    public function export($download = false)
     {
-        $filename = $this->owner->filename;
-        if (strpos($filename, '.xls') === false) {
-            $filename .= '.xls';
+        $filename = $this->filename;
+        if (strpos($filename, '.xlsx') === false) {
+            $filename .= '.xlsx';
         }
 
         $xls = new \PHPExcel();
@@ -35,15 +34,10 @@ class Xls extends AbstractFormatter
             }
         }
         
-        $objWriter = new \PHPExcel_Writer_Excel5($xls);
-        
-        if ($file_path) {
-            $objWriter->save($file_path);
-        } else {
-            header('Content-type: application/vnd.ms-excel');
-            header('Content-disposition: attachment;filename=' . $filename);
-            $objWriter->save('php://output');
-        }
-    }
+        $objWriter = new \PHPExcel_Writer_Excel2007($xls);
+        $path = $this->getFilePath($filename, true);
+        $objWriter->save($path);
 
+        return $path;
+    }
 }

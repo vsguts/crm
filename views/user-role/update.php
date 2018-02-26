@@ -1,7 +1,7 @@
 <?php
 
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
 use yii\bootstrap\Tabs;
 

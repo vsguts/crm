@@ -2,12 +2,12 @@
 
 namespace app\models\export;
 
+use app\helpers\Classes;
 use Closure;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveQuery;
 use yii\helpers\Inflector;
-use app\helpers\Tools;
 
 abstract class AbstractExport extends Model
 {
@@ -61,7 +61,7 @@ abstract class AbstractExport extends Model
         parent::init();
 
         // Prepare Filename
-        $this->filename = Inflector::underscore(Tools::className($this)) . '_' . date('Y-m-d');
+        $this->filename = Inflector::underscore(Classes::className($this)) . '_' . date('Y-m-d');
     }
 
     /**
@@ -92,7 +92,7 @@ abstract class AbstractExport extends Model
         }
 
         $formatter = Yii::createObject([
-            'class'   => 'app\models\export\formatter\\' . ucfirst($this->formatter),
+            'class'   => 'app\models\export2\formatter\\' . ucfirst($this->formatter),
             'owner'   => $this,
             'columns' => array_keys($this->columns),
             'data'    => $data,

@@ -57,6 +57,8 @@ $config['components']['view'] = [
 ];
 
 $config['components']['assetManager'] = [
+    'appendTimestamp' => true,
+    // 'linkAssets' => true,
     'converter' => [
         'class' => 'yii\web\AssetConverter',
     ],

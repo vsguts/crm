@@ -19,7 +19,7 @@ class Export extends Component
 
     public static function getFormatters()
     {
-        return Classes::getNamespaceClasses('@common/components/export/formatter');
+        return Classes::getNamespaceClasses('@app/components/export/formatter');
     }
 
     /**

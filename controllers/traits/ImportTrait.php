@@ -17,7 +17,7 @@ trait ImportTrait
 {
     use FormatterTrait;
 
-    protected $formatterPath = '@common/components/import/formatter';
+    protected $formatterPath = '@app/components/import/formatter';
 
     public function performImport(AbstractImport $model, array $attributes = [])
     {

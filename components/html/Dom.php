@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\components\html;
 
 use yii\base\Object;
 

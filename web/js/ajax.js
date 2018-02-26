@@ -1,18 +1,23 @@
 (function($){
 
     var spinnerSelector = '[class^="app-ajax-"]';
+    var ajaxInProgress = false;
 
     function response(options, data) {
-        
+
         $(spinnerSelector).hide();
-        
+
+        if (data.redirect_url) {
+            window.location = data.redirect_url;
+        }
+
         if (data.html && !options.appNoInit) {
             for (var id in data.html) {
                 $('#' + id).replaceWith(data.html[id]);
                 $.appCommonInit($('#' + id));
             }
         }
-        
+
         if (data.debug) {
             console.log(data.debug);
         }
@@ -21,7 +26,7 @@
             options.callback(data);
         }
 
-        if (data.scripts) {
+        if (data.scripts && !options.preventScripts) {
             setTimeout(function(){
                 $.each(data.scripts, function(i, script){
                     $.globalEval(script);
@@ -39,10 +44,15 @@
                 }
             }
         }
-    };
+
+        $.appReflowFloatThead();
+
+        ajaxInProgress = false;
+    }
 
     var methods = {
         request: function(url, options) {
+            ajaxInProgress = true;
             options = options || {};
             options.success = function(data, textStatus, jqxhr) {
                 response(options, data);
@@ -51,11 +61,17 @@
                 console.error(errorThrown);
                 response(options, {});
             };
-            
-            $(spinnerSelector).show();
+
+            if (!options.hideSpinner) {
+                $(spinnerSelector).show();
+            }
 
             return $.ajax(url, options);
         },
+
+        getIsAjaxInProgress: function () {
+            return ajaxInProgress;
+        }
     };
 
     $.appAjax = function(method) {

@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\AjaxFilter;
+use app\controllers\traits\ExportTrait;
 use app\models\Communication;
+use app\models\export\CommunicationExport;
 use app\models\search\CommunicationSearch;
 use Yii;
 use yii\filters\AccessControl;
@@ -14,9 +16,11 @@ use yii\filters\VerbFilter;
  */
 class CommunicationController extends AbstractController
 {
+    use ExportTrait;
+
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
@@ -34,6 +38,11 @@ class CommunicationController extends AbstractController
                     ],
                     [
                         'allow' => true,
+                        'actions' => ['export', 'export-download'],
+                        'roles' => ['communication_view', 'communication_view_own'],
+                    ],
+                    [
+                        'allow' => true,
                         'verbs' => ['POST'],
                         'roles' => ['communication_manage'],
                     ],
@@ -42,7 +51,7 @@ class CommunicationController extends AbstractController
             'ajax' => [
                 'class' => AjaxFilter::class,
             ],
-        ];
+        ]);
     }
 
     /**
@@ -121,4 +130,11 @@ class CommunicationController extends AbstractController
         return $this->redirect(['index']);
     }
 
+    public function actionExport()
+    {
+        return $this->performExport(
+            new CommunicationExport(),
+            (new CommunicationSearch())->search(Yii::$app->request->queryParams)
+        );
+    }
 }

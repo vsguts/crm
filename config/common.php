@@ -38,6 +38,10 @@ $config = [
             'currencyCode' => 'USD',
             'nullDisplay' => '',
         ],
+        'security' => [
+            'class' => 'app\components\app\Security',
+            'derivationIterations' => 10,
+        ],
         'authManager' => [
             'class' => 'app\components\rbac\DbManager',
             'defaultRoles' => ['guest', 'authorized'],

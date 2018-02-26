@@ -23,7 +23,7 @@ class Classes
 
     /**
      * Gets classes on the path
-     * @param string $alias e.g. '@common/components/export/formatter'
+     * @param string $alias e.g. '@app/components/export/formatter'
      * @return array
      */
     public static function getNamespaceClasses($alias)

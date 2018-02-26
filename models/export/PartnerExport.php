@@ -2,28 +2,9 @@
 
 namespace app\models\export;
 
-use app\models\Partner as PartnerModel;
-use app\models\search\PartnerSearch;
-
-class Partner extends AbstractExport
+class PartnerExport extends ExportFormAbstract
 {
-
-    public function find()
-    {
-        if ($this->ids) {
-            return PartnerModel::find()
-                ->where(['id' => $this->ids])
-                ->orderBy(['created_at' => SORT_DESC])
-            ;
-        } else {
-            $search = new PartnerSearch();
-            $dataProvider = $search->search($this->queryParams);
-            $dataProvider->pagination = false;
-            return $dataProvider->query;
-        }
-    }
-
-    protected function getColumnsDirect()
+    public function getColumnsSchema()
     {
         return [
             'ID' => 'id',
@@ -44,21 +25,15 @@ class Partner extends AbstractExport
             'Member' => 'parent.name',
             'Volunteer' => 'Bool:volunteer',
             'Candidate' => 'Bool:candidate',
-            'Public tags' => 'Callback:publicTags',
-            'Personal tags' => 'Callback:personalTags',
+            'Public tags' => function ($model) {
+                return $this->prepareTags($model->publicTags);
+            },
+            'Personal tags' => function ($model) {
+                return $this->prepareTags($model->personalTags);
+            },
             'Notes' => 'notes',
             'Communication method' => 'Lookup:communication_method',
         ];
-    }
-
-    public function publicTags($model)
-    {
-        return $this->prepareTags($model->publicTags);
-    }
-
-    public function personalTags($model)
-    {
-        return $this->prepareTags($model->personalTags);
     }
 
     protected function prepareTags($tags)
@@ -69,5 +44,4 @@ class Partner extends AbstractExport
         }
         return implode(',', $result);
     }
-
 }

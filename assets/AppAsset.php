@@ -2,6 +2,7 @@
 
 namespace app\assets;
 
+use Yii;
 use yii\web\AssetBundle;
 use yii\helpers\Json;
 use app\models\State;
@@ -51,11 +52,11 @@ class AppAsset extends AssetBundle
         }
 
         $hash_states = [];
-        $states = State::find()->orderBy('name asc')->asArray()->all();
+        $states = Yii::$app->states->getStates();
         foreach ($states as $state) {
-            $hash_states[$state['country_id']][] = [
-                'id' => $state['id'],
-                'name' => $state['name'],
+            $hash_states[$state->country_id][] = [
+                'id' => $state->id,
+                'name' => $state->name,
             ];
         }
 

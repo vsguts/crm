@@ -7,7 +7,6 @@ use app\models\search\PartnerSearch;
 
 class Partner extends AbstractExport
 {
-
     public function find()
     {
         if ($this->ids) {
@@ -36,8 +35,7 @@ class Partner extends AbstractExport
             'Email' => 'email',
             'Phone' => 'phone',
             'Country' => 'country.name',
-            'State Link' => 'state.name',
-            'State' => 'state',
+            'State' => 'Callback:getState',
             'City' => 'city',
             'Address' => 'address',
             'Zip/postal code' => 'zipcode',
@@ -49,6 +47,16 @@ class Partner extends AbstractExport
             'Notes' => 'notes',
             'Communication method' => 'Lookup:communication_method',
         ];
+    }
+
+    public function getState(\app\models\Partner $model)
+    {
+        $states = \Yii::$app->states->getStatesByCountries();
+        if ($model->state_id && $model->country_id && isset($states[$model->country_id])) {
+            // pd($states[$model->country_id], $model->state_id);
+            return $states[$model->country_id][$model->state_id]->name ?? '';
+        }
+        return $model->state;
     }
 
     public function publicTags($model)

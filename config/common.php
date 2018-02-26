@@ -79,11 +79,8 @@ $config = [
         'appBootstrap' => [
             'class' => 'app\components\app\Bootstrap',
         ],
-        'calendar' => [
-            'class' => 'app\components\app\Calendar',
-        ],
-        'currency' => [
-            'class' => 'app\components\app\Currency',
+        'states' => [
+            'class' => 'app\components\app\States',
         ],
     ],
     'params' => $params,

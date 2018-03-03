@@ -21,8 +21,8 @@ Modal::begin([
 $form = ActiveForm::begin(['id' => 'append_partners_form', 
     'action' => ['mailing-list/append-partners'],
     'options' => [
-//        'class' => 'app-ajax',
-        'data-c-modal' => 'append_partners',
+        'class' => ['app-ajax'],
+        'data-app-modal' => 'append_partners'
     ],
 ]);
 

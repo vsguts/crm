@@ -10,9 +10,12 @@ $.extend({
         $('.app-toggle-save', context).each(function(){
             var elm = $(this),
                 target_class = elm.data('targetClass'),
-                status = $.cookie('app-toggle-' + target_class);
+                status = !!$.cookie('app-toggle-' + target_class);
 
-            elm.appToggle(!!status);
+            if (elm.hasClass('app-toggle-save-inverse')) {
+                status = !status;
+            }
+            elm.appToggle(status);
         });
 
         $('.app-tabs-save', context).each(function(){

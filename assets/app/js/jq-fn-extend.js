@@ -112,6 +112,29 @@ $.fn.extend({
         this.find('input, textarea, select').removeAttr('disabled');
     },
 
+    appToggleDisabling: function(status, disabling) {
+        if (disabling) {
+            this.each(function(){
+                var elm = $(this);
+                if (typeof status == 'undefined') {
+                    if (elm.is(':visible')) {
+                        elm.appHide();
+                    } else {
+                        elm.appShow();
+                    }
+                } else {
+                    if (status) {
+                        elm.appShow();
+                    } else {
+                        elm.appHide();
+                    }
+                }
+            });
+        } else {
+            this.toggle(status);
+        }
+    },
+
     serializeObject: function()
     {
         var o = {};
@@ -129,23 +152,34 @@ $.fn.extend({
         return o;
     },
 
-    appToggle: function(force_status_init) {
+    appToggle: function(display) {
         var target_class = this.data('targetClass'),
             toggle_class = this.data('toggleClass'),
-            target = $('.' + target_class);
+            target = $('.' + target_class),
+            disabling = this.data('appDisabling');
 
-        target.toggle(force_status_init);
+        target.appToggleDisabling(display, disabling);
+        var status = target.is(':visible');
+        $('.' + target_class + '-on').appToggleDisabling(status, disabling);
+        $('.' + target_class + '-off').appToggleDisabling(!status, disabling);
+
         if (toggle_class) {
-            this.toggleClass(toggle_class, force_status_init);
+            this.toggleClass(toggle_class, display);
         }
-        if (this.hasClass('app-toggle-save') && typeof(force_status_init) == 'undefined') {
-            if (target.is(':visible')) {
-                $.cookie('app-toggle-' + target_class, 1);
+        if (this.hasClass('app-toggle-save') && typeof(display) == 'undefined') {
+            var save = target.is(':visible');
+            if (this.hasClass('app-toggle-save-inverse')) {
+                save = !save;
+            }
+
+            if (save) {
+                $.cookie('app-toggle-' + target_class, 1, {path: '/'});
             } else {
-                $.removeCookie('app-toggle-' + target_class);
+                $.removeCookie('app-toggle-' + target_class, {path: '/'});
             }
         }
 
+        $.appReflowFloatThead();
     },
 
     // FIXME: Change class to data attr. @see airtime

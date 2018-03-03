@@ -52,6 +52,7 @@ use Yii;
  * @property TaskPartner[] $taskPartners
  * @property Task[] $tasks
  *
+ * @mixin TagsBehavior
  * @mixin ImageUploaderBehavior
  * @mixin ImagesBehavior
  */

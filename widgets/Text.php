@@ -5,6 +5,10 @@ namespace app\widgets;
 use Yii;
 use yii\widgets\InputWidget;
 
+/**
+ * @deprecated
+ * @use ->text
+ */
 class Text extends InputWidget
 {
     public $formatter;

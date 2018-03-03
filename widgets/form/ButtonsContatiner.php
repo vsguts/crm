@@ -9,13 +9,13 @@ use yii\db\ActiveRecord;
 class ButtonsContatiner extends Widget
 {
     public $model;
-
+    
     public $footerWrapper = false;
-
+    
     public $form = '';
-
+    
     public $removeLink = false;
-
+    
     public $saveLink = true;
 
     public $create = null;
@@ -31,7 +31,7 @@ class ButtonsContatiner extends Widget
         if ($this->footerWrapper) {
             echo Html::beginTag('div', ['class' => 'form-group panel-footer']);
         }
-
+        
         $submit_options = [];
         if ($this->form) {
             $submit_options['form'] = $this->form;
@@ -52,7 +52,7 @@ class ButtonsContatiner extends Widget
                 $submit_options['class'] = 'btn btn-success';
                 echo Html::submitButton(__('Create'), $submit_options);
             }
-
+            
             echo $afterBtn;
         } else {
             if ($this->saveLink) {

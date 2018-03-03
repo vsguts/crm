@@ -20,7 +20,7 @@ class ActionsDropdown extends ButtonDropdown
     ];
 
     public $layout = 'default';
-    
+
     public $size = '';
 
     public $items = [];
@@ -28,10 +28,14 @@ class ActionsDropdown extends ButtonDropdown
     public function init()
     {
         parent::init();
-        $this->dropdown['items'] = $this->items;
+
         $this->options['class'] = 'btn-' . $this->layout;
         if ($this->size) {
             $this->options['class'] .= ' btn-' . $this->size;
+        }
+
+        if ($this->items) {
+            $this->dropdown['items'] = $this->items;
         }
     }
 }

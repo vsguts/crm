@@ -3,15 +3,29 @@
 namespace app\widgets\grid;
 
 use yii\helpers\Html;
-use yii\grid\DataColumn as YDataColumn;
 
-class DataColumn extends YDataColumn
+class DataColumn extends \yii\grid\DataColumn
 {
     /**
+     * @var GridView
+     */
+    public $grid;
+
+    /**
      * Link options
-     * @var Closure
+     * @var \Closure
      */
     public $link = false;
+
+    public function init()
+    {
+        parent::init();
+
+        if ($this->grid->ajaxPager) {
+            $this->sortLinkOptions['class'] = 'app-ajax';
+            $this->sortLinkOptions['data-target-id'] = $this->grid->id;
+        }
+    }
 
     protected function renderDataCellContent($model, $key, $index)
     {

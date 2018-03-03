@@ -18,8 +18,8 @@ use app\widgets\form\SearchForm;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'created_at')->widget('app\widgets\DatePickerRange') ?>
-            <?= $form->field($model, 'updated_at')->widget('app\widgets\DatePickerRange') ?>
+            <?= $form->field($model, 'created_at')->widget('app\widgets\form\DatePickerRange') ?>
+            <?= $form->field($model, 'updated_at')->widget('app\widgets\form\DatePickerRange') ?>
 
         </div>
     </div>

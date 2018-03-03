@@ -14,6 +14,9 @@ return [
 
     'mime_types_to_display' => ['pdf', 'image'],
 
+    'cryptKey' => 'kxEu8HGH5dGDLny',
+    'dbCryptKey' => '321qwedsazxc',
+
     // Will be merged by Setting::settings()
 
 ];

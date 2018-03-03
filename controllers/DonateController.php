@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\AjaxFilter;
+use app\controllers\traits\ExportTrait;
 use app\models\Donate;
+use app\models\export\DonateExport;
 use app\models\search\DonateSearch;
 use Yii;
 use yii\filters\AccessControl;
@@ -14,6 +16,8 @@ use yii\filters\VerbFilter;
  */
 class DonateController extends AbstractController
 {
+    use ExportTrait;
+
     public function behaviors()
     {
         return [
@@ -30,6 +34,11 @@ class DonateController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
+                        'roles' => ['donate_view', 'donate_view_own'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['export', 'export-download'],
                         'roles' => ['donate_view', 'donate_view_own'],
                     ],
                     [
@@ -121,4 +130,11 @@ class DonateController extends AbstractController
         return $this->redirect(['index']);
     }
 
+    public function actionExport()
+    {
+        return $this->performExport(
+            new DonateExport(),
+            (new DonateSearch())->search(Yii::$app->request->queryParams)
+        );
+    }
 }

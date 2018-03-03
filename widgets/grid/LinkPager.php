@@ -1,25 +1,12 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\grid;
 
-use yii\helpers\Html;
-use yii\widgets\LinkPager;
 use yii\bootstrap\ButtonDropdown;
+use yii\helpers\Html;
 
-class Pager extends LinkPager
+class LinkPager extends \yii\widgets\LinkPager
 {
-    public $targetId = '';
-
-    public function init()
-    {
-        parent::init();
-
-        // Enable ajax
-        if ($this->targetId) {
-            $this->linkOptions['class'] = 'app-ajax';
-            $this->linkOptions['data-target-id'] = $this->targetId;
-        }
-    }
 
     public function run()
     {
@@ -45,9 +32,13 @@ class Pager extends LinkPager
 
         $items = [];
 
-        $_max_page_size = ($max_page_size > 50) ? 50 : $max_page_size;
-        $per_page_items = range($min_page_size, $_max_page_size, 10);
-        
+        $per_page_items = [];
+
+        if ($min_page_size <= 50) {
+            $_max_page_size = ($max_page_size > 50) ? 50 : $max_page_size;
+            $per_page_items = array_merge($per_page_items, range($min_page_size, $_max_page_size, 10));
+        }
+
         if ($max_page_size >= 100) {
             $_max_page_size = ($max_page_size > 500) ? 500 : $max_page_size;
             $_per_page_items = range(100, $_max_page_size, 100);

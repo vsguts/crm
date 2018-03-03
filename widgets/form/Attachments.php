@@ -1,12 +1,11 @@
 <?php
 
-namespace app\widgets;
+namespace app\widgets\form;
 
-use app\helpers\FileHelper;
 use Yii;
-use yii\widgets\InputWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\InputWidget;
 
 class Attachments extends InputWidget
 {
@@ -19,9 +18,7 @@ class Attachments extends InputWidget
             return '';
         }
 
-        $name = Html::getInputName($this->model, $this->attribute);
-
-        echo Html::beginTag('table', ['class' => 'table']);
+        echo Html::beginTag('table', ['class' => 'table attachments-table']);
         $headers = [
             Html::tag('th', __('Filename')),
             Html::tag('th', __('File size')),

@@ -7,6 +7,10 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\widgets\InputWidget;
 
+/**
+ * @deprecated
+ * @use Select2
+ */
 class SelectAjax extends InputWidget
 {
     public $multiple = false;

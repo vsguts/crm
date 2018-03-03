@@ -49,7 +49,7 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
 
 echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]));
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+echo $form->field($model, 'timestamp')->widget('app\widgets\form\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',
 ]]);
 

@@ -17,7 +17,7 @@ echo $form->field($model, 'body')
     // ->textarea(['rows' => 6]);
     ->widget('app\widgets\form\Wysiwyg');
 
-$widget = $form->field($model, 'attachments')->widget('app\widgets\Attachments');
+$widget = $form->field($model, 'attachments')->widget('app\widgets\form\Attachments');
 if ($widget->parts['{input}']) {
     echo $widget;
 }

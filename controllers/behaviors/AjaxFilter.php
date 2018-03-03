@@ -4,7 +4,7 @@ namespace app\controllers\behaviors;
 
 use Yii;
 use yii\base\ActionFilter;
-use app\components\Dom;
+use app\components\html\Dom;
 
 class AjaxFilter extends ActionFilter
 {

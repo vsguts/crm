@@ -9,5 +9,4 @@ class StringHelper extends \yii\helpers\StringHelper
     {
         return strlen((trim($str))) > 0;
     }
-
 }

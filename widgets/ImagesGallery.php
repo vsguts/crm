@@ -4,7 +4,6 @@ namespace app\widgets;
 
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
-use app\widgets\Gallery;
 
 class ImagesGallery extends InputWidget
 {

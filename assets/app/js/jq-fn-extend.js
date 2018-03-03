@@ -2,8 +2,60 @@
 
 window.yii.app = {}; // Common namespace
 
+var select2ajax = {
+    commonSingle: {
+        allowClear: true,
+        minimumInputLength: 2,
+        ajax: {
+            url: '', // data-app-url attr
+            dataType: 'json',
+            cache: true,
+            width: 'resolve',
+            data: function(params){
+                return {
+                    q: params
+                };
+            },
+            results: function(data){
+                return {
+                    results: data.list
+                };
+            }
+        },
+        initSelection: function(element, callback) {
+            callback({
+                text: element.data('initValueText')
+            });
+        }
+    },
+    commonMultiple: {
+        allowClear: true,
+        minimumInputLength: 2,
+        ajax: {
+            url: '',
+            dataType: 'json',
+            cache: true,
+            width: 'resolve',
+            data: function(params){
+                return {
+                    q: params
+                };
+            },
+            results: function(data){
+                return {
+                    results: data.list
+                };
+            }
+        },
+        initSelection: function(element, callback) {
+            callback(element.data('initValueText'));
+        }
+    }
+};
+
 var form_group_class = 'form-group';
 
+/** @deprecated */
 var select2 = {
     partners: {
         allowClear: true,
@@ -48,62 +100,6 @@ function matchClass(elem, str) {
     }
 };
 
-$.extend({
-
-    lastClickedElement: null,
-
-    appCommonInit: function(context) {
-        context = $(context || document);
-
-        $('.app-toggle-save', context).each(function(){
-            var elm = $(this),
-                target_class = elm.data('targetClass'),
-                status = $.cookie('app-toggle-' + target_class);
-            
-            elm.appToggle(!!status);
-        });
-
-        $('.app-tabs-save', context).each(function(){
-            var elm = $(this),
-                selected_href = $.cookie('app-tabs-' + elm.attr('id'));
-            
-            var href = elm.find('[href="' + selected_href + '"]');
-            if (href.is(':visible')) {
-                href.click();
-            }
-        });
-
-        $('.app-dtoggle', context).each(function(){
-            $(this).appDToggle();
-        });
-
-        $('.app-country', context).each(function(){
-            $(this).appCountrySelect();
-        });
-
-        $('.app-select2', context).each(function(){
-            $(this).appSelect2();
-        });
-
-        var elms = $('.app-float-thead', context);
-        if (elms.length) {
-            elms.floatThead({
-                position: 'fixed',
-                top: 51,
-                zIndex: 500,
-            });
-        }
-    },
-
-    appReflowFloatThead: function() {
-        var elms = $('.app-float-thead:not(".floatThead-table")');
-        if (elms.length) {
-            elms.floatThead('reflow');
-        }
-    },
-
-});
-
 $.fn.extend({
 
     appHide: function() {
@@ -114,6 +110,29 @@ $.fn.extend({
     appShow: function() {
         this.show();
         this.find('input, textarea, select').removeAttr('disabled');
+    },
+
+    appToggleDisabling: function(status, disabling) {
+        if (disabling) {
+            this.each(function(){
+                var elm = $(this);
+                if (typeof status == 'undefined') {
+                    if (elm.is(':visible')) {
+                        elm.appHide();
+                    } else {
+                        elm.appShow();
+                    }
+                } else {
+                    if (status) {
+                        elm.appShow();
+                    } else {
+                        elm.appHide();
+                    }
+                }
+            });
+        } else {
+            this.toggle(status);
+        }
     },
 
     serializeObject: function()
@@ -133,44 +152,78 @@ $.fn.extend({
         return o;
     },
 
-    appToggle: function(force_status_init) {
+    appToggle: function(display) {
         var target_class = this.data('targetClass'),
             toggle_class = this.data('toggleClass'),
-            target = $('.' + target_class);
+            target = $('.' + target_class),
+            disabling = this.data('appDisabling');
 
-        target.toggle(force_status_init);
+        target.appToggleDisabling(display, disabling);
+        var status = target.is(':visible');
+        $('.' + target_class + '-on').appToggleDisabling(status, disabling);
+        $('.' + target_class + '-off').appToggleDisabling(!status, disabling);
+
         if (toggle_class) {
-            this.toggleClass(toggle_class, force_status_init);
+            this.toggleClass(toggle_class, display);
         }
-        if (this.hasClass('app-toggle-save') && typeof(force_status_init) == 'undefined') {
-            if (target.is(':visible')) {
-                $.cookie('app-toggle-' + target_class, 1);
+        if (this.hasClass('app-toggle-save') && typeof(display) == 'undefined') {
+            var save = target.is(':visible');
+            if (this.hasClass('app-toggle-save-inverse')) {
+                save = !save;
+            }
+
+            if (save) {
+                $.cookie('app-toggle-' + target_class, 1, {path: '/'});
             } else {
-                $.removeCookie('app-toggle-' + target_class);
+                $.removeCookie('app-toggle-' + target_class, {path: '/'});
             }
         }
 
+        $.appReflowFloatThead();
     },
 
+    // FIXME: Change class to data attr. @see airtime
     appDToggle: function() {
         var name = matchClass(this, /app-dtoggle-([-\w]+)?/gi).replace('app-dtoggle-', ''),
             value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
-            sel_dep_all = '[class^="app-dtoggle-' + name + '-"',
+            sel_dep_all = '[class*="app-dtoggle-' + name + '-"]',
             sel_dep = '.app-dtoggle-' + name + '-' + value;
+
+        if (value.length) {
+            sel_dep = sel_dep + ', .app-dtoggle-' + name + '-all';
+        }
 
         this.find('option').each(function(i, elm){
             var val = $(elm).val();
-            if (val != value) {
-                sel_dep = sel_dep + ', .app-dtoggle-' + name + '-n' + val;
+            if (val.length && val != value) {
+                sel_dep = sel_dep + ', .app-dtoggle-' + name + '-n-' + val;
             }
         });
-        
-        if (!value && !sel_dep.length) {
-            $(sel_dep_all).appShow();
-        } else {
-            $(sel_dep_all).appHide();
-            $(sel_dep).appShow();
+
+        $(sel_dep_all).appHide();
+        $(sel_dep).appShow();
+    },
+
+    appAttrToggle: function() {
+        var name = matchClass(this, /app-attr-toggle-([-\w]+)?/gi).replace('app-attr-toggle-', ''),
+            value = this.attr('type') == 'checkbox' ? (this.is(':checked') ? 'on' : 'off') : this.val(),
+            sel_dep_all = '[class*="app-attr-toggle-' + name + '-"]',
+            sel_dep = '.app-attr-toggle-' + name + '-' + value,
+            attribute = this.data('appAttrToggle');
+
+        if (value.length) {
+            sel_dep = sel_dep + ', .app-attr-toggle-' + name + '-all';
         }
+
+        this.find('option').each(function(i, elm){
+            var val = $(elm).val();
+            if (val.length && val != value) {
+                sel_dep = sel_dep + ', .app-attr-toggle-' + name + '-n-' + val;
+            }
+        });
+
+        $(sel_dep_all).attr(attribute, 1);
+        $(sel_dep).removeAttr(attribute);
     },
 
     appCountrySelect: function() {
@@ -186,14 +239,14 @@ $.fn.extend({
             if (states) {
                 state_dropdown.appShow();
                 state_text.appHide();
-                
+
                 var select = state_dropdown.find('select');
                 select.find('option').remove();
                 select.append('<option value=""> -- </option>');
                 for (var i in states) {
                     select.append('<option value="' + states[i]['id'] + '">' + states[i]['name'] + '</option>');
                 }
-                
+
                 var select_value = select.data('appValue');
                 if (select.find('option[value="' + select_value + '"]').length) {
                     select.val(select_value);
@@ -233,7 +286,7 @@ $.fn.extend({
         //FIXME
         item.find('.select2-container').remove();
         item.find('.app-select2').show();
-        
+
         $.appCommonInit(item);
     },
 

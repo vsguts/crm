@@ -2,6 +2,8 @@
 
 namespace app\models\export;
 
+use app\models\Partner;
+
 class PartnerExport extends ExportFormAbstract
 {
     public function getColumnsSchema()
@@ -17,18 +19,24 @@ class PartnerExport extends ExportFormAbstract
             'Email' => 'email',
             'Phone' => 'phone',
             'Country' => 'country.name',
-            'State Link' => 'state.name',
-            'State' => 'state',
+            'State' => function (Partner $model) {
+                $states = \Yii::$app->states->getStatesByCountries();
+                if ($model->state_id && $model->country_id && isset($states[$model->country_id])) {
+                    // pd($states[$model->country_id], $model->state_id);
+                    return $states[$model->country_id][$model->state_id]->name ?? '';
+                }
+                return $model->state;
+            },
             'City' => 'city',
             'Address' => 'address',
             'Zip/postal code' => 'zipcode',
             'Member' => 'parent.name',
             'Volunteer' => 'Bool:volunteer',
             'Candidate' => 'Bool:candidate',
-            'Public tags' => function ($model) {
+            'Public tags' => function (Partner $model) {
                 return $this->prepareTags($model->publicTags);
             },
-            'Personal tags' => function ($model) {
+            'Personal tags' => function (Partner $model) {
                 return $this->prepareTags($model->personalTags);
             },
             'Notes' => 'notes',

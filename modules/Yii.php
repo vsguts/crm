@@ -17,6 +17,7 @@ class Yii extends \yii\BaseYii
  * Used for properties that are identical for both WebApplication and ConsoleApplication
  *
  * @property \app\components\rbac\DbManager $authManager
+ * @property \app\components\app\States $states
  */
 abstract class BaseApplication extends yii\base\Application
 {

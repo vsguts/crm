@@ -2,14 +2,13 @@
 
 namespace app\assets;
 
-use yii\web\AssetBundle;
+use Yii;
 use yii\helpers\Json;
-use app\models\State;
+use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/assets/app';
     
     public $css = [
         'css/site.less',
@@ -17,8 +16,9 @@ class AppAsset extends AssetBundle
     ];
     
     public $js = [
+        'js/jq-extend.js',
+        'js/jq-fn-extend.js',
         'js/ajax.js',
-        'js/core.js',
         'js/events.js',
     ];
     
@@ -50,17 +50,17 @@ class AppAsset extends AssetBundle
             $translates[$lang] = __($lang);
         }
 
-        $hash_states = [];
-        $states = State::find()->orderBy('name asc')->asArray()->all();
+        $hashStates = [];
+        $states = Yii::$app->states->getStates();
         foreach ($states as $state) {
-            $hash_states[$state['country_id']][] = [
-                'id' => $state['id'],
-                'name' => $state['name'],
+            $hashStates[$state->country_id][] = [
+                'id' => $state->id,
+                'name' => $state->name,
             ];
         }
 
         return "window.yii.app = " . Json::encode([
-            'states' => $hash_states,
+            'states' => $hashStates,
             'langs' => $translates,
         ]);
     }

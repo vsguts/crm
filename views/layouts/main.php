@@ -47,9 +47,7 @@ $this->registerJs(AppAsset::customJs());
     <footer class="footer">
         <div class="container-fluid">
             <p class="pull-left">&copy; <?= Yii::$app->params['companyName'] ?> <?= date('Y') ?></p>
-            <?php if (Yii::$app->params['poweredBy']) : ?>
-            <p class="pull-right"><?= __('Powered by') . ' ' . Yii::$app->params['poweredBy'] ?></p>
-            <?php endif; ?>
+            <p class="pull-right"><?= __('Made by Vladimir Guts') ?></p>
         </div>
     </footer>
 

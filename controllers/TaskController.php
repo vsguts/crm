@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\AjaxFilter;
+use app\controllers\traits\ExportTrait;
+use app\models\export\TaskExport;
 use app\models\Partner;
 use app\models\search\TaskSearch;
 use app\models\Task;
@@ -15,6 +17,8 @@ use yii\filters\VerbFilter;
  */
 class TaskController extends AbstractController
 {
+    use ExportTrait;
+
     public function behaviors()
     {
         return [
@@ -31,6 +35,11 @@ class TaskController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'update'],
+                        'roles' => ['task_view', 'task_view_own'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['export', 'export-download'],
                         'roles' => ['task_view', 'task_view_own'],
                     ],
                     [
@@ -123,4 +132,11 @@ class TaskController extends AbstractController
         return $this->redirect(['index']);
     }
 
+    public function actionExport()
+    {
+        return $this->performExport(
+            new TaskExport(),
+            (new TaskSearch())->search(Yii::$app->request->queryParams)
+        );
+    }
 }

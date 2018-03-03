@@ -1,8 +1,8 @@
 <?php
 
 use app\models\User;
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
 
 if ($model->isNewRecord) {
@@ -47,7 +47,7 @@ echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
 
 echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]));
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+echo $form->field($model, 'timestamp')->widget('app\widgets\form\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',
 ]]);
 

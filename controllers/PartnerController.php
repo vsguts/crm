@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\AjaxFilter;
+use app\controllers\traits\ExportTrait;
+use app\models\export\PartnerExport;
 use app\models\Partner;
 use app\models\search\DonateSearch;
 use app\models\search\PartnerSearch;
@@ -18,6 +20,8 @@ use yii\filters\VerbFilter;
  */
 class PartnerController extends AbstractController
 {
+    use ExportTrait;
+
     public function behaviors()
     {
         return [
@@ -34,6 +38,11 @@ class PartnerController extends AbstractController
                         'allow' => true,
                         'verbs' => ['GET'],
                         'actions' => ['index', 'list', 'update'],
+                        'roles' => ['partner_view', 'partner_view_own'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['export', 'export-download'],
                         'roles' => ['partner_view', 'partner_view_own'],
                     ],
                     [
@@ -213,4 +222,11 @@ class PartnerController extends AbstractController
         ]);
     }
 
+    public function actionExport()
+    {
+        return $this->performExport(
+            new PartnerExport(),
+            (new PartnerSearch())->search(Yii::$app->request->queryParams)
+        );
+    }
 }

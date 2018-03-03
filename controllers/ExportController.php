@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
+use app\helpers\Classes;
 use Yii;
 use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
-use app\helpers\Tools;
 
 class ExportController extends AbstractController
 {
@@ -70,7 +70,7 @@ class ExportController extends AbstractController
         $objects = $this->getObjects('/formatter');
         $formatters = [];
         foreach ($objects as $object) {
-            $name = Tools::className($object);
+            $name = Classes::className($object);
             $formatters[strtolower($name)] = __($name);
         }
         return $formatters;

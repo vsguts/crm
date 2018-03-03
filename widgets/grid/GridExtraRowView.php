@@ -4,7 +4,6 @@ namespace app\widgets\grid;
 
 use Yii;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 class GridExtraRowView extends GridView
 {

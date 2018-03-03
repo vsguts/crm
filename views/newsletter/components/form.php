@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Tabs;
-use app\widgets\ActiveForm;
-use app\widgets\ButtonsContatiner;
+use app\widgets\form\ActiveForm;
+use app\widgets\form\ButtonsContatiner;
 use app\models\MailingList;
 
 $form = ActiveForm::begin(['id' => 'newsletter_form', 'options' => ['enctype' => 'multipart/form-data']]);
@@ -15,9 +15,9 @@ echo $form->field($model, 'subject')->textInput(['maxlength' => true]);
 echo $form->field($model, 'body')
     ->hint($this->render('hint_content'))
     // ->textarea(['rows' => 6]);
-    ->widget('app\widgets\Wysiwyg');
+    ->widget('app\widgets\form\Wysiwyg');
 
-$widget = $form->field($model, 'attachments')->widget('app\widgets\Attachments');
+$widget = $form->field($model, 'attachments')->widget('app\widgets\form\Attachments');
 if ($widget->parts['{input}']) {
     echo $widget;
 }

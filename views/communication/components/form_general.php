@@ -2,7 +2,7 @@
 
 use app\models\User;
 
-echo $form->field($model, 'timestamp')->widget('app\widgets\DatePicker', ['options' => [
+echo $form->field($model, 'timestamp')->widget('app\widgets\form\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',
 ]]);
 

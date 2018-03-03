@@ -1,6 +1,6 @@
 <?php
 
-use app\widgets\ActiveForm;
+use app\widgets\form\ActiveForm;
 use app\widgets\Modal;
 
 $form_id = 'export_form';

@@ -2,24 +2,32 @@
 
 namespace app\helpers;
 
-use yii\helpers\Inflector;
+use Closure;
 
 class Tools
 {
-    public static function className($object)
+    public static function doRepeat(Closure $callback, $times = 10, $delay = 10)
     {
-        $name = get_class($object);
-        return substr($name, strrpos($name, '\\') + 1);
-    }
+        $iteration = 1;
+        $needRequest = true;
 
-    public static function classId($object, $separator = '-')
-    {
-        $name = self::className($object);
-        return Inflector::camel2id($name, $separator);
-    }
+        while ($needRequest && $iteration <= $times) {
+            try {
+                $needRequest = false;
+                $result = call_user_func($callback);
+            } catch (\Exception $e) {
+                echo 'Tools: Repeat: Error: ' . $e . PHP_EOL;
+                $error = $e;
+                $needRequest = true;
+                $iteration ++;
+                sleep($delay);
+            }
+        }
 
-    public static function stringNotEmpty($str)
-    {
-        return strlen((trim($str))) > 0;
+        if ($needRequest) {
+            throw $error;
+        }
+
+        return $result;
     }
 }

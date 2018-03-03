@@ -9,6 +9,9 @@ use yii\data\ActiveDataProvider;
 
 /**
  * PartnerSearch represents the model behind the search form about `app\models\Partner`.
+ *
+ * @property string $q
+ * @property string $email_existence
  */
 class PartnerSearch extends Partner
 {
@@ -128,9 +131,12 @@ class PartnerSearch extends Partner
         }
 
         if ($this->q) {
-            $query->orFilterWhere(['like', 'partner.name', $this->q]);
-            $query->orFilterWhere(['like', 'email', $this->q]);
-            $query->orFilterWhere(['like', 'notes', $this->q]);
+            $query->andWhere([
+                'or',
+                ['like', 'partner.name', $this->q],
+                ['like', 'email', $this->q],
+                ['like', 'notes', $this->q],
+            ]);
         }
 
         $this->addExistsCondition($query, 'email', $this->email_existence);

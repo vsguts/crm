@@ -15,20 +15,20 @@ class PartnerQuery extends ActiveQuery
     public function permission()
     {
         if (!Yii::$app->user->can('partner_view')) {
-            $public_tag_ids = Yii::$app->authManager->getUserObjects('public_tags');
-            if ($public_tag_ids == 'all') { // FIXME
-                $public_partner_ids = PartnerTag::find()
+            $publicTagIds = Yii::$app->authManager->getUserObjects('public_tags');
+            if ($publicTagIds == 'all') { // FIXME
+                $publicPartnerIds = PartnerTag::find()
                     ->select('partner_id')
                     ->distinct()
                     ->column();
             } else {
-                $public_partner_ids = PartnerTag::find()
+                $publicPartnerIds = PartnerTag::find()
                     ->select('partner_id')
                     ->distinct()
-                    ->where(['tag_id' => $public_tag_ids])
+                    ->where(['tag_id' => $publicTagIds])
                     ->column();
             }
-            $query = ['partner.id' => $public_partner_ids ?: 0];
+            $query = ['partner.id' => $publicPartnerIds ?: 0];
             if (Yii::$app->user->can('partner_view_own')) {
                 $query = [
                     'or',

@@ -1,9 +1,14 @@
 <?php
 
+use app\models\Country;
+use app\models\State;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
+
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\search\CountrySearch $searchModel */
 
 $this->title = __('Countries');
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,6 +21,10 @@ $detailsLink = function($model) {
         'data-target-id' => 'country_' . $model->id,
     ];
 };
+
+$stateCounts = State::find()
+    ->andWhere(['country_id' => $dataProvider->getKeys()])
+    ->countByColumn('country_id');
 
 ?>
 <div class="country-index">
@@ -58,7 +67,18 @@ $detailsLink = function($model) {
                 'link' => $detailsLink,
             ],
             'code',
-            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('States'), 'modelClass' => 'app\models\State', 'modelField' => 'country_id'],
+            [
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('States'),
+                'count' => function (Country $model) use ($stateCounts) {
+                    return $stateCounts[$model->id] ?? 0;
+                },
+                'link' => function (Country $model) {
+                    return Url::to(['state/index', 'country_id' => $model->id]);
+                },
+                'contentOptions' => ['align' => 'center'],
+                'headerOptions' => ['align' => 'center'],
+            ],
 
             [
                 'class' => 'app\widgets\grid\ActionColumn',

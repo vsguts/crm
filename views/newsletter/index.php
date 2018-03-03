@@ -1,9 +1,15 @@
 <?php
 
+use app\models\Newsletter;
+use app\models\NewsletterLog;
+use app\models\NewsletterMailingList;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
+
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\search\NewsletterSearch $searchModel */
 
 $this->title = __('E-mail newsletters');
 $this->params['breadcrumbs'][] = $this->title;
@@ -14,6 +20,16 @@ $detailsLink = function($model) {
         'href' => Url::to(['/newsletter/update', 'id' => $model->id]),
     ];
 };
+
+$mailingListCount = NewsletterMailingList::find()
+    ->permission()
+    ->andWhere(['newsletter_id' => $dataProvider->getKeys()])
+    ->countByColumn('newsletter_id');
+
+$logCount = NewsletterLog::find()
+    ->permission()
+    ->andWhere(['newsletter_id' => $dataProvider->getKeys()])
+    ->countByColumn('newsletter_id');
 
 ?>
 <div class="newsletter-index">
@@ -56,8 +72,24 @@ $detailsLink = function($model) {
             // 'created_at:date',
             // 'updated_at:date',
 
-            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
-            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Logs'), 'countField' => 'logsCount'],
+            [
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Mailing lists'),
+                'count' => function (Newsletter $model) use ($mailingListCount) {
+                    return $mailingListCount[$model->id] ?? 0;
+                },
+                'contentOptions' => ['align' => 'center'],
+                'headerOptions' => ['align' => 'center'],
+            ],
+            [
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Logs'),
+                'count' => function (Newsletter $model) use ($logCount) {
+                    return $logCount[$model->id] ?? 0;
+                },
+                'contentOptions' => ['align' => 'center'],
+                'headerOptions' => ['align' => 'center'],
+            ],
 
             [
                 'class' => 'app\widgets\grid\ActionColumn',

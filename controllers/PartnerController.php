@@ -67,11 +67,11 @@ class PartnerController extends AbstractController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $tags = [];
-        if ($public_tags = Tag::find()->publicTags()->permission()->all()) {
-            $tags[__('Public tags')] = $public_tags;
+        if ($publicTags = Tag::find()->publicTags()->permission()->all()) {
+            $tags[__('Public tags')] = $publicTags;
         }
-        if ($personal_tags = Tag::find()->personalTags()->all()) {
-            $tags[__('Personal tags')] = $personal_tags;
+        if ($personalTags = Tag::find()->personalTags()->all()) {
+            $tags[__('Personal tags')] = $personalTags;
         }
 
         return $this->render('index', [

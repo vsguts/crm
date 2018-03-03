@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use app\widgets\form\SearchForm;
+
+/** @var \app\models\search\CountrySearch $model */
 
 ?>
 

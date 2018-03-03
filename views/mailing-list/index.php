@@ -1,9 +1,13 @@
 <?php
 
+use app\models\MailingList;
+use app\models\MailingListPartner;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
+
+/** @var \yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = __('Mailing lists');
 $this->params['breadcrumbs'][] = $this->title;
@@ -14,6 +18,10 @@ $detailsLink = function($model) {
         'href' => Url::to(['/mailing-list/update', 'id' => $model->id]),
     ];
 };
+
+$counts = MailingListPartner::find()
+    ->andWhere(['list_id' => $dataProvider->getKeys()])
+    ->countByColumn('list_id');
 
 ?>
 <div class="mailing-list-index">
@@ -60,7 +68,15 @@ $detailsLink = function($model) {
                     return $model->getLookupItem('status', $model->status);
                 }
             ],
-            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Partners'), 'countField' => 'partnersCount'],
+            [
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Partners'),
+                'count' => function(MailingList $model) use ($counts) {
+                    return $counts[$model->id] ?? 0;
+                },
+                'headerOptions' => ['align' => 'center'],
+                'contentOptions' => ['align' => 'center'],
+            ],
 
             [
                 'class' => 'app\widgets\grid\ActionColumn',

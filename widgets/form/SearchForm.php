@@ -10,9 +10,9 @@ class SearchForm extends BActiveForm
     const COLS_TOTAL = 12;
 
     public $action = ['index'];
-    
+
     public $method = 'get';
-    
+
     public $layout = 'horizontal';
 
     public $labelCols = 3;
@@ -59,14 +59,14 @@ class SearchForm extends BActiveForm
     public function run()
     {
         echo Html::endTag('div');
-        
+
         $buttons = Html::tag('div',
             Html::submitButton(__('Search'), ['class' => 'btn btn-primary'])
             // .' '. Html::resetButton(__('Reset'), ['class' => 'btn btn-default'])
         );
-        
+
         echo Html::tag('div', $buttons, ['class' => 'panel-footer ' . $this->extraClass . $this->targetClass]);
-        
+
         echo Html::endTag('div');
 
         parent::run();

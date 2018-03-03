@@ -1,9 +1,14 @@
 <?php
 
+use app\models\PrintTemplate;
+use app\models\PrintTemplateMailingList;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\grid\GridView;
 use app\widgets\ActionsDropdown;
+
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\search\PrintTemplateSearch $searchModel */
 
 $this->title = __('Printing templates');
 $this->params['breadcrumbs'][] = $this->title;
@@ -14,6 +19,11 @@ $detailsLink = function($model) {
         'href' => Url::to(['/print-template/update', 'id' => $model->id]),
     ];
 };
+
+$mailingListCount = PrintTemplateMailingList::find()
+    ->permission()
+    ->andWhere(['template_id' => $dataProvider->getKeys()])
+    ->countByColumn('template_id');
 
 ?>
 <div class="template-index">
@@ -67,7 +77,15 @@ $detailsLink = function($model) {
             ],
             'updated_at:date',
 
-            ['class' => 'app\widgets\grid\CounterColumn', 'label' => __('Mailing lists'), 'countField' => 'mailingListsCount'],
+            [
+                'class' => 'app\widgets\grid\CounterColumn',
+                'label' => __('Mailing lists'),
+                'count' => function (PrintTemplate $model) use ($mailingListCount) {
+                    return $mailingListCount[$model->id] ?? 0;
+                },
+                'contentOptions' => ['align' => 'center'],
+                'headerOptions' => ['align' => 'center'],
+            ],
 
             [
                 'class' => 'app\widgets\grid\ActionColumn',

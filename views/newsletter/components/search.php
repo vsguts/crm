@@ -1,6 +1,5 @@
 <?php
 
-use app\widgets\form\DatePickerRange;
 use app\widgets\form\SearchForm;
 
 ?>

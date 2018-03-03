@@ -67,11 +67,11 @@ class PartnerController extends AbstractController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $tags = [];
-        if ($public_tags = Tag::find()->publicTags()->permission()->all()) {
-            $tags[__('Public tags')] = $public_tags;
+        if ($publicTags = Tag::find()->publicTags()->permission()->all()) {
+            $tags[__('Public tags')] = $publicTags;
         }
-        if ($personal_tags = Tag::find()->personalTags()->all()) {
-            $tags[__('Personal tags')] = $personal_tags;
+        if ($personalTags = Tag::find()->personalTags()->all()) {
+            $tags[__('Personal tags')] = $personalTags;
         }
 
         return $this->render('index', [
@@ -83,38 +83,35 @@ class PartnerController extends AbstractController
 
     /**
      * Ajax handler
-     * 
      * @param  string  $q             Query
-     * @param  boolean $organizations Include organizations flag
+     * @param string|array $scope
      * @return mixed
      */
-    public function actionList($q, $organizations = false)
+    public function actionList($q, $scope = null)
     {
         $partners = [];
             
         if ($q) {
-            $query = Partner::find()->permission();
-            
-            if ($organizations) {
-                $query->organizations();
-            }
-            
-            $query->andWhere([
-                'or',
-                ['like', 'name', $q],
-                ['like', 'city', $q],
-            ]);
+            $query = Partner::find()
+                ->permission()
+                ->scope($scope)
+                ->andWhere([
+                    'or',
+                    ['like', 'name', $q],
+                    ['like', 'city', $q],
+                ])
+                ->limit(30);
 
-            $models = $query->limit(30)->all();
-            foreach ($models as $model) {
+            /** @var Partner $model */
+            foreach ($query->all() as $model) {
                 $partners[] = [
                     'id'   => $model->id,
-                    'text' => $model->extendedName,
+                    'text' => $model->getExtendedName(),
                 ];
             }
         }
 
-        $this->ajaxAssign('partners', $partners);
+        $this->ajaxAssign('list', $partners);
     }
 
     /**

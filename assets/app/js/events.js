@@ -138,13 +138,30 @@ $(document).on('change', function(e) {
 
 $(document).on('submit', function(e) {
     var form = $(e.target);
+    form.find('.app-item-template').appHide();
     if (form.hasClass('app-ajax')) {
         $.appAjax('request', form.attr('action'), {
-            type: "post",
+            type: form.attr('method') || "post",
             data: form.serialize(),
-            callback: function() {
-                if (form.data('cModal')) {
-                    $('#' + form.data('cModal')).modal('hide');
+            appNoInit: true,
+            callback: function(data) {
+                // Close modal if need
+                if (form.data('appModal')) {
+                    $('#' + form.data('appModal')).modal('hide');
+                }
+
+                // Open another modal if need
+                if (form.hasClass('app-modal')) {
+                    var target_id = form.find('input[name="target_id"]').val(),
+                        target = $('#' + target_id);
+
+                    if (target.length) {
+                        target.remove();
+                    }
+                    if (data.html && data.html[target_id]) {
+                        $(data.html[target_id]).modal({backdrop: true});
+                        $.appCommonInit($('#' + target_id));
+                    }
                 }
             },
         });

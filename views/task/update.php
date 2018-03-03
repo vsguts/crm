@@ -1,9 +1,13 @@
 <?php
 
+use app\models\Partner;
+use app\models\TaskPartner;
 use app\models\User;
 use app\widgets\form\ActiveForm;
 use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
+
+/** @var \app\models\Task $model */
 
 if ($model->isNewRecord) {
     $obj_id = 'task_create';
@@ -38,11 +42,20 @@ $form = ActiveForm::begin([
 
 echo $form->field($model, 'name')->textInput();
 
-echo $form->field($model, 'partners_ids[]')->widget('app\widgets\SelectAjax', [
-    'multiple' => true,
-    'initObject' => $model->select_partner,
-    'modelField' => 'extendedName',
-    'url' => ['partner/update']
+$items = Partner::find()->permission()->scroll(['field' => 'extendedName', 'empty' => true]);
+$currentPartnerIds = TaskPartner::find()
+    ->where(['task_id' => $model->id])
+    ->ids('partner_id');
+echo $form->field($model, 'partners_ids[]')->widget('app\widgets\form\Select2', [
+    'multiline'    => true,
+    'items'        => $items,
+    'currentItems' => array_intersect_key($items, array_flip($currentPartnerIds)),
+    'options'      => ['placeholder' => __('Select client')],
+    'relatedUrl'   => function ($id) {
+        return [
+            'href' => Url::to(['partner/update', 'id' => $id]),
+        ];
+    },
 ]);
 
 echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]));
@@ -56,9 +69,9 @@ echo $form->field($model, 'done')->checkbox(['class' => 'checkboxfix'], false);
 echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
 if (!$model->isNewRecord) {
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
 
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }
 
 ActiveForm::end();

@@ -1,5 +1,0 @@
-<?php
-
-define('YII_ENV', 'dev'); // dev|prod
-define('YII_DEBUG', true);
-

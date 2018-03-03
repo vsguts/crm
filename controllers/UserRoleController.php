@@ -2,10 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\form\UserRoleForm;
+use app\models\AuthItem;
+use app\models\search\AuthItemSearch;
 use Yii;
-use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -47,35 +46,17 @@ class UserRoleController extends AbstractController
      */
     public function actionIndex()
     {
-        $roles = UserRoleForm::getAllRoles(['get_links' => true]);
-
-        $roles = ArrayHelper::toArray($roles);
-        foreach ($roles as &$role) {
-            $role['id'] = $role['name']; // Grid need id
-        }
+        $searchModel = new AuthItemSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'dataProvider' => new ArrayDataProvider([
-                'allModels' => $roles,
-                'sort' => [
-                    'attributes' => [
-                        'description',
-                        'name',
-                    ],
-                    'defaultOrder' => [
-                        'description' => SORT_ASC,
-                    ],
-                ],
-                'pagination' => [
-                    'pageSizeLimit' => [50, 500],
-                    'defaultPageSize' => 100,
-                ],
-            ]),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Updates an existing UserRoleForm model.
+     * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
@@ -85,17 +66,16 @@ class UserRoleController extends AbstractController
         if ($id) {
             $model = $this->findModel($id);
         } else {
-            $model = new UserRoleForm;
+            $model = new AuthItem;
         }
 
         if ($post = Yii::$app->request->post()) {
-            $model->permissions = [];
-            $model->roles = [];
-            $model->load($post);
-            if ($model->save()) {
+            if ($model->load($post) && $model->save()) {
                 $this->notice(__('Your changes have been saved successfully.'));
+            } else {
+                $this->notice($model->errors, 'danger');
             }
-            return $this->redirect(['index', 'name' => $model->name]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -103,44 +83,45 @@ class UserRoleController extends AbstractController
         ]);
     }
 
-    public function actionDelete(array $id)
+    public function actionDelete()
     {
-        $deleted = [];
-        foreach ($id as $_id) {
-            if ($model = $this->findModel($_id)) {
-                if (!empty($model->data['system'])) {
-                    $this->notice(__('Cannot delete the item.'), 'error');
-                } else {
-                    $deleted[] = $model->name;
-                    $model->delete();
-                }
-            }
-        }
+        $models = AuthItem::find()
+            ->where(['name' => $this->getRequest('id')])
+            ->roles()
+            ->nonSystem()
+            ->all();
 
-        if ($deleted) {
-            if (count($deleted) > 1) {
+        if ($models) {
+            foreach ($models as $model) {
+                $model->delete();
+            }
+
+            if (count($models) > 1) {
                 $this->notice(__('Items have been deleted successfully.'));
             } else {
                 $this->notice(__('Item has been deleted successfully.'));
             }
-            if ($referrer = Yii::$app->request->referrer) {
-                return $this->redirect($referrer);
-            }
+        }
+
+        if ($referrer = Yii::$app->request->referrer) {
+            return $this->redirect($referrer);
         }
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the UserRoleForm model based on its primary key value.
+     * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UserRoleForm the loaded model
+     * @param null    $object
+     * @param null    $permission
+     * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $object = null)
+    protected function findModel($id, $object = null, $permission = null)
     {
-        if ($model = UserRoleForm::findOne($id)) {
+        if ($model = AuthItem::find()->roles()->where(['name' => $id])->one()) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

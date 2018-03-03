@@ -1,10 +1,5 @@
 <?php
 
-define('SECONDS_IN_DAY', 24 * 60 * 60);
-define('SECONDS_IN_YEAR', SECONDS_IN_DAY * 365);
-
-define('QUERY_BATCH_LIMIT', 500);
-
 return [
 
     'user.passwordResetTokenExpire' => 3600,
@@ -23,5 +18,5 @@ return [
     'dbCryptKey' => '321qwedsazxc',
 
     // Will be merged by Setting::settings()
-    
+
 ];

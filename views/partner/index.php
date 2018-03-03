@@ -4,6 +4,10 @@ use app\widgets\ActionsDropdown;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/** @var \app\models\search\PartnerSearch $searchModel */
+/** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \app\models\Tag[][] $tags */
+
 $this->title = __('Partners');
 $this->params['breadcrumbs'][] = $this->title;
 // $this->params['sidebox_size'] = 3;

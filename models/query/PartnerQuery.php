@@ -6,9 +6,13 @@ use app\models\Partner;
 use app\models\PartnerTag;
 use Yii;
 
+/**
+ * Class PartnerQuery
+ * @see Partner
+ */
 class PartnerQuery extends ActiveQuery
 {
-    public function permission($permission = null)
+    public function permission()
     {
         if (!Yii::$app->user->can('partner_view')) {
             $public_tag_ids = Yii::$app->authManager->getUserObjects('public_tags');
@@ -45,25 +49,20 @@ class PartnerQuery extends ActiveQuery
         return $this;
     }
 
-    public function ids($field = 'id')
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function scroll($params = [])
     {
-        if ($this->count() > 1000) {
-            return [];
+        $data = [];
+        $field = !empty($params['field']) ? $params['field'] : 'name';
+        foreach ($this->sorted()->allCache() as $model) {
+            $data[$model->id] = $model->$field;
         }
-
-        $previous_select = $this->select;
-        
-        $this->select = ['partner.id'];
-        $result = $this->createCommand()->queryAll();
-        
-        $this->select = $previous_select;
-
-        $ids = [];
-        foreach ($result as $row) {
-            $ids[] = $row['id'];
-        }
-
-        return $ids;
+        asort($data);
+        $params['data'] = $data;
+        return parent::scroll($params);
     }
 
     public function viaMailingLists($mailingLists)

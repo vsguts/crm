@@ -51,8 +51,8 @@ echo Html::tag('div', $textarea, ['class' => $css_class]);
 echo $form->field($model, 'mailingListIds')->checkboxList(MailingList::find()->active()->scroll());
 
 if (!$model->isNewRecord) {
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }
 
 ActiveForm::end();

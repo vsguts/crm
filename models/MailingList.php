@@ -66,7 +66,7 @@ class MailingList extends AbstractModel
      */
     public function getMailingListPartners()
     {
-        return $this->hasMany(MailingListPartner::className(), ['list_id' => 'id'])->inverseOf('list');
+        return $this->hasMany(MailingListPartner::class, ['list_id' => 'id'])->inverseOf('list');
     }
 
     /**
@@ -75,7 +75,7 @@ class MailingList extends AbstractModel
     public function getPartners()
     {
         return $this
-            ->hasMany(Partner::className(), ['id' => 'partner_id'])
+            ->hasMany(Partner::class, ['id' => 'partner_id'])
             ->viaTable('mailing_list_partner', ['list_id' => 'id']);
     }
 
@@ -89,7 +89,7 @@ class MailingList extends AbstractModel
      */
     public function getNewsletterMailingLists()
     {
-        return $this->hasMany(NewsletterMailingList::className(), ['list_id' => 'id'])->inverseOf('list');
+        return $this->hasMany(NewsletterMailingList::class, ['list_id' => 'id'])->inverseOf('list');
     }
 
     /**
@@ -98,7 +98,7 @@ class MailingList extends AbstractModel
     public function getNewsletters()
     {
         return $this
-            ->hasMany(Newsletter::className(), ['id' => 'newsletter_id'])
+            ->hasMany(Newsletter::class, ['id' => 'newsletter_id'])
             ->viaTable('newsletter_mailing_list', ['list_id' => 'id']);
     }
 
@@ -107,7 +107,7 @@ class MailingList extends AbstractModel
      */
     public function getPrintTemplateMailingLists()
     {
-        return $this->hasMany(PrintTemplateMailingList::className(), ['list_id' => 'id'])->inverseOf('list');
+        return $this->hasMany(PrintTemplateMailingList::class, ['list_id' => 'id'])->inverseOf('list');
     }
 
     /**
@@ -116,7 +116,7 @@ class MailingList extends AbstractModel
     public function getTemplates()
     {
         return $this
-            ->hasMany(PrintTemplate::className(), ['id' => 'template_id'])
+            ->hasMany(PrintTemplate::class, ['id' => 'template_id'])
             ->viaTable('print_template_mailing_list', ['list_id' => 'id']);
     }
 

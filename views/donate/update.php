@@ -5,6 +5,8 @@ use app\widgets\form\ButtonsContatiner;
 use app\widgets\Modal;
 use app\models\User;
 
+/** @var \app\models\Donate $model */
+
 if ($model->isNewRecord) {
     $obj_id = 'donate_create';
     $header = __('Create donate');
@@ -36,9 +38,11 @@ $form = ActiveForm::begin([
     ]
 ]);
 
-echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+echo $form->field($model, 'partner_id')->widget('app\widgets\form\Select2', [
+    'url' => ['partner/list'],
     'initValueText' => $model->partner ? $model->partner->extendedName : '',
-    'url' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
+    'options' => ['placeholder' => 'Select partner'],
+    'relatedUrl' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
 ]);
 
 echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]), [
@@ -55,9 +59,9 @@ echo $form->field($model, 'notes')->textarea(['rows' => 6]);
 
 if (!$model->isNewRecord) {
 
-    echo $form->field($model, 'created_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'created_at')->text(['format' => 'date']);
 
-    echo $form->field($model, 'updated_at')->widget('app\widgets\Text', ['formatter' => 'date']);
+    echo $form->field($model, 'updated_at')->text(['format' => 'date']);
 }
 
 ActiveForm::end();

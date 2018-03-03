@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir -p files/dumps
-./app mysql/mysqldump files/dumps/`date +'%Y%m%d_%H%M%S'`.sql
+mkdir -p storage/dumps
+./app mysql/mysqldump storage/dumps/`date +'%Y%m%d_%H%M%S'`.sql
 
 git pull --rebase
 

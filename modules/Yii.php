@@ -16,6 +16,7 @@ class Yii extends \yii\BaseYii
  * Class BaseApplication
  * Used for properties that are identical for both WebApplication and ConsoleApplication
  *
+ * @property \yii\image\ImageDriver $image
  * @property \app\components\rbac\DbManager $authManager
  * @property \app\components\app\States $states
  */

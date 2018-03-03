@@ -170,9 +170,14 @@ class Image extends AbstractModel
 
         $this->createFileDir($filename);
 
-        $image = Yii::$app->image->load($this->getPath());
-        $image->resize($sizes['w'], $sizes['h']);
-        $image->save($filename, static::QUALITY);
+        $path = $this->getPath();
+        if (file_exists($path)) {
+            $image = Yii::$app->image->load();
+            $image->resize($sizes['w'], $sizes['h']);
+            $image->save($filename, static::QUALITY);
+        } else {
+            // TODO: log
+        }
     }
 
     protected function saveUploaded(UploadedFile $image)

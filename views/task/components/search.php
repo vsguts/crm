@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
 use app\models\Partner;
 use app\models\User;
-use app\widgets\form\SearchForm;
 use app\widgets\form\DatePickerRange;
+use app\widgets\form\SearchForm;
+
+/** @var \app\models\search\TaskSearch $model */
 
 ?>
 
@@ -17,8 +18,10 @@ use app\widgets\form\DatePickerRange;
             
             <?= $form->field($model, 'name') ?>
 
-            <?= $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+            <?= $form->field($model, 'partner_id')->widget('app\widgets\form\Select2', [
+                'url' => ['partner/list'],
                 'initValueText' => $model->partner_id ? Partner::findOne($model->partner_id)->extendedName : '',
+                'options' => ['placeholder' => 'Select partner'],
             ]); ?>
 
             <?= $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true])) ?>

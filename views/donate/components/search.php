@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use app\widgets\form\SearchForm;
 use app\models\User;
 
+/** @var \app\models\search\DonateSearch $model */
+
 ?>
 
 <div class="communication-search">
@@ -13,8 +15,10 @@ use app\models\User;
     <div class="row">
         <div class="col-md-6">
 
-            <?= $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+            <?= $form->field($model, 'partner_id')->widget('app\widgets\form\Select2', [
+                'url' => ['partner/list'],
                 'initValueText' => $model->partner ? $model->partner->extendedName : '',
+                'options' => ['placeholder' => 'Select partner'],
             ]); ?>
 
             <?= $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]), [

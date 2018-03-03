@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 
+/** @var \app\models\Partner $model */
+
 echo $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), [
     'class' => 'app-dtoggle app-dtoggle-type form-control'
 ]);
@@ -24,9 +26,11 @@ echo $form->field($model, 'email')->textInput(['maxlength' => 64]);
 echo $form->field($model, 'phone')->textInput(['maxlength' => 32]);
 
 $fields = [
-    $form->field($model, 'parent_id')->widget('app\widgets\SelectAjax', [
-        'organizations' => true,
-        'initValueText' => $model->parent ? $model->parent->extendedName : '',
+    $form->field($model, 'parent_id')->widget('app\widgets\form\Select2', [
+        'url' => ['partner/list', 'scope' => 'organizations'],
+        'initValueText' => $model->parent_id ? $model->parent->extendedName : '',
+        'options' => ['placeholder' => 'Select partner'],
+        'relatedUrl' => $model->parent_id ? ['partner/update', 'id' => $model->parent_id] : false,
     ]),
     $form->field($model, 'volunteer')->checkbox(['class' => 'checkboxfix'], false),
 

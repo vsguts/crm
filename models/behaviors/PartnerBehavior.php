@@ -47,25 +47,4 @@ class PartnerBehavior extends Behavior
             $partner->state_id = null;
         }
     }
-
-    public function getExtendedName()
-    {
-        $partner = $this->owner;
-
-        $fields = [
-            $partner->city,
-            // $partner->getLookupItem('type', $partner->type),
-        ];
-
-        $fields = array_filter($fields);
-
-        $result = $partner->name;
-
-        if ($fields) {
-            $result .= sprintf(' (%s)', implode(', ', $fields));
-        }
-
-        return $result;
-    }
-
 }

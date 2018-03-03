@@ -15,6 +15,10 @@ use yii\web\Controller;
 use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class AbstractController
+ * @mixin AjaxFilter
+ */
 class AbstractController extends Controller
 {
     protected $notices = [];

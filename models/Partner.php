@@ -52,6 +52,8 @@ use Yii;
  * @property TaskPartner[] $taskPartners
  * @property Task[] $tasks
  *
+ * @property string extendedName
+ *
  * @mixin TagsBehavior
  * @mixin ImageUploaderBehavior
  * @mixin ImagesBehavior
@@ -279,6 +281,24 @@ class Partner extends AbstractModel
     /**
      * Extra
      */
+
+    public function getExtendedName()
+    {
+        $fields = [
+            $this->city,
+            // $this->getLookupItem('type', $this->type),
+        ];
+
+        $fields = array_filter($fields);
+
+        $result = $this->name;
+
+        if ($fields) {
+            $result .= sprintf(' (%s)', implode(', ', $fields));
+        }
+
+        return $result;
+    }
 
     public function getIsOwn()
     {

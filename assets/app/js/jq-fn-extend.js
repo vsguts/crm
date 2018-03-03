@@ -55,40 +55,6 @@ var select2ajax = {
 
 var form_group_class = 'form-group';
 
-/** @deprecated */
-var select2 = {
-    partners: {
-        allowClear: true,
-        minimumInputLength: 3,
-        ajax: {
-            url: '', // data-m-url attr
-            dataType: 'json',
-            cache: true,
-            data: function(params){
-                var data = {
-                    q: params
-                };
-                if (this.data('mOrganizationsOnly')) {
-                    data.organizations = true;
-                }
-
-                return data;
-            },
-            results: function(data){
-                return {
-                    results: data.partners
-                };
-            },
-            width: 'resolve',
-        },
-        initSelection: function(element, callback) {
-            callback({
-                text: element.data('initValueText'),
-            });
-        },
-    },
-};
-
 function matchClass(elem, str) {
     var jelm = $(elem),
         cls = jelm.attr('class');
@@ -263,11 +229,16 @@ $.fn.extend({
 
     appSelect2: function() {
         var params = {
-            width: 'resolve',
+            width: 'resolve'
         };
-        if (this.hasClass('app-select2-partner')) {
-            params = select2.partners;
-            params.ajax.url = this.data('mUrl');
+        if (this.hasClass('app-select2-ajax')) {
+            var config = this.attr('multiple') ? 'commonMultiple' : 'commonSingle';
+            var object = this.data('object') || config;
+            params = select2ajax[object];
+            params.ajax.url = this.data('appUrl');
+            if (this.attr('multiple')) {
+                params.multiple = this.attr('multiple');
+            }
         }
         this.select2(params);
         this.on('change', function(e){

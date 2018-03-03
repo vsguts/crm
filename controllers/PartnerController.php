@@ -83,38 +83,35 @@ class PartnerController extends AbstractController
 
     /**
      * Ajax handler
-     * 
      * @param  string  $q             Query
-     * @param  boolean $organizations Include organizations flag
+     * @param string|array $scope
      * @return mixed
      */
-    public function actionList($q, $organizations = false)
+    public function actionList($q, $scope = null)
     {
         $partners = [];
             
         if ($q) {
-            $query = Partner::find()->permission();
-            
-            if ($organizations) {
-                $query->organizations();
-            }
-            
-            $query->andWhere([
-                'or',
-                ['like', 'name', $q],
-                ['like', 'city', $q],
-            ]);
+            $query = Partner::find()
+                ->permission()
+                ->scope($scope)
+                ->andWhere([
+                    'or',
+                    ['like', 'name', $q],
+                    ['like', 'city', $q],
+                ])
+                ->limit(30);
 
-            $models = $query->limit(30)->all();
-            foreach ($models as $model) {
+            /** @var Partner $model */
+            foreach ($query->all() as $model) {
                 $partners[] = [
                     'id'   => $model->id,
-                    'text' => $model->extendedName,
+                    'text' => $model->getExtendedName(),
                 ];
             }
         }
 
-        $this->ajaxAssign('partners', $partners);
+        $this->ajaxAssign('list', $partners);
     }
 
     /**

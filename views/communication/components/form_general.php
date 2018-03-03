@@ -2,13 +2,17 @@
 
 use app\models\User;
 
+/** @var \app\models\Communication $model */
+
 echo $form->field($model, 'timestamp')->widget('app\widgets\form\DatePicker', ['options' => [
     'id' => $form_id . '-timestamp',
 ]]);
 
-echo $form->field($model, 'partner_id')->widget('app\widgets\SelectAjax', [
+echo $form->field($model, 'partner_id')->widget('app\widgets\form\Select2', [
+    'url' => ['partner/list'],
     'initValueText' => $model->partner ? $model->partner->extendedName : '',
-    'url' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
+    'options' => ['placeholder' => 'Select partner'],
+    'relatedUrl' => !$model->isNewRecord ? ['partner/update', 'id' => $model->partner_id] : false,
 ]);
 
 echo $form->field($model, 'user_id')->dropDownList(User::find()->permission()->scroll(['empty' => true]));

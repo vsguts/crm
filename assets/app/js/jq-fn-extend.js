@@ -246,19 +246,32 @@ $.fn.extend({
         });
     },
 
-    appClone: function() {
-        var item = this.clone().insertAfter(this);
+    appClone: function(after) {
+        var item = this.clone();
+
+        if (after) {
+            item.insertAfter(this);
+        } else {
+            item.addClass('app-cloned');
+            item.insertBefore(this);
+        }
+
         item.find('[id]').each(function(){
             var elm = $(this),
                 id = elm.attr('id');
             elm.attr('id', id + 'z');
         });
 
-        //FIXME
+        // Hash
+        var html = item.html().replace(/clonehash[a-z0-9]*/g, 'clonehash' + $.uniqid());
+        item.html(html);
+
+        // Select 2 fixes
         item.find('.select2-container').remove();
         item.find('.app-select2').show();
 
         $.appCommonInit(item);
+        return item;
     },
 
     appFormIsChanged: function() {

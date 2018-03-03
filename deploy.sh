@@ -10,8 +10,7 @@ git pull --rebase
 composer install
 
 ./yii migrate/up --interactive=0
-./app tools/rbac
+./app rbac/init
 
-# Cache
-#rm web/css/app.css*
-#rm web/css/site.css*
+# Cache static
+#rm -rf web/assets/*

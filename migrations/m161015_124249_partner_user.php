@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m161015_124249_employee_user extends Migration
+class m161015_124249_partner_user extends Migration
 {
     public function up()
     {

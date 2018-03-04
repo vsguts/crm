@@ -76,6 +76,8 @@ class TaskController extends AbstractController
      * @param integer $id
      * @param null    $partner_id
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionUpdate($id = null, $partner_id = null)
     {
@@ -94,7 +96,7 @@ class TaskController extends AbstractController
                 $model->timestamp = Yii::$app->formatter->asDate(time());
                 $model->user_id = Yii::$app->user->id;
                 if ($partner_id) {
-                    $model->select_partner = Partner::findOne($partner_id);
+                    $model->selectedPartnerIds = [$partner_id];
                 }
             }
 

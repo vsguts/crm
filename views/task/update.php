@@ -43,7 +43,7 @@ $form = ActiveForm::begin([
 echo $form->field($model, 'name')->textInput();
 
 $items = Partner::find()->permission()->scroll(['field' => 'extendedName', 'empty' => true]);
-$currentPartnerIds = TaskPartner::find()
+$currentPartnerIds = $model->selectedPartnerIds ?? TaskPartner::find()
     ->where(['task_id' => $model->id])
     ->ids('partner_id');
 echo $form->field($model, 'partners_ids[]')->widget('app\widgets\form\Select2', [

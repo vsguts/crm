@@ -10,8 +10,10 @@ class PartnersSelectBehavior extends Behavior
 {
     public $partners_ids = [];
 
-    // Preselect partner
-    public $select_partner = null;
+    /**
+     * @var array|null
+     */
+    public $selectedPartnerIds;
 
     public function events()
     {

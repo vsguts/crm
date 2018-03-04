@@ -2,7 +2,7 @@
 return [
     'components' => [
         'urlManager' => [
-            'hostInfo' => 'https://titan.gen.tech',
+            'hostInfo' => 'https://finance.example.com',
             'baseUrl' => '',
         ],
     ],

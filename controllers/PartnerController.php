@@ -138,6 +138,7 @@ class PartnerController extends AbstractController
      * If update is successful, the browser will be redirected to the 'update' page.
      * @param integer $id
      * @return mixed
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -171,6 +172,8 @@ class PartnerController extends AbstractController
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param array|int $id
      * @return mixed
+     * @throws \Exception
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete(array $id)
     {

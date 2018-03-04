@@ -17,8 +17,8 @@ class PartnerBehavior extends Behavior
     {
         return [
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeVadlidate',
-            ActiveRecord::EVENT_BEFORE_INSERT  => 'beforeSave',
-            ActiveRecord::EVENT_BEFORE_UPDATE  => 'beforeSave',
+            ActiveRecord::EVENT_BEFORE_INSERT   => 'beforeSave',
+            ActiveRecord::EVENT_BEFORE_UPDATE   => 'beforeSave',
         ];
     }
 

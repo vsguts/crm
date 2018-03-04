@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\widgets\ActionsDropdown;
 
+/** @var \app\models\Partner $model */
+
 $this->title = __('Partner: {partner}', [
     'partner' => $model->name,
 ]);

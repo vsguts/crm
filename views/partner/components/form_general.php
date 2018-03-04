@@ -9,7 +9,7 @@ echo $form->field($model, 'type')->dropDownList($model->getLookupItems('type'), 
 ]);
 
 $field = $form->field($model, 'name')->textInput(['maxlength' => 64]);
-echo Html::tag('div', $field, ['class' => 'app-dtoggle-type-n1 ' . ($model->type == 3 ? 'h' : '')]);
+echo Html::tag('div', $field, ['class' => 'app-dtoggle-type-n-1 ' . ($model->type == 3 ? 'h' : '')]);
 
 $fields = [
     $form->field($model, 'firstname')->textInput(['maxlength' => 64]),

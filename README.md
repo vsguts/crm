@@ -84,13 +84,7 @@ composer global require "fxp/composer-asset-plugin:^1.3.1"
 Install composer dependencies
 
 ~~~
-php composer.phar update
-~~~
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/crm/web/
+composer install
 ~~~
 
 
@@ -131,21 +125,39 @@ Use following to create database
 CREATE DATABASE crm CHARACTER SET utf8;
 ```
 
-Use following to apply migrations:
+Restore dump:
 
 ```bash
-./app migrate
+./undevelop run php ./app migrate/up --migrationPath=@migrations/dump --interactive=0
 ```
 
-Copy the file `config/params.php.example` into the `config/params.php` and edit them with real data. For example:
+Or apply migrations:
 
-```php
-return [
-    'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'admin@example.com',
-    'user.passwordResetTokenExpire' => 3600,
-    'brandName' => 'CRM',
-    'applicationName' => 'My CRM',
-    'companyName' => 'My Company',
-];
+```bash
+./undevelop run php ./app migrate/up --interactive=0
 ```
+
+### Configs
+
+Edit configs:
+~~~
+config/common-local.php
+config/console-local.php
+config/web-local.php
+config/params-local.php
+~~~
+
+RUNING
+------
+
+You can then access the application through the following URL:
+
+~~~
+http://localhost/crm/web/
+~~~
+
+To login use folowing:
+~~~
+login: root@example.com
+password: admin1
+~~~

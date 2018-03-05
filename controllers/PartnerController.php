@@ -172,12 +172,14 @@ class PartnerController extends AbstractController
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param array|int $id
      * @return mixed
-     * @throws \Exception
+     * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
     public function actionDelete(array $id)
     {
-        $models = Partner::find()->where(['partner.id' => $id])->permission()->all();
+        $models = Partner::find()->id($id)->permission()->all();
+        $status = true;
+
         if ($models) {
             $status = true;
             foreach ($models as $model) {
@@ -200,6 +202,7 @@ class PartnerController extends AbstractController
                 $model = reset($models);
                 if ($model->errors) {
                     $this->notice($model->errors, 'danger');
+                    $status = false;
                 } else {
                     if (count($models) > 1) {
                         $this->notice(__("Items can't be deleted."), 'danger');
@@ -210,6 +213,9 @@ class PartnerController extends AbstractController
             }
         }
 
+        if (!$status && count($models) === 1) {
+            return $this->redirect(['update', 'id' => reset($id)]);
+        }
         return $this->redirect(['index']);
     }
 

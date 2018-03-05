@@ -87,7 +87,7 @@ class Partner extends AbstractModel
     {
         return array_merge(parent::rules(), [
             // Defaults
-            [['user_id'], 'default', 'value' => Yii::$app->user->identity->id],
+            [['user_id'], 'default', 'value' => Yii::$app->user->id],
 
             // Common
             [['user_id', 'country_id', 'state_id', 'parent_id', 'type', 'status', 'volunteer', 'candidate'], 'integer'],

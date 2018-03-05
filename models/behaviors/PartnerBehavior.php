@@ -4,6 +4,7 @@ namespace app\models\behaviors;
 
 use app\models\Partner;
 use yii\base\Behavior;
+use yii\base\ModelEvent;
 use yii\db\ActiveRecord;
 
 class PartnerBehavior extends Behavior
@@ -19,6 +20,7 @@ class PartnerBehavior extends Behavior
             ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeVadlidate',
             ActiveRecord::EVENT_BEFORE_INSERT   => 'beforeSave',
             ActiveRecord::EVENT_BEFORE_UPDATE   => 'beforeSave',
+            ActiveRecord::EVENT_BEFORE_DELETE   => 'beforeDelete',
         ];
     }
 
@@ -45,6 +47,32 @@ class PartnerBehavior extends Behavior
             $partner->state = null;
         } elseif ($partner->state && $partner->state != $partner->getOldAttribute('state')) {
             $partner->state_id = null;
+        }
+    }
+
+    public function beforeDelete(ModelEvent $event)
+    {
+        $model = $this->owner;
+
+        if ($model->getCommunications()->limit(1)->ids()) {
+            $event->isValid = false;
+            $model->addError('id', __('Can not delete: {message}', [
+                'message' => __('Partner has communication')
+            ]));
+        }
+
+        if ($model->getDonates()->limit(1)->ids()) {
+            $event->isValid = false;
+            $model->addError('id', __('Can not delete: {message}', [
+                'message' => __('Partner has donates')
+            ]));
+        }
+
+        if ($model->getTasks()->limit(1)->ids()) {
+            $event->isValid = false;
+            $model->addError('id', __('Can not delete: {message}', [
+                'message' => __('Partner has tasks')
+            ]));
         }
     }
 }

@@ -209,6 +209,10 @@ $messages = [
     'Items per page' => 'Элементов на странице',
     'Manage public tags' => 'Управление общими тэгами',
     'E-mail existence' => 'Наличие E-mail',
+    'Can not delete: {message}' => 'Невозможно удалить: {message}',
+    'Partner has communication' => 'У партнера есть коммуникация',
+    'Partner has donates' => 'У партнера есть пожертвования',
+    'Partner has tasks' => 'У партнера есть задачи',
 
     // Settings
     'Brand name' => 'Название брэнда',

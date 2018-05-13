@@ -1,0 +1,56 @@
+version: '3.3'
+
+services:
+
+  php:
+    image: vsguts/php71-fpm:latest
+    restart: always
+    volumes:
+      - .:/app
+      - ~/.composer/cache:/root/.composer/cache
+      - ~/.composer/auth.json:/root/.composer/auth.json
+    environment:
+      TZ: Europe/Kiev
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/app
+      - ./docker/config/nginx:/etc/nginx/conf.d
+      - ./docker/logs/nginx:/var/log/nginx
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
+    volumes:
+     - redisdata:/data
+
+  mysql:
+    image: percona:5.6
+    ports:
+     - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE:      app
+      MYSQL_USER:          gvs
+      MYSQL_PASSWORD:      gvs
+    volumes:
+     - mysqldata:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+     - "8001:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"

@@ -9,6 +9,7 @@ services:
       - .:/app
       - ~/.composer/cache:/root/.composer/cache
       - ~/.composer/auth.json:/root/.composer/auth.json
+      - ./docker/logs/php:/var/log/php
     environment:
       TZ: Europe/Kiev
 
@@ -17,6 +18,8 @@ services:
     restart: always
     ports:
       - "8000:80"
+      - "8001:81"
+      - "8002:82"
     volumes:
       - .:/app
       - ./docker/config/nginx:/etc/nginx/conf.d
@@ -44,7 +47,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-     - "8001:80"
+     - "8008:80"
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306

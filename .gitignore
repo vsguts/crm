@@ -1,21 +1,13 @@
-# yii console commands
-/app
-/app_test
-/app_test.bat
-/plog.log
+# Please do not use this ignore file to define platform specific files.
+#
+# For these purposes create a global .gitignore file, which is a list of rules
+# for ignoring files in every Git repository on your computer.
+#
+# https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
-# composer
 /vendor
-composer.phar
+/app
+/plog.log
+.env
+docker-compose.env
 
-# IDEs
-.idea/
-*.sublime-*
-nbproject
-.buildpath
-.project
-.settings
-
-# OS
-.DS_Store
-Thumbs.db

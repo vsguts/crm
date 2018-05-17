@@ -147,17 +147,13 @@ config/web-local.php
 config/params-local.php
 ~~~
 
-RUNING
-------
+USAGE
+-----
 
-You can then access the application through the following URL:
+| Service       | Default host/port     | Additional info            |
+| :---          | :---                  | :---                       |
+| Application   | http://127.0.0.1:8000 | `root@example.com`/`admin1`|
+| MySQL         | `127.0.0.1:3307`      | `gvs`/`gvs`; `root`/`root` |
+| Redis         | `127.0.0.1:6380`      |                            |
+| phpMyAdmin    | http://127.0.0.1:8010 | `gvs`/`gvs`; `root`/`root` |
 
-~~~
-http://localhost/crm/web/
-~~~
-
-To login use folowing:
-~~~
-login: root@example.com
-password: admin1
-~~~

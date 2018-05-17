@@ -42,7 +42,8 @@ services:
       MYSQL_USER:          gvs
       MYSQL_PASSWORD:      gvs
     volumes:
-     - mysqldata:/var/lib/mysql
+#     - mysqldata:/var/lib/mysql
+     - ./docker/data/mysql:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

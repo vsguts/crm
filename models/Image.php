@@ -128,7 +128,7 @@ class Image extends AbstractModel
         return Url::to($alias);
     }
 
-    public function getPath($size = '', $alias = false, $only_dir = false)
+    public function getPath($size = '', $alias = false, $onlyDir = false)
     {
         $subdir = '';
         if ($this->table) {
@@ -139,19 +139,19 @@ class Image extends AbstractModel
         }
 
         $path = Yii::$app->params['dirs']['image_stored'] . $subdir;
-        if (!$only_dir) {
+        if (!$onlyDir) {
             $path .= $this->filename;
         }
 
         if ($size) {
             $path = Yii::$app->params['dirs']['image_stored_thumbnails'] . $subdir;
-            if (!$only_dir) {
+            if (!$onlyDir) {
                 $file = pathinfo($this->filename);
                 $path .= $file['filename'] . '_' . $size . '.' . $file['extension'];
 
-                $real_path = Yii::getAlias($path);
-                if (!file_exists($real_path)) {
-                    $this->generate($real_path, $size);
+                $realPath = Yii::getAlias($path);
+                if (!file_exists($realPath)) {
+                    $this->generate($realPath, $size);
                 }
             }
         }
@@ -172,7 +172,7 @@ class Image extends AbstractModel
 
         $path = $this->getPath();
         if (file_exists($path)) {
-            $image = Yii::$app->image->load();
+            $image = Yii::$app->image->load($path);
             $image->resize($sizes['w'], $sizes['h']);
             $image->save($filename, static::QUALITY);
         } else {

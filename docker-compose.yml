@@ -10,8 +10,8 @@ services:
       - ~/.composer/cache:/root/.composer/cache
       - ~/.composer/auth.json:/root/.composer/auth.json
       - ./docker/logs/php:/var/log/php
-    environment:
-      TZ: Europe/Kiev
+    env_file:
+      - docker-compose.env
 
   nginx:
     image: nginx:stable-alpine
@@ -42,7 +42,7 @@ services:
       MYSQL_USER:          gvs
       MYSQL_PASSWORD:      gvs
     volumes:
-#     - mysqldata:/var/lib/mysql
+     #- mysqldata:/var/lib/mysql
      - ./docker/data/mysql:/var/lib/mysql
 
   phpmyadmin:
@@ -54,7 +54,7 @@ services:
       PMA_PORT: 3306
 
 volumes:
-  mysqldata:
-    driver: "local"
+  #mysqldata:
+  #  driver: "local"
   redisdata:
     driver: "local"

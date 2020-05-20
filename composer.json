@@ -29,7 +29,8 @@
         "yiidoc/yii2-redactor": "*",
         "boundstate/yii2-htmlconverter": "*",
         "phpoffice/phpexcel": "*",
-        "bluezed/yii2-float-thead": "1.0.5"
+        "bluezed/yii2-float-thead": "1.0.5",
+        "vlucas/phpdotenv": "^4.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

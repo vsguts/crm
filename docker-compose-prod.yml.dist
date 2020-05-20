@@ -30,6 +30,7 @@ services:
     working_dir: /app
     command: /app/docker/scripts/run_nginx.sh
     environment:
+      - FASTCGI_HOST=php
       - VIRTUAL_HOST=${BASE_URL}
       - LETSENCRYPT_HOST=${BASE_URL}
       - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}

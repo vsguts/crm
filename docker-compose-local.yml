@@ -8,7 +8,7 @@ services:
     volumes:
       - .:/app
       - ~/.composer/cache:/root/.composer/cache
-      - ~/.composer/auth.json:/root/.composer/auth.json
+      # - ~/.composer/auth.json:/root/.composer/auth.json
       - ./docker/logs/php:/var/log/php
     working_dir: /app
     environment:

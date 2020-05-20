@@ -17,6 +17,8 @@ return [
     'cryptKey' => 'kxEu8HGH5dGDLny',
     'dbCryptKey' => '321qwedsazxc',
 
+    'baseUrl' => env('BASE_URL', 'localhost'),
+
     // Will be merged by Setting::settings()
 
 ];

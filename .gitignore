@@ -6,7 +6,5 @@
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
 /vendor
-/app
-/plog.log
 .env
-docker-compose.env
+docker-compose.yml

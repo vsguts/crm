@@ -10,9 +10,10 @@ $config = [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=' . env('MYSQL_HOST') . ';dbname=' . env('MYSQL_DATABASE'),
+            'username' => env('MYSQL_USER'),
+            'password' => env('MYSQL_PASSWORD'),
             'charset' => 'utf8',
-
-            // Need to set DSN
 
             // Cache
             'enableSchemaCache' => true,
@@ -41,6 +42,11 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => env('MAILER_USE_FILE_TRANSPORT'),
         ],
         'formatter' => [
             'class' => 'app\components\app\Formatter',

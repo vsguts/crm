@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m160000_000150_rbac extends Migration
+class m170000_000150_rbac extends Migration
 {
     public function up()
     {

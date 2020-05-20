@@ -7,18 +7,12 @@ class m160000_100100_common extends Migration
 {
     public function up()
     {
-        $this->createTable('setting', [
-            'name' => Schema::TYPE_STRING . '(128) NOT NULL PRIMARY KEY',
-            'value' => $this->text(),
-        ], $this->getTableOptions());
-
-
         $this->createTable('lookup', [
             'id'       => $this->primaryKey(),
             'table'    => $this->string(32)->notNull(),
             'field'    => $this->string(32)->notNull(),
             'code'     => $this->string(64)->notNull(),
-            'position' => $this->integer()->notNull(),
+            'position' => $this->integer()->notNull()->defaultValue(0),
             'name'     => $this->string()->notNull(),
         ], $this->getTableOptions());
         $this->insert('lookup', ['table'=>'user', 'field'=>'status', 'position'=>10, 'code'=>1, 'name'=>'Active']);
@@ -57,6 +51,12 @@ class m160000_100100_common extends Migration
         $this->insert('lookup', ['table'=>'setting', 'field'=>'smtpEncrypt', 'position'=>30, 'code'=>'ssl', 'name'=>'SSL']);
         $this->insert('lookup', ['table'=>'mailing_list', 'field'=>'status', 'code'=>1, 'position'=>10, 'name'=>'Active']);
         $this->insert('lookup', ['table'=>'mailing_list', 'field'=>'status', 'code'=>2, 'position'=>20, 'name'=>'Disabled']);
+
+
+        $this->createTable('setting', [
+            'name' => Schema::TYPE_STRING . '(128) NOT NULL PRIMARY KEY',
+            'value' => $this->text(),
+        ], $this->getTableOptions());
 
 
         $this->createTable('language', [
@@ -979,6 +979,8 @@ class m160000_100100_common extends Migration
             'auth_key' => 'JxTq8CyzZwAa85PYUVy1GuI0X3WmUWUW',
             'password_hash' => '$2y$13$CPWVAx9rW6IYpVD7dU.mNe/mUWty8WN6Dheo0IrRkVAvubamuPqxK',
             'status' => 1,
+            'created_at' => 0,
+            'updated_at' => 0,
         ]);
 
     }

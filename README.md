@@ -32,36 +32,11 @@ System allows you to manage partners and relationships with them.
 - Bootstrap 3
 
 
-DIRECTORY STRUCTURE
--------------------
-
-      assets/             contains assets definition
-      behaviors/          contains behaviors definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
-      widgets/            contains widgets for view files for the Web application
-
-
-
 REQUIREMENTS
 ------------
 
-- PHP: The minimum requirement by this project template that your Web server supports PHP 5.4.0.
-- Node with less
-  ~~~
-  apt-get install nodejs npm
-  ln -s /usr/bin/nodejs /usr/bin/node
-  npm install -g less
-  ~~~
-
+- Docker
+- Docker compose
 
 INSTALLATION
 ------------
@@ -69,82 +44,71 @@ INSTALLATION
 Clone repo:
 
 ```bash
-git clone git@github.com:vsguts/crm.git
+git clone git@github.com:vsguts/finance.git
 ```
 
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+Prepare configs
+~~~
+cp docker-compose-local.yml docker-compose.yml
+cp .env.dist .env
+~~~
+
+Edit configs.
+
+Run docker containers:
+~~~
+docker-compose up -d
+~~~
 
 Install composer plugin using the following command:
 
 ~~~
-composer global require "fxp/composer-asset-plugin:^1.3.1"
+docker-compose exec php composer require "fxp/composer-asset-plugin:^1.3.1"
 ~~~
 
 Install composer dependencies
 
 ~~~
-composer install
+docker-compose exec php composer install
 ~~~
 
+Check requirements (if necessary):
 
-CONFIGURATION
--------------
-
-### Check requirements
-
-Console:
-```bash
-php requirements.php
-```
-
-Web:
 ~~~
-http://localhost/crm/requirements.php
+docker-compose exec php php requirements.php
 ~~~
 
-### Database
+Restore DB dump (if necessary):
 
-Copy the file `config/db.php.example` into the `config/db.php` and edit them with real data. For example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=crm',
-    'username' => 'root',
-    'password' => '',
-    'charset' => 'utf8',
-];
-```
-
-**NOTE:** CRM won't create the database for you, this has to be done manually before you can access it.
-
-Use following to create database
-
-```sql
-CREATE DATABASE crm CHARACTER SET utf8;
-```
-
-Restore dump:
-
-```bash
-./undevelop run php ./app migrate/up --migrationPath=@migrations/dump --interactive=0
-```
-
-Or apply migrations:
-
-```bash
-./undevelop run php ./app migrate/up --interactive=0
-```
-
-### Configs
-
-Edit configs:
 ~~~
-config/common-local.php
-config/console-local.php
-config/web-local.php
-config/params-local.php
+docker-compose exec php ./app migrate/up --migrationPath=migrations/dump --interactive=0
+~~~
+
+Apply DB migrations (if necessary):
+
+~~~
+docker-compose exec php ./app migrate/up --interactive=0
+~~~
+
+Apply user roles:
+
+~~~
+docker-compose exec php ./app rbac/init
+~~~
+
+RUNNING
+-------
+
+You can then access the application through the following URL:
+
+~~~
+http://localhost:8080/
+~~~
+
+To login use folowing:
+~~~
+login: root@example.com
+password: root
 ~~~
 
 USAGE
@@ -152,7 +116,7 @@ USAGE
 
 | Service       | Default host/port     | Additional info            |
 | :---          | :---                  | :---                       |
-| Application   | http://127.0.0.1:8000 | `root@example.com`/`admin1`|
+| Application   | http://127.0.0.1:8080 | `root@example.com`/`root`  |
 | MySQL         | `127.0.0.1:3307`      | `gvs`/`gvs`; `root`/`root` |
 | Redis         | `127.0.0.1:6380`      |                            |
 | phpMyAdmin    | http://127.0.0.1:8010 | `gvs`/`gvs`; `root`/`root` |

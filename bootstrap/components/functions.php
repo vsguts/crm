@@ -32,26 +32,41 @@ function app_in_range($max, &$from, &$to, $iteration_items = 100)
     return true;
 }
 
-function log_echo($string, $filename = null)
+/**
+ * Gets the value of an environment variable.
+ *
+ * @param  string  $key
+ * @param  mixed   $default
+ * @return mixed
+ */
+function env($key, $default = null)
 {
-    if (!$string) {
-        return false;
+    $value = getenv($key);
+
+    if ($value === false) {
+        return $default;
     }
 
-    $log_dir = DIR_ROOT . VAR_PATH . '/var/log/';
-    fn_mkdir($log_dir);
-    
-    if (empty($filename)) {
-        $filename = CONTROLLER . '.' . MODE;
+    switch (strtolower($value)) {
+        case 'true':
+        case '(true)':
+            return true;
+        case 'false':
+        case '(false)':
+            return false;
+        case 'empty':
+        case '(empty)':
+            return '';
+        case 'null':
+        case '(null)':
+            return;
     }
 
-    $fd = fopen($log_dir . $filename . '.log', 'ab');
-    if ($fd) {
-        fwrite($fd, $string);
-        fclose($fd);
+    if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
+        return substr($value, 1, -1);
     }
 
-    fn_echo($string);
+    return $value;
 }
 
 /**

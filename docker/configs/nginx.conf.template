@@ -1,0 +1,71 @@
+
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '${DOLLAR}remote_addr - ${DOLLAR}remote_user [${DOLLAR}time_local] "${DOLLAR}request" '
+                      '${DOLLAR}status ${DOLLAR}body_bytes_sent "${DOLLAR}http_referer" '
+                      '"${DOLLAR}http_user_agent" "${DOLLAR}http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    #include /etc/nginx/conf.d/*.conf;
+
+    server {
+        charset utf-8;
+        client_max_body_size 128M;
+
+        listen ${NGINX_PORT};
+
+        server_name ${VIRTUAL_HOST};
+        root        /app/web;
+        index       index.php;
+
+        access_log  /var/log/nginx/app-access.log;
+        error_log   /var/log/nginx/app-error.log;
+
+        location / {
+            try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.php?${DOLLAR}args;
+        }
+
+        location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)${DOLLAR} {
+            try_files ${DOLLAR}uri =404;
+        }
+        #error_page 404 /404.html;
+
+        # deny accessing php files for the /assets directory
+        location ~ ^/assets/.*\.php${DOLLAR} {
+            deny all;
+        }
+
+        location ~ \.php${DOLLAR} {
+            include fastcgi.conf;
+            fastcgi_pass ${FASTCGI_HOST}:${FASTCGI_PORT};
+            #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        }
+
+        location ~ /\.(ht|svn|git) {
+            deny all;
+        }
+    }
+
+}

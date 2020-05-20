@@ -1,0 +1,35 @@
+version: '3.3'
+
+# docker network create network
+networks:
+  default:
+    external:
+      name: network
+
+services:
+
+  php:
+    image: vsguts/php71-fpm:latest
+    restart: always
+    volumes:
+      - .:/app
+      - ~/.composer/cache:/root/.composer/cache
+      - ~/.composer/auth.json:/root/.composer/auth.json
+      - ./docker/logs/php:/var/log/php
+    working_dir: /app
+    environment:
+      TZ: ${TIME_ZONE}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    volumes:
+      - .:/app
+      - ./docker/logs/nginx:/var/log/nginx
+    working_dir: /app
+    command: /app/docker/scripts/run_nginx.sh
+    environment:
+      - VIRTUAL_HOST=${BASE_URL}
+      - LETSENCRYPT_HOST=${BASE_URL}
+      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}

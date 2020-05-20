@@ -10,45 +10,49 @@ services:
       - ~/.composer/cache:/root/.composer/cache
       - ~/.composer/auth.json:/root/.composer/auth.json
       - ./docker/logs/php:/var/log/php
-    env_file:
-      - docker-compose.env
+    working_dir: /app
+    environment:
+      TZ: ${TIME_ZONE}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
 
   nginx:
     image: nginx:stable-alpine
     restart: always
     ports:
-      - "8000:80"
-      - "8001:81"
-      - "8002:82"
+      - "8080:80"
     volumes:
       - .:/app
-      - ./docker/config/nginx:/etc/nginx/conf.d
       - ./docker/logs/nginx:/var/log/nginx
+    working_dir: /app
+    command: /app/docker/scripts/run_nginx.sh
 
   redis:
     image: redis:latest
-    ports:
-      - "6380:6379"
+    #ports:
+    #  - "6380:6379"
     volumes:
-     - redisdata:/data
+      - redisdata:/data
+    restart: always
 
   mysql:
-    image: percona:5.6
+    #image: percona:5.6
+    image: mysql:5.7.21
     ports:
-     - "3307:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE:      app
-      MYSQL_USER:          gvs
-      MYSQL_PASSWORD:      gvs
+      MYSQL_DATABASE:      ${MYSQL_DATABASE}
+      MYSQL_USER:          ${MYSQL_USER}
+      MYSQL_PASSWORD:      ${MYSQL_PASSWORD}
     volumes:
-     #- mysqldata:/var/lib/mysql
-     - ./docker/data/mysql:/var/lib/mysql
+      #- mysqldata:/var/lib/mysql
+      - ./docker/data/mysql:/var/lib/mysql
+    restart: always
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-     - "8008:80"
+      - "8008:80"
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
